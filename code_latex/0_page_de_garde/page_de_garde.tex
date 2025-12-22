@@ -1,0 +1,69 @@
+% La page de garde
+\begin{titlepage} % Utiliser l'environnement titlepage pour la page de garde
+% Définir une géométrie spécifique pour la page de titre pour éviter le débordement
+\newgeometry{inner=1cm, outer=1cm, top=1cm, bottom=0.5cm, includefoot=false, includehead=false}
+\pagenumbering{roman} % La numérotation commence ici si désiré pour les pages liminaires
+\thispagestyle{empty} % La page de garde ne doit pas avoir d'en-tête/pied de page
+
+% --- START OF FIRST PAGE CONTENT (Logos d'origine rétablis) ---
+\begin{tikzpicture}[remember picture, overlay]
+% IMPORTANT: Ensure these image files exist in the 'images' subfolder and are valid!
+% Logos d'origine de la première page
+\node[xshift=-7cm, yshift=-3.1cm] at (current page.north) {\includegraphics[scale=0.11]{images/logo_ida.png}};
+\node[below = 0.5cm] at (current page.north) {\includegraphics[scale = 0.11]{images/ucbl.jpg}};
+\node[xshift=6.8cm, yshift=-3.3cm] at (current page.north) {\includegraphics[scale=0.11]{images/isfa_logo.jpg}};
+\end{tikzpicture}
+
+\vspace*{2.5cm} % Réduction de l'espace vertical
+
+{\Large
+{\bfseries
+\begin{center}
+Mémoire présenté le : \\[0.3cm]
+pour l'obtention du Diplôme Universitaire d'actuariat de l'ISFA \\
+et l'admission à l'Institut des Actuaires
+\end{center}
+}
+\vspace*{0.5cm} % Réduction de l'espace vertical
+
+\noindent Par : Eliot NEHME \\[0.3cm]
+\noindent Titre : Mémoire de zinzin lol rendu avant 2030
+\\[0.3cm]
+\noindent Confidentialité : \quad $\boxtimes$ NON \qquad $\square$ (Durée : $\square$ 1 an \quad  $\square$ 2 ans)
+\\
+\textit{Les signataires s'engagent à respecter la confidentialité indiquée ci-dessus}
+\vspace*{0.5cm}
+
+\noindent
+\begin{minipage}{0.6\textwidth}
+\begin{tabular}{p{7cm}p{4cm}}
+\textit{Membres présents du jury de l'Institut des Actuaires} & \textit{Signature} \\[1.2cm]
+\fillin{6cm} & \\[0.8cm]
+\fillin{6cm} & \\[0.8cm]
+\fillin{6cm} & \\[0.8cm]
+\textit{Membres présents du jury de l'ISFA} & \\[1.2cm]
+\fillin{6cm} & \\[0.8cm]
+\fillin{6cm} & \\[0.8cm]
+\fillin{6cm} & \\[0.8cm]
+\end{tabular}
+\rule{0mm}{4.6cm} % Ensure minipage height
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\textit{Entreprise :} \\
+\textit{Nom :} \\[0.3cm]
+\textit{Signature :} \\[0.5cm]
+\textit{Directeur de mémoire en entreprise :} \\
+\textit{Nom :}  \\[0.3cm]
+\textit{Signature :} \\[0.5cm]
+\textit{Invité :} \\
+\textit{Nom :} \\[0.3cm]
+\textit{Signature :} \\[0.5cm]
+\textit{\textbf{Autorisation de publication et de mise en ligne sur un site de diffusion de documents actuariels} (après expiration de l'éventuel délai de confidentialité)}\\[0.2cm]
+Signature du responsable entreprise \\
+\framebox[7cm]{\rule{0mm}{1.5cm}}
+Signature du candidat \\
+\framebox[7cm]{\rule{0mm}{1.5cm}}
+\end{minipage}
+}
+% --- END OF FIRST PAGE CONTENT ---
+\end{titlepage}

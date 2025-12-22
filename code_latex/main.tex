@@ -1,0 +1,171 @@
+\documentclass[a4paper]{report} % Changé de 'article' à 'report'
+
+%% Language and font encodings
+\usepackage[english, french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage{geometry}
+\usepackage{lipsum}              % Pour du texte d'exemple (facultatif)
+
+%% Useful packages
+\usepackage{amsmath, amssymb}
+\usepackage{amssymb} % Redundant if amsmath is used, but kept as in original
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\definecolor{accenture}{HTML}{A100FF}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta, shapes.misc, backgrounds, fit, shadows}
+\usetikzlibrary{shapes, arrows, positioning}
+\setlist[itemize]{itemsep=8pt, topsep=2pt} % Applique ces réglages à toutes les listes itemize
+\setcounter{secnumdepth}{3} %pour que le niveau 3 (subsubsection soit numeroté)
+\setcounter{tocdepth}{2} %pour que le niveau 2 (subsection apparaisse dans la table des matieres)
+% Personnalisation des titres de chapitres
+% Met le mot "Chapitre" et son numéro en gras et très grand (\Huge)
+% et le titre du chapitre également en \Huge
+% Redéfinition complète du format des pages de chapitre
+
+
+% --- 1. Apparence des titres (police, taille, gras...) ---
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
+  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
+  {\Huge} % Taille de la police pour le titre du chapitre
+
+\titleformat{\section}
+  {\cleardoublepage\normalfont\LARGE\bfseries} % Police grande et en gras
+  {\thesection}
+  {1em}
+  {}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries} % Police "large" et en gras
+  {\thesubsection}
+  {1em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries} % Police normale et en gras
+  {\thesubsubsection}
+  {1em}
+  {}
+
+
+% --- 2. Espacement avant et après les titres ---
+
+% Syntaxe : \titlespacing*{commande}{gauche}{AVANT}{APRES}
+
+\titlespacing*{\section}
+  {0pt}      % gauche
+  {10ex}      % avant (l'espace que vous vouliez ajouter)
+  {3ex}    % après
+
+\titlespacing*{\subsection}
+  {0pt}      % gauche
+  {6ex}    % avant
+  {2.5ex}    % après
+
+\titlespacing*{\subsubsection}
+  {0pt}      % gauche
+  {4ex}   % avant
+  {2.5ex}    % après
+
+\pgfplotsset{compat=1.14}
+
+\setlength{\intextsep}{16pt} % Espace autour des figures dans le texte
+
+%% Added packages for new layout
+\usepackage{fancyhdr} % For custom headers and footers
+
+\newcommand\fillin[1]{\makebox[#1]{\dotfill}}
+
+
+\begin{document}
+\include{0_page_de_garde/page_de_garde.tex}
+\restoregeometry % Restaurer la géométrie précédente avant de la redéfinir pour le reste du document.
+
+% Redéfinir la géométrie pour le reste du document après la page de garde
+\newgeometry{left=2.54cm,right=2.54cm,top=3.54cm,bottom=3.54cm}
+\onehalfspacing
+% Augmenter headheight pour accommoder des logos plus grands
+\setlength{\headheight}{50pt} % Ajusté pour des logos de 1.6cm de hauteur
+
+% Configurer fancyhdr pour les en-têtes et pieds de page personnalisés
+\pagestyle{fancy}
+\fancyhf{} % Effacer tous les champs d'en-tête et de pied de page
+
+% En-têtes des pages suivantes avec les logos demandés (taille doublée)
+% IMPORTANT: Assurez-vous que images/accenture_logo.png existe !
+\fancyhead[L]{\includegraphics[height=1.6cm]{images/accenture_logo.png}} % Logo Accenture à gauche
+\fancyhead[R]{\includegraphics[height=1.6cm]{images/isfa_logo.jpg}}   % Logo ISFA à droite
+
+\fancyfoot[C]{\sffamily \thepage}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Redéfinir le style 'plain' pour qu'il soit identique à 'fancy' afin que les logos apparaissent sur les premières pages de chapitre (taille doublée)
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyhead[L]{\includegraphics[height=1.6cm]{images/accenture_logo.png}}% Logo Accenture à gauche
+  \fancyhead[R]{\includegraphics[height=1.6cm]{images/isfa_logo.jpg}}%   Logo ISFA à droite
+  \fancyfoot[C]{\sffamily \thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+
+% Contenu principal en une seule colonne
+\tableofcontents
+
+% IMPORTANT: Ensure all included .tex files exist in the specified paths
+% and do not contain LaTeX errors themselves!
+\include{1_preambule/0_resume}
+\include{1_preambule/1_abstract}
+\include{1_preambule/2_remerciements}
+\include{1_preambule/3_synthese}
+\include{1_preambule/4_synthesis}
+
+
+\clearpage
+\pagenumbering{arabic}
+
+\include{1_preambule/5_introduction}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
+  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
+  {\Huge} % Taille de la police pour le titre du chapitre
+  [\vfill\newpage] % Reste de la page vide et saut de page
+
+\include{2_chapitres/chapitre1}
+\include{2_chapitres/chapitre2}
+\include{2_chapitres/chapitre3}
+\include{2_chapitres/chapitre4}
+\include{2_chapitres/chapitre5}
+\include{2_chapitres/conclusion}
+
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
+  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
+  {\Huge} % Taille de la police pour le titre du chapitre
+  
+\include{3_epilogue/annexes}
+\include{3_epilogue/bibliographie}
+
+\end{document}
