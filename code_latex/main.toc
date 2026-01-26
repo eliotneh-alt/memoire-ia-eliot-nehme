@@ -10,10 +10,13 @@
 \contentsline {subsection}{\numberline {1.1.1}Définitions, typologies (fraude opportuniste vs organisée).}{3}{subsection.1.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1.1}La fraude à la souscription}{3}{subsubsection.1.1.1.1}%
 \contentsline {subsubsection}{\numberline {1.1.1.2}La fraude lors de la survenance d'un sinistre}{3}{subsubsection.1.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.2}La fraude liée aux conditions générales}{3}{subsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.1.3}La fraude liée aux conditions générales}{3}{subsubsection.1.1.1.3}%
 \contentsline {section}{\numberline {1.2}Les sanctions et le cadre réglementaire}{3}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Le dilemme de le rentabilité }{4}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Analyse du coût de l'investigation (experts, avocats) par rapport au montant de l'enjeu. Le seuil de déclenchement d'une enquête.}{5}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.2.1}Souscription}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Sinistre}{4}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Le dilemme de le rentabilité}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}L'ampleur du marché de la fraude}{5}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Analyse du coût de l'investigation (experts, avocats) par rapport au montant de l'enjeu. Le seuil de déclenchement d'une enquête}{5}{subsection.1.3.2}%
 \contentsline {section}{\numberline {1.4}Impact sur la tarification}{5}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}Biais dans les statistiques de sinistralité (fréquence et coût moyen).}{6}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}Conséquence sur la prime pure : comment la fraude fait payer les assurés honnêtes.}{6}{subsection.1.4.2}%
