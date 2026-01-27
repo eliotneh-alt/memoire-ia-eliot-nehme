@@ -1,3 +1,4 @@
+usepackage{amsmath}
 \chapter{Enjeux économiques et actuariels de la fraude}
 \label{chap:contexte}
 \newpage
@@ -47,9 +48,29 @@ L'enjeu n'est donc pas seulement de stopper l'hémorragie financière, mais de p
 
 
 
-\subsection{Analyse du coût de l'investigation (experts, avocats) par rapport au montant de l'enjeu. Le seuil de déclenchement d'une enquête}
-%il faudrait des données sur le coût moyen d'une enquête de fraude en assurance non-vie pour compléter cette section.
+\subsection{Analyse coût-bénéfice de l'investigation}
 
+Le processus de détection de la fraude n'est pas gratuit. Il engage des frais de gestion supplémentaires (expertise contradictoire, enquête administrative, voire recours à un détective privé). L'assureur fait face à un problème d'optimisation économique simple : l'espérance de gain doit être supérieure au coût de contrôle.
+
+Soit $C_{invest}$ le coût moyen d'une investigation et $M_{sinistre}$ le montant du sinistre réclamé.
+Le contrôle n'est rationnel que si :
+\begin{equation}
+    M_{sinistre} \times P(\text{Fraude}|\text{Alerte}) > C_{invest}
+\end{equation}
+Où $P(\text{Fraude}|\text{Alerte})$ est la précision du modèle de détection (la probabilité que l'alerte soit fondée).
+
+\paragraph{Estimation des coûts unitaires :}
+Sur le marché IARD français, on retient généralement les ordres de grandeur suivants :
+\begin{itemize}
+    \item \textbf{Expertise automobile classique :} Entre 150 € et 300 € par dossier. C'est le premier niveau de filtre.
+    \item \textbf{Investigation spécialisée :} Pour des enquêtes plus poussées (vérification de voisinage, enquêteur certifié ALFA), les coûts peuvent rapidement dépasser 1 000 €.
+\end{itemize}
+
+\paragraph{Définition du seuil de déclenchement ($S_{min}$) :}
+Pour un sinistre matériel classique (ex : 1 200 €), engager une expertise à 250 € est rentable ($1200 - 250 = 950 €$ d'économie potentielle).
+En revanche, pour des "petits sinistres" (ex: bris de glace à 400 €), le coût administratif et d'expertise (souvent proche de 150-200 €) rend la détection humaine non rentable. C'est précisément sur ces petits montants (la "fraude de masse") que l'IA intervient : elle offre un coût marginal de vérification proche de zéro, permettant d'abaisser drastiquement le seuil de rentabilité du contrôle.
+
+Sources pour 1.3.3 : France assureurs
 
 
 
@@ -58,9 +79,9 @@ L'enjeu n'est donc pas seulement de stopper l'hémorragie financière, mais de p
 \subsection{Biais dans les statistiques de sinistralité (fréquence et coût moyen).}
 
 L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour la tarification. 
-La prime pure ($\pi$) est modélisée par l'équation :
+La prime pure ($\Pi$) est modélisée par l'équation :
 \begin{equation}
-    \pi = E[N] \times E[C]
+    \Pi = E[N] \times E[C]
 \end{equation}
 Où $N$ est la fréquence et $C$ le coût moyen.
 \begin{itemize}
@@ -72,3 +93,40 @@ Si l'actuaire calibre ses modèles (GLM, XGBoost) sur ces données polluées, il
 
 \subsection{Conséquence sur la prime pure : comment la fraude fait payer les assurés honnêtes.}
 
+% Assure-toi d'avoir \usepackage{amsmath} tout au début de ton fichier .tex
+
+Dans l'équation de la prime pure, une surestimation de la fréquence ou du coût moyen conduit mécaniquement à une prime plus élevée pour l'ensemble de la mutualité.
+
+Dans le cas de la \textbf{fraude par majoration} (sinistre réel mais montant surévalué), l'impact est direct sur l'espérance du coût moyen $E[C]$. 
+\begin{equation*}
+    E[C]_{\text{fraude}} = E[C]_{\text{réel}} + E[C]_{\text{majoration}}
+\end{equation*}
+
+Dans le cas de la \textbf{fraude par invention} (sinistre totalement fictif), l'impact se fait sur la fréquence $E[N]$.
+\begin{equation*}
+    E[N]_{\text{fraude}} = E[N]_{\text{réel}} + E[N]_{\text{fictif}}
+\end{equation*}
+
+\textbf{Calcul du surcoût tarifaire} :
+Si l'on note $\alpha$ la part de la charge sinistre imputable à la fraude, la prime d'équilibre technique observée ($\Pi_{\text{chargée}}$) se déduit de la prime pure théorique ($\Pi_{\text{pure}}$) par la relation :
+
+\begin{equation}
+    \Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1-\alpha}
+\end{equation}
+
+Où $\alpha$ est estimé entre 5\% et 10\% du volume des prestations selon les branches (Source : ALFA).
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Part de la fraude dans la charge ($\alpha$)} & \textbf{Surcoût sur la prime pure (\%)} \\
+        \hline
+        5.0\% & + 5.26\% \\
+        7.5\% & + 8.11\% \\
+        10.0\% & + 11.11\% \\
+        \hline
+    \end{tabular}
+    \caption{Impact du levier de la fraude sur la prime des assurés honnêtes}
+    \label{tab:surcout_fraude}
+\end{table}
