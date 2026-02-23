@@ -5,16 +5,102 @@ usepackage{amsmath}
 \section{La fraude en assurance non-vie (auto/MRH)}
 \label{sec:spec_av}
 
-\subsection{Définitions, typologies (fraude opportuniste vs organisée).}
+\subsection{Définitions de la fraude à l'assurance}
 
-La fraude en assurance non-vie est un act intentionnel visant à tromper une compagnie d'assurance dans le but d'obtenir un avantage financier, de la part d'une personne morale ou physique.
+Le secteur de l'assurance repose sur un principe fondamental : la mutualisation des risques. En échange du paiement d'une prime, l'assuré bénéficie d'une protection financière en cas de réalisation d'un sinistre prévu au contrat. Ce mécanisme de solidarité économique suppose toutefois un climat de confiance entre l'assureur et l'assuré. Lorsque cette confiance est détournée à des fins illégitimes, on parle alors de fraude en assurance.
+
+La fraude en assurance peut être définie comme tout acte intentionnel visant à tromper un assureur dans le but d'obtenir un avantage indu, qu'il s'agisse d'une indemnisation injustifiée, majorée ou de la souscription d'un contrat dans des conditions mensongères. Elle se distingue de l'erreur ou de l'omission involontaire par son caractère délibéré et frauduleux. 
+
+Cette pratique constitue un enjeu majeur pour les compagnies d'assurance, car elle entraîne des pertes financières importantes, impacte l'équilibre technique des portefeuilles et, indirectement, pèse sur l'ensemble des assurés par l'augmentation des primes.
+
+L'objectif de la fraude en assurance est principalement financier : il s'agit d'obtenir un enrichissement personnel ou collectif illégitime. Toutefois, au-delà de la recherche d'un gain immédiat, certaines fraudes répondent à des logiques plus complexes, telles que le blanchiment de capitaux, le financement d'activités criminelles ou la structuration d'organisations délictueuses. Ainsi, la fraude peut prendre des formes variées, allant de la simple exagération d'un dommage à la mise en place de réseaux organisés exploitant systématiquement les failles du système assurantiel.
+
+Il convient, à cet égard, de distinguer deux grandes catégories de fraude : la fraude opportuniste et la fraude organisée. 
+
+\begin{itemize}
+    \item \textbf{La fraude opportuniste} correspond à un comportement isolé, souvent ponctuel, commis par un assuré qui profite  d'une situation donnée (par exemple, majorer le montant d'un sinistre ou déclarer un dommage antérieur comme récent). Elle s'inscrit généralement dans une logique individuelle et circonstancielle. 
+
+    \item \textbf{La fraude organisée}, à l'inverse, repose sur une démarche structurée et planifiée, impliquant parfois plusieurs acteurs (intermédiaires, professionnels de santé, réparateurs, réseaux criminels). Elle est caractérisée par sa répétition, sa préméditation et son ampleur financière plus importante.
+\end{itemize}
+
+
+Cette distinction est essentielle, car elle implique des modes de détection, de prévention et de répression différents. Là où la fraude opportuniste peut être combattue par des contrôles renforcés et une sensibilisation accrue, la fraude organisée nécessite des dispositifs d'investigation spécialisés, des outils d'analyse de données avancés et une coopération étroite entre assureurs, autorités judiciaires et organismes de régulation.
+A noter que la fraude est contraire à un principe important en assurance : le principe indemnitaire et la règle de non-enrichissement en assurance non-vie.
+
+Ce principe est expressément consacré par l'article L.121-1 du Code des assurances, selon lequel :
+
+« L'assurance relative aux biens est un contrat d'indemnité ; l'indemnité due par l'assureur à l'assuré ne peut dépasser le montant de la valeur de la chose assurée au moment du sinistre. »
+Ce texte pose clairement la règle de non-enrichissement : l'assurance a pour finalité exclusive la réparation du préjudice subi, et non l'octroi d'un profit à l'assuré. L'indemnité ne peut excéder ni le montant du dommage, ni la somme assurée prévue au contrat.
+
+Ainsi, en matière d'assurance automobile, multirisque habitation, assurance construction ou responsabilité civile, l'indemnisation vise à replacer l'assuré dans la situation patrimoniale qui aurait été la sienne en l'absence de sinistre (principe de réparation intégrale, sans perte ni profit).
+Le principe de non-enrichissement joue également un rôle central dans la lutte contre la fraude en assurance non-vie. En effet, toute déclaration intentionnellement inexacte ayant pour effet d'obtenir une indemnité supérieure au préjudice réel constitue une atteinte directe à ce principe.
+Plusieurs dispositions viennent renforcer cette protection :
+
+\begin{itemize}[label=\textbullet]
+    \item Article L 113-2 : obligation pour l’assuré de répondre exactement aux questions posées lors de la souscription et de déclarer sincèrement le sinistre ;
+    \item Article L 113-8 : nullité du contrat en cas de réticence ou fausse déclaration intentionnelle ;
+    \item Article L 113-9 : réduction proportionnelle de l’indemnité en cas de déclaration inexacte non intentionnelle.
+\end{itemize}
+
+
+Dans le cadre de la fraude opportuniste (exagération du montant des dommages, ajout d'objets inexistants, fausse date du sinistre), la violation du principe indemnitaire se traduit par une tentative d'enrichissement indu.
+
+Dans le cas de la fraude organisée (réseaux de sinistres fictifs, collusion avec des réparateurs ou professionnels de santé, sinistres provoqués), la remise en cause est plus systémique : l'objectif n'est plus seulement d'obtenir une indemnité excessive, mais de détourner de manière structurée le mécanisme même de mutualisation.
+
+\textbf{Les différents moment de la fraude en assurance non-vie}
+
+En assurance non-vie, la fraude peut intervenir à plusieurs étapes de la relation contractuelle. Deux moments apparaissent particulièrement sensibles :
+
+
+\begin{enumerate}
+    \item la fraude à la souscription du contrat ;
+    \item la fraude lors de la déclaration du sinistre.
+\end{enumerate}
+
+Ces deux temporalités répondent à des logiques différentes mais poursuivent un objectif commun : obtenir un avantage économique indu en détournant le mécanisme indemnitaire.
 
 \subsubsection{La fraude à la souscription}
 
-L'assurance peut être victime de fraude dès la phase de souscription du contrat. Cela peut inclure la fourniture d'informations fausses ou incomplètes sur le demandeur d'assurance, telles que l'omission de déclarer des antécédents médicaux, des informations sur le véhicule ou le lieu de résidence. Ces fraudes visent à obtenir des primes plus basses ou à garantir la couverture d'un risque qui serait autrement exclu.
+La fraude à la souscription intervient avant la réalisation du sinistre, au moment de la formation du contrat. Elle consiste à fournir intentionnellement des informations inexactes ou incomplètes afin d'obtenir des conditions tarifaires plus favorables ou de rendre assurable un risque qui ne le serait pas.
+Elle constitue une violation directe de l'obligation de déclaration exacte du risque prévue par l'article L.113-2 du Code des assurances.
 
+\textbf{a) En assurance automobile}
 
-\subsubsection{La fraude lors de la survenance d'un sinistre}
+Les exemples les plus fréquents sont :
+
+\begin{itemize}[label=\textbullet]
+    \item Fausse déclaration du conducteur principal : un parent déclare être le conducteur principal alors que le véhicule est utilisé principalement par un jeune conducteur afin d'éviter une surprime.
+    \item Minoration du bonus-malus : omission d'un sinistre antérieur.
+    \item Fausse adresse de garage : déclaration d'un stationnement en zone rurale alors que le véhicule est stationné en zone urbaine à forte sinistralité.
+    \item Dissimulation d'un usage professionnel : déclarer un usage « privé » alors que le véhicule est utilisé pour des livraisons ou VTC.
+\end{itemize}
+
+L'objectif est ici principalement tarifaire : réduire le montant de la prime ou contourner un refus d'assurance.
+
+\vspace{0.5cm}
+\textbf{b) En multirisque habitation (MRH)}
+
+Les pratiques observées incluent :
+
+\begin{itemize}[label=\textbullet]
+    \item Sous-évaluation du capital mobilier pour réduire la prime.
+    \item Omission de circonstances aggravantes : logement inoccupé plusieurs mois par an, absence de système de sécurité, activité professionnelle à domicile.
+    \item Fausse déclaration de la qualité d'occupant (se déclarer propriétaire occupant plutôt que bailleur).
+\end{itemize}
+
+Dans ces cas, la fraude vise soit à diminuer la prime, soit à rendre assurable un risque aggravé.
+
+\vspace{0.5cm}
+Les conséquences juridiques d'une fausse déclaration dépendent de l'intention :
+
+\begin{itemize}[label=\textbullet]
+    \item En cas de fausse déclaration intentionnelle : \textbf{nullité du contrat} (article L.113-8).
+    \item En cas d'omission non intentionnelle : \textbf{réduction proportionnelle de l'indemnité} (article L.113-9).
+\end{itemize}
+
+La fraude à la souscription peut ainsi priver totalement l'assuré de garantie au moment du sinistre.
+
+\subsubsection{La fraude à la déclaration d'un sinistre}
 
 La fraude la plus courante en assurance non-vie se produit lors de la déclaration d'un sinistre. Cela peut inclure la surestimation des dommages, la déclaration de sinistres fictifs, la falsification de preuves (comme des photos ou des rapports de police), ou tout simplement inventer des sinistres artificiels. Ces fraudes visent à obtenir des indemnités plus élevées que celles auxquelles l'assuré a droit, ou bien créer une indémnité qui n'aurait tout simplement pas du exister.
 
