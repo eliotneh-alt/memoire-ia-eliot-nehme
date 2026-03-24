@@ -6,9 +6,44 @@
 
 Utilisation de jeux de données issus de compétitions de data science spécialisées en détection d'anomalies.
 
+% on va mettre ici la photo analayse_variables.png
+
+
 \subsection{Descriptif des variables et de l'environnement du sinistres}
 
-
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \small
+    \begin{tabular}{p{0.25\linewidth} p{0.35\linewidth} p{0.30\linewidth}}
+        \toprule
+        \textbf{Catégorie} & \textbf{Variables principales} & \textbf{Description \& Type} \\
+        \midrule
+        
+        \textbf{1. Profil de l'assuré} & 
+        \texttt{insured\_age}, \texttt{insured\_sex} \newline \texttt{insured\_education\_level} \newline \texttt{insured\_occupation} & 
+        Âge, sexe, niveau d'études et profession (Variables numériques et catégorielles). \\
+        \addlinespace
+        
+        \textbf{2. Le contrat d'assurance} & 
+        \texttt{policy\_annual\_premium} \newline \texttt{policy\_deductible} \newline \texttt{policy\_state} & 
+        Prime annuelle, montant de la franchise et état de souscription (Numériques). \\
+        \addlinespace
+        
+        \textbf{3. Circonstances du sinistre} & 
+        \texttt{incident\_type}, \texttt{incident\_severity} \newline \texttt{incident\_date}, \texttt{authorities\_contacted} \newline \texttt{number\_of\_vehicles\_involved} & 
+        Gravité, date, type de collision et intervention des forces de l'ordre (Catégorielles et dates). \\
+        \addlinespace
+        
+        \textbf{4. Données financières (Cible)} & 
+        \texttt{total\_claim\_amount} \newline \textbf{\texttt{fraud\_reported}} (Variable cible) & 
+        Montant réclamé et indicateur booléen (O/N) de la présence d'une fraude avérée. \\
+        
+        \bottomrule
+    \end{tabular}
+    \caption{Dictionnaire des variables du portefeuille d'étude (Extrait)}
+    \label{tab:variables_kaggle}
+\end{table}
 
 
 \section{Préparation et enrichissement des données}
