@@ -1,271 +1,683 @@
-usepackage{amsmath}
-\chapter{Enjeux économiques et actuariels de la fraude}
+\chapter{Introduction}
 \label{chap:contexte}
 \newpage
-\section{La fraude en assurance non-vie (auto/MRH)}
-\label{sec:spec_av}
 
-\subsection{Définitions de la fraude à l'assurance}
-
-Le secteur de l'assurance repose sur un principe fondamental : la mutualisation des risques. En échange du paiement d'une prime, l'assuré bénéficie d'une protection financière en cas de réalisation d'un sinistre prévu au contrat. Ce mécanisme de solidarité économique suppose toutefois un climat de confiance entre l'assureur et l'assuré. Lorsque cette confiance est détournée à des fins illégitimes, on parle alors de fraude en assurance.
-
-La fraude en assurance peut être définie comme tout acte intentionnel visant à tromper un assureur dans le but d'obtenir un avantage indu, qu'il s'agisse d'une indemnisation injustifiée, majorée ou de la souscription d'un contrat dans des conditions mensongères. Elle se distingue de l'erreur ou de l'omission involontaire par son caractère délibéré et frauduleux. 
-
-Cette pratique constitue un enjeu majeur pour les compagnies d'assurance, car elle entraîne des pertes financières importantes, impacte l'équilibre technique des portefeuilles et, indirectement, pèse sur l'ensemble des assurés par l'augmentation des primes.
-
-L'objectif de la fraude en assurance est principalement financier : il s'agit d'obtenir un enrichissement personnel ou collectif illégitime. Toutefois, au-delà de la recherche d'un gain immédiat, certaines fraudes répondent à des logiques plus complexes, telles que le blanchiment de capitaux, le financement d'activités criminelles ou la structuration d'organisations délictueuses. Ainsi, la fraude peut prendre des formes variées, allant de la simple exagération d'un dommage à la mise en place de réseaux organisés exploitant systématiquement les failles du système assurantiel.
-
-Il convient, à cet égard, de distinguer deux grandes catégories de fraude : la fraude opportuniste et la fraude organisée. 
-
+% --------------------------------------------------------------
+\section{Définition de la fraude à l'assurance}
+% --------------------------------------------------------------
+ 
+Le secteur de l'assurance repose sur un principe fondamental : la mutualisation des risques.
+En échange du paiement d'une prime, l'assuré bénéficie d'une protection financière en cas de
+réalisation d'un sinistre prévu au contrat. Ce mécanisme de solidarité économique suppose
+toutefois un climat de confiance entre l'assureur et l'assuré. Lorsque cette confiance est
+détournée à des fins illégitimes, on parle alors de fraude en assurance.
+ 
+La fraude en assurance peut être définie comme tout acte intentionnel visant à tromper un
+assureur dans le but d'obtenir un avantage indu, qu'il s'agisse d'une indemnisation injustifiée,
+majorée ou de la souscription d'un contrat dans des conditions mensongères.
+ 
+Elle se distingue de l'erreur ou de l'omission involontaire par son caractère délibéré et
+frauduleux.
+ 
+Cette pratique constitue un enjeu majeur pour les compagnies d'assurance, car elle entraîne des
+pertes financières importantes, impacte l'équilibre technique des portefeuilles et,
+indirectement, pèse sur l'ensemble des assurés au travers de l'augmentation des primes afin de
+compenser ces pertes.
+ 
+L'objectif de la fraude en assurance est principalement financier : il s'agit d'obtenir un
+enrichissement personnel ou collectif illégitime. Toutefois, au-delà de la recherche d'un gain
+immédiat, certaines fraudes répondent à des logiques plus complexes, telles que le blanchiment
+de capitaux, le financement d'activités criminelles ou la structuration d'organisations
+délictueuses. Ainsi, la fraude peut prendre des formes variées, allant de la simple exagération
+d'un dommage à la mise en place de réseaux organisés exploitant systématiquement les failles du
+système assurantiel.
+ 
+Il convient, à cet égard, de distinguer deux grandes catégories de fraude, la fraude opportuniste
+et la fraude organisée :
+ 
 \begin{itemize}
-    \item \textbf{La fraude opportuniste} correspond à un comportement isolé, souvent ponctuel, commis par un assuré qui profite  d'une situation donnée (par exemple, majorer le montant d'un sinistre ou déclarer un dommage antérieur comme récent). Elle s'inscrit généralement dans une logique individuelle et circonstancielle. 
-
-    \item \textbf{La fraude organisée}, à l'inverse, repose sur une démarche structurée et planifiée, impliquant parfois plusieurs acteurs (intermédiaires, professionnels de santé, réparateurs, réseaux criminels). Elle est caractérisée par sa répétition, sa préméditation et son ampleur financière plus importante.
+    \item \textbf{La fraude opportuniste} correspond à un comportement isolé, souvent ponctuel,
+    commis par un assuré qui profite d'une situation donnée (par exemple, majorer le montant d'un
+    sinistre ou déclarer un dommage antérieur comme récent). Elle s'inscrit généralement dans une
+    logique individuelle et circonstancielle.
+ 
+    \item À l'inverse, \textbf{la fraude organisée} repose sur une démarche structurée et
+    planifiée, impliquant parfois plusieurs acteurs (intermédiaires, professionnels de santé,
+    réparateurs, réseaux criminels). Elle est caractérisée par sa répétition, sa préméditation et
+    son ampleur financière plus importante.
 \end{itemize}
-
-
-Cette distinction est essentielle, car elle implique des modes de détection, de prévention et de répression différents. Là où la fraude opportuniste peut être combattue par des contrôles renforcés et une sensibilisation accrue, la fraude organisée nécessite des dispositifs d'investigation spécialisés, des outils d'analyse de données avancés et une coopération étroite entre assureurs, autorités judiciaires et organismes de régulation.
-A noter que la fraude est contraire à un principe important en assurance : le principe indemnitaire et la règle de non-enrichissement en assurance non-vie.
-
+ 
+Cette distinction est essentielle, car elle implique des modes de détection, de prévention et de
+répression différents. Là où la fraude opportuniste peut être combattue par des contrôles
+renforcés et une sensibilisation accrue, la fraude organisée nécessite des dispositifs
+d'investigation spécialisés, des outils d'analyse de données avancés et une coopération étroite
+entre assureurs, autorités judiciaires et organismes de régulation.
+ 
+À noter que la fraude est contraire à un principe important en assurance : \textbf{le principe
+indemnitaire et la règle de non-enrichissement en assurance non-vie.}
+ 
 Ce principe est expressément consacré par l'article L.121-1 du Code des assurances, selon lequel :
-
-« L'assurance relative aux biens est un contrat d'indemnité ; l'indemnité due par l'assureur à l'assuré ne peut dépasser le montant de la valeur de la chose assurée au moment du sinistre. »
-Ce texte pose clairement la règle de non-enrichissement : l'assurance a pour finalité exclusive la réparation du préjudice subi, et non l'octroi d'un profit à l'assuré. L'indemnité ne peut excéder ni le montant du dommage, ni la somme assurée prévue au contrat.
-
-Ainsi, en matière d'assurance automobile, multirisque habitation, assurance construction ou responsabilité civile, l'indemnisation vise à replacer l'assuré dans la situation patrimoniale qui aurait été la sienne en l'absence de sinistre (principe de réparation intégrale, sans perte ni profit).
-Le principe de non-enrichissement joue également un rôle central dans la lutte contre la fraude en assurance non-vie. En effet, toute déclaration intentionnellement inexacte ayant pour effet d'obtenir une indemnité supérieure au préjudice réel constitue une atteinte directe à ce principe.
+ 
+\begin{quote}
+\textit{« L'assurance relative aux biens est un contrat d'indemnité ; l'indemnité due par
+l'assureur à l'assuré ne peut dépasser le montant de la valeur de la chose assurée au moment du
+sinistre. »}
+\end{quote}
+ 
+Ce texte pose clairement la règle de non-enrichissement : l'assurance a pour finalité exclusive
+la réparation du préjudice subi, et non l'octroi d'un profit à l'assuré. L'indemnité ne peut
+excéder ni le montant du dommage, ni la somme assurée prévue au contrat.
+ 
+Ainsi, l'indemnisation vise à replacer l'assuré dans la situation patrimoniale qui aurait été la
+sienne en l'absence de sinistre (principe de réparation intégrale, sans perte ni profit).
+ 
+Le principe de non-enrichissement joue également un rôle central dans la lutte contre la fraude
+en assurance non-vie. En effet, toute déclaration intentionnellement inexacte ayant pour effet
+d'obtenir une indemnité supérieure au préjudice réel constitue une atteinte directe à ce principe.
+ 
 Plusieurs dispositions viennent renforcer cette protection :
-
-\begin{itemize}[label=\textbullet]
-    \item Article L 113-2 : obligation pour l’assuré de répondre exactement aux questions posées lors de la souscription et de déclarer sincèrement le sinistre ;
-    \item Article L 113-8 : nullité du contrat en cas de réticence ou fausse déclaration intentionnelle ;
-    \item Article L 113-9 : réduction proportionnelle de l’indemnité en cas de déclaration inexacte non intentionnelle.
+ 
+\begin{itemize}
+    \item \textbf{Article L.113-2} : obligation pour l'assuré de répondre exactement aux questions
+    posées lors de la souscription et de déclarer sincèrement le sinistre ;
+ 
+    \item \textbf{Article L.113-8} : nullité du contrat en cas de réticence ou fausse déclaration
+    intentionnelle ;
+ 
+    \item \textbf{Article L.113-9} : réduction proportionnelle de l'indemnité en cas de déclaration
+    inexacte non intentionnelle.
 \end{itemize}
-
-
-Dans le cadre de la fraude opportuniste (exagération du montant des dommages, ajout d'objets inexistants, fausse date du sinistre), la violation du principe indemnitaire se traduit par une tentative d'enrichissement indu.
-
-Dans le cas de la fraude organisée (réseaux de sinistres fictifs, collusion avec des réparateurs ou professionnels de santé, sinistres provoqués), la remise en cause est plus systémique : l'objectif n'est plus seulement d'obtenir une indemnité excessive, mais de détourner de manière structurée le mécanisme même de mutualisation.
-
-\textbf{Les différents moment de la fraude en assurance non-vie}
-
-En assurance non-vie, la fraude peut intervenir à plusieurs étapes de la relation contractuelle. Deux moments apparaissent particulièrement sensibles :
-
-
+ 
+Dans le cadre de la fraude opportuniste (exagération du montant des dommages, ajout d'objets
+inexistants, fausse date du sinistre), la violation du principe indemnitaire se traduit par une
+tentative d'enrichissement indu.
+ 
+Dans le cas de la fraude organisée (réseau de sinistres fictifs, collusion avec des réparateurs
+ou professionnels de santé, sinistres provoqués), la remise en cause est plus systémique :
+l'objectif n'est plus seulement d'obtenir une indemnité excessive, mais de détourner de manière
+structurelle le mécanisme même de mutualisation.
+ 
+% --------------------------------------------------------------
+\section{Les stades d'occurrence de la fraude dans le cycle assurantiel en assurance non-vie}
+% --------------------------------------------------------------
+ 
+En assurance non-vie, la fraude peut intervenir à plusieurs étapes de la relation contractuelle.
+Deux moments apparaissent particulièrement sensibles :
+ 
 \begin{enumerate}
-    \item la fraude à la souscription du contrat ;
-    \item la fraude lors de la déclaration du sinistre.
+    \item La fraude à la souscription du contrat ;
+    \item La fraude à la déclaration du sinistre.
 \end{enumerate}
-
-Ces deux temporalités répondent à des logiques différentes mais poursuivent un objectif commun : obtenir un avantage économique indu en détournant le mécanisme indemnitaire.
-
-\subsubsection{La fraude à la souscription}
-
-La fraude à la souscription intervient avant la réalisation du sinistre, au moment de la formation du contrat. Elle consiste à fournir intentionnellement des informations inexactes ou incomplètes afin d'obtenir des conditions tarifaires plus favorables ou de rendre assurable un risque qui ne le serait pas.
-Elle constitue une violation directe de l'obligation de déclaration exacte du risque prévue par l'article L.113-2 du Code des assurances.
-
-
-L'objectif est ici principalement tarifaire : réduire le montant de la prime ou contourner un refus d'assurance.
-Dans ces cas, la fraude vise soit à diminuer la prime, soit à rendre assurable un risque aggravé.
-
-\vspace{0.5cm}
-Les conséquences juridiques d'une fausse déclaration dépendent de l'intention :
-
-\begin{itemize}[label=\textbullet]
-    \item En cas de fausse déclaration intentionnelle : \textbf{nullité du contrat} (article L.113-8).
-    \item En cas d'omission non intentionnelle : \textbf{réduction proportionnelle de l'indemnité} (article L.113-9).
-\end{itemize}
-
-La fraude à la souscription peut ainsi priver totalement l'assuré de garantie au moment du sinistre.
-
-\subsubsection{La fraude à la déclaration d'un sinistre}
-
-La fraude la plus courante en assurance non-vie se produit lors de la déclaration d'un sinistre. Cela peut inclure la surestimation des dommages, la déclaration de sinistres fictifs, la falsification de preuves (comme des photos ou des rapports de police). Ces fraudes visent à obtenir des indemnités plus élevées que celles auxquelles l'assuré aurait pu prétendre, ou bien d'engendrer une indémnité qui n'aurait tout simplement pas dû exister.
+ 
+Ces deux temporalités répondent à des logiques différentes mais poursuivent un objectif commun :
+obtenir un avantage économique indu en détournant le mécanisme indemnitaire.
+ 
+\subsection{La fraude à la souscription}
+ 
+La fraude à la souscription a lieu lors de la conclusion du contrat, avant tout sinistre. Elle
+consiste à fournir intentionnellement des informations inexactes ou incomplètes afin d'obtenir
+des conditions tarifaires plus favorables ou de rendre assurable un risque qui ne le serait pas.
+ 
+Elle constitue une violation directe de l'obligation de déclaration exacte du risque prévue par
+l'article L.113-2 du Code des assurances.
+ 
+L'objectif est ici principalement tarifaire : réduire le montant de la prime ou contourner un
+refus d'assurance.
+ 
+La fraude à la souscription peut ainsi priver totalement l'assuré de garantie au moment du
+sinistre.
 
 
-On distingue ici la fraude opportuniste (majoration ponctuelle) de la fraude préméditée (mise en scène d'un accident).
-Ces comportements traduisent une tentative d'enrichissement en violation du principe de non-enrichissement.
-
-
-Le tableau ci-dessous synthétise les cas pratiques les plus fréquents rencontrés dans les deux branches principales de l'assurance non-vie, aussi bien au stade de la souscription qu'au moment de la déclaration du sinistre :
 
 \begin{table}[H]
-    \centering
-    \renewcommand{\arraystretch}{2.0} % Double l'espacement pour rendre le tableau très aéré
-    \begin{tabular}{|p{0.47\linewidth}|p{0.47\linewidth}|}
-        \hline
-        \multicolumn{1}{|c|}{\textbf{Assurance Automobile}} & \multicolumn{1}{c|}{\textbf{Assurance Habitation (MRH)}} \\
-        \hline
-        
-        % SOUS-TITRE SOUSCRIPTION
-        \multicolumn{2}{|c|}{\textbf{A. Fraudes à la souscription du contrat}} \\
-        \hline
-        \textbf{Fausse déclaration de risque :} \newline
-        Déclarer un jeune conducteur en conducteur secondaire au lieu de principal pour réduire la prime. & 
-        \textbf{Fausse déclaration de protection :} \newline
-        Prétendre posséder une alarme, un détecteur ou une porte blindée pour éviter une surprime. \\
-        \hline
-        
-        % SOUS-TITRE SINISTRE
-        \multicolumn{2}{|c|}{\textbf{B. Fraudes à la déclaration de sinistre}} \\
-        \hline
-        \textbf{Invention (Faux sinistre) :} \newline
-        Mise en scène d'un vol de véhicule (revente en pièces) ou déclaration d'un accident fictif. & 
-        \textbf{Invention (Faux sinistre) :} \newline
-        Simulation d'un cambriolage pour déclarer la disparition de biens de grande valeur. \\
-        \hline
-        \textbf{Majoration (Gonflement) :} \newline
-        Profiter d'un réel choc à l'avant pour inclure la réparation d'anciennes rayures latérales. & 
-        \textbf{Majoration (Gonflement) :} \newline
-        Surévaluer volontairement le prix de meubles endommagés lors d'un réel dégât des eaux. \\
-        \hline
-        \textbf{Falsification (Documentaire) :} \newline
-        Fournir de fausses factures de garagistes ou des photos de dommages retouchées. & 
-        \textbf{Falsification (Documentaire) :} \newline
-        Créer de fausses factures d'achat (high-tech, bijoux) pour maximiser l'indemnisation à neuf. \\
-        \hline
-        \textbf{Bande organisée (Réseaux) :} \newline
-        Simuler des collisions en chaîne de manière répétée avec la complicité d'experts marrons. & 
-        \textbf{Bande organisée (Réseaux) :} \newline
-        Déclarer des sinistres climatiques identiques simultanés sur des maisons distinctes géographiquement. \\
-        \hline
-    \end{tabular}
-    \caption{Exemple de fraude en assurance non-vie}
-    \label{tab:exemples_fraude_non_vie}
+\centering
+\caption{Exemples de fraude à la souscription en assurance non-vie}
+\label{tab:fraude_souscription}
+\begin{tabularx}{\textwidth}{|p{2.8cm}|X|X|}
+\hline
+\rowcolor{gray!20}
+ & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
+\hline
+Fraude à la souscription &
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item Fausse déclaration du \textbf{conducteur principal} : un parent déclare être le
+    conducteur principal alors que le véhicule est utilisé principalement par un jeune conducteur
+    afin d'éviter une surprime.
+    \item \textbf{Fausse adresse de garage} : déclaration d'un stationnement en zone rurale alors
+    que le véhicule est stationné en zone urbaine à forte sinistralité.
+    \item Dissimulation d'un \textbf{usage professionnel} : déclarer un usage « privé » alors que
+    le véhicule est utilisé pour des livraisons ou VTC.
+    \item \textbf{Fraude documentaire} : faux papiers d'identité.
+\end{itemize}
+\vspace{3pt}\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item Sous-évaluation du \textbf{capital mobilier} pour réduire la prime.
+    \item Omission de \textbf{circonstances aggravantes} : logement inoccupé plusieurs mois par
+    an, absence de système de sécurité, activité professionnelle à domicile.
+    \item Fausse déclaration de la \textbf{qualité d'occupant} (se déclarer propriétaire occupant
+    plutôt que bailleur).
+\end{itemize}
+\vspace{3pt}\end{minipage}
+\\
+\hline
+\end{tabularx}
 \end{table}
+ 
+\subsection{La fraude à la déclaration de sinistre}
+ 
+La fraude la plus courante en assurance non-vie se produit lors de la déclaration d'un sinistre.
+Cela peut inclure la surestimation des dommages, la déclaration de sinistres fictifs, la
+falsification de preuves (comme des photos ou des rapports de police). Ces fraudes visent à
+obtenir des indemnités plus élevées que celles auxquelles l'assuré aurait pu prétendre, ou bien
+d'engendrer une indemnité qui n'aurait tout simplement pas dû exister.
+ 
+À noter que la falsification de documents est de plus en plus accessible et difficile à détecter
+à l'œil nu suite à l'essor de l'IA générative.
 
-
-
-
-\subsubsection{La fraude liée aux conditions générales}
-
-La fraude peut également se manifester par la violation des conditions générales du contrat d'assurance. Le fraudeur peut tenter de contourner les exclusions de couverture en manipulant les circonstances d'un sinistre ou en exploitant des ambiguïtés dans le contrat.
-
-Par exemple, un assuré peut prétendre à une indemnisation en arguant d'une garantie qui ne s'applique pas à son cas (ex : sinistre survenu en dehors de la période de garantie, sinistre exclu par les conditions générales).
-
-La fraude documentaire (faux certificats, fausses factures, photos retouchées) est en explosion et représente désormais 39\% (ALFA) des cas de fraude détectés en IARD. Cela prouve que les méthodes classiques ne suffisent plus et qu'il faut analyser les documents eux-mêmes.
-
-
-\section{Les sanctions et le cadre réglementaire}
-
+\begin{table}[H]
+\centering
+\caption{Exemples de fraude à la déclaration d'un sinistre en assurance non-vie}
+\label{tab:fraude_sinistre}
+\begin{tabularx}{\textwidth}{|p{2.8cm}|X|X|}
+\hline
+\rowcolor{gray!20}
+ & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
+\hline
+Fraude à la déclaration d'un sinistre &
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Exagération des dommages} : ajout de dégâts antérieurs sur le constat amiable.
+    \item \textbf{Fausse date de sinistre} : déclarer un accident survenu avant la souscription
+    comme postérieur à celle-ci.
+    \item \textbf{Sinistre fictif} : déclaration d'un vol de véhicule inexistant ou maquillage
+    d'un incendie volontaire.
+    \item \textbf{Accident provoqué} intentionnellement (fraude organisée dans certains cas).
+    \item \textbf{Constats de complaisance} entre complices pour imputer la responsabilité à un
+    tiers assuré.
+    \item \textbf{Fraude documentaire} : faux devis, fausses factures de réparation, gonflement
+    des temps de main-d'œuvre, faux certificats de cession ou documents d'identité, manipulation
+    de photos (dommages antérieurs).
+\end{itemize}
+\vspace{3pt}\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Ajout d'objets inexistants} lors d'un vol déclaré.
+    \item \textbf{Surestimation de la valeur des biens} (factures falsifiées ou modifiées).
+    \item \textbf{Déclaration d'un dégât des eaux ancien comme récent} pour le rendre
+    indemnisable.
+    \item \textbf{Incendie volontaire} destiné à obtenir une indemnité.
+    \item \textbf{Fraude documentaire} : fausses factures d'ameublement après vol, devis travaux
+    surevalués après dégât des eaux, falsification de preuves d'effraction, antidatation de
+    justificatifs.
+\end{itemize}
+\vspace{3pt}\end{minipage}
+\\
+\hline
+\end{tabularx}
+\end{table}
+ 
+En assurance non-vie, la fraude peut ainsi être appréhendée selon différents stades d'occurrence
+dans le cycle assurantiel. Elle peut naître lors de la souscription du contrat, se révéler au
+moment de la déclaration du sinistre, mais également prendre la forme d'un détournement des
+stipulations contractuelles, notamment des conditions générales, afin d'obtenir une prise en
+charge indue.
+ 
+\subsection{La fraude liée aux Conditions Générales}
+ 
+La fraude liée aux conditions générales ne constitue pas, à strictement parler, un moment autonome
+de la fraude. Elle renvoie plutôt à une \textbf{logique contractuelle particulière}, consistant à
+manipuler les circonstances du sinistre ou l'interprétation du contrat afin de faire entrer le
+dommage dans le champ de la garantie. Si cette fraude peut trouver son origine dès la souscription,
+elle se manifeste le plus souvent lors de la déclaration ou de l'instruction du sinistre.
+ 
+La fraude aux Conditions Générales en assurance non-vie renvoie à la recherche volontaire d'une
+indemnisation en contradiction avec les clauses contractuelles (définitions, exclusions, franchises,
+plafonds, obligations de prévention), sans nécessairement qu'il y ait eu fraude à la souscription.
+ 
+Elle se matérialise par une manipulation des circonstances du sinistre afin de le faire entrer dans
+le périmètre de garantie : déclaration d'un vol simple en vol avec effraction, transformation d'un
+défaut d'entretien en événement accidentel, antériorité dissimulée d'un dommage, ou
+requalification d'un usage non couvert.
+ 
+Par exemple, en assurance automobile, dans le cadre d'un sinistre survenu lors d'un usage
+professionnel alors que le véhicule est déclaré usage privé, la modification du contexte pour
+entrer dans le champ contractuel est qualifiée de fraude.
+ 
+\begin{table}[H]
+\centering
+\caption{Exemples de fraude liée aux conditions générales en assurance non-vie}
+\label{tab:fraude_cg}
+\begin{tabularx}{\textwidth}{|p{2.8cm}|X|X|}
+\hline
+\rowcolor{gray!20}
+ & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
+\hline
+Fraude liée aux Conditions Générales &
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Requalification d'un usage exclu} : déclarer un sinistre survenu dans un cadre
+    privé alors que le véhicule était utilisé à titre professionnel, afin de bénéficier de la
+    garantie.
+    \item \textbf{Déclaration inexacte des circonstances du vol} : affirmer que les clés n'étaient
+    pas laissées dans le véhicule ou à proximité, afin d'éviter l'application d'une exclusion.
+    \item \textbf{Manipulation des circonstances du sinistre} : faire passer une panne mécanique
+    ou un défaut d'entretien pour un dommage accidentel couvert par le contrat.
+    \item \textbf{Fausse qualité du conducteur au moment du sinistre} : déclarer que le véhicule
+    était conduit par un conducteur autorisé alors qu'il était utilisé par une personne exclue ou
+    non déclarée.
+    \item \textbf{Contournement d'une franchise ou d'un plafond} : fractionner artificiellement
+    un dommage ou modifier sa nature pour obtenir une meilleure prise en charge contractuelle.
+\end{itemize}
+\vspace{3pt}\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\vspace{3pt}
+\begin{itemize}[nosep, leftmargin=*]
+    \item \textbf{Fausse déclaration d'effraction} : présenter un vol simple comme un vol avec
+    effraction pour satisfaire à la condition contractuelle de garantie.
+    \item \textbf{Transformation d'un défaut d'entretien en événement accidentel} : présenter une
+    infiltration progressive ou un défaut d'étanchéité comme un dégât des eaux soudain et garanti.
+    \item \textbf{Dissimulation de l'inoccupation du logement} : omettre que le logement était
+    vacant au-delà de la durée prévue par le contrat au moment du sinistre.
+    \item \textbf{Requalification d'un bien exclu en bien garanti} : déclarer comme mobilier assuré
+    un objet relevant d'une exclusion ou nécessitant une garantie spécifique.
+    \item \textbf{Mise en scène d'un dommage garanti} : présenter un dommage esthétique, ancien ou
+    non garanti comme consécutif à un événement couvert (incendie, dégât des eaux, vol).
+\end{itemize}
+\vspace{3pt}\end{minipage}
+\\
+\hline
+\end{tabularx}
+\end{table}
+ 
+% --------------------------------------------------------------
+\section{Cadre réglementaire des sanctions en cas de fraude avérée}
+% --------------------------------------------------------------
+ 
+La fraude en assurance ne se limite pas à une simple irrégularité contractuelle : elle peut
+emporter des conséquences à plusieurs niveaux. Selon le moment où elle intervient et sa nature,
+elle peut produire des effets civils et contractuels, tels que la nullité du contrat, la
+déchéance de garantie, le refus d'indemnisation ou la restitution des indemnités indûment versées.
+ 
+Elle peut également, lorsque les manœuvres frauduleuses sont suffisamment caractérisées, relever
+du droit pénal. Le régime applicable diffère toutefois selon que la fraude intervient au moment de
+la souscription du contrat ou lors de la déclaration du sinistre, ce qui justifie de distinguer
+ces deux hypothèses avant d'aborder les questions probatoires et les qualifications pénales
+susceptibles d'être retenues.
+ 
 \subsection{Souscription}
-
-Le code des assurances article L113-8 stipule que toute fausse déclaration intentionnelle de la part de l'assuré lors de la souscription d'un contrat d'assurance entraine la nullité du contrat. En cas de découverte de la fraude, l'assureur peut résilier le contrat et refuser toute indemnisation en cas de sinistre. De plus, les primes acquittées restent acquises à l'assureur en guise de dommages et intérêts. 
-
+ 
+En matière de souscription, le régime des sanctions repose principalement sur les articles L.113-8
+et L.113-9 du Code des assurances. Il convient toutefois de distinguer selon que l'inexactitude
+déclarative procède d'une intention frauduleuse ou d'une simple erreur.
+ 
+L'article L.113-8 prévoit que la réticence ou la fausse déclaration intentionnelle de l'assuré
+entraîne la nullité du contrat. Cette sanction suppose que l'assureur démontre non seulement
+l'inexactitude ou l'omission, mais également le caractère intentionnel de cette déclaration,
+c'est-à-dire la volonté de tromper l'assureur sur l'appréciation du risque. En pratique, cette
+intention frauduleuse doit porter sur un élément que l'assureur considérait comme déterminant dans
+sa décision de contracter ou dans la fixation de la prime.
+ 
+La nullité du contrat produit un effet rétroactif : le contrat est réputé n'avoir jamais existé,
+de sorte que l'assuré n'est pas tenu de garantir le sinistre. En outre, les primes déjà versées
+demeurent acquises à l'assureur, à titre de dommages et intérêts. Cette sanction est
+particulièrement sévère et reflète l'exigence de bonne foi qui gouverne la formation du contrat
+d'assurance.
+ 
+À l'inverse, l'article L.113-9 vise l'hypothèse d'une déclaration inexacte non intentionnelle.
+Dans ce cas, il n'y a pas fraude à proprement parler, mais le contrat n'est pas pour autant
+maintenu sans conséquence. Si l'erreur est constatée avant tout sinistre, l'assureur peut soit
+maintenir le contrat moyennant une augmentation de prime, soit le résilier. Si elle est découverte
+après sinistre, l'indemnité peut être réduite proportionnellement au rapport entre la prime payée
+et celle qui aurait été due si le risque avait été exactement déclaré. Cette distinction entre
+mauvaise foi et simple erreur est essentielle, car toute anomalie déclarative n'a pas vocation à
+recevoir la qualification de fraude.
+ 
 \subsection{Sinistre}
-
-Selon l'article L113-9 du code des assurances, en cas de fraude lors de la déclaration d'un sinistre, l'assureur peut refuser d'indemniser l'assuré. De plus, si la fraude est découverte après le paiement de l'indemnité, l'assureur peut exiger le remboursement des sommes versées. Des sanctions pénales peuvent également être appliquées, incluant des amendes et des peines d'emprisonnement, en fonction de la gravité de la fraude.
-
-
-\section{Les sanctions et le cadre réglementaire}
-
-\subsection{Souscription}
-\subsection{Sinistre}
-
-\section{Le dilemme de rentabilité}
-
+ 
+Lorsque la fraude intervient au moment du sinistre, les conséquences juridiques diffèrent de
+celles applicables à la souscription. Il ne s'agit plus de remettre en cause la formation du
+contrat, mais de sanctionner une demande de garantie ou d'indemnisation obtenue ou tentée au
+moyen de déclarations mensongères, d'une dissimulation de circonstances essentielles ou de la
+production de pièces falsifiées.
+ 
+La première conséquence est le refus d'indemnisation lorsque la fraude est détectée avant tout
+paiement. En pratique, l'assureur peut opposer à l'assuré l'absence de droit à garantie dès lors
+que le sinistre déclaré ne correspond pas à la réalité ou que son montant a été artificiellement
+majoré. Cette sanction peut également prendre la forme d'une déchéance de garantie lorsque le
+contrat prévoit qu'une fausse déclaration intentionnelle relative au sinistre prive l'assuré du
+bénéfice de la garantie. La déchéance se distingue de la nullité en ce qu'elle n'affecte pas
+l'existence même du contrat, mais uniquement le droit à indemnisation au titre du sinistre concerné.
+ 
+Si l'indemnité a déjà été versée au moment de la découverte de la fraude, l'assureur peut engager
+une action en restitution des sommes indûment perçues. Cette répétition de l'indu permet de
+récupérer le montant versé en l'absence de droit légitime à indemnisation. Dans les cas les plus
+graves, l'assureur pourra en outre solliciter des dommages et intérêts en réparation du préjudice
+subi, notamment lorsque la fraude a entraîné des coûts d'expertise, d'enquête ou de gestion
+supplémentaires.
+ 
+En pratique, la mise en œuvre de ces sanctions suppose toutefois que la fraude soit effectivement
+démontrée. Or, la fraude au sinistre ne se présume pas : l'assureur doit être en mesure d'établir
+le caractère intentionnel des manœuvres invoquées, ce qui renvoie directement à la question de la
+preuve, mais également, dans certaines hypothèses, à d'éventuelles poursuites pénales.
+ 
+\subsection{Preuve de la fraude et sanctions pénales}
+ 
+La mise en œuvre des sanctions contractuelles suppose, en premier lieu, que la fraude soit prouvée.
+En droit des assurances comme en droit commun, la fraude ne se présume pas. \textbf{Il appartient
+donc à l'assureur d'établir l'existence de manœuvres intentionnelles destinées à obtenir un
+avantage indu.} Cette exigence probatoire est particulièrement importante, car une simple
+incohérence ou une approximation dans les déclarations de l'assuré ne suffit pas, à elle seule, à
+caractériser une fraude.
+ 
+La preuve peut être rapportée par tout moyen et résulte souvent, en pratique, d'un faisceau
+d'indices graves, précis et concordants. Il peut s'agir, par exemple, d'incohérences entre les
+déclarations successives, d'anomalies documentaires, de contradictions entre les circonstances
+déclarées et les constatations matérielles, ou encore de rapprochements opérés à partir
+d'historiques de sinistres et de données comportementales.
+ 
+\textbf{Cette dimension probatoire explique le recours croissant, chez les assureurs, à des
+dispositifs spécialisés d'investigation, à l'analyse de données et à des modèles de scoring
+destinés à hiérarchiser les dossiers les plus suspects, sans pour autant se substituer à
+l'appréciation humaine.}
+ 
+Au-delà des conséquences contractuelles, certaines fraudes à l'assurance peuvent également
+recevoir une qualification pénale. Lorsque l'assuré use de manœuvres frauduleuses afin de tromper
+l'assureur pour obtenir la remise de fonds, les faits peuvent relever de l'escroquerie au sens de
+l'article 313-1 du Code pénal.
+ 
+De même, la production de justificatifs falsifiés, de fausses factures ou de documents d'identité
+altérés est susceptible de constituer un faux ou un usage de faux. Le droit pénal vient ainsi
+compléter le droit des assurances : là où ce dernier organise les conséquences contractuelles de
+la fraude, le premier sanctionne la manœuvre frauduleuse elle-même lorsqu'elle porte atteinte à
+l'ordre public économique.
+ 
+% --------------------------------------------------------------
+\section{Enjeux économiques et actuariels de la fraude}
+% --------------------------------------------------------------
+ 
 \subsection{L'ampleur du marché de la fraude}
-
-Le marché de l'assurance est si important en France qu'il n'est pas possible de tout vérifier à la main. En 2023, les assureurs ont versé 56,4 milliards d'euros de prestations (sinistres et indemnités).
-Selon le rapport 2023 de l'ALFA (Association de Lutte contre la Fraude en Assurance), la fraude en assurance non-vie représente environ entre 5\% à 10\% des sinistres déclarés, soit une perte estimée à plusieurs milliards d'euros chaque année pour les compagnies d'assurance. Cette fraude se manifeste sous diverses formes, allant de la surestimation des dommages à la déclaration de sinistres fictifs.
-Cependant, la fraude détectée que 902 millions d'euros en 2023 (dont 656 millions rien que pour l'IARD Auto/MRH). Cela signifie qu'une grande partie de la fraude reste non détectée, ce qui représente un défi majeur pour les assureurs.
-
-\subsection{Les enjeux économiques de la fraude}
-En 2023, le montant total des indemnisations versées par les assureurs s'élevait à 49 Milliards d'euros. 
-En comparaison, la fraude détectée en IARD avoisine les 656 millions d'euros (Source: ALFA). 
-Ce différentiel met en lumière le "chiffre noir" de la fraude : alors que la fraude détectée représente environ 1,3\% des prestations, les estimations actuarielles situent la fraude réelle entre 3\% et 5\%.
-L'enjeu n'est donc pas seulement de stopper l'hémorragie financière, mais de préserver la marge technique dans un contexte où la charge des sinistres climatiques a déjà coûté 6,5 Md€ en 2023.
-
-
-
-% \subsection{Analyse coût-bénéfice de l'investigation}
-% je crois qu'il faut tout supprimer parce que maintenant ça rentre dans le 1.4 
-
-Le processus de détection de la fraude n'est pas gratuit. Il engage des frais de gestion supplémentaires (expertise contradictoire, enquête administrative, voire recours à un détective privé). L'assureur fait face à un problème d'optimisation économique simple : l'espérance de gain doit être supérieure au coût de contrôle.
-
-Soit $C_{invest}$ le coût moyen d'une investigation et $M_{sinistre}$ le montant du sinistre réclamé.
-Le contrôle n'est rationnel que si :
-\begin{equation}
-    M_{sinistre} \times P(\text{Fraude}|\text{Alerte}) > C_{invest}
-\end{equation}
-Où $P(\text{Fraude}|\text{Alerte})$ est la précision du modèle de détection (la probabilité que l'alerte soit fondée).
-
-\paragraph{Estimation des coûts unitaires :}
-Sur le marché IARD français, on retient généralement les ordres de grandeur suivants :
-\begin{itemize}
-    \item \textbf{Expertise automobile classique :} Entre 150 € et 300 € par dossier. C'est le premier niveau de filtre.
-    \item \textbf{Investigation spécialisée :} Pour des enquêtes plus poussées (vérification de voisinage, enquêteur certifié ALFA), les coûts peuvent rapidement dépasser 1 000 €.
-\end{itemize}
-
-\paragraph{Définition du seuil de déclenchement ($S_{min}$) :}
-Pour un sinistre matériel classique (ex : 1 200 €), engager une expertise à 250 € est rentable ($1200 - 250 = 950 €$ d'économie potentielle).
-En revanche, pour des "petits sinistres" (ex: bris de glace à 400 €), le coût administratif et d'expertise (souvent proche de 150-200 €) rend la détection humaine non rentable. C'est précisément sur ces petits montants (la "fraude de masse") que l'IA intervient : elle offre un coût marginal de vérification proche de zéro, permettant d'abaisser drastiquement le seuil de rentabilité du contrôle.
-
-Sources pour 1.3.3 : France assureurs
-
-
-
-\section{Impact de la fraude sur la tarification}
-
-\subsection{Modèle tarifaire usuel en assurance non-vie et biais statistiques}
-
-\subsection{Conséquence sur la prime pure : comment la fraude fait payer les assurés honnêtes.}
-
-\subsection{L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}
-
-\subsection{L'automatisation comme levier de rentabilité}
-
-% \subsection{Biais dans les statistiques de sinistralité (fréquence et coût moyen).}
-
-L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour la tarification. 
-La prime pure ($\Pi$) est modélisée par l'équation :
-\begin{equation}
-    \Pi = E[N] \times E[C]
-\end{equation}
-Où $N$ est la fréquence et $C$ le coût moyen.
-\begin{itemize}
-    \item \textbf{Impact sur la Fréquence ($N$) :} La fraude opportuniste (sinistres imaginaires) augmente artificiellement la fréquence des sinistres dans le portefeuille.
-    \item \textbf{Impact sur le Coût Moyen ($C$) :} La majoration de dommages (ajout d'éléments sur une facture) gonfle la sévérité moyenne.
-\end{itemize}
-Si l'actuaire calibre ses modèles (GLM, XGBoost) sur ces données polluées, il surestime le risque réel du portefeuille sain.
-
-
-% \subsection{Conséquence sur la prime pure : comment la fraude fait payer les assurés honnêtes.}
-
-% Assure-toi d'avoir \usepackage{amsmath} tout au début de ton fichier .tex
-
-Dans l'équation de la prime pure, une surestimation de la fréquence ou du coût moyen conduit mécaniquement à une prime plus élevée pour l'ensemble de la mutualité.
-
-Dans le cas de la \textbf{fraude par majoration} (sinistre réel mais montant surévalué), l'impact est direct sur l'espérance du coût moyen $E[C]$. 
-\begin{equation*}
-    E[C]_{\text{fraude}} = E[C]_{\text{réel}} + E[C]_{\text{majoration}}
-\end{equation*}
-
-Dans le cas de la \textbf{fraude par invention} (sinistre totalement fictif), l'impact se fait sur la fréquence $E[N]$.
-\begin{equation*}
-    E[N]_{\text{fraude}} = E[N]_{\text{réel}} + E[N]_{\text{fictif}}
-\end{equation*}
-
-\textbf{Calcul du surcoût tarifaire} :
-Si l'on note $\alpha$ la part de la charge sinistre imputable à la fraude, la prime d'équilibre technique observée ($\Pi_{\text{chargée}}$) se déduit de la prime pure théorique ($\Pi_{\text{pure}}$) par la relation :
-
-\begin{equation}
-    \Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1-\alpha}
-\end{equation}
-
-Où $\alpha$ est estimé entre 5\% et 10\% du volume des prestations selon les branches (Source : ALFA).
-
+ 
+Le marché de l'assurance non-vie représente 80,3~Md€ de primes pour 56,3~Md€ de prestations
+versées en 2025.
+ 
+Le volume de sinistres étant trop important, il n'est pas envisageable de vérifier manuellement
+la véracité de chaque déclaration sans rogner de manière trop importante sur la marge de
+l'assureur.
+ 
 \begin{table}[H]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \textbf{Part de la fraude dans la charge ($\alpha$)} & \textbf{Surcoût sur la prime pure (\%)} \\
-        \hline
-        5.0\% & + 5.26\% \\
-        7.5\% & + 8.11\% \\
-        10.0\% & + 11.11\% \\
-        \hline
-    \end{tabular}
-    \caption{Impact du levier de la fraude sur la prime des assurés honnêtes}
-    \label{tab:surcout_fraude}
+\centering
+\caption{Cotisations et prestations en 2025 (Source : France assureurs)}
+\label{tab:cotisations}
+\begin{tabular}{|l|c|c|}
+\hline
+\rowcolor{gray!20}
+ & \textbf{Cotisations} & \textbf{Prestations} \\
+\hline
+Assurance de biens et de responsabilité & 80,3~Md€ & 56,3~Md€ \\
+\hline
+\quad Dont automobile                   & 30,2~Md€ & 24,7~Md€ \\
+\hline
+\quad Dont assurance habitation         & 14,9~Md€ &  9,9~Md€ \\
+\hline
+\end{tabular}
 \end{table}
+ 
+Ainsi, la profession s'est structurée autour de l'ALFA (Agence de Lutte contre la Fraude à
+l'Assurance).
+ 
+Créée en février 1989, cette association professionnelle a pour mission d'accompagner les assureurs
+français dans la prévention et la détection des fraudes. Elle agit comme un véritable carrefour
+d'informations, centralisant les données, formant les gestionnaires et collaborant avec les
+pouvoirs publics (notamment le ministère de l'Intérieur) pour endiguer ce phénomène.
+ 
+La fraude à l'assurance est un phénomène complexe à quantifier avec précision, car par nature, une
+grande partie reste non détectée. Au niveau européen, la fédération \textit{Insurance Europe}
+estime que la fraude représente jusqu'à 10\% du coût total des
+sinistres\footnote{\url{https://www.insuranceeurope.eu/mediaitem/0b6fba63-e7ef-4439-a783-d79b28596421/The+impact+of+insurance+fraud.pdf}}.
+En France, selon les estimations de la Fédération Française de l'Assurance et de l'ALFA, le coût
+global de la fraude s'élèverait à environ 2,5 milliards d'euros par an, soit environ 5\% du niveau
+d'encaissement des
+primes\footnote{\url{https://www.argusdelassurance.com/institutions/fraude-a-l-assurance-une-facture-de-2-5-md-en-dommages-en-2014.96060}}.
+ 
+Les montants identifiés sont ainsi passés de 695 millions d'euros en 2023 à 902 millions d'euros
+en 2024. Parmi cela, 246 millions d'euros ont été identifiés.
+% NOTE : cette phrase semble incomplète dans le document original — à vérifier.
+ 
+Finalement, les acteurs du marché comme l'\textit{Argus de l'assurance} rappellent que c'est la
+collectivité entière qui est pénalisée, la fraude alourdissant la prime annuelle de chaque assuré
+honnête d'environ 50 euros sur chaque contrat d'assurance
+automobile\footnote{\url{https://www.argusdelassurance.com/acteurs/fraude-a-l-assurance-un-cout-de-50-pour-les-assures.60931}}.
+ 
+\begin{figure}[H]
+\centering
+% Remplacer le \fbox par : \includegraphics[width=0.75\textwidth]{nom_du_fichier_graphique}
+\fbox{\parbox{0.72\textwidth}{\centering\vspace{2.5cm}
+[Graphique : La fraude automobile en évolution -- Source : ALFA Association]
+\vspace{2.5cm}}}
+\caption{La fraude automobile en évolution (Source : ALFA Association)}
+\label{fig:fraude_evolution}
+\end{figure}
+ 
+Si ce fléau touche toutes les branches de l'assurance, l'IARD (Incendie, Accidents et Risques
+Divers) en représente de loin la part la plus importante.
+ 
+À titre d'exemple, sur les 902 millions d'euros de fraudes détectées en 2024, 656 millions
+concernent exclusivement l'IARD (notamment l'assurance Automobile et l'assurance Multirisque
+Habitation), soit près de 73\% du total.
+ 
+Les assurances de biens, par leur forte fréquence de sinistralité, demeurent le secteur le plus
+exposé aux déclarations de sinistres fictifs ou à la surestimation des dommages.
+ 
+Ces segments cumulent plusieurs facteurs d'exposition : une fréquence de sinistres élevée, une
+forte volumétrie de dossiers de montant unitaire parfois modéré, ainsi qu'une documentation
+déclarative susceptible d'être manipulée.
+ 
+En assurance automobile, la multiplicité des intervenants (assuré, tiers, réparateur, expert,
+dépanneur) accroît les opportunités de fraude. En habitation, la difficulté de vérifier
+\textit{a posteriori} la réalité, l'antériorité ou la valeur des biens déclarés favorise également
+les comportements opportunistes.
+ 
+Ce phénomène et ses proportions ne sont pas une spécificité française. À l'échelle européenne, la
+fédération \textit{Insurance Europe} estime que la fraude représente en moyenne jusqu'à 10\% du
+coût total des sinistres dans les pays voisins (comme au Royaume-Uni ou en Allemagne). La France
+se situe donc dans cette moyenne continentale.
+ 
+Toutefois, l'écart observé au niveau européen entre la fraude détectée (environ 2,5 milliards
+d'euros) et la fraude réelle non détectée (estimée à plus de 13 milliards d'euros) souligne
+qu'une immense partie des préjudices passe encore « à travers les mailles du filet ». Cette
+« fraude invisible » représente un défi majeur pour la rentabilité des compagnies d'assurance.
+ 
+\subsection{Impact de la fraude sur la tarification}
+ 
+L'enjeu de la fraude ne se résume pas à une perte ponctuelle pour les assureurs : il affecte plus
+largement l'équilibre technique du marché, la qualité des données historiques et, en définitive,
+la construction même des primes. C'est ce lien direct entre fraude, sinistralité observée et
+tarification qu'il convient désormais d'examiner.
+ 
+\subsubsection{Modèle tarifaire usuel en assurance non-vie et biais statistiques}
+ 
+En assurance non-vie, la tarification repose usuellement sur des Modèles Linéaires Généralisés
+(GLM).
+ 
+La prime pure $PP$ est modélisée par le produit de l'espérance de la fréquence des sinistres ($N$)
+et de l'espérance de leur coût moyen ($C$) :
+ 
+\begin{equation}
+PP = \mathbb{E}[N] \times \mathbb{E}[C]
+\end{equation}
+ 
+L'absence de détection de la fraude introduit un biais systématique dans les bases de données
+utilisées pour calibrer ces modèles tarifaires (que ce soit via des GLM traditionnels ou des
+algorithmes de Machine Learning comme XGBoost) :
+ 
+\begin{itemize}
+    \item \textbf{Impact sur la fréquence ($N$)} : La fraude opportuniste ou préméditée
+    (déclaration de sinistres imaginaires) augmente artificiellement le nombre de sinistres dans
+    le portefeuille.
+ 
+    \item \textbf{Impact sur le coût moyen ($C$)} : La majoration de dommages (ajout d'éléments
+    fictifs sur une facture réelle) gonfle la sévérité moyenne des sinistres.
+\end{itemize}
+ 
+Si l'actuaire calibre ses modèles sur ces données polluées, il surestime le risque réel du
+portefeuille sain. La prime demandée aux assurés honnêtes augmente, ce qui dégrade la compétitivité
+de l'assureur sur le marché.
+ 
+\subsubsection{Conséquence de la fraude sur la prime pure}
+ 
+Dans l'équation de la prime pure, une surestimation de la fréquence ou du coût moyen conduit
+mécaniquement à une prime plus élevée pour l'ensemble de la mutualité.
+ 
+Dans le cas de la fraude par majoration (sinistre réel mais montant surévalué), l'impact est
+direct sur l'espérance du coût moyen $\mathbb{E}[C]$ :
+ 
+\begin{equation}
+\mathbb{E}[C]_{\text{fraude}} = \mathbb{E}[C]_{\text{réel}} + \mathbb{E}[C]_{\text{majoration}}
+\end{equation}
+ 
+Dans le cas de la fraude par invention (sinistre totalement fictif), l'impact se fait sur la
+fréquence $\mathbb{E}[N]$ :
+ 
+\begin{equation}
+\mathbb{E}[N]_{\text{fraude}} = \mathbb{E}[N]_{\text{réel}} + \mathbb{E}[N]_{\text{fictif}}
+\end{equation}
+ 
+Ainsi, si l'on note $\alpha$ la part de la charge sinistre imputable à la fraude, la prime
+d'équilibre technique observée ($\Pi_{\text{chargée}}$) se déduit de la prime pure théorique
+($\Pi_{\text{pure}}$) par la relation :
+ 
+\begin{equation}
+\Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}
+\end{equation}
+ 
+Où $\alpha$ est estimé entre 5\% et 10\% du volume des prestations selon les branches
+(Source : ALFA).
+ 
+\begin{table}[H]
+\centering
+\caption{Impact du levier de la fraude sur la prime des assurés honnêtes}
+\label{tab:levier_fraude}
+\begin{tabular}{|c|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Part de la fraude dans la charge ($\alpha$)} & \textbf{Surcoût sur la prime pure (\%)} \\
+\hline
+5,0\%  & $+5{,}26\%$  \\
+\hline
+7,5\%  & $+8{,}11\%$  \\
+\hline
+10,0\% & $+11{,}11\%$ \\
+\hline
+\end{tabular}
+\end{table}
+ 
+Il faut souligner que l'effet de la fraude sur la tarification ne se limite pas à une hausse
+mécanique de la prime pure. Il se propage également aux chargements de gestion, dans la mesure où
+la lutte contre la fraude mobilise des ressources d'expertise, de contrôle et de contentieux.
+ 
+En outre, une répercussion trop importante de ces coûts dans les primes commerciales peut nuire à
+la compétitivité de l'assureur et accentuer les phénomènes d'anti-sélection, en éloignant les
+assurés les moins risqués du portefeuille.
+ 
+De plus, un enjeu central réside dans le fait que la fraude peut fausser la segmentation elle-même.
+ 
+En effet, certaines variables explicatives peuvent apparaître comme fortement corrélées à la
+sinistralité observée non pas en raison d'un risque assurantiel intrinsèque plus élevé, mais parce
+qu'elles sont associées à une fréquence accrue de comportements frauduleux ou à des modalités de
+détection différenciées. L'actuaire court alors le risque d'intégrer dans la tarification des
+effets qui relèvent moins du risque pur que de distorsions comportementales ou informationnelles.
+ 
+Inversement, l'amélioration des dispositifs de détection permet d'assainir les bases historiques
+servant à la modélisation actuarielle. À terme, une meilleure identification des dossiers
+frauduleux contribue à restaurer une mesure plus fidèle du risque technique, à améliorer la
+segmentation tarifaire et à limiter le transfert de charge vers les assurés honnêtes. La lutte
+contre la fraude devient ainsi non seulement un levier de réduction des pertes, mais également un
+instrument de qualité tarifaire.
+ 
+\subsubsection{L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}
+ 
+Pour corriger ce biais tarifaire, l'assureur doit identifier et rejeter les sinistres frauduleux.
+Cependant, le processus de détection n'est pas gratuit : il engage des frais de gestion
+supplémentaires (expertise contradictoire, enquête administrative, recours à un détective privé).
+ 
+L'assureur fait donc face à un problème d'optimisation économique simple : l'espérance d'économie
+(le non-paiement du sinistre) doit être supérieure au coût du contrôle.
+ 
+Soit $C_{\text{invest}}$ le coût moyen d'une investigation et $M_{\text{sinistre}}$ le montant du
+sinistre réclamé. Le contrôle n'est rationnel que si :
+ 
+\begin{equation}
+M_{\text{sinistre}} \times P(\text{Fraude} \mid \text{Alerte}) > C_{\text{invest}}
+\end{equation}
+ 
+Où $P(\text{Fraude} \mid \text{Alerte})$ est la précision du modèle de détection (la probabilité
+que l'alerte soit réellement fondée).
+ 
+Sur le marché IARD français, une expertise automobile classique coûte entre 70~€ et 400~€ par
+dossier\footnote{Service public.gouv --- URL à compléter.}, tandis qu'une investigation
+spécialisée (enquêteur certifié ALFA) peut rapidement dépasser les 1~000~€, les honoraires étant
+libres et dépendant fortement du type de sinistre.
+ 
+Ainsi, pour un sinistre matériel de 1~200~€, engager une expertise à 250~€ est rentable. En
+revanche, pour de « petits sinistres » (par exemple un bris de glace à 400~€), le coût
+administratif et d'expertise rend la détection humaine irrationnelle d'un point de vue économique.
+ 
+\subsubsection{L'automatisation de la détection de la fraude comme levier de rentabilité}
+ 
+C'est précisément sur cette « fraude de masse » de faible montant que le modèle traditionnel
+atteint ses limites, et que l'implémentation de nouvelles technologies devient indispensable.
+ 
+En effet, à date, avec la digitalisation, on observe une hausse des tentatives de fraude, notamment
+au travers de falsifications numériques et de retouches
+d'image\footnote{La fraude documentaire (faux certificats, fausses factures, photos retouchées)
+est en explosion et représente désormais 39\% des cas de fraude détectés en IARD. Source :
+\url{https://www.itesoft.com/fr/blog/fraude-assurance-chiffres-cles-alfa/}}.
+ 
+En parallèle, l'amélioration des outils tels que la \textit{data analytics}, la détection
+d'anomalies, l'analyse d'image ou le cross-checking de sources externes permet d'améliorer le
+taux de détection des fraudes.
+ 
+Néanmoins, malgré l'amélioration des méthodes de détection de fraude, la fraude documentaire
+reste un poste matériel dans le coût technique global. En mettant en place des méthodes de
+détection automatiques (algorithmes de scoring, IA, etc.), l'assureur réduit drastiquement le
+coût de traitement et de ciblage des fraudes.
+ 
+Il devient ainsi plus rentable d'investir dans ces outils que de continuer à investiguer les
+sinistres de plus faible montant, assainissant ainsi la base de sinistralité et protégeant
+l'équilibre de la prime.
+ 
+C'est précisément là la réponse à ce défi opérationnel et financier que constitue l'objectif
+central de ce mémoire. En effet, les ambitions des travaux de ce mémoire sont de concevoir et
+déployer un processus de détection automatisé des fraudes de bout en bout.
+ 
+Il convient toutefois de circonscrire d'emblée le périmètre de cette détection. Notre démarche ne
+porte pas sur la fraude documentaire (falsification de factures, de devis ou d'attestations) ni sur
+la fraude relevant de l'analyse d'images (clichés retouchés ou détournés), faute de disposer des
+bases de données documentaires et photographiques nécessaires à l'entraînement des modèles.
+ 
+L'approche retenue se concentre au contraire sur la \textbf{fraude circonstancielle},
+c'est-à-dire celle qui se révèle à travers les caractéristiques mêmes du sinistre et de l'assuré :
+nature et chronologie de la déclaration, antécédents et historique du contrat, profil du déclarant,
+cohérence entre les circonstances rapportées et les paramètres du sinistre, ou encore récurrence de
+signaux faibles susceptibles de trahir une intention frauduleuse.
+ 
+Cette orientation présente l'avantage de s'appuyer exclusivement sur des données structurées déjà
+disponibles dans les systèmes de gestion de l'assureur, ce qui en fait un levier à la fois
+praticable, reproductible et directement intégrable au processus d'instruction des sinistres.
+ 
+% NOTE : phrase surlignée en jaune dans le document original — à confirmer/compléter
+Pour y parvenir, une base de données sinistres automobiles (Kaggle) servira de base d'étude.
+ 
+Les chapitres suivants détailleront cette démarche : après un état des lieux des processus de
+détection existants et de l'apport de l'intelligence artificielle (Chapitre~2), nous présenterons
+la construction et la comparaison des trois modèles de détection retenus --- scoring en points,
+arbre de décision et XGBoost --- ainsi que l'évaluation de leurs performances respectives
+(Chapitre~3). Le Chapitre~4 décrira l'outil opérationnel développé à destination des services de
+gestion des sinistres, intégrant une logique d'enrichissement continu du modèle. Enfin, le
+Chapitre~5 ouvrira sur les limites de l'outil et les perspectives d'évolution, notamment autour
+de la qualité des données, de la mutualisation inter-assureurs et de l'extension à une approche
+multi-produits.
