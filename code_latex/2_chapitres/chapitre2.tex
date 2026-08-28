@@ -1,27 +1,37 @@
-\chapter{État de l'Art et Cadre Théorique}
-
-\section{Revue de littérature, ce qui se fait à l'Institut des Actuaires}
-
-\subsection{Le socle traditionnel : les GLM et la Régression Logistique}
-\subsection{Le changement de paradigme : l'hégémonie des modèles ensemblistes}
-\subsection{L'ouverture vers l'apprentissage non supervisé}
+\chapter{La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA }
 
 
-\section{Les algorithmes d'IA pour la fraude}
-\subsection{Prédire la probabilité de fraude}
+\begin{table}[H]
+\centering
+\caption{Indicateurs de qualité utilisés pour l'évaluation des modèles}
+\label{tab:indicateurs}
+\renewcommand{\arraystretch}{1.6}
+\footnotesize
+\begin{tabularx}{\textwidth}{|l|X|c|c|c|}
+\hline
+\rowcolor{gray!20}
+\textbf{Indicateur} & \textbf{Définition} & \textbf{Formule} & \textbf{Intervalle} & \textbf{Bon} \\
+\hline
+AUC-ROC & Capacité à discriminer fraudeurs et non-fraudeurs, tout seuil confondu
+& $P(s(X^+) > s(X^-))$ & $[0\,;1]$ & $> 0{,}8$ \\
+\hline
+Gini & Transformation linéaire de l'AUC, échelle plus parlante
+& $2 \cdot AUC - 1$ & $[0\,;1]$ & $> 0{,}5$ \\
+\hline
+KS & Écart maximal entre les distributions des scores des deux populations
+& $\max_t |F^+(t) - F^-(t)|$ & $[0\,;1]$ & $> 0{,}4$ \\
+\hline
+Lift @10\% & Gain de captation de fraude sur les 10\% de scores les plus élevés
+& $\dfrac{\text{taux décile sup.}}{\text{taux global}}$ & $[1\,;+\infty[$ & $> 3$ \\
+\hline
+PSI & Dérive de la distribution des scores dans le temps (stabilité)
+& $\sum_i (p_i - q_i)\ln\dfrac{p_i}{q_i}$ & $[0\,;+\infty[$ & $< 0{,}1$ \\
+\hline
+\end{tabularx}
 
-a. La Régression Logistique (Modèle de référence)
+\vspace{4pt}
+\footnotesize
+\textit{Repères par rapport au hasard :} pour l'AUC-ROC, $0{,}5$ correspond à un modèle aléatoire et $1$ à une discrimination parfaite ; le Gini et le KS valent $0$ pour un modèle aléatoire. Le Lift @10\% vaut $1$ lorsque le ciblage n'apporte rien par rapport à un tirage au hasard (au-delà, il indique combien de fois mieux le modèle fait que l'aléatoire). Le PSI vaut $0$ lorsque les deux distributions sont identiques.
 
-b. Les Arbres de décision et les Forêts Aléatoires (Random Forest)
-
-c. Le Gradient Boosting (XGBoost)
-
-\subsection{Apprentissage non supervisé : détection d'anomalies}
-Détecter des anomalies / comportements atypiques (Isolation Forest, Clustering).
-\subsection{Deep Learning \& Computer Vision}
-Utilisation de YOLO pour l'analyse d'images de chocs et GANs pour la gestion des données déséquilibrées.
-
-\section{Analye de réseaux (Graph Mining)}
-\subsection{Pour détecter les bandes organisées}
-Liens entre experts, garages, et assurés
-
+\textit{Notations :} $s(\cdot)$ désigne le score attribué par le modèle, $X^+$ un dossier frauduleux et $X^-$ un dossier sain ; $F^+$ et $F^-$ les fonctions de répartition des scores des fraudeurs et des non-fraudeurs ; $p_i$ et $q_i$ les proportions d'observations de la classe (tranche de score) $i$ respectivement dans l'échantillon de référence (entraînement) et dans le nouvel échantillon comparé.
+\end{table}
