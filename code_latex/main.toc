@@ -49,30 +49,28 @@
 \contentsline {subsection}{\numberline {3.6.2}Détection de communautés et de clusters suspects}{39}{subsection.3.6.2}%
 \contentsline {subsection}{\numberline {3.6.3}Application opérationnelle}{39}{subsection.3.6.3}%
 \contentsline {section}{\numberline {3.7}Critères de qualité des modèles mis en place}{40}{section.3.7}%
-\contentsline {chapter}{\numberline {4}Mise en œuvre technique et détection par l'IA}{44}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Détection de la fraude opportuniste (Auto et MRH)}{45}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}L'IA au service de l'expertise visuelle (YOLO)}{45}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Analyse de la falsification documentaire}{45}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Détection de la fraude en bande organisée}{45}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Identification de patterns de coûts identiques}{46}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Analyse spatiale et comportementale}{46}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Évaluation de la performance des modèles}{46}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Métriques de précision et de rappel}{47}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Interprétabilité des résultats (XAI)}{47}{subsection.4.3.2}%
-\contentsline {chapter}{\numberline {5}Impacts Actuariels, Rentabilité et Perspectives}{48}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Analyse de la rentabilité économique (Business Case)}{49}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Le dilemme du coût de l'investigation}{49}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Réduction des frais de gestion}{49}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Conséquences sur la tarification et le provisionnement}{49}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Biais statistiques induits par la fraude}{50}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Impact sur la prime pure et l'équité}{50}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}Conclusion et ouverture}{50}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Synthèse des travaux}{51}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Limites éthiques et réglementaires (RGPD)}{51}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Perspectives sur l'évolution de la fraude (Deepfakes)}{51}{subsection.5.3.3}%
-\contentsline {chapter}{\numberline {6}Conclusion}{52}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Résumé des résultats}{53}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Synthèse des principaux résultats obtenus}{53}{subsection.6.1.1}%
-\contentsline {section}{\numberline {6.2}ffhfhf}{53}{section.6.2}%
-\contentsline {chapter}{Annexes}{55}{chapter*.8}%
-\contentsline {chapter}{Bibliographie}{57}{chapter*.8}%
+\contentsline {chapter}{\numberline {4}Mise en place d'un processus de détection de fraude automobile automatisé à l'aide d'un Agent IA}{44}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Gouvernance autour de la mise en place de l'Agent IA}{45}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Présentation de la base de données}{47}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Base de données source}{48}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Enrichissement de la base de données}{50}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Descriptif macro de la création du processus de détection de fraude et de sa déclinaison opérationnelle}{53}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Le prompt : la décomposition du besoin en étapes}{55}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Présentation macro des différentes étapes}{56}{subsection.4.3.2}%
+\contentsline {chapter}{\numberline {5}Impacts Actuariels, Rentabilité et Perspectives}{59}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Analyse de la rentabilité économique (Business Case)}{60}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Le dilemme du coût de l'investigation}{60}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Réduction des frais de gestion}{60}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Conséquences sur la tarification et le provisionnement}{60}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Biais statistiques induits par la fraude}{61}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Impact sur la prime pure et l'équité}{61}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Conclusion et ouverture}{61}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Synthèse des travaux}{62}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Limites éthiques et réglementaires (RGPD)}{62}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Perspectives sur l'évolution de la fraude (Deepfakes)}{62}{subsection.5.3.3}%
+\contentsline {chapter}{\numberline {6}Conclusion}{63}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Résumé des résultats}{64}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Synthèse des principaux résultats obtenus}{64}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}ffhfhf}{64}{section.6.2}%
+\contentsline {chapter}{Annexes}{66}{chapter*.8}%
+\contentsline {chapter}{Bibliographie}{68}{chapter*.8}%

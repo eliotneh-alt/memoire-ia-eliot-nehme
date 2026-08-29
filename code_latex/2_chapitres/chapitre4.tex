@@ -1,19 +1,351 @@
-\chapter{Mise en œuvre technique et détection par l'IA}
+\chapter{Mise en place d'un processus de détection de fraude automobile automatisé à l'aide d'un Agent IA}
+\label{chap:mise-en-place}
 
-\section{Détection de la fraude opportuniste (Auto et MRH)}
+% --------------------------------------------------------------
+\section{Gouvernance autour de la mise en place de l'Agent IA}
+% --------------------------------------------------------------
 
-\subsection{L'IA au service de l'expertise visuelle (YOLO)} Remplacer l'œil de l'expert pour détecter les incohérences : identifier si une griffure latérale est compatible avec un choc frontal sur un poteau.
+Avant même d'aborder la conception technique de l'outil, la mise en place d'un agent de détection de fraude doit être encadrée par une gouvernance explicite. Un tel dispositif traite en effet des données personnelles d'assurés, alimente des décisions susceptibles d'affecter individuellement ces derniers (orientation d'un dossier vers une enquête, suspicion portée sur une déclaration), et s'inscrit dans un secteur étroitement supervisé.
 
-\subsection{Analyse de la falsification documentaire} Détection de retouches sur les photos d'accidents ou sur les documents d'identité.
+La gouvernance n'est donc pas un complément formel postérieur au modèle, mais un préalable structurant qui en définit le cahier des charges. On peut l'articuler autour de trois niveaux complémentaires :
 
-\section{Détection de la fraude en bande organisée}
+\begin{itemize}
+    \item un cadre réglementaire et de conformité,
+    \item une organisation interne et une répartition des responsabilités,
+    \item et enfin une maîtrise opérationnelle du cycle de vie du modèle assortie d'une supervision humaine.
+\end{itemize}
 
-\subsection{Identification de patterns de coûts identiques} Repérer les sinistres ayant exactement le même coût moyen, signe potentiel d'une fraude industrielle.
+Sur le plan réglementaire, le dispositif s'inscrit d'abord dans le cadre du Règlement général sur la protection des données (RGPD).
 
-\subsection{Analyse spatiale et comportementale} Détection de sinistres similaires sur des habitations éloignées (MRH) n'ayant aucun lien logique, mais présentant des caractéristiques techniques identiques.
+Les principes de finalité, de minimisation et de légalité du traitement encadrent la collecte et l'usage des données du sinistre et de l'assuré, tandis que l'article 22\footnote{« La personne concernée a le droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé, y compris le profilage, produisant des effets juridiques la concernant ou l'affectant de manière significative de façon similaire. » (§1, \url{https://gdpr-text.com/fr/read/article-22/}).}, relatif aux décisions individuelles fondées exclusivement sur un traitement automatisé, impose une vigilance particulière : un assuré ne saurait voir sa déclaration rejetée sur la seule base d'un score algorithmique, sans intervention humaine ni possibilité de contestation.
 
-\section{Évaluation de la performance des modèles}
+À ce socle s'ajoute désormais le règlement européen sur l'intelligence artificielle (« AI Act »). Le règlement (UE) 2024/1689 est entré en vigueur le 1\textsuperscript{er} août 2024 selon une application échelonnée, les pratiques interdites étant effectives depuis le 2 février 2025. Son annexe III classe parmi les systèmes à haut risque ceux relevant de l'accès aux services essentiels, dont l'assurance. À la suite de l'accord politique dit « Digital Omnibus » du printemps 2026, l'application des obligations relatives aux systèmes à haut risque de l'annexe III a toutefois été reportée au 2 décembre 2027.
 
-\subsection{Métriques de précision et de rappel} Mesurer la capacité du modèle à ne pas oublier de fraudeurs tout en évitant de suspecter des clients honnêtes.
+La qualification précise d'un agent de détection de fraude automobile reste à apprécier au cas par cas : la catégorie à haut risque vise surtout l'évaluation du risque et la tarification, de sorte qu'un outil qui se borne à signaler des dossiers à des enquêteurs humains se situe vraisemblablement à un niveau de risque inférieur.
 
-\subsection{Interprétabilité des résultats (XAI)} Expliquer pourquoi l'IA a flagué un dossier pour que l'enquêteur humain puisse prendre le relais.
+La prudence conduit néanmoins à anticiper les exigences applicables aux systèmes sensibles : un système de gestion des risques documenté, une gouvernance des données garantissant leur qualité et l'absence de biais discriminatoires, une documentation technique complète, la journalisation des activités assurant la traçabilité, des obligations de transparence, une supervision humaine et un niveau adéquat de précision, de robustesse et de cybersécurité.
+
+Pour certains déployeurs de services essentiels privés, une analyse d'impact sur les droits fondamentaux (FRIA\footnote{Évaluation structurée, réalisée avant le déploiement, imposée par l'article 27 de l'AI Act à certains déployeurs de systèmes d'IA à haut risque.}, Fundamental Rights Impact Assessment) peut par ailleurs être requise, distincte de l'analyse d'impact relative à la protection des données. Enfin, l'agent évolue dans l'environnement particulier de la lutte contre la fraude à l'assurance, qui mobilise des dispositifs sectoriels propres (échanges de place, conventions professionnelles) et impose le respect du secret et des droits de la personne concernée.
+
+Au-delà du cadre légal, la gouvernance doit intégrer les attentes du superviseur national.
+
+Dès juin 2020, l'ACPR a publié un document de réflexion sur la gouvernance des algorithmes d'intelligence artificielle dans le secteur financier, fruit de travaux exploratoires menés depuis 2018 avec des acteurs du secteur, et portant notamment sur l'explicabilité et la gouvernance du machine learning\footnote{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}}.
+
+Ces travaux ont dégagé quatre critères interdépendants d'évaluation des algorithmes : la gestion appropriée des données, la performance, la stabilité et l'explicabilité. Un arbitrage est nécessaire entre ces quatre critères, ainsi qu'un principe de validation continue. L'explicabilité y est érigée en pilier et déclinée selon plusieurs niveaux, selon que l'on s'adresse à la clientèle, à des experts métier ou à des auditeurs.
+
+Ces orientations fixent un horizon clair : l'agent devra être non seulement performant, mais aussi auditable et explicable à différents publics, ce qui justifie a posteriori l'attention portée à l'interprétabilité des modèles dans la partie théorique.
+
+Ce cadre externe se traduit en interne par une organisation et une répartition des rôles formalisées. La conduite du projet gagne à être pilotée par une instance de gouvernance réunissant les parties prenantes : les équipes métier de la gestion des sinistres et de la lutte anti-fraude, qui portent le besoin et la connaissance du terrain ; les data scientistes et actuaires, responsables de la conception et de la validation statistique ; la fonction conformité et juridique ainsi que le délégué à la protection des données, garants du respect du cadre réglementaire ; et le contrôle interne ou l'audit, chargés d'une revue indépendante.
+
+Cette organisation s'inscrit naturellement dans une politique de gestion du risque de modèle, qui définit les responsabilités, les exigences de documentation et les seuils de validation tout au long de la vie de l'agent.
+
+La maîtrise opérationnelle porte enfin sur l'ensemble du cycle de vie du modèle : chaque étape (cadrage des données, entraînement, validation indépendante, recette, déploiement puis surveillance) doit être documentée et tracée, de manière à pouvoir reconstituer a posteriori les choix effectués. Une attention spécifique est accordée à la détection et à la remédiation des biais, afin que le modèle ne reproduise pas de discriminations, directes ou indirectes via des variables corrélées à des caractéristiques protégées.
+
+Mais surtout, le principe de supervision humaine structure l'ensemble du dispositif : l'agent produit un score ou une alerte, mais ne prononce aucune décision défavorable de façon automatique ; l'investigation et la décision finale demeurent du ressort d'un gestionnaire ou d'un enquêteur.
+
+Ce maintien d'un « humain dans la boucle » répond à l'exigence de l'article 22 du RGPD, préserve les droits de l'assuré et circonscrit le risque réglementaire, tout en organisant une boucle de rétroaction : les retours des enquêteurs alimentant le suivi de la performance, la détection de la dérive du modèle dans le temps et son réentraînement encadré.
+
+Posée en amont, cette gouvernance conditionne la confiance, la conformité et la pérennité du dispositif. Elle constitue le cadre dans lequel s'inscrit la conception de l'outil, présentée dans les sections suivantes.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/chapitre4/trois_nv_de_gouvernance.png}
+    \caption{Les trois niveaux de gouvernance encadrant la mise en place de l'agent IA de détection de fraude}
+    \label{fig:trois-niveaux-gouvernance}
+\end{figure}
+
+% --------------------------------------------------------------
+\section{Présentation de la base de données}
+% --------------------------------------------------------------
+
+% --------------------------------------------------------------
+\subsection{Base de données source}
+% --------------------------------------------------------------
+
+L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en open source sous : \url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}
+
+Cette base de données concerne des sinistres automobiles, et contient le flag « frauduleux » sur lequel repose notre modélisation.
+
+Elle contient 30\,000 sinistres, dont 11,5~\% sont des sinistres frauduleux. Ce pourcentage est sensiblement supérieur aux estimations communément admises en France, qui situent la fraude réelle autour de 5~\% des sinistres automobile. Cet écart s'explique vraisemblablement par le mode de constitution de la base : les dossiers qui la composent ont en grande partie fait l'objet d'une instruction approfondie ou d'une suspicion préalable, ce qui tend mécaniquement à sur-représenter les cas frauduleux par rapport à un portefeuille de sinistres bruts. Conscient de ce biais, nous avons néanmoins choisi de travailler sur cette base, dans la mesure où elle offre un volume suffisant de cas labellisés pour entraîner et évaluer les modèles de détection. Les résultats obtenus devront donc être interprétés avec cette réserve méthodologique à l'esprit, et toute généralisation à l'ensemble du portefeuille automobile français nécessiterait une recalibration du modèle sur des données plus représentatives de la sinistralité réelle.
+
+Usuellement dans les mémoires, une présentation de la base de données est réalisée en amont de la mise en place d'un modèle sur les données. On se propose ici de revisiter cette présentation, qui sera introduite dans les résultats de l'agent IA afin de mettre en avant le fait que ces travaux ont été automatisés via l'agent et non réalisés manuellement ou via un Code R, Python ou encore SAS, comme c'est le cas usuellement.
+
+Néanmoins, les variables présentes dans la base de données sinistre sont listées ci-dessous :
+
+\begin{footnotesize}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{1.4cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.6cm}|}
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Champ (EN)}} & \textcolor{white}{\textbf{Nom (FR)}} & \textcolor{white}{\textbf{Axe}} & \textcolor{white}{\textbf{Type}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Modalités / Plage}} \\
+    \hline
+    \endfirsthead
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Champ (EN)}} & \textcolor{white}{\textbf{Nom (FR)}} & \textcolor{white}{\textbf{Axe}} & \textcolor{white}{\textbf{Type}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Modalités / Plage}} \\
+    \hline
+    \endhead
+    \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    policy\_id & Identifiant contrat & Identifiant & Texte & Identifiant unique du contrat d'assurance & POL100000 … POL129999 \\
+    \hline
+    policy\_state & État de souscription & Contrat & Catégoriel & État américain de souscription du contrat & GA, PA, MI, CA, OH, NC, SC, WA, TX, NY… \\
+    \hline
+    policy\_deductible & Franchise & Contrat & Numérique & Montant de la franchise (USD) & 300 / 400 / 600 / 1000 \\
+    \hline
+    policy\_annual\_premium & Prime annuelle & Contrat & Numérique & Prime annuelle payée par l'assuré (USD) & Float > 0 \\
+    \hline
+    insured\_age & Âge de l'assuré & Assuré & Entier & Âge de l'assuré en années & 18 -- 75 \\
+    \hline
+    insured\_sex & Sexe de l'assuré & Assuré & Catégoriel & Sexe déclaré de l'assuré & MALE, FEMALE, OTHER \\
+    \hline
+    insured\_education\_level & Niveau d'études & Assuré & Catégoriel & Niveau d'études de l'assuré & High School, College, Master, PhD, JD, MD \\
+    \hline
+    insured\_occupation & Profession & Assuré & Catégoriel & Profession de l'assuré & Manager, Lawyer, Doctor, Teacher, Sales, Clerk, Technician, Engineer \\
+    \hline
+    insured\_hobbies & Loisirs & Assuré & Catégoriel & Loisirs déclarés de l'assuré & reading, chess, yachting, golf, hiking… \\
+    \hline
+    incident\_date & Date du sinistre & Sinistre & Date & Date du sinistre déclaré & YYYY-MM-DD \\
+    \hline
+    incident\_type & Type de sinistre & Sinistre & Catégoriel & Nature du sinistre & Parked Car, Vehicle Theft, Single Vehicle Collision, Multi-vehicle Collision \\
+    \hline
+    collision\_type & Zone d'impact & Sinistre & Catégoriel & Zone d'impact lors de la collision & Front, Rear, Side, Unknown \\
+    \hline
+    incident\_severity & Gravité du sinistre & Sinistre & Catégoriel & Gravité des dégâts matériels & Minor Damage, Major Damage, Total Loss \\
+    \hline
+    authorities\_contacted & Autorités contactées & Sinistre & Catégoriel & Autorités contactées suite au sinistre & Police, Fire, Ambulance, None (NaN) \\
+    \hline
+    incident\_state & État du sinistre & Sinistre & Catégoriel & État américain où le sinistre a eu lieu & GA, PA, MI, CA, OH, NC… \\
+    \hline
+    incident\_city & Ville du sinistre & Sinistre & Texte & Ville où le sinistre a eu lieu & Texte libre \\
+    \hline
+    incident\_hour\_of\_the\_day & Heure du sinistre & Sinistre & Entier & Heure du sinistre (format 24h) & 0 -- 23 \\
+    \hline
+    number\_of\_vehicles\_involved & Nb véhicules impliqués & Sinistre & Entier & Nombre de véhicules impliqués dans le sinistre & 1 -- 4 \\
+    \hline
+    bodily\_injuries & Nb blessés déclarés & Sinistre & Entier & Nombre de blessés corporels déclarés & 0 -- 4 \\
+    \hline
+    witnesses & Nb témoins & Sinistre & Entier & Nombre de témoins déclarés & 0 -- 5 \\
+    \hline
+    police\_report\_available & Rapport police disponible & Sinistre & Booléen & Rapport de police disponible & Yes, No \\
+    \hline
+    claim\_amount & Montant réclamé & Réclamation & Numérique & Montant réclamé par l'assuré pour ce sinistre (USD) & Float > 0 \\
+    \hline
+    total\_claim\_amount & Indemnisation totale & Réclamation & Numérique & Montant total de l'indemnisation versée (USD) & Float > 0 \\
+    \hline
+    fraud\_reported & Fraude confirmée (cible) & Cible ML & Catégoriel & Variable cible : fraude confirmée ou non. Variable à prédire par le modèle. 11,5~\% de Y dans la base. & Y (fraude) / N (légitime) \\
+    \hline
+    \caption{Variables de la base de données source}
+    \label{tab:variables-source}
+\end{longtable}
+\end{footnotesize}
+
+Au total 24 variables, avec la variable « fraud\_reported » correspondant au flag dossier frauduleux ou non et « total\_claim\_amount » le montant du sinistre.
+
+% --------------------------------------------------------------
+\subsection{Enrichissement de la base de données}
+\label{sec:enrichissement}
+% --------------------------------------------------------------
+
+Afin de rendre ce mémoire proche de la réalité des assureurs, le choix d'enrichir la base de données disponible a été réalisé.
+
+En effet, certaines informations incluses dans la base telles que le niveau d'éducation (insured\_education\_level) ou encore les passions de l'assuré (insured\_hobbies) ne font pas partie des questionnaires usuels de souscription en assurance automobile sur le marché français.
+
+De plus, l'assureur, lors de la déclaration d'un sinistre, a accès à bien plus d'informations que celles reportées dans cette base : ces dernières ont été recréées par simulation à l'aide de Claude\footnote{Assistant conversationnel développé par Anthropic, société américaine spécialisée en intelligence artificielle.} avec pour consigne d'être explicatives dans notre recherche d'identification de fraude sans pour autant être en lien direct avec la variable à expliquer (fraud\_reported).
+
+Ainsi, la base a été enrichie avec 6 types de données, toutes les données pouvant être rendues disponibles en pratique chez un assureur lors de la survenance d'un sinistre automobile :
+
+\begin{enumerate}
+    \item L'historique de l'assuré, notamment ses sinistres passés, l'historique du contrat etc. ;
+    \item Des informations sur le réseau de garagistes et les prestataires impliqués dans la réparation du sinistre ;
+    \item Des informations sur le tiers et les témoins, de manière à identifier d'éventuels témoins récurrents ou des liens entre le tiers et l'assuré/les témoins ;
+    \item Des informations sur le véhicule, notamment son âge et sa valeur ;
+    \item Des informations sur le comportement déclaratif, notamment le délai entre la date de sinistre et de déclaration, le nombre de fois où l'assuré a modifié sa déclaration, le canal de déclaration etc. ;
+    \item Des informations géographiques et temporelles, notamment le jour de l'accident (férié/week-end) ou son lieu de survenance.
+\end{enumerate}
+
+Au total, trente variables ont été générées et sont décrites ci-dessous :
+
+\begin{footnotesize}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{1.7cm}|>{\raggedright\arraybackslash}p{1.3cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.6cm}|}
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Champ (EN)}} & \textcolor{white}{\textbf{Nom (FR)}} & \textcolor{white}{\textbf{Axe}} & \textcolor{white}{\textbf{Type}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Modalités / Plage}} \\
+    \hline
+    \endfirsthead
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Champ (EN)}} & \textcolor{white}{\textbf{Nom (FR)}} & \textcolor{white}{\textbf{Axe}} & \textcolor{white}{\textbf{Type}} & \textcolor{white}{\textbf{Description}} & \textcolor{white}{\textbf{Modalités / Plage}} \\
+    \hline
+    \endhead
+    \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    insured\_id & Identifiant assuré & Historique assuré & Texte & Identifiant stable de l'assuré, indépendant du numéro de contrat. Permet de relier les dossiers d'un même assuré. & INS000001 … INS0XXXXX \\
+    \hline
+    insured\_nb\_past\_claims & Nb sinistres passés & Historique assuré & Entier & Nombre total de sinistres déclarés par cet assuré sur les 5 dernières années. Distributions chevauchantes, signal modéré. & 0 -- 5 \\
+    \hline
+    insured\_nb\_past\_fraud & Nb fraudes passées confirmées & Historique assuré & Entier & Nombre de fraudes confirmées antérieures pour cet assuré. & 0 -- 3 \\
+    \hline
+    insured\_days\_since\_last\_claim & Jours depuis dernier sinistre & Historique assuré & Entier & Jours depuis le dernier sinistre de cet assuré. & 60 -- 2500 \\
+    \hline
+    insured\_claim\_amount\_history & Montant réclamé cumulé (3 ans) & Historique assuré & Numérique & Montant cumulé (USD) de toutes les réclamations de cet assuré sur 3 ans. & 0 -- 55 000 \\
+    \hline
+    policy\_age\_at\_incident\_days & Ancienneté contrat (jours) & Contrat enrichi & Entier & Ancienneté du contrat en jours au moment du sinistre. & 30 -- 3600 \\
+    \hline
+    insured\_nb\_policies\_active & Nb contrats actifs & Contrat enrichi & Entier & Nombre de contrats d'assurance actifs simultanément (multi-assurance). & 1 -- 4 \\
+    \hline
+    insured\_address\_changes\_12m & Changements d'adresse (12 mois) & Historique assuré & Entier & Nombre de changements d'adresse dans les 12 derniers mois. & 0 -- 3 \\
+    \hline
+    repairer\_id & Identifiant réparateur & Réseau garagiste & Texte & Identifiant unique du réparateur mandaté. NONE = pas de réparateur. & GAR0001…GAR0899, NONE \\
+    \hline
+    repairer\_nb\_claims\_total & Nb dossiers traités (réparateur) & Réseau garagiste & Entier & Nombre total de dossiers sinistres traités par ce réparateur dans la base. & 0 -- 200 \\
+    \hline
+    repairer\_nb\_fraud\_confirmed & Nb fraudes (réparateur) & Réseau garagiste & Entier & Nombre de fois où ce réparateur apparaît dans un dossier clôturé fraude. & 0 -- \textasciitilde100 \\
+    \hline
+    repairer\_avg\_invoice\_vs\_market & Ratio facture / marché & Réseau garagiste & Numérique & Ratio facture réparateur / prix marché. >1 = surfacturation. & 0,85 -- 1,55 \\
+    \hline
+    repairer\_is\_flagged & Réparateur signalé & Réseau garagiste & Booléen 0/1 & Réparateur inscrit en liste de vigilance. & 0 = non signalé / 1 = signalé \\
+    \hline
+    third\_party\_id & Identifiant tiers & Réseau tiers & Texte & Identifiant du tiers impliqué. NONE si sinistre sans tiers. & TRS00001…TRS09999, NONE \\
+    \hline
+    third\_party\_nb\_past\_incidents & Nb incidents passés (tiers) & Réseau tiers & Entier & Nombre de fois où ce tiers est apparu dans des dossiers passés. & 0 -- 5 \\
+    \hline
+    witness\_id & Identifiant témoin & Réseau tiers & Texte & Identifiant du témoin principal. NONE si pas de témoin. & WIT00001…WIT11999, NONE \\
+    \hline
+    insured\_third\_party\_known & Tiers connu de l'assuré & Réseau tiers & Booléen 0/1 & Assuré et tiers se connaissent (même adresse, téléphone ou lien familial). & 0 = inconnus / 1 = connus \\
+    \hline
+    vehicle\_id & Identifiant véhicule & Véhicule & Texte & Immatriculation anonymisée. & VEH000001…VEH027999 \\
+    \hline
+    vehicle\_age\_years & Âge du véhicule (années) & Véhicule & Entier & Âge du véhicule en années. & 1 -- 22 \\
+    \hline
+    vehicle\_market\_value & Valeur marché du véhicule & Véhicule & Numérique & Valeur argus estimée du véhicule (USD). Distributions très chevauchantes. & 2 000 -- 40 000 \\
+    \hline
+    vehicle\_overvalue\_ratio & Ratio surévaluation réclamation & Véhicule & Numérique & claim\_amount / vehicle\_market\_value. >1 = réclamation dépasse la valeur du véhicule. & 0,10 -- 5,00 \\
+    \hline
+    vehicle\_nb\_past\_claims & Nb sinistres passés (véhicule) & Véhicule & Entier & Sinistres antérieurs sur ce véhicule, tous propriétaires confondus. & 0 -- 4 \\
+    \hline
+    vehicle\_ownership\_duration\_days & Durée possession (jours) & Véhicule & Entier & Jours de possession avant le sinistre. & 20 -- 3500 \\
+    \hline
+    time\_to\_report\_days & Délai de déclaration (jours) & Comportement déclaratif & Entier & Délai entre sinistre et déclaration. & 0 -- 75 \\
+    \hline
+    nb\_amendments\_declaration & Nb modifications déclaration & Comportement déclaratif & Entier & Nombre de modifications de la déclaration initiale. & 0 -- 4 \\
+    \hline
+    declaration\_channel & Canal de déclaration & Comportement déclaratif & Catégoriel & Canal utilisé pour déclarer le sinistre. & web, telephone, agence, courtier \\
+    \hline
+    injury\_claimed\_without\_medical & Blessure sans justificatif & Comportement déclaratif & Booléen 0/1 & Blessures corporelles déclarées sans justificatif médical. & 0 = justificatif présent / 1 = absent \\
+    \hline
+    incident\_zip\_fraud\_rate & Taux fraude de la zone & Géographique & Numérique & Taux historique de fraude dans l'État du sinistre, calculé sur la base. & 0,00 -- 0,30 \\
+    \hline
+    incident\_is\_weekend & Sinistre en weekend & Temporel & Booléen 0/1 & Sinistre un vendredi soir, samedi ou dimanche. & 0 = semaine / 1 = weekend \\
+    \hline
+    incident\_is\_holiday & Sinistre jour férié & Temporel & Booléen 0/1 & Sinistre un jour férié américain (1er jan, 4 juillet, Thanksgiving, Noël). & 0 = jour normal / 1 = jour férié \\
+    \hline
+    \caption{Variables d'enrichissement de la base de données}
+    \label{tab:variables-enrichissement}
+\end{longtable}
+\end{footnotesize}
+
+La base de données finale rassemble ainsi 24 variables issues de la base source et 30 variables d'enrichissement, soit 54 variables explicatives, auxquelles s'ajoute la variable cible binaire fraud\_reported (Y/N). C'est sur cet ensemble que reposera l'apprentissage des modèles de détection.
+
+
+% --------------------------------------------------------------
+\section{Descriptif macro de la création du processus de détection de fraude et de sa déclinaison opérationnelle}
+% --------------------------------------------------------------
+
+Afin de répondre aux enjeux de rentabilité évoqués précédemment, un processus de détection automatisé à l'aide d'un Agent IA a été construit. L'objectif est de fournir aux équipes d'investigation un outil d'aide à la décision opérationnelle « clé en main ».
+
+Cet outil repose sur une logique en deux temps, articulée autour de deux profils d'utilisateurs distincts :
+
+\begin{itemize}
+    \item Dans un premier temps, une équipe d'actuaires se charge de modéliser, construire et entraîner le modèle de détection. À partir d'une base de données sinistres au format standardisé, l'outil réalise automatiquement des contrôles qualité sur les données, produit une étude statistique descriptive mettant en avant les indicateurs clés (fréquence de fraude, coût moyen, segmentation par critères prédéfinis), puis entraîne un modèle de détection de fraude. Le résultat est un modèle calibré, sauvegardé et prêt à être déployé.
+    \item Dans un second temps, une équipe opérationnelle (gestionnaires sinistres ou service de détection des fraudes) utilise ce modèle au quotidien sans avoir à en comprendre la construction. Pour chaque nouveau sinistre soumis, l'outil restitue une probabilité de fraude associée, permettant d'identifier les dossiers suspects et de les prioriser. Ainsi, les équipes d'investigation peuvent concentrer leurs efforts sur les cas les plus à risque, sans perdre de temps sur les dossiers à faible probabilité de fraude.
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/schema_macro.png}
+    \caption{Schéma macroscopique du fonctionnement de l'outil}
+    \label{fig:schema-macro}
+\end{figure}
+
+L'architecture complète de ce processus est détaillée dans les chapitres suivants, de l'alimentation de la base de données à la boucle d'enrichissement continu, en passant par la modélisation de la probabilité de fraude.
+
+% --------------------------------------------------------------
+\subsection*{Le plus de l'agent : un suivi du ROI disponible}
+% --------------------------------------------------------------
+
+Enfin, l'outil produit automatiquement un rapport annuel de détection de fraude, enrichi à chaque fois qu'un sinistre testé est renseigné comme frauduleux par un expert. Ce rapport est accessible à tout moment et fournit une synthèse consolidée des performances : nombre de sinistres analysés, taux d'alertes générées, fraudes confirmées et montant de fraude évitée. Il calcule notamment l'impact direct sur le ratio Sinistres/Primes (S/P), indicateur clé de rentabilité en assurance, en rapportant le montant de fraude évitée à la masse de primes du portefeuille. Cette restitution permet au management de suivre en continu le retour sur investissement de l'outil (ROI) et d'objectiver la valeur ajoutée de la détection automatisée année après année.
+
+% --------------------------------------------------------------
+\subsection{Le prompt : la décomposition du besoin en étapes}
+% --------------------------------------------------------------
+
+Dans le contexte de l'intelligence artificielle, et plus particulièrement des modèles de langage, un prompt désigne l'ensemble des instructions, du contexte et des données fournis au modèle afin de guider son comportement et d'orienter la nature des réponses ou des actions qu'il produit. Il constitue le point d'entrée de l'interaction entre l'utilisateur (ou un système) et l'agent. Un prompt ne se réduit pas à une simple question : il peut comporter des consignes précises, des contraintes, des exemples et une structuration attendue du résultat. De façon générale, plus il est clair, détaillé et contextualisé, plus le modèle est en mesure de produire une réponse pertinente et alignée sur l'objectif visé.
+
+D'un point de vue méthodologique, le prompt peut être assimilé à la spécification fonctionnelle de la tâche confiée à l'agent : il joue, vis-à-vis du modèle, un rôle comparable à celui d'un cahier des charges vis-à-vis d'un modèle actuariel. Sa qualité conditionne directement celle du résultat, au même titre que la rigueur d'une note technique conditionne la fiabilité d'un calcul. Cette exigence rejoint les principes de gouvernance évoqués précédemment : un prompt explicite, documenté et reproductible contribue à la traçabilité et à l'auditabilité du dispositif, en rendant intelligibles les consignes sur lesquelles repose le comportement de l'agent.
+
+Concrètement, un prompt bien construit remplit trois fonctions :
+
+\begin{itemize}
+    \item Il définit la cible : il ne s'agit pas ici d'affirmer qu'un dossier est frauduleux (l'agent ne se substitue pas à l'enquêteur) mais d'identifier, à partir des données disponibles, les dossiers présentant un risque de fraude élevé.
+    \item Il précise le cadre d'intervention : le rôle de l'agent, le contexte métier, les critères à prendre en compte et les limites de son action.
+    \item Il encadre enfin la forme de la réponse attendue, par exemple un score, un tableau ou une synthèse exploitable par les équipes opérationnelles.
+\end{itemize}
+
+Pour obtenir un résultat précis, contrôlable et reproductible, il ne suffit toutefois pas de formuler une consigne unique et globale, qui laisserait à l'agent une marge d'interprétation trop large et nuirait à la stabilité des réponses. Nous avons donc adopté une approche de construction du prompt par étapes : plutôt que de soumettre l'intégralité de la tâche en un seul bloc, le raisonnement attendu de l'agent a été décomposé en une séquence d'étapes successives, chacune assortie d'un objectif clair et d'un résultat intermédiaire vérifiable.
+
+Cette décomposition présente un double intérêt. Elle reproduit la logique même de la démarche actuarielle (du contrôle de la qualité des données à la production d'un score, en passant par l'analyse descriptive et la modélisation) et elle permet de valider chaque maillon de la chaîne indépendamment, limitant ainsi le risque d'erreur ou de dérive et renforçant l'explicabilité de l'ensemble.
+
+Ainsi, le prompt constitue un élément central du système : il transforme une demande générale en une tâche claire, structurée et exploitable, et montre que l'efficacité de l'outil ne repose pas uniquement sur les données ou sur le modèle, mais aussi sur la qualité des instructions fournies à l'agent. Le raisonnement confié à ce dernier a en conséquence été structuré selon les étapes successives présentées ci-après.
+
+% --------------------------------------------------------------
+\subsection{Présentation macro des différentes étapes}
+% --------------------------------------------------------------
+
+Les étapes menant à la création du modèle sont ainsi décomposées :
+
+\begin{enumerate}
+    \item Ingestion standardisée des données ;
+    \item Audit et contrôles de cohérence ;
+    \item Analyse statistique descriptive ;
+    \item Construction des modèles de prédiction de fraude ;
+    \item Critères de qualité du modèle et choix du modèle parmi les modèles construits.
+\end{enumerate}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/module1.png}
+    \caption{Création et calibration du modèle de détection de fraude}
+    \label{fig:module1}
+\end{figure}
+
+Une fois le modèle de détection mis en place, il est intégré dans un outil d'aide à la décision destiné aux gestionnaires et au service fraude. Contrairement aux modules précédents, ce second module ne fonctionne pas selon une séquence figée : il se comporte comme un véritable logiciel au sein duquel l'utilisateur navigue librement. S'il existe un enchaînement logique naturel, l'utilisateur peut à tout moment revenir en arrière, répéter une opération ou accéder directement à une fonctionnalité selon ses besoins.
+
+L'outil met à disposition les fonctionnalités suivantes :
+
+\begin{itemize}
+    \item La saisie d'un sinistre : l'utilisateur renseigne les informations d'un dossier à évaluer.
+    \item L'obtention d'un score de fraude : le modèle restitue une probabilité de fraude associée au sinistre soumis.
+    \item Le renseignement du statut du dossier : lorsque l'issue de l'investigation est connue, l'utilisateur peut indiquer si le sinistre s'est avéré frauduleux ou non.
+\end{itemize}
+
+De plus, l'outil reste lié de manière cyclique au modèle puisque le renseignement du statut du dossier permet :
+
+\begin{itemize}
+    \item l'alimentation de la base de données sinistre ayant servi à faire tourner le modèle ;
+    \item l'affinage du modèle créé à l'aide des nouveaux sinistres renseignés.
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/module2.png}
+    \caption{Agent d'aide à la détection de fraude}
+    \label{fig:module2}
+\end{figure}
+
+À noter que la logique de création des deux agents respecte l'objectif d'utilisation de ces derniers : deux équipes distinctes seront en charge de leur utilisation, d'où le besoin de rendre totalement indépendants les deux agents créés.
