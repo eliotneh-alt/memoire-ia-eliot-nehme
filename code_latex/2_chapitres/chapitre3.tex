@@ -1,59 +1,358 @@
-\chapter{Stratégie de Données et Prétraitement}
+\chapter{Cadre théorique : les algorithmes de détection de fraude utilisés en assurance non-vie}
+\label{chap:theorie}
 
-\section{Sourcing et acquisition des bases de données}
+La détection de la fraude circonstancielle se formule naturellement comme un problème d'apprentissage supervisé binaire. Cette formulation suppose de disposer d'un historique de sinistres dont l'issue (frauduleuse ou licite) a été établie, par exemple à l'issue d'enquêtes passées. On note l'échantillon d'apprentissage :
 
-\subsection{Recherche de bases de données externes (Kaggle)}
+\begin{equation}
+    \mathcal{D}_n = \{ (x_i, y_i) \}, \quad i = 1, \dots, n,
+\end{equation}
 
-Utilisation de jeux de données issus de compétitions de data science spécialisées en détection d'anomalies.
+où le vecteur $x_i \in \mathbb{R}^p$ rassemble les $p$ caractéristiques décrivant le sinistre et l'assuré (montant déclaré, ancienneté du contrat, délai entre la souscription et la survenance, antécédents, nature de la garantie, canal de déclaration, etc.), et où la variable cible $y_i \in \{0, 1\}$ vaut 1 lorsque le sinistre est frauduleux. Cette classe d'intérêt est par nature minoritaire, ce qui constitue l'une des principales difficultés statistiques du problème et conditionne tant le choix des modèles que celui des métriques d'évaluation. L'objectif commun à toutes les méthodes présentées ci-dessous est d'estimer une fonction de score exprimant la probabilité de fraude conditionnelle aux caractéristiques observées :
 
-% on va mettre ici la photo analayse_variables.png
+\begin{equation}
+    \hat{p}(x) = \hat{P}(Y = 1 \mid X = x) \in [0, 1].
+\end{equation}
+
+Le recours à une sortie continue plutôt qu'à une décision binaire immédiate est un choix structurant. Il permet de hiérarchiser les dossiers selon leur niveau de risque et de ne déclencher une investigation (coûteuse) que sur les cas les plus suspects, le seuil de décision étant calibré séparément selon une logique économique (rapport entre le coût d'une enquête et le gain espéré d'une fraude évitée). Cette logique de score partagée explique également pourquoi l'évaluation des modèles ne peut reposer sur le simple taux de bonnes classifications, trompeur en présence de classes déséquilibrées, mais s'appuie sur des indicateurs tels que la précision, le rappel et l'aire sous la courbe précision--rappel.
+
+Les quatre familles de modèles retenues dans ce mémoire sont présentées selon un fil conducteur unique : l'arbitrage entre interprétabilité et pouvoir prédictif.
+
+On progresse ainsi de la régression logistique, modèle paramétrique parfaitement transparent, vers la forêt aléatoire puis le gradient boosting, dont la capacité à capturer des relations complexes se paie d'une opacité croissante, avant de revenir avec les modèles de scoring à points à une représentation directement lisible par les équipes métier.
+
+À noter que dans un secteur soumis à de fortes exigences d'explicabilité et de gouvernance (notamment de la part de l'ACPR\footnote{ACPR : Autorité de Contrôle Prudentiel et de Résolution.}), cet arbitrage n'est pas un simple détail technique mais un critère de sélection à part entière.
+
+% --------------------------------------------------------------
+\section{La régression logistique (modèle de référence)}
+% --------------------------------------------------------------
+
+La régression logistique constitue la référence historique de la modélisation du risque en actuariat. Il s'agit d'un modèle linéaire généralisé (GLM) appartenant à la famille binomiale et doté de la fonction de lien logit. Plutôt que de modéliser directement la probabilité, dont le domaine est borné à l'intervalle $[0, 1]$, le modèle agit sur le logarithme de la cote de fraude (le « log-odds »), dont le domaine couvre l'ensemble des réels, et le relie linéairement aux variables explicatives. Ainsi, la probabilité de fraude $p(x)$ s'écrit :
+
+\begin{equation}
+    \ln \left( \frac{p(x)}{1 - p(x)} \right) = \beta_0 + \sum_{j=1}^{p} \beta_j x_j
+\end{equation}
+
+En inversant cette relation, on retrouve la fonction logistique (ou sigmoïde) qui garantit une probabilité comprise entre 0 et 1. En notant $\eta = \beta_0 + \beta^\top x$ le prédicteur linéaire, la probabilité de fraude s'écrit :
+
+\begin{equation}
+    p(x) = \frac{1}{1 + e^{-\eta}}
+\end{equation}
+
+La forme sigmoïdale a une conséquence importante pour l'interprétation : la relation est linéaire sur l'échelle du logit, mais l'effet d'une variable sur la probabilité n'est pas constant : il est maximal autour de $p = 0{,}5$ et s'atténue aux extrêmes. Les coefficients $\beta$ sont estimés par maximum de vraisemblance. Contrairement à la régression linéaire, il n'existe pas de solution analytique : la log-vraisemblance, dont l'expression est donnée ci-dessous, est concave et maximisée numériquement par des algorithmes itératifs de type Newton-Raphson (moindres carrés repondérés itérativement) :
+
+\begin{equation}
+    \ell(\beta) = \sum_{i=1}^{n} \left[ y_i \ln p(x_i) + (1 - y_i) \ln (1 - p(x_i)) \right]
+\end{equation}
+
+L'atout déterminant du modèle réside dans son interprétabilité directe. L'exponentielle d'un coefficient fournit un odds-ratio, c'est-à-dire le facteur par lequel la cote de fraude est multipliée lorsque la variable correspondante augmente d'une unité, toutes choses égales par ailleurs :
+
+\begin{equation}
+    OR_j = e^{\beta_j}
+\end{equation}
+
+Un odds-ratio supérieur à 1 traduit une variable aggravante, un odds-ratio inférieur à 1 une variable atténuante ; cette lecture immédiate facilite la justification des décisions et le dialogue avec les équipes de gestion et les autorités de contrôle.
+
+Lorsque le nombre de variables est élevé ou que celles-ci sont fortement corrélées, on recourt à la régularisation, qui ajoute à l'objectif une pénalité sur la norme des coefficients afin de stabiliser l'estimation et de limiter le surapprentissage.
+
+Ainsi on cherche à minimiser :
+
+\begin{equation}
+    J(\beta) = -\ell(\beta) + \lambda \cdot \text{Pénalité}(\beta)
+\end{equation}
+
+avec $\text{Pénalité}(\beta)$ qui admet différentes variantes :
+
+\begin{itemize}
+    \item La pénalité L1\footnote{La pénalité L1 ajoute la somme des valeurs absolues des coefficients à l'objectif à minimiser.} (Lasso) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} | \beta_j |$, qui a la propriété d'annuler certains coefficients, réalisant ainsi une sélection automatique de variables. En effet, si $\beta_j = 0$, la variable $j$ est complètement exclue du modèle ;
+    \item La pénalité L2\footnote{La pénalité L2 ajoute la somme des carrés des coefficients.} (Ridge) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} \beta_j^2$, qui rétrécit les coefficients sans les annuler. Ainsi, toutes les variables restent dans le modèle mais leurs coefficients sont tassés. Ceci est particulièrement utile lorsque les variables sont fortement corrélées entre elles.
+    \item L'elastic net, définie par $\text{Pénalité}(\beta) = \lambda \left[ \alpha \sum_{j=1}^{p} | \beta_j | + (1 - \alpha) \sum_{j=1}^{p} \beta_j^2 \right]$, avec $\alpha \in [0, 1]$, qui combine les deux termes avec un paramètre qui dose le mélange, pour bénéficier à la fois de la sélection et de la stabilité.
+\end{itemize}
+
+La principale limite du modèle tient à son hypothèse d'additivité et de linéarité sur l'échelle du logit : les interactions entre variables et les effets non linéaires ne sont pas captés automatiquement et doivent être spécifiés à la main (termes croisés, discrétisations, transformations). Face à des schémas de fraude où la suspicion naît précisément de la conjonction de plusieurs facteurs, cette contrainte motive le recours à des méthodes plus flexibles.
+
+% --------------------------------------------------------------
+\section{La forêt aléatoire}
+% --------------------------------------------------------------
+
+La forêt aléatoire (random forest, Breiman, 2001) appartient à la famille des méthodes d'agrégation (ou méthodes ensemblistes), dont le principe est de combiner de nombreux modèles élémentaires pour obtenir un prédicteur plus performant et plus stable qu'aucun d'entre eux pris isolément. L'unité de base est l'arbre de décision (CART), qui partitionne récursivement l'espace des variables en régions de plus en plus homogènes au regard de la cible. À chaque nœud, l'algorithme évalue toutes les coupures possibles (une variable et un seuil) et retient celle qui maximise la décroissance d'une mesure d'impureté. Les deux mesures les plus courantes en classification sont l'indice de Gini $G(t)$ et l'entropie de Shannon $H(t)$, calculés sur un nœud $t$ comportant une proportion $\hat{p}_{t,1}$ de sinistres frauduleux :
+
+\begin{equation}
+    G(t) = 2\, \hat{p}_{t,1} (1 - \hat{p}_{t,1})
+\end{equation}
+
+\begin{equation}
+    H(t) = - \sum_{k} \hat{p}_{t,k} \log_2 \hat{p}_{t,k}
+\end{equation}
+
+La construction se poursuit jusqu'à un critère d'arrêt (profondeur maximale, effectif minimal par feuille), et la prédiction associée à une feuille est la fréquence empirique de fraude qu'elle contient. Pris isolément, un arbre profond présente un biais faible mais une variance élevée : il s'adapte finement aux données mais une légère perturbation de l'échantillon peut bouleverser sa structure et donc ses prédictions. C'est cette instabilité que la forêt aléatoire vient corriger, au moyen de deux mécanismes complémentaires.
+
+Le premier est le bagging (bootstrap aggregating) : on construit $B$ arbres sur autant d'échantillons obtenus par tirage avec remise dans les données d'origine, puis on moyenne leurs prédictions. La moyenne de prédicteurs de même loi réduit la variance sans augmenter le biais, d'autant plus efficacement que ces prédicteurs sont peu corrélés (la décomposition formelle de cette réduction est reportée en annexe).
+
+Le second mécanisme vise précisément à décorréler les arbres : à chaque nœud, l'algorithme ne considère qu'un sous-ensemble aléatoire de $m \leq p$ variables candidates (typiquement $m = \sqrt{p}$ en classification), renouvelé à chaque division. Cette restriction empêche les quelques variables les plus prédictives de structurer tous les arbres de façon identique, ce qui diversifie l'ensemble et amplifie la réduction de variance. Le score final est la moyenne des $B$ arbres $T_b$ :
+
+\begin{equation}
+    \hat{p}_{RF}(x) = \frac{1}{B} \sum_{b=1}^{B} \hat{p}_{T_b}(x)
+\end{equation}
+
+avec $\hat{p}_{T_b}(x)$ la prédiction de l'arbre numéro $b$ pour un individu $x$.
+
+Le tirage bootstrap offre en outre un mécanisme d'évaluation interne quasiment gratuit : chaque observation étant en moyenne absente d'environ 37~\% des échantillons, elle peut être prédite par les seuls arbres qui ne l'ont pas vue, fournissant une estimation peu biaisée de l'erreur de généralisation (erreur out-of-bag). Cet avantage est précieux en détection de fraude, où les cas étiquetés sont rares et où l'on souhaite préserver un maximum d'observations pour l'apprentissage. Bien que moins transparente que la régression logistique, la forêt n'est pas une pure boîte noire : elle fournit des mesures d'importance des variables (décroissance moyenne d'impureté, importance par permutation) qui restituent une part d'interprétabilité utile à la gouvernance du dispositif.
+
+Les propriétés de la forêt aléatoire en font un candidat particulièrement adapté à notre problème : elle capture automatiquement non-linéarités et interactions, tolère des variables hétérogènes, corrélées ou aberrantes, ne requiert qu'un prétraitement limité, et gère le déséquilibre des classes via une pondération ou un rééquilibrage des tirages (balanced random forest). Elle se règle au moyen de quelques hyperparamètres principaux, notamment le nombre d'arbres, le nombre de variables candidates par nœud et la complexité des arbres, et échange une part de l'interprétabilité paramétrique du GLM contre un gain substantiel de pouvoir prédictif.
+
+% --------------------------------------------------------------
+\section{Le gradient boosting}
+% --------------------------------------------------------------
+
+Le gradient boosting est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le bagging assemble des arbres en parallèle pour réduire la variance, le boosting les construit séquentiellement, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
+
+\begin{equation}
+    F_M(x) = \sum_{m=1}^{M} \nu\, h_m(x)
+\end{equation}
+
+Cette somme se construit de façon récursive : partant d'un modèle initial constant, on enrichit à chaque étape le modèle courant d'un nouvel arbre pondéré par le taux d'apprentissage $\nu \in (0, 1]$ :
+
+\begin{equation}
+    F_m(x) = F_{m-1}(x) + \nu\, h_m(x)
+\end{equation}
+
+La clé de la méthode est l'interprétation de cette correction comme une descente de gradient dans l'espace des fonctions. À chaque étape, on calcule les pseudo-résidus $r_{im}$, définis comme l'opposé du gradient de la fonction de perte $L$ évalué aux prédictions courantes, puis on ajuste un arbre pour les approcher :
+
+\begin{equation}
+    r_{im} = - \left[ \frac{\partial L(y_i, F(x_i))}{\partial F(x_i)} \right]_{F = F_{m-1}}
+\end{equation}
+
+Le taux d'apprentissage $\nu$ joue un rôle de régularisation essentiel : une valeur faible ralentit l'apprentissage et améliore la généralisation, au prix d'un plus grand nombre d'arbres. On combine fréquemment ce « shrinkage » avec un sous-échantillonnage aléatoire des observations et des variables à chaque étape (stochastic gradient boosting), ce qui réduit encore le surapprentissage. Les implémentations modernes ajoutent par ailleurs à la fonction de perte un terme de régularisation $\Omega$ pénalisant explicitement la complexité des arbres (nombre de feuilles, norme des poids), de sorte que l'objectif minimisé s'écrit :
+
+\begin{equation}
+    L(F) = \sum_{i=1}^{n} L(y_i, F(x_i)) + \sum_{m=1}^{M} \Omega(h_m)
+\end{equation}
+
+Les bibliothèques de référence (XGBoost, LightGBM, CatBoost\footnote{XGBoost, LightGBM et CatBoost sont des bibliothèques open source d'implémentation du gradient boosting, principalement utilisées en Python.}) mettent en œuvre ces principes avec des optimisations algorithmiques (construction par histogrammes, croissance des arbres par feuille, traitement natif des variables catégorielles) qui les rendent rapides et très performantes.
+
+Le gradient boosting atteint généralement le meilleur pouvoir prédictif parmi les modèles considérés sur des données tabulaires telles que celles de la détection de fraude. En contrepartie, il est plus sensible au réglage des hyperparamètres et au surapprentissage : le nombre d'arbres doit être contrôlé par un arrêt précoce sur un jeu de validation, et son interprétabilité est moindre que celle de la forêt, ce qui conduit à s'appuyer sur des outils d'explication post-hoc (importance des variables, valeurs de Shapley\footnote{La valeur de Shapley de la variable $j$ pour un individu $x$ mesure sa contribution marginale moyenne à la prédiction en moyennant sur toutes les coalitions possibles de variables.}) pour en restituer la logique.
 
 
-\subsection{Descriptif des variables et de l'environnement du sinistres}
+% --------------------------------------------------------------
+\section{Les modèles de scoring à points}
+% --------------------------------------------------------------
 
-\begin{table}[H]
+Hérités de la pratique du credit scoring, les modèles de scoring à points (ou scorecards) ne constituent pas tant une nouvelle famille d'algorithmes qu'une méthode de mise en forme d'un modèle statistique (le plus souvent une régression logistique) en une grille de points additive, lisible et directement exploitable par un gestionnaire, sans recours à un outil informatique. Leur intérêt est avant tout opérationnel et réglementaire : dans un contexte assurantiel soumis à un devoir d'explication, pouvoir justifier un score par la simple addition de points attachés aux caractéristiques d'un dossier constitue un atout majeur.
+
+La construction débute par une discrétisation de chaque variable en classes, définies de manière à être suffisamment peuplées et, idéalement, à présenter un risque monotone. Cette étape capture les non-linéarités propres à chaque variable et réduit la sensibilité aux valeurs extrêmes. Chaque classe se voit ensuite attribuer un poids de la preuve (Weight of Evidence, WOE), qui mesure son pouvoir discriminant en comparant la répartition des dossiers licites et frauduleux :
+
+\begin{equation}
+    \text{WOE}_i = \ln \left( \frac{\%\ \text{non-fraude}_i}{\%\ \text{fraude}_i} \right)
+\end{equation}
+
+Le pouvoir prédictif global d'une variable peut alors être quantifié par sa valeur informative (Information Value, IV), qui agrège les WOE de ses classes pondérés par l'écart de répartition, et sert à sélectionner et hiérarchiser les variables :
+
+\begin{equation}
+    IV = \sum_i \left( \%\ \text{non-fraude}_i - \%\ \text{fraude}_i \right) \times \text{WOE}_i
+\end{equation}
+
+Une régression logistique est ensuite ajustée sur les variables transformées en WOE. Ses coefficients sont enfin convertis en points entiers au moyen d'une transformation affine, calée par deux paramètres : le facteur et l'offset, déterminés à partir d'un score de référence, d'une cote de référence et du nombre de points doublant la cote (PDO, Points to Double the Odds) :
+
+\begin{equation}
+    \text{facteur} = \frac{PDO}{\ln 2}, \qquad \text{offset} = \text{Score}_0 - \text{facteur} \times \ln(\text{Odds}_0)
+\end{equation}
+
+Les points attribués à une classe de la variable $j$ combinent le coefficient estimé, le WOE de la classe, l'ordonnée à l'origine $\alpha$ répartie sur les $p$ variables, et les paramètres de calage :
+
+\begin{equation}
+    \text{Points}_j = \left( \beta_j \times \text{WOE}_j + \frac{\alpha}{p} \right) \times \text{facteur} + \frac{\text{offset}}{p}
+\end{equation}
+
+Le score d'un dossier est alors la simple somme des points de chacune de ses caractéristiques :
+
+\begin{equation}
+    \text{Score} = \sum_{j=1}^{p} \text{Points}_j
+\end{equation}
+
+Ce dispositif présente une transparence et une auditabilité maximales : chaque point du score est traçable jusqu'à une caractéristique précise du dossier, ce qui satisfait directement les exigences d'explicabilité et facilite le suivi de la stabilité du modèle dans le temps (via des indicateurs de dérive des populations).
+
+En contrepartie, la discrétisation et la dépendance à une structure logistique entraînent une perte de finesse prédictive par rapport au gradient boosting, et la définition des classes demande un travail manuel non négligeable. Le scoring à points occupe ainsi une position singulière dans notre panorama : il referme la boucle ouverte par la régression logistique en réconciliant la performance statistique avec une lisibilité opérationnelle.
+
+On peut d'ailleurs envisager une articulation des deux logiques : un modèle puissant de type gradient boosting pour la détection, doublé d'une grille de points pour l'explication et la communication des décisions aux gestionnaires et aux assurés.
+
+% --------------------------------------------------------------
+\section{Apprentissage non supervisé : détection d'anomalies et comportements atypiques}
+% --------------------------------------------------------------
+
+Si l'apprentissage supervisé excelle dans l'identification de schémas de fraude historiquement connus, il présente une limite structurelle majeure : il est vulnérable aux techniques de fraude émergentes (zero-day frauds). En effet, un algorithme supervisé ne peut prédire que ce qu'il a déjà vu.
+
+Pour pallier cette faille, les assureurs déploient en complément des algorithmes d'apprentissage non supervisé (Unsupervised Learning). Dans ce paradigme, la variable cible $Y$ (le label « fraude » ou « non-fraude ») est ignorée ou indisponible. L'algorithme explore uniquement l'espace des variables explicatives $X$ pour identifier des structures sous-jacentes ou des déviations statistiques. La fraude est alors assimilée à une anomalie, c'est-à-dire une observation qui dévie si significativement des autres qu'elle éveille le soupçon d'avoir été générée par un mécanisme différent.
+
+Deux grandes familles de méthodes se distinguent pour ce type d'analyse : les algorithmes d'isolation et le partitionnement des données.
+
+% --------------------------------------------------------------
+\subsection{Les algorithmes d'isolation (exemple : Isolation Forest)}
+% --------------------------------------------------------------
+
+Contrairement aux approches statistiques classiques qui cherchent d'abord à modéliser le comportement « normal » pour ensuite en déduire les anomalies, l'Isolation Forest cherche directement à isoler les anomalies. Ce modèle repose sur un postulat simple : les anomalies sont des données « peu nombreuses et différentes » (few and different).
+
+L'algorithme construit une forêt d'arbres (les Isolation Trees). Pour chaque arbre, il sélectionne aléatoirement une variable et un seuil de coupure aléatoire (compris entre le minimum et le maximum de cette variable) pour partitionner l'espace récursivement.
+
+Mathématiquement, la métrique clé est la longueur du chemin $h(x)$, c'est-à-dire le nombre d'arêtes qu'une observation $x$ doit parcourir depuis la racine de l'arbre jusqu'à atteindre une feuille terminale où elle est isolée. Parce qu'elles sont situées dans des zones clairsemées de l'espace vectoriel, les anomalies nécessitent beaucoup moins de coupures pour être isolées que les observations normales.
+
+Le score d'anomalie $s(x, n)$ pour un jeu de $n$ données est défini par :
+
+\begin{equation}
+    s(x, n) = 2^{-\frac{\mathbb{E}(h(x))}{c(n)}}
+\end{equation}
+
+où $\mathbb{E}(h(x))$ est l'espérance de la longueur du chemin sur l'ensemble des arbres, et $c(n)$ est une constante de normalisation représentant la longueur moyenne non réussie d'une recherche dans un arbre binaire.
+
+Si $s(x, n)$ tend vers 1, le sinistre est fortement suspect et justifie une levée de doute par un expert. Si le score tend vers 0,5, le sinistre est considéré comme non frauduleux.
+
+% --------------------------------------------------------------
+\subsection{Le partitionnement de données (Clustering)}
+% --------------------------------------------------------------
+
+Les algorithmes de Clustering (tels que les K-Means) visent à regrouper les sinistres en sous-ensembles (les clusters) de telle sorte que les dossiers d'un même groupe soient les plus similaires possibles, tout en étant distincts des autres groupes.
+
+Dans le cas de l'algorithme K-Means, l'objectif est de minimiser la variance intra-classe (la distance au carré entre chaque sinistre $x_i$ et le centre de gravité $\mu_j$ de son cluster de rattachement) :
+
+\begin{equation}
+    \arg\min_{S} \sum_{j=1}^{k} \sum_{x_i \in S_j} \left\| x_i - \mu_j \right\|^2
+\end{equation}
+
+Appliqué à la lutte anti-fraude, le clustering permet d'identifier des sinistres qui ne s'intègrent dans aucun des clusters principaux (les dossiers de masse), ou qui forment de très petits groupes (micro-clusters) très éloignés des autres. Ces poches de données marginales signalent souvent des comportements atypiques, comme des réseaux organisés déclarant des sinistres aux caractéristiques étrangement similaires.
+
+% --------------------------------------------------------------
+\section{Analyse de réseaux (Graph Mining) pour la détection de la fraude organisée}
+% --------------------------------------------------------------
+
+Contrairement à la fraude opportuniste (un assuré isolé qui majore ponctuellement un devis), la fraude en bande organisée implique une complicité entre plusieurs acteurs coordonnés dans le but de soutirer des capitaux importants à la compagnie d'assurance de manière répétée.
+
+Ce type de criminalité financière s'appuie sur des réseaux structurés incluant de faux assurés, des prête-noms, et bien souvent des professionnels complices (garagistes, sociétés de dépannage, professionnels de santé ou experts automobiles marrons). Leurs modes opératoires sont quasi industriels : accidents de la circulation mis en scène, carambolages fictifs en chaîne, ou recyclage de véhicules gravement endommagés.
+
+La dangerosité extrême de ces réseaux réside dans leur capacité à « lisser » le risque : pris isolément, chaque sinistre déclaré par le réseau est conçu pour paraître parfaitement vraisemblable et passer sous les radars des règles de gestion classiques. Les algorithmes de Machine Learning vus précédemment montrent ici leurs limites, car ils analysent chaque dossier de manière individuelle. C'est précisément pour contourner ce camouflage qu'il devient impératif de ne plus regarder les sinistres, mais les liens cachés qui les unissent, grâce à la théorie des graphes (Graph Mining).
+
+% --------------------------------------------------------------
+\subsection{Modélisation mathématique du réseau de fraude}
+% --------------------------------------------------------------
+
+Dans cette approche, le portefeuille de sinistres n'est plus vu comme un simple tableau (lignes/colonnes), mais est modélisé sous la forme d'un graphe mathématique $G = (V, E)$.
+
+\begin{itemize}
+    \item \textbf{Les Nœuds (Vertices --- $V$)} : ils représentent les entités du système. Il peut s'agir d'un dossier de sinistre, d'un assuré, d'un numéro de téléphone, d'une adresse IP ou d'un professionnel de l'automobile.
+    \item \textbf{Les arêtes (Edges --- $E$)} : elles matérialisent une relation entre deux nœuds. Une arête est créée si deux sinistres partagent un attribut commun (ex : même garagiste, même compte bancaire pour l'indemnisation) ou s'ils présentent une similarité vectorielle anormalement élevée (ce qui trahit souvent la réutilisation d'un même scénario de fraude).
+\end{itemize}
+
+On peut mesurer la similarité entre deux dossiers $A$ et $B$ dans l'espace des variables via la similarité cosinus :
+
+\begin{equation}
+    \text{sim}(A, B) = \frac{A \cdot B}{\|A\| \, \|B\|} = \frac{\sum_{i=1}^{p} A_i B_i}{\sqrt{\sum_{i=1}^{p} A_i^2} \, \sqrt{\sum_{i=1}^{p} B_i^2}}
+\end{equation}
+
+Si cette similarité dépasse un seuil critique défini par l'actuaire, une arête est tracée entre les deux dossiers.
+
+% --------------------------------------------------------------
+\subsection{Détection de communautés et de clusters suspects}
+% --------------------------------------------------------------
+
+Une fois le graphe construit, l'objectif n'est plus d'évaluer la probabilité de fraude d'un nœud individuel, mais d'identifier des sous-graphes anormalement denses. En théorie des graphes, on appelle cela la détection de communautés ou de composantes connexes.
+
+Des algorithmes comme la méthode de Louvain ou la propagation de labels (Label Propagation) sont utilisés pour partitionner le graphe. Ils cherchent à maximiser la modularité $Q$, c'est-à-dire la densité des liens à l'intérieur d'un cluster par rapport à la densité des liens à l'extérieur :
+
+\begin{equation}
+    Q = \frac{1}{2m} \sum_{i,j} \left( A_{ij} - \frac{k_i k_j}{2m} \right) \delta(c_i, c_j)
+\end{equation}
+
+où $A_{ij}$ est la matrice d'adjacence, $k_i$ est le degré du nœud $i$, $m$ le nombre total d'arêtes, et $\delta(c_i, c_j)$ indique si les nœuds appartiennent à la même communauté $c$.
+
+% --------------------------------------------------------------
+\subsection{Application opérationnelle}
+% --------------------------------------------------------------
+
+Sur le plan opérationnel, lorsqu'un algorithme de Graph Mining isole un cluster suspect, il fournit une alerte d'une valeur ajoutée qualitativement différente de celle produite par les modèles de scoring individuels classiques. L'investigation ne porte plus sur un sinistre isolé de 2~000~\euro{}, mais sur un réseau organisé dont le préjudice global potentiel se chiffre en plusieurs dizaines, voire centaines de milliers d'euros. Cette bascule d'échelle transforme profondément la logique d'allocation des ressources au sein des cellules anti-fraude.
+
+Concrètement, le cluster fourni par l'algorithme se matérialise sous la forme d'un graphe annoté restituant l'ensemble des entités impliquées (assurés, prestataires, intermédiaires) ainsi que la nature et la fréquence de leurs interactions. L'enquêteur dispose ainsi d'une cartographie complète du réseau présumé, lui permettant d'identifier le nœud central (souvent le coordinateur du schéma frauduleux) et de hiérarchiser ses investigations en remontant des ramifications périphériques vers le cœur du dispositif. Cette approche contraste avec l'instruction traditionnelle dossier par dossier, où les connexions entre sinistres restent invisibles faute d'une vision transversale.
+
+Du point de vue du pilotage, le démantèlement d'un tel réseau offre un retour sur investissement massif pour la compagnie d'assurance. Là où l'instruction d'un dossier individuel mobilise plusieurs heures d'analyse pour un enjeu financier limité, une seule investigation réseau peut aboutir à la neutralisation simultanée de plusieurs dizaines de dossiers frauduleux, à des résiliations en cascade et, le cas échéant, à des dépôts de plainte groupés susceptibles d'aboutir à des condamnations pénales. Ces dernières constituent un signal dissuasif fort, dont l'effet préventif sur les comportements frauduleux dépasse largement le périmètre du réseau démantelé.
+
+Enfin, les sorties du Graph Mining s'intègrent naturellement aux processus de reporting réglementaire. Les clusters détectés, documentés et tracés, alimentent les déclarations de soupçon transmises à Tracfin\footnote{Tracfin (Traitement du renseignement et action contre les circuits financiers clandestins) est une cellule de renseignement financier placée sous la tutelle du ministère de l'Économie et des Finances. Créée en 1990, elle est chargée de recueillir, analyser et transmettre aux autorités judiciaires les déclarations de soupçon émises par les professionnels assujettis (dont les organismes d'assurance).} et renforcent la robustesse du dispositif LCB-FT\footnote{La LCB-FT (Lutte contre le blanchiment de capitaux et le financement du terrorisme) désigne l'ensemble du dispositif réglementaire et opérationnel imposé aux acteurs du secteur financier et assurantiel pour prévenir, détecter et signaler ces infractions. En France, ce dispositif est principalement encadré par le Code monétaire et financier (articles L.~561-1 et suivants), transposant les directives européennes.} de la compagnie, démontrant aux autorités de contrôle, notamment à l'ACPR, que la lutte contre la fraude organisée repose sur des méthodes quantitatives structurées et auditables.
+
+% --------------------------------------------------------------
+\section{Critères de qualité des modèles mis en place}
+% --------------------------------------------------------------
+
+La première mesure naturelle de la qualité d'un modèle de détection de fraude est le taux de bien classés (ou accuracy), défini comme la proportion d'individus correctement classés parmi l'ensemble de la population soumise au modèle. Il se calcule directement à partir de la matrice de confusion, qui croise les prédictions du modèle avec les statuts réels observés selon quatre configurations possibles.
+
+\begin{equation}
+    \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation}
+
+Un dossier est dit :
+
+\begin{itemize}
+    \item vrai positif (TP) lorsque le modèle prédit une fraude et que le dossier est effectivement frauduleux ;
+    \item vrai négatif (TN) lorsque le modèle prédit un dossier sain et que celui-ci l'est bien ;
+    \item faux positif (FP) lorsqu'un dossier sain est incorrectement signalé comme frauduleux (génération d'un coût opérationnel inutile et une dégradation de l'expérience client) ;
+    \item faux négatif (FN) lorsqu'un dossier frauduleux n'est pas détecté, constituant la perte financière directe pour la compagnie.
+\end{itemize}
+
+\begin{figure}[htbp]
     \centering
-    \renewcommand{\arraystretch}{1.3}
-    \small
-    \begin{tabular}{p{0.25\linewidth} p{0.35\linewidth} p{0.30\linewidth}}
-        \toprule
-        \textbf{Catégorie} & \textbf{Variables principales} & \textbf{Description \& Type} \\
-        \midrule
-        
-        \textbf{1. Profil de l'assuré} & 
-        \texttt{insured\_age}, \texttt{insured\_sex} \newline \texttt{insured\_education\_level} \newline \texttt{insured\_occupation} & 
-        Âge, sexe, niveau d'études et profession (Variables numériques et catégorielles). \\
-        \addlinespace
-        
-        \textbf{2. Le contrat d'assurance} & 
-        \texttt{policy\_annual\_premium} \newline \texttt{policy\_deductible} \newline \texttt{policy\_state} & 
-        Prime annuelle, montant de la franchise et état de souscription (Numériques). \\
-        \addlinespace
-        
-        \textbf{3. Circonstances du sinistre} & 
-        \texttt{incident\_type}, \texttt{incident\_severity} \newline \texttt{incident\_date}, \texttt{authorities\_contacted} \newline \texttt{number\_of\_vehicles\_involved} & 
-        Gravité, date, type de collision et intervention des forces de l'ordre (Catégorielles et dates). \\
-        \addlinespace
-        
-        \textbf{4. Données financières (Cible)} & 
-        \texttt{total\_claim\_amount} \newline \textbf{\texttt{fraud\_reported}} (Variable cible) & 
-        Montant réclamé et indicateur booléen (O/N) de la présence d'une fraude avérée. \\
-        
-        \bottomrule
-    \end{tabular}
-    \caption{Dictionnaire des variables du portefeuille d'étude (Extrait)}
-    \label{tab:variables_kaggle}
+    \includegraphics[width=0.9\textwidth]{images/matrice_de_confusion.png}
+    \caption{Matrice de confusion}
+    \label{fig:matrice-confusion}
+\end{figure}
+
+Toutefois, si le taux de bien classés présente l'avantage d'une lecture immédiate, il s'avère trompeur dans le contexte de la détection de fraude, où les classes sont structurellement déséquilibrées : la fraude ne représente généralement que 1 à 3~\% des dossiers.
+
+Un modèle naïf prédisant systématiquement « non-fraude » atteindrait mécaniquement un taux de bien classés supérieur à 97~\%, sans détecter la moindre fraude.
+
+Cette limite justifie le recours à des critères complémentaires mieux adaptés aux distributions asymétriques, notamment des indicateurs capables de mesurer la capacité du modèle à ordonner les dossiers par risque (indépendamment de tout seuil), et d'autres la qualité d'une décision prise à un seuil déterminé.
+
+Ainsi, on distingue les indicateurs suivants, présentés dans le tableau ci-dessous :
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Description}} \\
+        \hline
+        Coefficient de Gini et courbe ROC\footnote{Le taux de vrais positifs et le taux de faux positifs sont définis par $\text{TVP} = \dfrac{TP}{TP + FN}$ et $\text{TFP} = \dfrac{FP}{FP + TN}$. Un modèle parfait atteint le point $(0, 1)$ tandis qu'un modèle aléatoire suit la diagonale principale. L'AUC (Area Under the Curve) synthétise la performance en un scalaire entre 0,5 (aléatoire) et 1 (parfait). À titre indicatif, un Gini inférieur à 0,3 traduit un pouvoir discriminant faible, une valeur de 0,3 à 0,5 est acceptable, au-delà de 0,5 le modèle est jugé bon et au-delà de 0,6 très performant : ces bornes restent des conventions de scoring à adapter au contexte. Dans notre exemple d'application, un Gini supérieur à 0,5 est généralement considéré comme satisfaisant, compte tenu du fort déséquilibre des classes.}
+        & Mesure le pouvoir discriminant global du score, c'est-à-dire son aptitude à classer les sinistres frauduleux devant les sinistres licites, sur l'ensemble de la plage de seuils, en s'appuyant sur la courbe ROC (Receiver Operating Characteristic). Le coefficient de Gini est relié à l'AUC par la relation $\text{Gini} = 2 \times \text{AUC} - 1$ et varie de 0 (discrimination nulle) à 1 (discrimination parfaite). \\
+        \hline
+        Statistique de Kolmogorov-Smirnov (KS)\footnote{En pratique, une valeur supérieure à 0,3 est généralement considérée comme acceptable et au-delà de 0,4 comme satisfaisante.}
+        & Mesure l'écart maximal entre les fonctions de répartition cumulées des scores des deux populations (frauduleux et licites). De façon équivalente, elle correspond au plus grand écart entre le taux de vrais positifs et le taux de faux positifs le long de la courbe ROC : $\text{KS} = \max_s \left( \text{TVP}(s) - \text{TFP}(s) \right)$. Comprise entre 0 et 1, elle indique en outre le seuil de score où la séparation entre les deux classes est la plus nette. \\
+        \hline
+        Aire sous la courbe précision-rappel (PR-AUC)
+        & Particulièrement adaptée aux classes déséquilibrées, car elle se concentre sur la classe d'intérêt (la fraude) sans être flattée par l'abondance des vrais négatifs, contrairement à l'AUC-ROC qui peut donner une image trop optimiste. Son interprétation est relative : la valeur de référence (modèle aléatoire) n'est pas 0,5 mais la prévalence de la fraude $\pi$, de sorte qu'une PR-AUC doit toujours être appréciée au regard de ce taux de base. \\
+        \hline
+        F1-score\footnote{Comme il dépend du seuil retenu, on peut lui préférer une variante $F_\beta$ pondérant davantage le rappel lorsque le coût d'une fraude non détectée est jugé supérieur à celui d'une enquête inutile.}
+        & Évalue une décision à un seuil fixé. Il s'agit de la moyenne harmonique de la précision $P = \dfrac{VP}{VP + FP}$ et du rappel $R = \dfrac{VP}{VP + FN}$, soit $F_1 = \dfrac{2PR}{P + R}$. Il offre un compromis entre les faux positifs (investigations menées à tort) et les faux négatifs (fraudes manquées). \\
+        \hline
+        Lift au décile supérieur (lift@10~\%)
+        & Indicateur opérationnel directement aligné sur la logique de priorisation de l'outil. Après avoir classé tous les dossiers par score décroissant, il rapporte le taux de fraude observé dans les 10~\% les plus suspects au taux de fraude global : $\text{lift@10\%} = \dfrac{\text{taux de fraude dans le décile supérieur}}{\text{taux de fraude global}}$. Un lift de 5 signifie que le décile ciblé concentre cinq fois plus de fraudes qu'une sélection aléatoire. \\
+        \hline
+    \end{tabularx}
+    \caption{Principaux critères d'évaluation d'un modèle de détection de fraude}
+    \label{tab:criteres-evaluation}
 \end{table}
 
+De plus, on s'intéressera également à l'indice de stabilité des populations (PSI, Population Stability Index). Ce dernier ne mesure pas le pouvoir prédictif du modèle mais la stabilité de la population dans le temps. Il quantifie l'écart entre la distribution des scores observée sur une population de référence (typiquement l'échantillon d'apprentissage) et celle observée sur une population récente, afin de détecter une dérive susceptible de dégrader la pertinence du modèle. Après avoir réparti les scores en classes (souvent les déciles de la population de référence), il se calcule comme la somme sur les classes des écarts de proportions pondérés par le logarithme de leur rapport :
 
-\section{Préparation et enrichissement des données}
+\begin{equation}
+    \text{PSI} = \sum_i (a_i - r_i) \, \ln \left( \frac{a_i}{r_i} \right),
+\end{equation}
 
-\subsection{Traitement des données structurées} Nettoyage des bases de sinistres classiques (âge du conducteur, lieu, montant, type de garantie).
+où $r_i$ et $a_i$ désignent respectivement la proportion d'observations de la classe $i$ dans la population de référence et dans la population actuelle. Par convention, un PSI inférieur à 0,1 traduit une population stable, une valeur comprise entre 0,1 et 0,25 signale une dérive modérée appelant une surveillance, et une valeur supérieure à 0,25 indique une dérive importante justifiant une investigation, voire un réentraînement du modèle. Le PSI peut s'appliquer à la distribution du score global comme à celle de chaque variable explicative, ce qui permet d'identifier l'origine d'une dérive. Il constitue ainsi un outil clé du suivi opérationnel de l'agent une fois déployé.
 
-\subsection{Extraction de caractéristiques non-structurées} Utilisation du NLP pour les rapports d'experts et des Transformers pour l'analyse des pièces justificatives.
+En synthèse, l'évaluation d'un modèle actuariel de détection de fraude articule six dimensions complémentaires : le pouvoir discriminant (Gini, KS, PR-AUC), la qualité d'une décision seuillée (F1, matrice de confusion), la valeur économique (coût espéré, ROI, lift financier), la calibration probabiliste (Brier, ECE), la stabilité temporelle (PSI) et l'équité entre segments. Aucun de ces indicateurs pris isolément n'épuise le jugement à porter sur l'agent ; c'est leur lecture conjointe, adossée à une matrice de coûts explicite et à un cadre de gouvernance clair, qui fonde la légitimité actuarielle du dispositif.
 
-\section{Gestion du déséquilibre des classes et falsification}
+\vspace{1cm}
 
-\subsection{La problématique de la rareté des cas de fraude} Analyse statistique du faible taux de fraude dans un portefeuille sain.
+\begin{center}
+    \textbf{ANCRAGE RÉGLEMENTAIRE}
+\end{center}
 
-\subsection{Techniques de ré-échantillonnage et GANs} Utilisation de réseaux antagonistes génératifs (GANs) pour créer des exemples de fraude réalistes à partir de ton projet sur les faux documents (CNI, factures).
+\noindent\fbox{%
+    \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+        Le dispositif d'évaluation retenu s'inscrit dans les attentes de la recommandation ACPR 2020-R-01 sur la gouvernance des algorithmes en assurance, laquelle exige l'existence d'un cadre de suivi de performance, de stabilité et d'explicabilité tout au long du cycle de vie du modèle. Le règlement européen sur l'intelligence artificielle classe par ailleurs les dispositifs de détection de fraude en assurance vie et santé comme systèmes à haut risque, imposant une documentation technique détaillée, une surveillance humaine et une évaluation continue, exigences que la batterie d'indicateurs présentée ci-dessus contribue à satisfaire (cf.~§4.1 pour plus de détails).%
+    }%
+}

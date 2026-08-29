@@ -1,37 +1,168 @@
-\chapter{La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA }
+\chapter{La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA}
+\label{chap:detection}
 
+% --------------------------------------------------------------
+\section{L'approche traditionnelle : une détection manuelle et ciblée}
+% --------------------------------------------------------------
 
-\begin{table}[H]
-\centering
-\caption{Indicateurs de qualité utilisés pour l'évaluation des modèles}
-\label{tab:indicateurs}
-\renewcommand{\arraystretch}{1.6}
-\footnotesize
-\begin{tabularx}{\textwidth}{|l|X|c|c|c|}
-\hline
-\rowcolor{gray!20}
-\textbf{Indicateur} & \textbf{Définition} & \textbf{Formule} & \textbf{Intervalle} & \textbf{Bon} \\
-\hline
-AUC-ROC & Capacité à discriminer fraudeurs et non-fraudeurs, tout seuil confondu
-& $P(s(X^+) > s(X^-))$ & $[0\,;1]$ & $> 0{,}8$ \\
-\hline
-Gini & Transformation linéaire de l'AUC, échelle plus parlante
-& $2 \cdot AUC - 1$ & $[0\,;1]$ & $> 0{,}5$ \\
-\hline
-KS & Écart maximal entre les distributions des scores des deux populations
-& $\max_t |F^+(t) - F^-(t)|$ & $[0\,;1]$ & $> 0{,}4$ \\
-\hline
-Lift @10\% & Gain de captation de fraude sur les 10\% de scores les plus élevés
-& $\dfrac{\text{taux décile sup.}}{\text{taux global}}$ & $[1\,;+\infty[$ & $> 3$ \\
-\hline
-PSI & Dérive de la distribution des scores dans le temps (stabilité)
-& $\sum_i (p_i - q_i)\ln\dfrac{p_i}{q_i}$ & $[0\,;+\infty[$ & $< 0{,}1$ \\
-\hline
-\end{tabularx}
+% --------------------------------------------------------------
+\subsection{Le rôle des équipes dédiées}
+% --------------------------------------------------------------
 
-\vspace{4pt}
-\footnotesize
-\textit{Repères par rapport au hasard :} pour l'AUC-ROC, $0{,}5$ correspond à un modèle aléatoire et $1$ à une discrimination parfaite ; le Gini et le KS valent $0$ pour un modèle aléatoire. Le Lift @10\% vaut $1$ lorsque le ciblage n'apporte rien par rapport à un tirage au hasard (au-delà, il indique combien de fois mieux le modèle fait que l'aléatoire). Le PSI vaut $0$ lorsque les deux distributions sont identiques.
+Historiquement, la lutte contre la fraude en assurance non-vie repose sur une organisation humaine structurée, intégrée à la chaîne de gestion des sinistres.
 
-\textit{Notations :} $s(\cdot)$ désigne le score attribué par le modèle, $X^+$ un dossier frauduleux et $X^-$ un dossier sain ; $F^+$ et $F^-$ les fonctions de répartition des scores des fraudeurs et des non-fraudeurs ; $p_i$ et $q_i$ les proportions d'observations de la classe (tranche de score) $i$ respectivement dans l'échantillon de référence (entraînement) et dans le nouvel échantillon comparé.
+Le premier maillon en est le gestionnaire de sinistres : chargé d'instruire les déclarations et de procéder à l'indemnisation, il constitue le point de contact initial avec le dossier et, à ce titre, la première ligne de détection.
+
+Lorsqu'un dossier éveille un doute, il peut être orienté vers une instance spécialisée (service ou cellule anti-fraude) composée d'enquêteurs et d'analystes dont c'est le métier exclusif. Ces cellules regroupent souvent des enquêteurs spécialisés, des data analystes (pour la détection algorithmique), des juristes et parfois d'anciens policiers ou gendarmes.
+
+Ces enquêteurs disposent de prérogatives et de moyens d'investigation plus poussés : demande de pièces complémentaires, vérification des déclarations, recoupement avec des bases sectorielles, recours éventuel à des expertises ou à des enquêtes de terrain.
+
+Cette organisation s'insère à un point précis de la chaîne d'indemnisation : entre la déclaration du sinistre et le versement de l'indemnité. La détection intervient ainsi comme un filtre, destiné à suspendre ou approfondir l'instruction des dossiers suspects avant que l'indemnisation ne soit prononcée.
+
+Sa position est donc stratégique, puisqu'une fraude non détectée à ce stade se traduit directement par un versement indu, tandis qu'un contrôle trop systématique alourdit les délais de gestion et dégrade la qualité de service pour les assurés de bonne foi. L'équilibre entre maîtrise du risque de fraude et fluidité du règlement constitue l'arbitrage permanent de ces équipes.
+
+% --------------------------------------------------------------
+\subsection{Une détection fondée sur l'expertise humaine}
+% --------------------------------------------------------------
+
+Dans ce dispositif traditionnel, la détection repose essentiellement sur le jugement et l'expérience des intervenants. Elle s'opère largement « au fil de l'eau » : c'est au moment de l'instruction d'un dossier que le gestionnaire, par sa connaissance des cas habituels, perçoit une anomalie ou une incohérence. Cette vigilance s'appuie sur un ensemble de signaux d'alerte ou \textit{red flags} issus de l'expérience accumulée : délai anormalement court entre la souscription et le sinistre, déclaration tardive, circonstances peu cohérentes, antécédents répétés, montant de dommages disproportionnés, ou encore concordances suspectes entre plusieurs dossiers.
+
+Une fois le soupçon né, la confirmation passe par un travail de recoupement manuel : rapprochement des informations déclarées, comparaison avec l'historique du contrat et de l'assuré, vérification de la cohérence d'ensemble. Ce processus mobilise fortement l'intuition métier, c'est-à-dire la capacité, forgée par la pratique, à identifier des configurations atypiques que ne traduit aucune règle écrite. Cette expertise humaine constitue une force réelle : elle est fine, contextuelle et capable d'appréhender des situations inédites. Mais elle est aussi, par nature, difficilement formalisable et transmissible, ce qui en fait simultanément la principale limite de l'approche.
+
+% --------------------------------------------------------------
+\subsection{Les limites de cette approche}
+% --------------------------------------------------------------
+
+Si l'expertise humaine demeure précieuse, l'organisation traditionnelle se heurte à plusieurs limites structurelles. La première tient à sa couverture partielle : le contrôle manuel étant coûteux en temps, seule une fraction des dossiers peut être examinée en profondeur, la grande majorité étant traitée sans analyse anti-fraude approfondie. Il en résulte un risque non négligeable de non-détection : de nombreuses fraudes échappent au dispositif, non parce qu'elles seraient indétectables, mais faute de ressources pour les examiner, passant inaperçues sous la forme de faux négatifs lorsque les indices ne sont pas suffisamment manifestes.
+
+S'y ajoute une forte dépendance à l'expertise individuelle. La qualité de la détection varie selon l'expérience, la charge de travail et la vigilance de chaque gestionnaire, chacun appliquant ses propres critères et son propre niveau de rigueur. Il en découle une hétérogénéité des décisions (un même dossier pourra être contrôlé par l'un et laissé passer par l'autre) qui nuit à la reproductibilité du processus et à son auditabilité. Le caractère manuel des vérifications induit par ailleurs une lenteur de traitement et un coût humain élevé, puisque chaque dossier suspect doit être examiné de façon approfondie et que l'augmentation du nombre de contrôles suppose un accroissement proportionnel des effectifs, ce qui ralentit le règlement global des sinistres.
+
+L'approche montre enfin ses limites dans l'exploitation des données disponibles. Les volumes d'informations accumulés au fil du temps sont difficiles à analyser de manière exhaustive sans outils automatisés, ce qui empêche d'identifier les schémas récurrents ou les comportements suspects à grande échelle. Cette difficulté favorise en outre des biais d'attention : à force de concentrer les contrôles sur certains profils ou types de sinistres réputés à risque, on délaisse les schémas de fraude moins familiers et l'on reproduit des a priori non fondés.
+
+L'ensemble de ces limites converge vers un même enjeu de rentabilité. Le volume de fraudes effectivement détecté reste faible au regard du coût que représente le dispositif humain, et surtout au regard de la fraude réellement présente dans le portefeuille. Le rapport entre les montants recouvrés et les ressources mobilisées plafonne, sans qu'il soit possible de l'améliorer significativement par les seuls moyens manuels. C'est précisément cette inefficience (un coût élevé pour une couverture limitée) qui motive le recours à une détection automatisée fondée sur l'intelligence artificielle, capable d'analyser l'intégralité des dossiers à un coût marginal réduit et de dépasser ainsi un grand nombre des limites associées aux méthodes manuelles.
+
+% --------------------------------------------------------------
+\section{L'apport de l'intelligence artificielle : de nouvelles solutions de détection}
+% --------------------------------------------------------------
+
+% --------------------------------------------------------------
+\subsection{Le contexte d'émergence}
+% --------------------------------------------------------------
+
+L'essor des solutions de détection automatisée n'est pas le fruit d'une rupture isolée, mais la convergence de plusieurs évolutions.
+
+La première est l'explosion du volume de données structurées disponibles : la dématérialisation de la gestion des sinistres, la standardisation des systèmes d'information, la conservation systématique de l'historique des contrats et des déclarations ont constitué des bases de données riches, exploitables et homogènes, là où l'information était auparavant éparse et largement non numérisée.
+
+La deuxième tient à la maturité des méthodes d'apprentissage : les algorithmes de machine learning, et en particulier les méthodes d'ensemble sur données tabulaires présentées précédemment, sont désormais éprouvés, accessibles via des bibliothèques robustes et applicables à coût raisonnable.
+
+La troisième relève du contexte économique : la pression croissante sur les coûts et sur les délais de gestion pousse les assureurs à rechercher des gains d'efficacité, tandis que la fraude, par son impact direct sur la sinistralité et donc sur la prime, demeure un enjeu financier majeur. La conjonction de ces facteurs (données disponibles, outils matures et nécessité économique) a rendu possible et souhaitable le passage à des dispositifs automatisés.
+
+% --------------------------------------------------------------
+\subsection{Les nouvelles approches}
+% --------------------------------------------------------------
+
+Ce passage s'est opéré par étapes. Les premiers dispositifs automatisés reposaient sur des moteurs de règles : des conditions explicites, traduisant les signaux d'alerte connus des experts (un délai inférieur à tel seuil, un cumul de sinistres supérieur à tel nombre), déclenchaient une alerte. Reproduisant la connaissance métier, ces systèmes en héritaient aussi les limites : rigides, ils ne détectaient que la fraude déjà identifiée et se révélaient incapables d'appréhender des schémas nouveaux ou la conjonction subtile de plusieurs facteurs.
+
+Les modèles prédictifs ont marqué l'évolution suivante. Plutôt que d'appliquer des règles figées, ils apprennent à partir de l'historique des dossiers à attribuer à chaque sinistre un score de risque de fraude, c'est-à-dire une probabilité estimée à partir de l'ensemble de ses caractéristiques. Cette approche autorise une détection circonstancielle, fondée sur les caractéristiques du sinistre et de l'assuré (chronologie, antécédents, cohérence des circonstances déclarées, profil du dossier) et capable de capter automatiquement des interactions que nul ne formaliserait sous forme de règle. Surtout, elle modifie en profondeur la logique de couverture : alors que le contrôle manuel ne portait que sur un échantillon de dossiers, le modèle procède à un traitement systématique de l'ensemble des dossiers, chacun se voyant attribuer un score, sans tri préalable.
+
+% --------------------------------------------------------------
+\subsection{Les bénéfices attendus}
+% --------------------------------------------------------------
+
+Il découle de ces approches plusieurs bénéfices :
+
+\begin{itemize}
+    \item \textbf{Une augmentation du volume de fraudes détectées} : en analysant l'intégralité du portefeuille plutôt qu'une fraction, le dispositif fait remonter des dossiers suspects qui auraient échappé à un contrôle manuel nécessairement sélectif. Cette couverture exhaustive s'accompagne d'une capacité analytique accrue : en exploitant aussi bien les données courantes que les historiques, le modèle détecte des schémas complexes et des corrélations difficilement identifiables par l'humain, améliorant ainsi la détection des fraudes les plus élaborées, souvent caractérisées par des signaux faibles ou dispersés.
+    \item \textbf{Une réduction du coût unitaire de détection} : une fois le modèle développé, le scoring d'un dossier supplémentaire présente un coût marginal quasi nul, ce qui améliore directement le rapport entre les fraudes détectées et les ressources mobilisées.
+    \item \textbf{Une réduction des délais de traitement} : grâce au tri automatique, de grands volumes de sinistres peuvent être analysés quasi instantanément, accélérant ainsi le règlement des dossiers sains tout en orientant sans délai les cas suspects vers l'investigation.
+    \item \textbf{Une priorisation objective, homogène et reproductible} : le score fournit un critère unique de hiérarchisation des dossiers, appliqué de manière identique à tous. En substituant des règles et des algorithmes standardisés à l'appréciation individuelle, cette homogénéisation des pratiques garantit une cohérence d'évaluation indépendante des intervenants et réduit le risque de biais subjectifs ou discriminatoires.
+    \item \textbf{Une forte capacité de passage à l'échelle} : ces dispositifs absorbent des volumes croissants de données sans accroissement proportionnel des effectifs ni dégradation des performances. L'intervention humaine est ainsi recentrée sur les seuls dossiers présentant le niveau de risque le plus élevé, un atout précieux dans un contexte de croissance et de diversification des flux.
+\end{itemize}
+
+Cette logique constitue le fondement de l'outil développé dans ce mémoire. À chaque nouveau sinistre, l'agent attribue une probabilité de fraude permettant de hiérarchiser les dossiers selon leur niveau de risque. Les équipes d'investigation peuvent ainsi concentrer leurs efforts sur les cas les plus suspects, sans mobiliser inutilement des ressources sur les dossiers présentant une faible probabilité de fraude. Le score ne se substitue pas à la décision humaine : il l'éclaire en transformant un ensemble de déclarations en une file de traitement priorisée.
+
+% --------------------------------------------------------------
+\subsection{Les points de vigilance à l'utilisation de l'intelligence artificielle}
+% --------------------------------------------------------------
+
+Ces bénéfices ne sont toutefois pas acquis sans contrepartie, et l'automatisation appelle plusieurs précautions, déjà évoquées dans le cadre de la gouvernance :
+
+\begin{itemize}
+    \item \textbf{La qualité des données} : un modèle n'a de valeur que celle des données sur lesquelles il est entraîné. Des données incomplètes, erronées ou biaisées se traduisent mécaniquement par des prédictions de moindre qualité.
+    \item \textbf{L'explicabilité des résultats} : un score de fraude ne saurait être opposé à un assuré sans que les facteurs ayant conduit à son attribution puissent être compris et justifiés. Cette exigence répond à des impératifs à la fois opérationnels, réglementaires et éthiques.
+    \item \textbf{Le maintien d'une supervision humaine} : l'agent identifie les dossiers susceptibles de présenter un risque de fraude, mais ne prend pas la décision finale. L'investigation et la décision demeurent du ressort des équipes, ce qui permet d'éviter toute décision défavorable fondée exclusivement sur un traitement automatisé.
+    \item \textbf{La surveillance de la performance du modèle} : les comportements frauduleux et les caractéristiques du portefeuille évoluant au fil du temps, les performances d'un modèle peuvent se dégrader en l'absence d'un suivi continu et d'un réentraînement périodique.
+\end{itemize}
+
+Loin de constituer une solution autosuffisante, l'intelligence artificielle apparaît ainsi comme un outil puissant dont l'efficacité demeure étroitement conditionnée à la qualité des données, à la robustesse de sa gouvernance et au maintien d'un cadre de contrôle rigoureux.
+
+% --------------------------------------------------------------
+\section{Comparaison du processus manuel et du processus automatisé}
+% --------------------------------------------------------------
+
+% --------------------------------------------------------------
+\subsection{Les critères de comparaison}
+% --------------------------------------------------------------
+
+Comparer l'approche traditionnelle et l'approche automatisée suppose de fixer au préalable les dimensions sur lesquelles porte l'évaluation, afin d'éviter un jugement global et impressionniste. Sept critères apparaissent particulièrement structurants :
+
+\begin{enumerate}
+    \item Le volume de dossiers analysés mesure la part du portefeuille effectivement soumise à un examen anti-fraude.
+    \item Le taux de détection rapporte les fraudes identifiées à la fraude réellement présente, et traduit l'efficacité du dispositif.
+    \item Le coût par dossier rend compte des ressources consommées pour analyser une déclaration.
+    \item Le délai de traitement conditionne la fluidité du règlement et la qualité de service.
+    \item L'homogénéité et la traçabilité des décisions renvoient à la reproductibilité du processus et à sa capacité à être audité.
+    \item La scalabilité désigne l'aptitude du dispositif à absorber une hausse du volume sans dégradation.
+    \item Enfin, la dépendance à l'expertise caractérise la vulnérabilité du processus à la disponibilité et au niveau de compétence des intervenants.
+\end{enumerate}
+
+Ces critères couvrent ainsi les trois enjeux essentiels : l'efficacité de la détection, son coût, et sa robustesse.
+
+% --------------------------------------------------------------
+\subsection{Mise en regard des deux processus}
+% --------------------------------------------------------------
+
+La confrontation des deux approches selon ces critères peut être synthétisée comme suit :
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Critère}} & \textcolor{white}{\textbf{Processus manuel}} & \textcolor{white}{\textbf{Processus automatisé (IA)}} \\
+        \hline
+        Volume de dossiers analysés & Partiel : seule une fraction des dossiers est examinée & Exhaustif : l'ensemble des dossiers est scoré \\
+        \hline
+        Taux de détection & Limité par la capacité humaine de contrôle & Plus élevé, y compris sur des schémas peu visibles \\
+        \hline
+        Coût par dossier & Élevé et croissant avec le volume & Faible coût marginal après développement du modèle \\
+        \hline
+        Délai de traitement & Long, tributaire de la charge des équipes & Quasi instantané (scoring automatique) \\
+        \hline
+        Homogénéité et traçabilité & Variable, subjective, peu reproductible & Critère unique, appliqué identiquement et traçable \\
+        \hline
+        Scalabilité & Faible : suppose d'accroître les effectifs & Élevée : montée en charge à coût quasi constant \\
+        \hline
+        Dépendance à l'expertise & Forte : qualité tributaire de chaque intervenant & Réduite à l'usage, déportée vers la conception du modèle \\
+        \hline
+    \end{tabularx}
+    \caption{Comparaison du processus manuel et du processus automatisé de détection de la fraude}
+    \label{tab:comparaison-processus}
 \end{table}
+
+Cette mise en regard fait clairement ressortir l'avantage de l'automatisation sur les dimensions de volume, de coût, de délai et d'homogénéité. Elle ne doit cependant pas être lue comme la disqualification de l'intervention humaine.
+
+D'une part, l'expertise reste indispensable en amont, pour concevoir, entraîner et valider le modèle, et en aval, pour instruire les dossiers signalés. D'autre part, le modèle ne produit qu'une probabilité de fraude, c'est-à-dire un soupçon hiérarchisé, et non une preuve : seule l'investigation humaine permet d'établir la réalité de la fraude et d'en tirer les conséquences.
+
+L'automatisation ne supprime donc pas le travail humain, elle le réoriente : libérée du tri d'une masse indifférenciée de dossiers, l'expertise se concentre sur les cas à plus forte valeur ajoutée, ceux que le modèle a identifiés comme les plus à risque.
+
+% --------------------------------------------------------------
+\subsection{Vers un modèle hybride}
+% --------------------------------------------------------------
+
+De cette comparaison se dégage non pas une opposition, mais une complémentarité. Les forces de chaque approche répondent précisément aux faiblesses de l'autre : l'IA excelle dans le traitement exhaustif, rapide et homogène de gros volumes, là où l'humain excelle dans l'analyse fine, contextuelle et le jugement sur les cas complexes.
+
+La configuration la plus efficace est dès lors un modèle hybride, dans lequel chaque acteur intervient là où il est le plus pertinent. L'IA assure le filtrage et la priorisation : elle analyse l'ensemble des dossiers et les classe par niveau de risque. L'humain assure l'investigation et la décision finale : il examine les dossiers prioritaires, confirme ou écarte la suspicion, et prononce les suites à donner. Cette articulation préserve la maîtrise humaine du processus tout en démultipliant sa portée.
+
+C'est exactement cette logique hybride que met en œuvre l'Agent développé dans ce mémoire, dont nous présenterons la conception et le fonctionnement après un rapide rappel du cadre théorique sur les algorithmes de détection de fraude utilisés en assurance non-vie.
