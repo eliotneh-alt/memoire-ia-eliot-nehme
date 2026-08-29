@@ -222,3 +222,195 @@ Cette dimension probatoire explique le recours croissant, chez les assureurs, à
 Au-delà des conséquences contractuelles, certaines fraudes à l'assurance peuvent également recevoir une qualification pénale. Lorsque l'assuré use de manœuvres frauduleuses afin de tromper l'assureur pour obtenir la remise de fonds, les faits peuvent relever de l'escroquerie au sens de l'article~313-1 du Code pénal.
 
 De même, la production de justificatifs falsifiés, de fausses factures, de faux constats ou de documents d'identité altérés est susceptible de constituer un faux ou un usage de faux. Le droit pénal vient ainsi compléter le droit des assurances : là où ce dernier organise les conséquences contractuelles de la fraude, le premier sanctionne la manœuvre frauduleuse elle-même lorsqu'elle porte atteinte à l'ordre public économique.
+
+% --------------------------------------------------------------
+\section{Enjeux économiques et actuariels de la fraude}
+% --------------------------------------------------------------
+
+% --------------------------------------------------------------
+\subsection{L'ampleur du marché de la fraude}
+% --------------------------------------------------------------
+
+Le marché de l'assurance non-vie représente 80,3~Md\euro{} de primes pour 56,3~Md\euro{} de prestations versées en 2025.
+
+Le volume de sinistres étant très important, il n'est pas envisageable de vérifier manuellement la véracité de chaque déclaration sans rogner de manière trop importante sur la marge de l'assureur.
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|c|c|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{} & \textcolor{white}{\textbf{Cotisations}} & \textcolor{white}{\textbf{Prestations}} \\
+        \hline
+        Assurance de biens et de responsabilité & 80,3~Md\euro{} & 56,3~Md\euro{} \\
+        \hline
+        Dont assurance automobile & 30,2~Md\euro{} & 24,7~Md\euro{} \\
+        \hline
+        Dont assurance habitation & 14,9~Md\euro{} & 9,9~Md\euro{} \\
+        \hline
+    \end{tabularx}
+    \caption{Cotisations et prestations d'assurance de biens et de responsabilité en 2025 (Source : France Assureurs).}
+    \label{tab:cotisations-prestations}
+\end{table}
+\footnotetext{\url{https://www.franceassureurs.fr/wp-content/uploads/20260325_presentation-conference-de-presse-2.pdf}}
+
+Ainsi, la profession s'est structurée autour de l'ALFA (Agence de Lutte contre la Fraude à l'Assurance).
+
+Créée en février 1989, cette association professionnelle a pour mission d'accompagner les assureurs français dans la prévention et la détection des fraudes. Elle agit comme un véritable carrefour d'informations, centralisant les données, formant les gestionnaires et collaborant avec les pouvoirs publics (notamment le ministère de l'Intérieur) pour endiguer ce phénomène.
+
+La fraude à l'assurance est un phénomène complexe à quantifier avec précision, car par nature, une grande partie reste non détectée. Au niveau européen, la fédération Insurance Europe estime que la fraude représente jusqu'à 10~\% du coût total des sinistres\footnote{\url{https://www.insuranceeurope.eu/mediaitem/0bf0af82-e7ef-4439-a763-d7862859d421/The+impact+of+insurance+fraud.pdf}}. En France, selon les estimations de la Fédération Française de l'Assurance et de l'ALFA, le coût global de la fraude s'élèverait à environ 2,5~milliards d'euros par an, soit environ 5~\% du niveau d'encaissement des primes\footnote{\url{https://www.argusdelassurance.com/institutions/fraude-a-l-assurance-une-facture-de-2-5-md-en-dommages-en-2014-alfa.96060}}.
+
+Les montants identifiés sont ainsi passés de 695~millions d'euros en 2023 à 902~millions d'euros en 2024 (+30~\%) et 947~millions d'euros en 2025 (+5~\%).
+
+Finalement, les acteurs du marché soulignent et rappellent que c'est la collectivité entière qui est pénalisée, la fraude alourdissant la prime annuelle de chaque assuré honnête d'environ 50~euros sur chaque contrat d'assurance automobile\footnote{\url{https://www.argusdelassurance.com/acteurs/fraude-a-l-assurance-un-cout-de-50-pour-les-assures.60931}}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/evolution_fraude_auto.png}
+    \caption{Évolution de la fraude automobile entre 2020 et 2025 (Source : ALFA Association).}
+    \label{fig:evolution-fraude-auto}
+\end{figure}
+\footnotetext{Sources : \url{https://www.alfa.asso.fr/alfa-news-48-septembre-2024/} ; \url{https://www.alfa.asso.fr/alfa-news-39-juin-2023-2/} et \url{https://www.franceassureurs.fr/wp-content/uploads/donnees-cles-2024.pdf}}
+
+Si ce fléau touche toutes les branches de l'assurance, l'IARD (Incendie, Accidents et Risques Divers) en représente de loin la part la plus importante.
+
+À titre d'exemple, sur les 947~millions d'euros de fraudes détectées en 2025, 627~millions concernent exclusivement l'IARD (notamment l'assurance Automobile et l'assurance Multirisque Habitation), soit près de 66~\% du total\footnote{\url{https://www.argusdelassurance.com/assurance-de-personnes/des-filieres-de-larnaque-utilisent-lintelligence-artificielle-pres-dun-milliard-deuros-de-fraudes-a-lassurance-detecte-en-2025.VRVQHSDANZGGZL5GXH7FHW3JU4.html}}.
+
+Les assurances de biens, par leur forte fréquence de sinistralité, demeurent le secteur le plus exposé aux déclarations de sinistres fictifs ou à la surestimation des dommages.
+
+Ces segments cumulent plusieurs facteurs d'exposition : une fréquence de sinistres élevée, une forte volumétrie de dossiers de montant unitaire parfois modéré, ainsi qu'une documentation déclarative susceptible d'être manipulée.
+
+En assurance automobile, la multiplicité des intervenants (assuré, tiers, réparateur, expert, dépanneur) accroît les opportunités de fraude. En habitation, la difficulté de vérifier a posteriori la réalité, l'antériorité ou la valeur des biens déclarés favorise également les comportements opportunistes.
+
+Ce phénomène et ses proportions ne sont pas une spécificité française. À l'échelle européenne, la fédération Insurance Europe estime que la fraude représente en moyenne jusqu'à 10~\% du coût total des sinistres dans les pays voisins (comme au Royaume-Uni ou en Allemagne). La France se situe donc dans cette moyenne continentale. Toutefois, l'écart observé au niveau européen entre la fraude détectée (environ 2,5~milliards d'euros) et la fraude réelle non détectée (estimée à plus de 13~milliards d'euros) souligne qu'une immense partie des préjudices passe encore « à travers les mailles du filet ». Cette « fraude invisible » représente un défi majeur pour la rentabilité des compagnies d'assurance.
+
+% --------------------------------------------------------------
+\subsection{Impact de la fraude sur la tarification}
+% --------------------------------------------------------------
+
+L'enjeu de la fraude ne se résume pas à une perte ponctuelle pour les assureurs : il affecte plus largement l'équilibre technique du marché, la qualité des données historiques et, en définitive, la construction même des primes. C'est ce lien direct entre fraude, sinistralité observée et tarification qu'il convient désormais d'examiner.
+
+% --------------------------------------------------------------
+\subsubsection{Modèle tarifaire usuel en assurance non-vie et biais statistiques}
+% --------------------------------------------------------------
+
+En assurance non-vie, la tarification repose usuellement sur des Modèles Linéaires Généralisés (GLM).
+
+La Prime Pure (PP) est modélisée par le produit de l'espérance de la fréquence des sinistres ($N$) et de l'espérance de leur coût moyen ($C$) :
+
+\begin{equation}
+    PP = \mathbb{E}[N] \times \mathbb{E}[C]
+\end{equation}
+
+L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour calibrer ces modèles tarifaires (que ce soit via des GLM traditionnels ou des algorithmes de Machine Learning comme XGBoost) :
+
+\begin{itemize}
+    \item \textbf{Impact sur la fréquence ($N$)} : la fraude opportuniste ou préméditée (déclaration de sinistres imaginaires) augmente artificiellement le nombre de sinistres dans le portefeuille.
+    \item \textbf{Impact sur le coût moyen ($C$)} : la majoration de dommages (ajout d'éléments fictifs sur une facture réelle) gonfle la sévérité moyenne des sinistres.
+\end{itemize}
+
+Si l'actuaire calibre ses modèles sur ces données polluées, il surestime le risque réel du portefeuille sain. La prime demandée aux assurés honnêtes augmente, ce qui dégrade la compétitivité de l'assureur sur le marché.
+
+% --------------------------------------------------------------
+\subsubsection{Conséquence de la fraude sur la prime pure}
+% --------------------------------------------------------------
+
+Dans l'équation de la prime pure, une surestimation de la fréquence ou du coût moyen conduit mécaniquement à une prime plus élevée pour l'ensemble du portefeuille.
+
+Dans le cas de la fraude par majoration (sinistre réel mais montant surévalué), l'impact est directement porté sur l'espérance du coût moyen $\mathbb{E}[C]$ :
+
+\begin{equation}
+    \mathbb{E}[C]_{\text{fraude}} = \mathbb{E}[C]_{\text{réel}} + \mathbb{E}[C]_{\text{majoration}}
+\end{equation}
+
+Dans le cas de la fraude par invention (sinistre totalement fictif), l'impact est porté sur la fréquence $\mathbb{E}[N]$ :
+
+\begin{equation}
+    \mathbb{E}[N]_{\text{fraude}} = \mathbb{E}[N]_{\text{réel}} + \mathbb{E}[N]_{\text{fictif}}
+\end{equation}
+
+Ainsi, si l'on note $\alpha$ la part de la charge sinistre imputable à la fraude, la prime d'équilibre technique observée ($\Pi_{\text{chargée}}$) se déduit de la prime pure théorique ($\Pi_{\text{pure}}$) par la relation :
+
+\begin{equation}
+    \Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}
+\end{equation}
+
+où $\alpha$ est estimé entre 5~\% et 10~\% du volume des prestations selon les branches (Source : ALFA).
+
+\begin{table}[htbp]
+    \centering
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Part de la fraude dans la charge ($\alpha$)}} & \textcolor{white}{\textbf{Surcoût sur la prime pure (\%)}} \\
+        \hline
+        5,0~\% & +\,5,26~\% \\
+        \hline
+        7,5~\% & +\,8,11~\% \\
+        \hline
+        10,0~\% & +\,11,11~\% \\
+        \hline
+    \end{tabularx}
+    \caption{Impact du levier de la fraude sur la prime des assurés honnêtes}
+    \label{tab:levier-fraude}
+\end{table}
+
+Il faut souligner que l'effet de la fraude sur la tarification ne se limite pas à une hausse mécanique de la prime pure. Il se propage également aux chargements de gestion, dans la mesure où la lutte contre la fraude mobilise des ressources d'expertise, de contrôle et de contentieux.
+
+En outre, une répercussion trop importante de ces coûts dans les primes commerciales peut nuire à la compétitivité de l'assureur et accentuer les phénomènes d'anti-sélection, en éloignant les assurés les moins risqués du portefeuille.
+
+De plus, un enjeu central réside dans le fait que la fraude peut fausser la segmentation elle-même.
+
+En effet, certaines variables explicatives peuvent apparaître comme fortement corrélées à la sinistralité observée non pas en raison d'un risque assurantiel intrinsèque plus élevé, mais parce qu'elles sont associées à une fréquence accrue de comportements frauduleux ou à des modalités de détection différenciées. L'actuaire court alors le risque d'intégrer dans la tarification des effets qui relèvent moins du risque pur que de distorsions comportementales ou informationnelles.
+
+Inversement, l'amélioration des dispositifs de détection permet d'assainir les bases historiques servant à la modélisation actuarielle. À terme, une meilleure identification des dossiers frauduleux contribue à restaurer une mesure plus fidèle du risque technique, à améliorer la segmentation tarifaire et à limiter le transfert de charge vers les assurés honnêtes. La lutte contre la fraude devient ainsi non seulement un levier de réduction des pertes, mais également un instrument de qualité tarifaire.
+
+% --------------------------------------------------------------
+\subsubsection{L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}
+% --------------------------------------------------------------
+
+Pour corriger ce biais tarifaire, l'assureur doit identifier et rejeter les sinistres frauduleux. Cependant, le processus de détection n'est pas gratuit : il engage des frais de gestion supplémentaires (expertise contradictoire, enquête administrative, recours à un détective privé).
+
+L'assureur fait donc face à un problème d'optimisation économique simple : l'espérance d'économie (le non-paiement du sinistre) doit être supérieure au coût du contrôle.
+
+Soit $C_{\text{invest}}$ le coût moyen d'une investigation et $M_{\text{sinistre}}$ le montant du sinistre réclamé. Le contrôle n'est rationnel que si :
+
+\begin{equation}
+    M_{\text{sinistre}} \times P(\text{Fraude} \mid \text{Alerte}) > C_{\text{invest}}
+\end{equation}
+
+où $P(\text{Fraude} \mid \text{Alerte})$ représente la précision du modèle de détection (la probabilité que l'alerte soit réellement fondée).
+
+Sur le marché IARD français, une expertise automobile classique coûte entre 70~\euro{} et 400~\euro{} par dossier\footnote{Source : Service public.}, tandis qu'une investigation spécialisée (enquêteur certifié ALFA) peut rapidement dépasser les 1~000~\euro{}, les honoraires étant libres et dépendant fortement du type de sinistre.
+
+Ainsi, pour un sinistre matériel de 1~200~\euro{}, engager une expertise à 250~\euro{} est rentable. En revanche, pour de « petits sinistres » (par exemple un bris de glace à 400~\euro{}), le coût administratif et d'expertise rend la détection humaine irrationnelle d'un point de vue économique.
+
+% --------------------------------------------------------------
+\subsubsection{L'automatisation de la détection de la fraude comme levier de rentabilité}
+% --------------------------------------------------------------
+
+C'est sur cette « fraude de masse » --- de faible montant --- que le modèle traditionnel atteint ses limites, et que l'implémentation de nouvelles technologies devient indispensable.
+
+En effet, à date, avec la digitalisation, on observe une hausse des tentatives de fraude, notamment au travers de falsifications numériques et de retouches d'image\footnote{La fraude documentaire (faux certificats, fausses factures, photos retouchées) est en explosion et représente désormais 39~\% des cas de fraude détectés en IARD (source : \url{https://www.itesoft.com/fr/blog/fraude-assurance-chiffres-cles-alfa/}).}.
+
+En parallèle, l'amélioration des outils tels que la Data analytics, la détection d'anomalies, l'analyse d'image ou le Cross-checking de bases externes permet d'améliorer le taux de détection des fraudes.
+
+Néanmoins, malgré l'amélioration des méthodes de détection de fraude, la fraude documentaire reste un poste matériel dans le coût technique global. En mettant en place des méthodes de détection de fraude automatiques (algorithmes de scoring, IA etc.), l'assureur réduit drastiquement le coût de traitement et de ciblage des fraudes.
+
+Le coût marginal de vérification s'approchant de zéro, il devient alors rentable d'investiguer des sinistres de plus faible montant, assainissant ainsi la base de sinistralité et protégeant l'équilibre de la prime.
+
+C'est précisément dans la réponse à ce défi opérationnel et financier que s'inscrit l'objectif central de ce mémoire. En effet, les ambitions des travaux de ce mémoire sont de concevoir et déployer un processus de détection automatisé des fraudes de bout en bout.
+
+Il convient toutefois de circonscrire d'emblée le périmètre de cette détection. Notre démarche ne porte pas sur la fraude documentaire (falsification de factures, de devis ou d'attestations) ni sur la fraude relevant de l'analyse d'images (clichés retouchés ou détournés), faute de disposer des bases de données documentaires et photographiques nécessaires à l'entraînement de tels modèles.
+
+L'approche retenue se concentre au contraire sur la fraude circonstancielle, c'est-à-dire celle qui se révèle à travers les caractéristiques mêmes du sinistre et de l'assuré : nature et chronologie de la déclaration, antécédents et historique du contrat, profil du déclarant, cohérence entre les circonstances rapportées et les paramètres du sinistre, ou encore récurrence de signaux faibles susceptibles de trahir une intention frauduleuse.
+
+Cette orientation présente l'avantage de s'appuyer exclusivement sur des données structurées déjà disponibles dans les systèmes de gestion de l'assureur, ce qui en fait un levier à la fois exploitable, reproductible et directement intégrable au processus d'instruction des sinistres.
+
+Pour y parvenir, l'étude s'appuie sur une base de données publique de sinistres automobiles issue de Kaggle, contenant des dossiers étiquetés comme frauduleux ou non. À défaut de données réelles d'assureur --- difficilement accessibles pour des raisons de confidentialité --- cette base offre un support représentatif et reproductible pour développer et tester la démarche, même si sa transposition à un portefeuille réel nécessiterait une phase de recalibrage.
+
+Pour pallier en partie à ce recalibrage inexistant, cette base a été enrichie avec des données qui auraient été disponibles chez un assureur de manière à enrichir le modèle de détection de fraude créé.
+
+Les chapitres suivants détailleront cette démarche : après un état des lieux des processus de détection existants et de l'apport de l'intelligence artificielle (Chapitre~2), en opposition à ce qui se fait déjà en matière de détection de fraude (Chapitre~3), nous présenterons la construction et la comparaison des trois modèles de détection retenus (scoring en points, arbre de décision et Gradient Boosting) ainsi que l'évaluation de leurs performances respectives (Chapitre~4). Le Chapitre~5 décrira l'outil opérationnel développé à destination des services de gestion des sinistres, suivi du Chapitre~6 qui expliquera la logique d'enrichissement continu du modèle. Enfin, le Chapitre~7 ouvrira sur les limites de l'outil et les perspectives d'évolution, notamment autour de la qualité des données, de la mutualisation inter-assureurs et de l'extension à une approche multi-produits.
