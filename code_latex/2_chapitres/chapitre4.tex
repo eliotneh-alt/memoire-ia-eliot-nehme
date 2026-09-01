@@ -9,6 +9,7 @@
 
 % --------------------------------------------------------------
 \section{Gouvernance autour de la mise en place de l'Agent IA}
+\label{sec:gouvernance}
 % --------------------------------------------------------------
 
 Avant même d'aborder la conception technique de l'outil, la mise en place d'un agent de détection de fraude doit être encadrée par une gouvernance explicite. Un tel dispositif traite en effet des données personnelles d'assurés, alimente des décisions susceptibles d'affecter individuellement ces derniers (orientation d'un dossier vers une enquête, suspicion portée sur une déclaration), et s'inscrit dans un secteur étroitement supervisé.
@@ -596,23 +597,9 @@ Les tableaux ci-dessous synthétisent l'ensemble de ces mesures et constituent a
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation1.png}
-    \caption{Matrice de corrélations --- variables quantitatives (coefficient de Pearson)}
-    \label{fig:matrice-correlation1}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation2.png}
-    \caption{Matrice de corrélations --- variables qualitatives (V de Cramér)}
-    \label{fig:matrice-correlation2}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation3.png}
-    \caption{Matrice de corrélations --- variables mixtes (rapport de corrélation $\eta^2$)}
-    \label{fig:matrice-correlation3}
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/3_matrices_correlation.png}
+    \caption{Matrices d'association entre variables : coefficient de Pearson (quantitatives), V de Cramér (qualitatives) et rapport de corrélation $\eta^2$ (mixtes)}
+    \label{fig:matrice-correlation}
 \end{figure}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.

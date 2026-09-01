@@ -1,0 +1,142 @@
+\chapter{Limites de l'outil créé dans ce mémoire et réflexions autour de l'IA}
+\label{chap:limites}
+
+Le développement d'un outil de détection de fraude basé sur un agent IA et un modèle de prédiction de la fraude en assurance automobile constitue une avancée significative en matière d'aide à la décision. Néanmoins, son utilisation doit être appréhendée avec recul, tant sur le plan opérationnel que méthodologique, et ouvre plusieurs perspectives d'amélioration.
+
+% --------------------------------------------------------------
+\section{Un outil d'aide à la décision : complémentaire avec l'humain}
+% --------------------------------------------------------------
+
+Il est encore une fois essentiel de souligner que l'agent IA ne se substitue pas au gestionnaire, mais s'inscrit dans une logique de \textbf{complémentarité homme-machine}. L'intervention humaine reste centrale à chaque étape du processus.
+
+En amont, l'actuaire ou le data scientist intervient dans la \textbf{construction et le paramétrage du modèle} : sélection de la base de données, choix du type de modèle (scoring en points, arbre de décision, Gradient Boosting), validation de sa performance et de sa cohérence métier.
+
+En phase d'utilisation, le gestionnaire reste responsable de la \textbf{saisie des informations relatives au sinistre}, de l'interprétation du score fourni et, le cas échéant, de la décision finale d'investigation. Enfin, il contribue à l'amélioration continue du modèle en renseignant le \textbf{statut final du dossier (fraude ou non)}, après avoir fait lui-même l'enquête permettant de prouver cette réponse, alimentant ainsi la base d'apprentissage.
+
+Les deux schémas ci-dessous illustrent concrètement les points d'intervention humaine au sein du processus : ils font apparaître, à chaque étape, la frontière entre ce que l'agent automatise et ce qui reste du ressort du gestionnaire.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre7/schema_aide1.png}
+    \caption{Points d'intervention humaine dans le module de construction du modèle}
+    \label{fig:schema-aide1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre7/schema_aide2.png}
+    \caption{Points d'intervention humaine dans le module opérationnel de détection}
+    \label{fig:schema-aide2}
+\end{figure}
+
+Ainsi, l'agent IA agit comme un outil d'aide à la décision structurant et homogénéisant, mais ne remplace en aucun cas l'expertise métier, indispensable pour interpréter les situations complexes et prendre des décisions adaptées.
+
+% --------------------------------------------------------------
+\section{Nature de l'IA utilisée : de l'IA générative à l'IA agentique}
+% --------------------------------------------------------------
+
+Il convient également de distinguer les différents types d'intelligence artificielle mobilisables dans ce contexte.
+
+L'\textbf{IA générative} (comme les modèles de langage) est principalement utilisée pour produire du contenu (texte, code, synthèses) et assister dans des tâches d'analyse ou de documentation. À l'inverse, l'\textbf{IA agentique} s'inscrit dans une logique plus opérationnelle : elle est capable d'enchaîner des actions, de prendre des décisions simples et d'interagir avec un environnement en fonction d'objectifs définis.
+
+Dans le cadre de cet outil, l'agent IA relève davantage d'une approche \textbf{agentique}, en ce sens qu'il guide l'utilisateur dans le choix du modèle, applique le modèle défini, et restitue une probabilité de fraude accompagnée d'une recommandation d'action.
+
+À noter que par défaut, l'outil s'est initialement appuyé sur un \textbf{modèle de scoring en points}, privilégié pour sa simplicité et son interprétabilité. Toutefois, afin d'améliorer la performance prédictive, des extensions ont ensuite été introduites permettant de recourir à des modèles plus avancés tels que les \textbf{arbres de décision}, ou des méthodes de \textbf{machine learning} (Gradient Boosting). Cette ouverture permet d'arbitrer entre \textbf{interprétabilité et performance}, en fonction des besoins métiers.
+
+% --------------------------------------------------------------
+\section{Limites liées à la qualité et à la richesse des données}
+% --------------------------------------------------------------
+
+% --------------------------------------------------------------
+\subsection{Le couplage à la base portefeuille}
+% --------------------------------------------------------------
+
+La performance et la pertinence d'un modèle de détection de fraude reposent de manière déterminante sur la qualité, la granularité et la richesse des données disponibles.
+
+Dans le cadre de cette étude, le modèle est construit uniquement à partir d'une base sinistre, ce qui constitue une première limite importante. En effet, certaines informations structurantes issues de la base portefeuille ne sont pas accessibles, alors même qu'elles pourraient apporter un pouvoir explicatif significatif.
+
+Parmi ces informations, on peut notamment citer l'ancienneté du contrat, l'historique de sinistralité de l'assuré, la fréquence de résiliation ou de souscription, ou encore des éléments d'identification permettant de reconstituer des liens entre individus (assurés, conducteurs, tiers).
+
+Pour pallier partiellement cette limite, la base sinistre a été enrichie de trente variables reconstituant une partie de cette information (cf. section~\ref{sec:enrichissement}). Cet enrichissement ne remplace toutefois pas l'accès à une véritable base portefeuille, qui offrirait une profondeur historique et relationnelle hors de portée d'un enrichissement à partir du seul sinistre.
+
+L'absence de ces variables limite la capacité du modèle à capter des comportements de fraude plus complexes, notamment ceux reposant sur des logiques de répétition ou d'organisation.
+
+À titre d'exemple, en assurance automobile, l'accès à la base portefeuille permettrait de détecter plus efficacement certains schémas de fraude tels que :
+
+\begin{itemize}
+    \item \textbf{Fraudes opportunistes liées à une ancienneté très faible du contrat} : un sinistre survenant peu de temps après la souscription (ex : vol ou incendie dans les premières semaines) constitue un signal faible classique, difficile à exploiter sans information sur la date d'entrée en portefeuille.
+    \item \textbf{Récurrence de sinistres sur un même assuré} : un assuré présentant une fréquence de sinistralité anormalement élevée sur une période donnée peut indiquer un comportement suspect (ex : déclarations répétées de bris de glace ou d'accidents matériels). Sans historique consolidé, ces signaux ne peuvent être captés que partiellement.
+    \item \textbf{Stratégies de multi-assurance ou de résiliation stratégique} : certains fraudeurs peuvent multiplier les contrats auprès de différents assureurs ou résilier après sinistre pour éviter d'être détectés. L'analyse des trajectoires contractuelles (durée de détention, fréquence de changement d'assureur) constitue alors une variable explicative clé.
+    \item \textbf{Fraudes en réseau ou en bande organisée} : l'identification de liens entre individus (même adresse, même véhicule impliqué dans plusieurs sinistres, tiers récurrents dans des accidents) permettrait de détecter des schémas de fraude structurés. Par exemple, des accidents impliquant régulièrement les mêmes personnes ou garages peuvent révéler des montages frauduleux (accidents simulés, complicités avec des réparateurs, etc.).
+    \item \textbf{Incohérences entre profil assuré et sinistre déclaré} : certaines variables portefeuille (âge, ancienneté de conduite, historique de comportement) permettent de mieux contextualiser un sinistre. Par exemple, un assuré sans historique de sinistre déclarant soudainement un sinistre grave peut être analysé différemment d'un profil déjà sinistré.
+\end{itemize}
+
+L'intégration de ces données permettrait d'introduire de nouvelles variables explicatives à forte valeur ajoutée actuarielle, telles que :
+
+\begin{itemize}
+    \item des indicateurs de fréquence individuelle de sinistralité ;
+    \item des variables de durée en portefeuille ;
+    \item des scores de comportement client ;
+    \item des variables de réseaux (graph analytics) identifiant des connexions entre dossiers.
+\end{itemize}
+
+Ces enrichissements contribueraient à améliorer significativement la capacité de discrimination du modèle, en captant des dimensions aujourd'hui absentes, notamment les effets temporels et relationnels. En pratique, cela se traduirait par une meilleure séparation entre sinistres frauduleux et non frauduleux, et donc une optimisation des actions de détection.
+
+Au-delà de la richesse des variables, la qualité des données constitue également un enjeu majeur. Les erreurs de saisie, les données manquantes ou encore les délais dans la confirmation des fraudes peuvent introduire des biais dans l'apprentissage du modèle. Par ailleurs, la fraude étant par nature un phénomène partiellement observé, la base d'apprentissage est susceptible de contenir un biais de sous-détection, certaines fraudes n'étant jamais identifiées comme telles.
+
+Ainsi, l'amélioration de la détection de fraude passe non seulement par le choix des modèles, mais aussi (et surtout) par une stratégie d'enrichissement et de fiabilisation des données. Dans cette perspective, l'intégration de données portefeuille, voire de données externes ou mutualisées, constitue un levier essentiel pour renforcer la robustesse et la performance du dispositif.
+
+% --------------------------------------------------------------
+\subsection{Ajout de données externes}
+% --------------------------------------------------------------
+
+Au-delà de l'enrichissement par les données issues de la base portefeuille, le recours à des \textbf{sources de données complémentaires} constitue un levier majeur d'amélioration des modèles de détection de fraude. En effet, la fraude étant un phénomène complexe et évolutif, sa détection nécessite une approche multidimensionnelle intégrant des informations variées, parfois extérieures au strict périmètre assurantiel.
+
+En premier lieu, l'exploitation de données externes ouvertes (open data) peut permettre d'apporter un éclairage contextuel précieux. Par exemple, les données météorologiques peuvent être mobilisées afin de vérifier la cohérence entre les circonstances déclarées d'un sinistre et les conditions climatiques réelles (pluie, grêle, tempête).
+
+De même, les données géographiques permettent d'identifier des zones à risque, notamment en matière de vol ou de vandalisme, et d'analyser la fréquence des sinistres dans certaines localisations. Enfin, les données socio-économiques locales peuvent contribuer à affiner la compréhension des comportements, en intégrant des variables de contexte telles que le niveau de revenu ou les caractéristiques du territoire.
+
+Par ailleurs, lorsque cela est possible, l'intégration de données télématiques constitue un apport particulièrement structurant. Ces données, issues de capteurs embarqués ou d'applications mobiles, permettent de reconstituer le comportement de conduite (vitesse, accélérations, freinages, horaires d'utilisation) et d'évaluer la cohérence entre l'usage réel du véhicule et le sinistre déclaré. Par exemple, un sinistre survenu dans des conditions incompatibles avec les données de conduite enregistrées peut constituer un signal fort de fraude.
+
+Les données issues des prestataires (réparateurs, experts, avocats) représentent également une source d'information à forte valeur ajoutée. L'analyse de leur historique d'intervention permet d'identifier des acteurs apparaissant de manière récurrente dans des dossiers suspects. Une surreprésentation de certains prestataires dans des sinistres à fort taux de fraude peut révéler des comportements anormaux, voire des complicités, et constitue ainsi un levier de détection des fraudes organisées.
+
+En outre, l'exploitation des données textuelles non structurées, telles que les descriptions de sinistres ou les comptes rendus d'expertise, ouvre des perspectives intéressantes grâce aux techniques de traitement automatique du langage (NLP). L'analyse de ces textes permet de détecter des incohérences, des formulations atypiques ou des schémas linguistiques récurrents associés à des comportements frauduleux. Ces informations, difficilement exploitables dans une approche classique, enrichissent considérablement la capacité du modèle à capter des signaux faibles.
+
+Une autre piste d'amélioration repose sur l'utilisation d'une approche réseau (graph analytics). Cette méthodologie consiste à modéliser les relations entre les différents acteurs d'un sinistre (assurés, tiers, véhicules, adresses, prestataires) afin d'identifier des communautés ou des structures anormales. Elle permet notamment de détecter des schémas de fraude organisée, caractérisés par la répétition de certaines combinaisons d'acteurs ou de situations (par exemple, les mêmes individus impliqués dans plusieurs sinistres, les mêmes véhicules ou les mêmes adresses apparaissant de manière récurrente). Cette approche relationnelle dépasse la simple analyse individuelle des dossiers et offre une vision plus globale des phénomènes de fraude.
+
+Enfin, la mise en place de dispositifs de mutualisation inter-assureurs constituerait un levier particulièrement puissant. Le partage d'informations, dans un cadre réglementaire adapté, permettrait de disposer d'un historique multi-compagnies et de détecter des comportements frauduleux dits « nomades », consistant pour un individu à reproduire des schémas de fraude auprès de différents assureurs. Une telle mutualisation renforcerait significativement la capacité de détection, en élargissant le périmètre d'observation et en limitant les angles morts propres à chaque compagnie.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{images/chapitre7/couplage_sources_creation_agent.png}
+    \caption{Couplage de sources de données pour la création de l'Agent de détection de fraude}
+    \label{fig:couplage-sources}
+\end{figure}
+
+Ainsi, l'intégration de ces différentes sources de données permettrait de faire évoluer les modèles vers une approche plus globale, dynamique et contextualisée du risque de fraude, améliorant à la fois leur précision, leur robustesse et leur capacité à détecter des schémas complexes.
+
+% --------------------------------------------------------------
+\section{Mutualisation inter-assureurs et détection des fraudes organisées}
+% --------------------------------------------------------------
+
+Une piste d'amélioration majeure réside dans la \textbf{mutualisation des données et des outils entre assureurs}. En effet, les fraudes organisées reposent souvent sur des schémas répétés et peuvent concerner plusieurs compagnies. Un fraudeur détecté chez un assureur est susceptible de reproduire des comportements similaires auprès d'autres acteurs du marché.
+
+Le partage d'informations, dans un cadre réglementaire maîtrisé, permettrait d'améliorer les \textbf{taux de détection des fraudes en bande organisée}, en identifiant plus rapidement des schémas récurrents et des profils à risque. Un agent IA alimenté par une base mutualisée bénéficierait ainsi d'une \textbf{vision élargie}, renforçant significativement son efficacité.
+
+Un cas emblématique de fraude automobile organisée en France concerne le détournement du système d'immatriculation des véhicules (SIV), mis en place en 2017. Des réseaux ont exploité la possibilité, offerte aux professionnels habilités de réaliser des démarches administratives, en créant des « garages fictifs » servant de sociétés écrans. Ces structures ont permis l'immatriculation massive de véhicules frauduleux, facilitant notamment la réintroduction de véhicules volés dans le circuit légal et la dissimulation de leur traçabilité.
+
+Selon plusieurs enquêtes de presse et sources sectorielles, cette fraude concernerait jusqu'à un million de véhicules et représenterait plus de 500 millions d'euros de pertes. Certains cas individuels font état de plusieurs milliers de véhicules immatriculés frauduleusement via une seule entité.
+
+Ce type de fraude peut être qualifié de fraude en bande organisée dans la mesure où il repose sur une coordination de plusieurs acteurs aux rôles complémentaires : création de sociétés fictives, obtention d'habilitations administratives, production de documents frauduleux et utilisation répétée du dispositif à grande échelle. La structuration du schéma, son caractère durable dans le temps ainsi que les volumes traités témoignent d'une organisation planifiée et non d'initiatives individuelles isolées.
+
+Bien que cette fraude ne cible pas directement un assureur en particulier, elle a des répercussions significatives sur l'ensemble du secteur de l'assurance automobile, en complexifiant la gestion des sinistres et en facilitant des fraudes secondaires. Ce type de schéma illustre le caractère structuré et organisé des fraudes de grande ampleur dans le domaine automobile.\footnote{Sources : \url{https://questions.assemblee-nationale.fr/q17/17-4793QE.htm} ; \url{https://www.senat.fr/questions/base/2025/qSEQ250102893.html}}
+
+% --------------------------------------------------------------
+\section{Extension à une approche multi-produits}
+% --------------------------------------------------------------
+
+Enfin, l'approche développée pourrait être étendue à une analyse transverse des comportements de fraude tous produits confondus. En effet, un individu impliqué dans une fraude en assurance automobile peut présenter un risque accru de fraude sur d'autres lignes de produits, telles que l'assurance habitation (MRH).
+
+Une vision consolidée du client à travers l'ensemble des garanties permettrait de mieux capter ces comportements et d'améliorer la cohérence globale de la détection.
+
+Cette approche multi-produits s'inscrit dans une logique actuarielle de vision client 360°, encore peu exploitée mais porteuse de gains significatifs en matière de lutte contre la fraude.

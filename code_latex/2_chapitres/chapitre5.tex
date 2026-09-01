@@ -146,9 +146,10 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 
 % --------------------------------------------------------------
 \subsection{Qualité du modèle obtenu}
+\label{sec:qualite-modele}
 % --------------------------------------------------------------
 
-Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles présentés en section~\ref{sec:criteres-qualite}.
+Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles présentés en section~\ref{sec:criteres-evaluation}.
 
 Pour commencer, un point de vigilance mérite d'être souligné concernant le \textbf{choix du seuil de décision}. Le modèle ne restitue pas une classification binaire mais une probabilité de fraude ; il convient donc de fixer un seuil (\textit{cut-off}) au-delà duquel un sinistre est considéré comme frauduleux. Le seuil de 0,5, retenu par convention, se révèle en réalité inadapté aux données fortement déséquilibrées : avec seulement 11,5~\% de fraudes, la majorité des scores se concentrent sous 0,5, si bien que le modèle ne détecte qu'une fraction infime des fraudes réelles, d'où un rappel de seulement 24,6~\% à ce seuil.
 
@@ -216,7 +217,7 @@ Dans l'ensemble, le modèle présente d'excellents indicateurs de discrimination
 
 À ce seuil, le rappel passe de 24,6~\% à 79,7~\%, au prix d'une précision plus faible (42,4~\% contre 91,3~\%). Ce résultat est rassurant : il indique que le modèle est correctement calibré et que l'abaissement du seuil améliore nettement la détection.
 
-Ces valeurs illustrent surtout un arbitrage fondamental propre à la détection de fraude sur données déséquilibrées : le modèle privilégie un rappel élevé (près de 80~\% des fraudes détectées) au prix d'une précision plus modérée (environ quatre dossiers signalés sur dix sont réellement frauduleux). Ce compromis est cohérent avec l'enjeu métier : dans un contexte où le coût d'un faux négatif (une fraude non détectée, donc indemnisée à tort) est généralement bien supérieur à celui d'un faux positif (une investigation inutile mobilisant les équipes), il est préférable de maximiser la détection quitte à générer davantage de dossiers à contrôler. Le choix final du seuil ne relève donc pas d'une logique purement statistique mais d'un arbitrage économique, qui rejoint directement l'analyse coût-bénéfice développée au chapitre~\ref{chap:enjeux}.
+Ces valeurs illustrent surtout un arbitrage fondamental propre à la détection de fraude sur données déséquilibrées : le modèle privilégie un rappel élevé (près de 80~\% des fraudes détectées) au prix d'une précision plus modérée (environ quatre dossiers signalés sur dix sont réellement frauduleux). Ce compromis est cohérent avec l'enjeu métier : dans un contexte où le coût d'un faux négatif (une fraude non détectée, donc indemnisée à tort) est généralement bien supérieur à celui d'un faux positif (une investigation inutile mobilisant les équipes), il est préférable de maximiser la détection quitte à générer davantage de dossiers à contrôler. Le choix final du seuil ne relève donc pas d'une logique purement statistique mais d'un arbitrage économique, qui rejoint directement l'analyse coût-bénéfice développée au chapitre~\ref{chap:contexte}.
 
 Enfin, concernant les indicateurs de robustesse et de stabilité du modèle, les résultats suivants sont obtenus :
 
@@ -366,9 +367,9 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 
 L'introduction d'un arbre de décision permet de franchir un cap significatif. En intégrant des interactions entre variables et des effets de seuil, le modèle améliore la structuration du risque et offre une segmentation plus nette du portefeuille. La hiérarchisation des dossiers est plus cohérente : les feuilles les plus risquées de l'arbre concentrent un taux de fraude très élevé, proche de 79~\%, bien au-delà de ce que permettait le scoring en points. Le modèle gagne ainsi en pouvoir discriminant sur les segments extrêmes, tout en conservant une certaine lisibilité grâce à sa structure arborescente.
 
-Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-qualite}.
+Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-evaluation}.
 
-Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden\footnote{Notre agent intègre le calcul du seuil optimal dans son fonctionnement.} (présenté en section~\ref{sec:youden}). Pour le modèle utilisant des arbres de décision, le seuil optimal est de 45~\%.
+Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden\footnote{Notre agent intègre le calcul du seuil optimal dans son fonctionnement.} (présenté en section~\ref{sec:qualite-modele}). Pour le modèle utilisant des arbres de décision, le seuil optimal est de 45~\%.
 
 \begin{figure}[H]
     \centering
@@ -539,9 +540,9 @@ Le recours à une méthode ensembliste comme le \textit{Gradient Boosting} marqu
 
 La concentration des fraudes dans les tranches de probabilité élevées est particulièrement marquée, avec des taux atteignant jusqu'à 100~\% sur les segments les plus extrêmes (sur données d'apprentissage).
 
-Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-qualite}.
+Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-evaluation}.
 
-Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden (présenté en section~\ref{sec:youden}). Pour le modèle utilisant de \textit{Gradient Boosting}, le seuil optimal est de 50~\%.
+Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden (présenté en section~\ref{sec:qualite-modele}). Pour le modèle utilisant de \textit{Gradient Boosting}, le seuil optimal est de 50~\%.
 
 \begin{figure}[H]
     \centering
