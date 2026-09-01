@@ -62,9 +62,9 @@ Ainsi on cherche à minimiser :
 avec $\text{Pénalité}(\beta)$ qui admet différentes variantes :
 
 \begin{itemize}
-    \item La pénalité L1\footnote{La pénalité L1 ajoute la somme des valeurs absolues des coefficients à l'objectif à minimiser.} (Lasso) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} | \beta_j |$, qui a la propriété d'annuler certains coefficients, réalisant ainsi une sélection automatique de variables. En effet, si $\beta_j = 0$, la variable $j$ est complètement exclue du modèle ;
-    \item La pénalité L2\footnote{La pénalité L2 ajoute la somme des carrés des coefficients.} (Ridge) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} \beta_j^2$, qui rétrécit les coefficients sans les annuler. Ainsi, toutes les variables restent dans le modèle mais leurs coefficients sont tassés. Ceci est particulièrement utile lorsque les variables sont fortement corrélées entre elles.
-    \item L'elastic net, définie par $\text{Pénalité}(\beta) = \lambda \left[ \alpha \sum_{j=1}^{p} | \beta_j | + (1 - \alpha) \sum_{j=1}^{p} \beta_j^2 \right]$, avec $\alpha \in [0, 1]$, qui combine les deux termes avec un paramètre qui dose le mélange, pour bénéficier à la fois de la sélection et de la stabilité.
+    \item[$\bullet$] La pénalité L1\footnote{La pénalité L1 ajoute la somme des valeurs absolues des coefficients à l'objectif à minimiser.} (Lasso) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} | \beta_j |$, qui a la propriété d'annuler certains coefficients, réalisant ainsi une sélection automatique de variables. En effet, si $\beta_j = 0$, la variable $j$ est complètement exclue du modèle ;
+    \item[$\bullet$] La pénalité L2\footnote{La pénalité L2 ajoute la somme des carrés des coefficients.} (Ridge) définie par $\text{Pénalité}(\beta) = \lambda \sum_{j=1}^{p} \beta_j^2$, qui rétrécit les coefficients sans les annuler. Ainsi, toutes les variables restent dans le modèle mais leurs coefficients sont tassés. Ceci est particulièrement utile lorsque les variables sont fortement corrélées entre elles.
+    \item[$\bullet$] L'elastic net, définie par $\text{Pénalité}(\beta) = \lambda \left[ \alpha \sum_{j=1}^{p} | \beta_j | + (1 - \alpha) \sum_{j=1}^{p} \beta_j^2 \right]$, avec $\alpha \in [0, 1]$, qui combine les deux termes avec un paramètre qui dose le mélange, pour bénéficier à la fois de la sélection et de la stabilité.
 \end{itemize}
 
 La principale limite du modèle tient à son hypothèse d'additivité et de linéarité sur l'échelle du logit : les interactions entre variables et les effets non linéaires ne sont pas captés automatiquement et doivent être spécifiés à la main (termes croisés, discrétisations, transformations). Face à des schémas de fraude où la suspicion naît précisément de la conjonction de plusieurs facteurs, cette contrainte motive le recours à des méthodes plus flexibles.
@@ -235,8 +235,8 @@ La dangerosité extrême de ces réseaux réside dans leur capacité à « lisse
 Dans cette approche, le portefeuille de sinistres n'est plus vu comme un simple tableau (lignes/colonnes), mais est modélisé sous la forme d'un graphe mathématique $G = (V, E)$.
 
 \begin{itemize}
-    \item \textbf{Les Nœuds (Vertices --- $V$)} : ils représentent les entités du système. Il peut s'agir d'un dossier de sinistre, d'un assuré, d'un numéro de téléphone, d'une adresse IP ou d'un professionnel de l'automobile.
-    \item \textbf{Les arêtes (Edges --- $E$)} : elles matérialisent une relation entre deux nœuds. Une arête est créée si deux sinistres partagent un attribut commun (ex : même garagiste, même compte bancaire pour l'indemnisation) ou s'ils présentent une similarité vectorielle anormalement élevée (ce qui trahit souvent la réutilisation d'un même scénario de fraude).
+    \item[$\bullet$] \textbf{Les Nœuds (Vertices --- $V$)} : ils représentent les entités du système. Il peut s'agir d'un dossier de sinistre, d'un assuré, d'un numéro de téléphone, d'une adresse IP ou d'un professionnel de l'automobile.
+    \item[$\bullet$] \textbf{Les arêtes (Edges --- $E$)} : elles matérialisent une relation entre deux nœuds. Une arête est créée si deux sinistres partagent un attribut commun (ex : même garagiste, même compte bancaire pour l'indemnisation) ou s'ils présentent une similarité vectorielle anormalement élevée (ce qui trahit souvent la réutilisation d'un même scénario de fraude).
 \end{itemize}
 
 On peut mesurer la similarité entre deux dossiers $A$ et $B$ dans l'espace des variables via la similarité cosinus :
@@ -286,10 +286,10 @@ La première mesure naturelle de la qualité d'un modèle de détection de fraud
 Un dossier est dit :
 
 \begin{itemize}
-    \item vrai positif (TP) lorsque le modèle prédit une fraude et que le dossier est effectivement frauduleux ;
-    \item vrai négatif (TN) lorsque le modèle prédit un dossier sain et que celui-ci l'est bien ;
-    \item faux positif (FP) lorsqu'un dossier sain est incorrectement signalé comme frauduleux (génération d'un coût opérationnel inutile et une dégradation de l'expérience client) ;
-    \item faux négatif (FN) lorsqu'un dossier frauduleux n'est pas détecté, constituant la perte financière directe pour la compagnie.
+    \item[$\bullet$] vrai positif (TP) lorsque le modèle prédit une fraude et que le dossier est effectivement frauduleux ;
+    \item[$\bullet$] vrai négatif (TN) lorsque le modèle prédit un dossier sain et que celui-ci l'est bien ;
+    \item[$\bullet$] faux positif (FP) lorsqu'un dossier sain est incorrectement signalé comme frauduleux (génération d'un coût opérationnel inutile et une dégradation de l'expérience client) ;
+    \item[$\bullet$] faux négatif (FN) lorsqu'un dossier frauduleux n'est pas détecté, constituant la perte financière directe pour la compagnie.
 \end{itemize}
 
 \begin{figure}[H]

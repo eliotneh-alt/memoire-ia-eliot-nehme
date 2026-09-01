@@ -71,9 +71,19 @@
 \contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{77}{subsection.5.1.1}%
 \contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{81}{subsection.5.1.2}%
 \contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{85}{subsection.5.1.3}%
-\contentsline {chapter}{\numberline {6}Conclusion}{87}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Résumé des résultats}{88}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Synthèse des principaux résultats obtenus}{88}{subsection.6.1.1}%
-\contentsline {section}{\numberline {6.2}ffhfhf}{88}{section.6.2}%
-\contentsline {chapter}{Annexes}{89}{chapter*.8}%
-\contentsline {chapter}{Bibliographie}{90}{chapter*.8}%
+\contentsline {section}{\numberline {5.2}Modèle arbre de décision}{86}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{87}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{91}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{94}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Machine learning Gradient Boosting}{95}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Résultats du modèle}{95}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Qualité du modèle obtenu}{99}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Limites et précautions d'interprétation}{103}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Comparaison des modèles}{104}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Outil mis à disposition du service de détection des fraudes}{107}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Utilisation pratique de l'outil}{108}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{112}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Un outil de pilotage : le rapport annuel de détection de fraude}{114}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Un outil dynamique}{116}{section.6.4}%
+\contentsline {chapter}{Annexes}{118}{chapter*.8}%
+\contentsline {chapter}{Bibliographie}{119}{chapter*.8}%
