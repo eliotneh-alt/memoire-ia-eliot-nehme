@@ -1,3 +1,9 @@
+% ==============================================================
+% PRÉREQUIS PRÉAMBULE : pour que [H] fonctionne, le préambule
+% du document doit contenir :  \usepackage{float}
+% (ainsi que graphicx, longtable, xcolor, eurosym déjà utilisés)
+% ==============================================================
+
 \chapter{Mise en place d'un processus de détection de fraude automobile automatisé à l'aide d'un Agent IA}
 \label{chap:mise-en-place}
 
@@ -47,7 +53,7 @@ Ce maintien d'un « humain dans la boucle » répond à l'exigence de l'article 
 
 Posée en amont, cette gouvernance conditionne la confiance, la conformité et la pérennité du dispositif. Elle constitue le cadre dans lequel s'inscrit la conception de l'outil, présentée dans les sections suivantes.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapitre4/trois_nv_de_gouvernance.png}
     \caption{Les trois niveaux de gouvernance encadrant la mise en place de l'agent IA de détection de fraude}
@@ -266,7 +272,7 @@ Cet outil repose sur une logique en deux temps, articulée autour de deux profil
     \item Dans un second temps, une équipe opérationnelle (gestionnaires sinistres ou service de détection des fraudes) utilise ce modèle au quotidien sans avoir à en comprendre la construction. Pour chaque nouveau sinistre soumis, l'outil restitue une probabilité de fraude associée, permettant d'identifier les dossiers suspects et de les prioriser. Ainsi, les équipes d'investigation peuvent concentrer leurs efforts sur les cas les plus à risque, sans perdre de temps sur les dossiers à faible probabilité de fraude.
 \end{itemize}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/schema_macro.png}
     \caption{Schéma macroscopique du fonctionnement de l'outil}
@@ -317,7 +323,7 @@ Les étapes menant à la création du modèle sont ainsi décomposées :
     \item Critères de qualité du modèle et choix du modèle parmi les modèles construits.
 \end{enumerate}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/module1.png}
     \caption{Création et calibration du modèle de détection de fraude}
@@ -341,7 +347,7 @@ De plus, l'outil reste lié de manière cyclique au modèle puisque le renseigne
     \item l'affinage du modèle créé à l'aide des nouveaux sinistres renseignés.
 \end{itemize}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/module2.png}
     \caption{Agent d'aide à la détection de fraude}
@@ -349,3 +355,388 @@ De plus, l'outil reste lié de manière cyclique au modèle puisque le renseigne
 \end{figure}
 
 À noter que la logique de création des deux agents respecte l'objectif d'utilisation de ces derniers : deux équipes distinctes seront en charge de leur utilisation, d'où le besoin de rendre totalement indépendants les deux agents créés.
+
+
+% --------------------------------------------------------------
+\section{Résultats fournis par l'Agent IA pour la construction du modèle de scoring de fraude --- Étapes 1 à 3}
+% --------------------------------------------------------------
+
+Dans cette section, nous présentons la restitution concrète produite par notre outil sur le portefeuille de sinistres simulé (construit à partir des données Kaggle enrichies).
+
+Cette phase de conception du modèle constitue une étape amont essentielle, mais elle n'a pas vocation à être maîtrisée par les équipes opérationnelles en charge de la détection de la fraude. En effet, l'outil final qui leur est destiné repose sur un modèle déjà entraîné et optimisé, qu'ils pourront exploiter sans avoir à intervenir sur ses mécanismes internes. Ainsi, la complexité technique est volontairement « encapsulée » afin de proposer une solution simple d'utilisation, centrée sur l'aide à la décision aux gestionnaires.
+
+Dans la pratique, la responsabilité de la construction, de l'ajustement et de l'amélioration continue du modèle incombe généralement à des profils spécialisés, tels que les actuaires ou les data scientistes. Ces experts interviennent pour affiner les performances du modèle, intégrer de nouvelles données, ajuster les paramètres et garantir la robustesse des résultats dans le temps. Cette séparation des rôles permet d'assurer à la fois un haut niveau de performance analytique et une appropriation efficace de l'outil par les équipes métiers.
+
+% --------------------------------------------------------------
+\subsection{Étape 1 : Ingestion de la base de données}
+% --------------------------------------------------------------
+
+La première étape correspond au chargement des données.
+
+Sur la page d'accueil de l'outil, intitulée « Aide à la détection de fraude », nous invitons l'utilisateur à déposer son fichier de sinistres, qui constitue la donnée d'entrée de l'ensemble du processus.
+
+Le dépôt peut se faire de deux manières :
+
+\begin{itemize}
+    \item soit par glisser-déposer directement dans la zone prévue à cet effet,
+    \item soit en cliquant sur le bouton « Parcourir vos fichiers » afin de sélectionner le document depuis l'explorateur.
+\end{itemize}
+
+Les formats acceptés sont les plus courants pour ce type de données, à savoir CSV, Excel (.xlsx et .xls) et ODS, de manière à s'adapter aux différents systèmes de gestion des professionnels de l'assurance.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/extrait_prompt.png}
+    \caption{Extrait du prompt pour la création de l'étape 1}
+    \label{fig:extrait-prompt}
+\end{figure}
+
+À ce stade, aucun choix de modèle n'est demandé : celui-ci n'interviendra qu'ultérieurement, une fois les analyses descriptives consultées, ce qui permet à l'utilisateur de sélectionner en connaissance de cause le modèle de détection le plus adapté à la structure de son portefeuille.
+
+Enfin, nous signalons à l'utilisateur que les données importées sont traitées de manière sécurisée et confidentielle, l'outil étant réservé aux professionnels de l'assurance.
+
+L'utilisateur clique ensuite sur le bouton « submit » pour passer à l'étape suivante.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/page_accueil_outil.png}
+    \caption{Page d'accueil de l'outil d'aide à la détection de fraude}
+    \label{fig:page-accueil}
+\end{figure}
+
+% --------------------------------------------------------------
+\subsection{Étape 2 : Audit et contrôles de cohérence}
+% --------------------------------------------------------------
+
+Dès l'importation du fichier brut de sinistres, l'outil procède à un audit automatisé, étape fondamentale de Data Profiling. L'objectif de cette interface n'est pas de réaliser un simple inventaire, mais de garantir l'intégrité et la qualité des données avant qu'elles ne soient intégrées dans un modèle de prédiction de la fraude.
+
+Concrètement, comme illustré dans le tableau de restitution ci-dessous, le moteur cartographie le portefeuille en réalisant plusieurs contrôles croisés pour chaque variable :
+
+\begin{itemize}
+    \item \textbf{La vérification du typage} : l'outil confronte le type de donnée attendu par le système au type réellement détecté. Cela permet de bloquer instantanément les erreurs de formatage.
+    \item \textbf{L'analyse des plages et modalités} : le système extrait automatiquement les bornes pour les variables numériques, et liste les différentes catégories pour les variables textuelles, facilitant la détection immédiate de valeurs aberrantes (outliers).
+    \item \textbf{Le contrôle de complétude} : il calcule le taux de remplissage exact pour mettre en évidence les données manquantes. En cas de donnée(s) manquante(s), l'Agent demande à l'utilisateur de les remplacer par une valeur par défaut à renseigner. À noter qu'il aurait également été possible de proposer des options de remplissage par défaut, par exemple, pour une variable quantitative, la moyenne ou encore la médiane ou la valeur la plus représentée.
+\end{itemize}
+
+Dans notre outil, un contrôle bloquant a été mis en place sur la complétude des données : l'agent ne permet pas la poursuite des tâches si la base de données n'est pas complète.
+
+À titre illustratif, voici une sortie de l'outil lorsque la base admet une valeur manquante :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_qualite_donnees.png}
+    \caption{Sortie de l'outil « Analyse de la qualité des données de la base » avec une valeur manquante}
+    \label{fig:analyse-qualite}
+\end{figure}
+
+Ici, la variable « policy\_deductible » qui correspond à la franchise du contrat admet une valeur manquante. L'utilisateur est invité à choisir une des valeurs qui s'affiche pour compléter la ligne manquante (les valeurs affichées correspondent aux modalités observées dans la base d'entrée), ou à entrer manuellement une valeur dans un champ dédié.
+
+Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en Annexe (Cf.~XXXX).} :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_qualite_donnees_finale.png}
+    \caption{Sortie de l'outil « Analyse de la qualité des données de la base » sans valeur manquante}
+    \label{fig:analyse-qualite-finale}
+\end{figure}
+
+L'examen du tableau de contrôle permet de formuler deux observations métier majeures sur notre jeu de données :
+
+\begin{itemize}
+    \item D'une part, le contrôle des bornes (colonne « Modalités / Plage ») valide la cohérence globale de notre portefeuille. À titre d'exemple, l'outil confirme immédiatement que la variable insured\_age est strictement comprise entre 18 et 75 ans. L'absence de valeurs irréalistes confirme que les règles de gestion ont été respectées lors de la saisie.
+    \item De plus, la variable cible de notre étude, fraud\_reported, est correctement identifiée et renseignée à 100~\%, condition sine qua non pour l'entraînement d'un modèle supervisé.
+\end{itemize}
+
+De plus, l'agent a la capacité de détecter les variables susceptibles d'être utilisées dans le modèle et celles qui ne le sont pas (cf. dernière colonne « Inclure ») : la variable « policy\_id » correspondant à l'identifiant du contrat a été reconnue comme une variable d'incrément et est exclue de la modélisation. L'utilisateur peut également en exclure d'autres, pour des raisons réglementaires ou techniques à ce niveau.
+
+Enfin, en bas de page, l'utilisateur doit préciser à l'agent quelle variable désigne la variable à expliquer.
+
+Pour cela il suffit de sélectionner la variable cible dans la liste déroulante proposée :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/valeur_cible1.png}
+    \label{fig:valeur-cible1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/valeur_cible2.png}
+    \label{fig:valeur-cible2}
+\end{figure}
+
+Ici, c'est la variable fraud\_reported qui est la variable à modéliser, et elle sera appelée « fraude » dans la suite des analyses.
+
+% --------------------------------------------------------------
+\subsection{Étape 3 : Analyse statistique des données}
+% --------------------------------------------------------------
+
+Une fois la qualité des données validée, l'agent bascule dans une phase d'analyse exploratoire :
+
+\begin{itemize}
+    \item \textbf{Univariée} : il s'agit d'analyser la composition de notre portefeuille par variable ;
+    \item \textbf{Bivariée} : il s'agit ici d'analyser la fréquence et le coût moyen de la fraude, au même titre que les analyses qui seraient réalisées dans le cadre d'une tarification produit.
+\end{itemize}
+
+% --------------------------------------------------------------
+\subsubsection{Analyse de la composition du portefeuille}
+% --------------------------------------------------------------
+
+Avant d'engager toute modélisation ou détection de comportements atypiques, il est essentiel de dresser un portrait détaillé de la base de données sinistres automobiles étudiée.
+
+Cette analyse préliminaire vise à caractériser la structure des sinistres déclarés selon plusieurs axes : la nature des sinistres (accidents corporels, dommages, etc.), ainsi que les caractéristiques des conducteurs impliqués (âge, sexe, profession, adresse, etc.) et les paramètres du contrat (franchise, prime annuelle, etc.)
+
+Elle permet également d'examiner la distribution temporelle et géographique des déclarations, deux dimensions particulièrement révélatrices en matière de fraude automobile. Une telle exploration permet d'identifier d'éventuels déséquilibres ou concentrations atypiques dans les données (comme une surreprésentation de sinistres déclarés en fin de contrat ou dans certaines zones géographiques) et d'en tenir compte dans les étapes ultérieures de l'analyse. La connaissance fine de la structure de cette base constitue un prérequis indispensable à toute démarche actuarielle rigoureuse, en posant les fondements empiriques sur lesquels reposera l'ensemble de la modélisation de la fraude développée dans ce mémoire.
+
+Le prompt adressé à l'agent concernant l'analyse de composition de portefeuille renvoie la sortie suivante :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/composition_portefeuille.png}
+    \caption{Composition du portefeuille}
+    \label{fig:composition-portefeuille}
+\end{figure}
+
+La base de données étudiée comprend 30\,000 sinistres automobiles, offrant ainsi un volume suffisant pour mener une analyse statistique robuste et entraîner des modèles de détection de la fraude performants.
+
+La répartition par tranche d'âge (par pas de cinq ans) est relativement homogène, à l'exception de la tranche des 18-20 ans, nettement moins représentée (1~556 sinistres), ce qui s'explique par sa moindre amplitude et la faible part des très jeunes conducteurs. La répartition par sexe est quant à elle quasi équilibrée, avec une part similaire d'hommes (33,5~\%), de femmes (32,9~\%) et de personnes morales (33,6~\%).
+
+Les sinistres surviennent majoritairement la nuit, entre 0h et 6h (8~715 cas, soit environ 29~\%), devant l'après-midi et le matin, ce qui constitue un premier signal d'attention dans une optique anti-fraude, la nuit étant une période propice aux déclarations difficiles à contredire faute de témoins. À cet égard, on note que 66,8~\% des sinistres impliquent au moins deux témoins, tandis que 16,4~\% n'en comptent aucun. Par ailleurs, 60,1~\% des sinistres font état d'au moins deux blessés corporels, un chiffre élevé qui mérite d'être mis en perspective avec le taux de fraude observé.
+
+La franchise du contrat est répartie de manière très uniforme entre les différents niveaux (de 200 à 1~000~\euro{}), avec des effectifs oscillant entre 3~674 et 3~794 sinistres par modalité, suggérant une bonne diversité des profils de contrats. Concernant les démarches déclaratives, un rapport de police est disponible dans 49,7~\% des cas, et les autorités les plus fréquemment contactées sont les pompiers (7~569) et la police (7~498), tandis que près de 25~\% des sinistres n'impliquent aucune autorité, ce qui peut constituer un indicateur de risque supplémentaire dans la modélisation.
+
+Au-delà de ces caractéristiques générales, la base intègre également plusieurs variables directement pensées pour la détection de la fraude, dont la distribution mérite d'être soulignée. Ainsi, 3,2~\% des sinistres font intervenir un réparateur préalablement signalé et 10,4~\% font état d'une blessure déclarée sans preuve médicale, deux signaux classiques d'alerte. De même, 9~\% des dossiers concernent un tiers déjà connu de l'assuré, configuration propice aux sinistres arrangés. Enfin, la grande majorité des assurés ne présente aucun antécédent de fraude (26~222 dossiers), les cas répétés restant marginaux, ce qui reflète le caractère rare et déséquilibré du phénomène étudié.
+
+Cette analyse descriptive de la base sinistres permet d'établir une vision globale de la structure des données, sans distinction entre sinistres frauduleux et non frauduleux. La section suivante propose d'affiner cette exploration en adoptant une lecture bivariée, c'est-à-dire en comparant systématiquement la distribution de chaque variable selon le statut de fraude, afin d'identifier les premières variables discriminantes qui pourront guider la construction des modèles prédictifs.
+
+À noter que, de manière autonome, l'agent détecte automatiquement la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barres pour les variables admettant un nombre plus important de modalités.
+
+Enfin, l'agent permet l'export de la sortie graphique de composition du portefeuille, à des fins de traçabilité ou d'études intermédiaires par exemple.
+
+% --------------------------------------------------------------
+\subsubsection{Analyse des corrélations entre les variables}
+% --------------------------------------------------------------
+
+L'agent renvoie également une table de corrélation entre variables après l'analyse de composition du portefeuille, qui faisait partie de notre demande dans le prompt adressé.
+
+En effet, avant d'engager la phase de modélisation, il est important d'examiner les relations existantes entre les différentes variables explicatives de la base sinistres. Cette analyse permet de détecter d'éventuelles redondances entre variables, susceptibles d'introduire des problèmes de multicolinéarité dans les modèles ultérieurs, et de mieux comprendre la structure sous-jacente des données.
+
+La nature mixte des variables retenues (à la fois quantitatives et qualitatives) nécessite de recourir à plusieurs mesures d'association adaptées à chaque configuration.
+
+
+% --------------------------------------------------------------
+\subsubsection*{Corrélation entre deux variables quantitatives}
+% --------------------------------------------------------------
+
+Les corrélations entre variables quantitatives sont mesurées via le coefficient de Pearson. Pour deux variables $X$ et $Y$, il est défini par :
+
+\begin{equation}
+    \rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \, \sigma_Y}
+\end{equation}
+
+Son estimateur empirique sur un échantillon de taille $n$ s'écrit :
+
+\begin{equation}
+    r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}
+\end{equation}
+
+Ce coefficient, borné dans $[-1, 1]$, mesure exclusivement l'intensité et le sens d'une relation linéaire. Une valeur proche de 1 traduit une relation positive forte (les deux variables évoluent dans le même sens), une valeur proche de $-1$ une relation négative forte (l'une croît lorsque l'autre décroît), et une valeur proche de 0 l'absence de relation linéaire.
+
+Attention, une valeur nulle n'exclut pas l'existence d'une dépendance non linéaire, ce qui justifie de compléter l'analyse par une inspection graphique lorsque cela est pertinent.
+
+% --------------------------------------------------------------
+\subsubsection*{Association entre deux variables qualitatives}
+% --------------------------------------------------------------
+
+Les associations entre variables qualitatives sont quant à elles évaluées à l'aide du V de Cramér (dérivé de la statistique du $\chi^2$ de Pearson). Pour deux variables qualitatives comportant respectivement $k$ et $l$ modalités, croisées dans un tableau de contingence de $n$ observations, il est défini par :
+
+\begin{equation}
+    V = \sqrt{\frac{\chi^2 / n}{\min(k - 1, l - 1)}}
+\end{equation}
+
+où la statistique du $\chi^2$ est donnée par :
+
+\begin{equation}
+    \chi^2 = \sum_{i=1}^{k} \sum_{j=1}^{l} \frac{(n_{ij} - n_{ij}^*)^2}{n_{ij}^*}
+\end{equation}
+
+Les termes $n_{ij}$ désignent les effectifs observés dans la cellule $(i, j)$ et $n_{ij}^*$ les effectifs théoriques sous l'hypothèse d'indépendance des deux variables. Le V de Cramér prend ses valeurs dans $[0, 1]$, une valeur nulle traduisant l'indépendance et une valeur unitaire une association parfaite.
+
+Sa normalisation par $\min(k - 1, l - 1)$ le rend comparable entre tableaux de dimensions différentes, ce qui constitue un avantage déterminant dans un contexte où les variables catégorielles présentent des cardinalités hétérogènes.
+
+Contrairement au coefficient de Pearson, le V de Cramér ne renseigne pas sur le sens de la relation, mais uniquement sur son intensité, puisqu'il s'applique à des variables non ordonnées.
+
+% --------------------------------------------------------------
+\subsubsection*{Association entre une variable quantitative et une variable qualitative}
+% --------------------------------------------------------------
+
+Les relations entre une variable quantitative et une variable qualitative sont appréhendées par le rapport de corrélation ($\eta^2$).
+
+Soit $Y$ une variable quantitative et $X$ une variable qualitative à $k$ modalités partitionnant l'échantillon en $k$ classes d'effectifs $n_1, \dots, n_k$. En notant $\bar{y}_j$ la moyenne de $Y$ dans la classe $j$ et $\bar{y}$ la moyenne globale, la décomposition de la variance totale s'écrit :
+
+\begin{equation}
+    \underbrace{\sum_{j=1}^{k} \sum_{i=1}^{n_j} (y_{ij} - \bar{y})^2}_{SC_{\text{totale}}} = \underbrace{\sum_{j=1}^{k} n_j (\bar{y}_j - \bar{y})^2}_{SC_{\text{inter}}} + \underbrace{\sum_{j=1}^{k} \sum_{i=1}^{n_j} (y_{ij} - \bar{y}_j)^2}_{SC_{\text{intra}}}
+\end{equation}
+
+avec $SC$ la somme des carrés. Le rapport de corrélation est alors défini par :
+
+\begin{equation}
+    \eta^2 = \frac{SC_{\text{inter}}}{SC_{\text{totale}}}
+\end{equation}
+
+Il s'interprète comme la part de la variance de $Y$ expliquée par l'appartenance aux modalités de $X$. Une valeur proche de zéro indique une absence de discrimination des modalités de $X$ sur les niveaux moyens de $Y$, tandis qu'une valeur proche de 1 traduit une segmentation forte.
+
+Par convention, un coefficient supérieur à 0,7 est généralement considéré comme révélateur d'une association forte, pouvant justifier l'exclusion ou la transformation de l'une des variables concernées.
+
+% --------------------------------------------------------------
+\subsubsection*{Corrélation entre les variables de la base étudiée}
+% --------------------------------------------------------------
+
+Les tableaux ci-dessous synthétisent l'ensemble de ces mesures et constituent ainsi un prérequis méthodologique essentiel à la construction de modèles robustes et interprétables, en garantissant la qualité et l'indépendance de l'information apportée par chaque variable retenue dans l'analyse.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation1.png}
+    \caption{Matrice de corrélations --- variables quantitatives (coefficient de Pearson)}
+    \label{fig:matrice-correlation1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation2.png}
+    \caption{Matrice de corrélations --- variables qualitatives (V de Cramér)}
+    \label{fig:matrice-correlation2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation3.png}
+    \caption{Matrice de corrélations --- variables mixtes (rapport de corrélation $\eta^2$)}
+    \label{fig:matrice-correlation3}
+\end{figure}
+
+Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
+
+S'agissant des variables quantitatives, la grande majorité des corrélations de Pearson sont très faibles (proches de 0), traduisant une quasi-indépendance linéaire entre la plupart des grandeurs continues (prime, franchise, âge, délais, etc.). Deux exceptions se distinguent toutefois nettement. D'une part, le montant réclamé et le montant total de l'indemnisation présentent une corrélation très élevée (0,90), ce qui est logique puisque ces deux variables mesurent des quantités monétaires étroitement liées. D'autre part, le ratio de surévaluation de la réclamation est corrélé de façon marquée à ces mêmes montants (0,76 et 0,70). Ces redondances signalent un risque de multicolinéarité qu'il conviendra de traiter lors de la modélisation, par exemple en ne conservant qu'une seule de ces variables ou en construisant un indicateur synthétique, afin de préserver la stabilité et l'interprétabilité des modèles.
+
+Parmi les variables qualitatives, mesurées par le V de Cramér, l'association la plus marquée avec la fraude concerne le statut de réparateur signalé ($V = 0{,}26$), suivi des autorités contactées ($V = 0{,}18$), de la présence d'une blessure déclarée sans preuve médicale ($V = 0{,}17$) et du fait que le tiers soit déjà connu de l'assuré ($V = 0{,}17$). Les autres variables qualitatives (gravité de l'incident, canal de déclaration, profession, etc.) présentent des associations nettement plus faibles.
+
+Parmi les variables quantitatives, mesurées par le rapport de corrélation $\eta^2$, les intensités les plus fortes s'observent pour le passé du réparateur, avec le nombre de fraudes qu'il a déjà confirmées ($\eta^2 = 0{,}32$) et son nombre total de sinistres traités ($\eta^2 = 0{,}19$), ainsi que pour le ratio entre la facture et le prix de marché ($\eta^2 = 0{,}28$) et les antécédents de fraude de l'assuré ($\eta^2 = 0{,}24$). Viennent ensuite l'historique des montants réclamés (0,19), le nombre de modifications apportées à la déclaration (0,18) et le nombre d'incidents passés du tiers (0,17).
+
+Concernant les corrélations linéaires entre variables quantitatives, seul le couple montant réclamé / montant total dépasse le seuil de 0,7 retenu comme signal de redondance excessive (0,90). Cette forte corrélation justifie de ne conserver qu'une seule de ces deux variables lors de la modélisation. Pour l'ensemble des autres variables explicatives, aucune association n'atteint ce seuil : elles apportent une information suffisamment distincte pour être toutes conservées dans la phase de modélisation.
+
+% --------------------------------------------------------------
+\subsubsection{Élimination des variables corrélées}
+% --------------------------------------------------------------
+
+À l'issue de l'analyse des matrices d'association, l'outil offre à l'utilisateur la possibilité d'écarter les variables jugées redondantes. Cette étape de sélection vise à ne conserver, parmi les variables candidates, que celles qui apportent une information « propre » et non déjà captée par d'autres, afin de ne pas dégrader la qualité des modèles construits par la suite.
+
+Sur les 54 variables explicatives disponibles à ce stade (24 issues de la base source et 30 issues de l'enrichissement), 45 ont été retenues pour la modélisation. Les 9 variables restantes ont été écartées automatiquement par l'outil, qui les a identifiées comme non pertinentes pour la prédiction : la variable cible fraud\_reported, qui constitue précisément la grandeur à prédire et ne peut donc servir d'entrée ; les identifiants uniques ou quasi uniques, dépourvus de tout pouvoir prédictif généralisable (policy\_id, insured\_id, repairer\_id, third\_party\_id, witness\_id, vehicle\_id) ; et deux variables trop granulaires pour une analyse statistique robuste, à savoir la date exacte du sinistre (incident\_date) et la ville du sinistre (incident\_city), dont le très grand nombre de modalités rendrait les effectifs par catégorie trop faibles. Ce filtrage, réalisé en amont par l'agent sans intervention manuelle, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/retirer_variable.png}
+    \caption{Interface de sélection permettant de conserver ou de retirer des variables}
+    \label{fig:retirer-variable}
+\end{figure}
+
+Le retrait des variables fortement corrélées répond à un enjeu méthodologique important. Lorsque deux variables explicatives sont redondantes, elles introduisent un phénomène de multicolinéarité qui peut fragiliser le modèle de plusieurs manières.
+
+Sur les modèles de type régression ou scoring, la multicolinéarité rend l'estimation des coefficients instable : de faibles variations dans les données peuvent entraîner des changements importants dans les pondérations attribuées à chaque variable, rendant leur interprétation peu fiable, voire trompeuse. Sur l'ensemble des modèles, elle nuit également à la parcimonie et à la lisibilité du dispositif, sans améliorer le pouvoir prédictif puisque l'information est déjà présente. Éliminer ces redondances en amont permet donc de gagner en robustesse, en stabilité et en interprétabilité, sans perte d'information significative.
+
+% --------------------------------------------------------------
+\subsubsection{Analyse de la fréquence de fraude}
+% --------------------------------------------------------------
+
+Le système ne se contente plus de décrire chaque variable isolément, il croise systématiquement chaque caractéristique avec la variable cible (fraud\_reported) préalablement identifiée par l'utilisateur.
+
+L'objectif de cette interface est de réaliser un « profilage » automatisé. En comparant visuellement la distribution des modalités au sein de la population saine (« Non-fraudeurs ») avec celle des fraudeurs avérés (« Fraudeurs »), l'outil calcule un indicateur de déviation statistique appelé le « Delta » :
+
+\begin{itemize}
+    \item un delta positif important révèle une sur-représentation anormale d'une caractéristique dans les dossiers de fraude historiques ;
+    \item à l'inverse, un delta négatif met en avant la sous-représentation de certaines caractéristiques dans les dossiers de fraude.
+\end{itemize}
+
+L'agent va ensuite réaliser deux actions de manière autonome :
+
+\begin{itemize}
+    \item afficher le top~3 des variables jugées comme les plus discriminantes au vu de la variable cible (affichage on Top) ;
+    \item choisir la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barres pour les variables admettant un nombre plus important de modalités.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude.png}
+    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes par variables sur la base de données de sinistres automobile}
+    \label{fig:analyse-repartition-fraude}
+\end{figure}
+
+Afin de permettre à l'utilisateur de visualiser l'ensemble des variables, un choix d'affichage est disponible à droite sur simple clic.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude_barre.png}
+    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes pour les variables des autorités contactées et nombre de fraudes passées sur la base de données de sinistres automobile}
+    \label{fig:analyse-repartition-fraude-barre}
+\end{figure}
+
+À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par police\_id par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.
+
+Pour les variables dont les modalités ont été regroupées en classes, une loupe située en haut à droite permet d'afficher une version plus détaillée, où les tranches sont segmentées à la maille la plus fine disponible.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/tranche_age.png}
+    \caption{Analyse de la variable tranche d'âge selon le statut fraude du sinistre}
+    \label{fig:tranche-age}
+\end{figure}
+
+À titre d'exemple, la variable tranche d'âge peut être affichée dans sa version détaillée :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/tranche_age_zoom.png}
+    \caption{Vue détaillée de la variable tranche d'âge}
+    \label{fig:tranche-age-zoom}
+\end{figure}
+
+Cette vue détaillée par âge fait apparaître une surreprésentation des assurés de 18 à 24 ans parmi les sinistres frauduleux : alors que la distribution des non-fraudeurs reste relativement uniforme sur l'ensemble des tranches d'âge, celle des fraudeurs présente un pic sur les premiers âges avant de se stabiliser au-delà de 24 ans. Cet effet reste toutefois localisé sur les jeunes conducteurs : au-delà de cette tranche, l'âge ne discrimine plus la fraude. L'âge n'est donc pas une variable fortement discriminante en soi, mais la classe des 18-24 ans mérite une attention particulière.
+
+L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour orienter les règles de gestion et alimenter les algorithmes prédictifs :
+
+\begin{enumerate}
+    \item \textbf{Les antécédents de fraude et l'environnement du sinistre : des signaux prioritaires.} L'analyse met en évidence une forte association entre la fraude et les informations relatives au réparateur ainsi qu'aux antécédents de l'assuré. Le nombre de fraudes déjà confirmées pour le réparateur constitue le signal le plus marqué ($\eta^2 = 0{,}32$), devant le ratio facture/marché ($\eta^2 = 0{,}28$) et le nombre de fraudes passées de l'assuré ($\eta^2 = 0{,}24$). S'y ajoute, parmi les variables qualitatives, le statut de réparateur signalé ($V = 0{,}26$). Ainsi, les assurés ayant déjà connu au moins une fraude représentent 35,6~\% des dossiers frauduleux, contre 9,6~\% des dossiers non frauduleux. Ces éléments justifient une vigilance renforcée lorsque l'historique de l'assuré et celui des intervenants convergent vers un profil à risque.
+
+    \item \textbf{La cohérence de la déclaration : un levier essentiel de détection.} Les modalités de déclaration du sinistre apportent des indicateurs particulièrement discriminants. L'absence d'autorités contactées apparaît dans 46,5~\% des dossiers frauduleux, contre 22,5~\% des dossiers non frauduleux, soit un écart de 24 points. Le nombre d'amendements apportés à la déclaration constitue également un signal important : les dossiers comprenant au moins deux modifications représentent 31,9~\% des fraudes, contre 13,5~\% des dossiers non frauduleux. Enfin, une blessure déclarée sans preuve médicale concerne 24,6~\% des dossiers frauduleux, contre 8,6~\% des dossiers non frauduleux. Ces incohérences ou ajustements successifs doivent donc alimenter les règles de contrôle et les mécanismes de priorisation des dossiers.
+
+    \item \textbf{Les historiques de sinistres : une lecture complémentaire du risque.} L'accumulation de sinistres antérieurs est davantage observée parmi les dossiers frauduleux. Les assurés ayant déclaré au moins deux sinistres par le passé représentent 47,6~\% des cas de fraude, contre 30,4~\% des dossiers non frauduleux. Les antécédents d'incidents du tiers impliqué suivent une logique similaire : 18,5~\% des dossiers frauduleux concernent un tiers ayant déjà connu au moins un incident, contre 8,2~\% des dossiers non frauduleux. Ces résultats confirment l'intérêt d'une analyse croisée entre l'historique de l'assuré, celui du tiers et les caractéristiques du réparateur, plutôt que d'une lecture fondée sur une seule variable.
+
+    \item \textbf{Les variables descriptives : utiles pour segmenter, moins déterminantes pour alerter.} Les caractéristiques socio-démographiques et contractuelles (le sexe, la prime annuelle, la franchise, l'heure de l'incident ou le nombre de véhicules impliqués) présentent des associations faibles avec la fraude. L'âge relève également de cette catégorie : hormis la surreprésentation ciblée des 18-24 ans évoquée plus haut, il ne constitue pas un facteur de priorisation. Ces variables contribuent à la description et à la segmentation du portefeuille, sans figurer parmi les principaux signaux d'alerte. La sévérité de l'incident conserve toutefois un intérêt descriptif : la modalité « perte totale » est présente dans 43,5~\% des fraudes, contre 32,4~\% des dossiers non frauduleux. L'évaluation globale du risque doit donc privilégier les éléments d'historique et de cohérence déclarative, tout en conservant les variables descriptives pour enrichir l'analyse des profils.
+\end{enumerate}
+
+% --------------------------------------------------------------
+\subsubsection{Analyse du coût moyen de la fraude}
+% --------------------------------------------------------------
+
+Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (variable total\_claim\_amount).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_cm.png}
+    \caption{Analyse du coût moyen des sinistres frauduleux et non frauduleux}
+    \label{fig:analyse-cm}
+\end{figure}
+
+Ces indicateurs nous permettent de faire un constat contre-intuitif : la fraude ne concerne pas les sinistres les plus coûteux. Le coût moyen des 3\,440 dossiers frauduleux s'élève à 12\,675,09~\euro{}, soit un montant quasiment identique, et même légèrement inférieur, au coût moyen global (12\,757,74~\euro{}). Autrement dit, les dossiers frauduleux ne se distinguent pas par des montants réclamés plus élevés que les dossiers sains.
+
+Ce résultat, à première vue surprenant, a une implication importante : le montant du sinistre n'est pas, à lui seul, un signal permettant d'orienter la détection vers les fraudeurs. Une stratégie de contrôle qui se concentrerait uniquement sur les sinistres les plus coûteux passerait donc à côté d'une large part de la fraude. C'est précisément ce qui justifie le recours à une approche multivariée : la fraude se révèle non pas par le montant réclamé, mais par la combinaison de signaux comportementaux et déclaratifs identifiés précédemment (antécédents, cohérence de la déclaration, environnement du sinistre).
+
+L'objectif du mémoire étant de modéliser une probabilité de fraude (variable cible binaire), l'étude du coût moyen n'entre a priori pas directement dans la spécification du modèle. Néanmoins, elle conserve une justification importante dans un mémoire actuariel : la justification de l'enjeu économique du modèle. En effet, modéliser une probabilité de fraude n'a de valeur opérationnelle que si la fraude représente un enjeu financier significatif.
+
+Ainsi, le gain unitaire espéré d'une fraude correctement détectée correspond au coût moyen d'un sinistre frauduleux $\bar{C}_F$ :
+
+\begin{equation}
+    \text{Gain unitaire espéré} \approx \bar{C}_F
+\end{equation}
+
+Ce gain correspond au montant que l'assureur évite de verser indûment en écartant le dossier. On fait ici l'hypothèse qu'un sinistre identifié comme frauduleux est intégralement rejeté ; dans le cas d'une simple exagération, seul le surcoût frauduleux serait effectivement récupéré. Cela pose le cadre économique qui légitime la démarche de modélisation.
