@@ -84,7 +84,7 @@
 \contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{110}{section.6.2}%
 \contentsline {section}{\numberline {6.3}Un outil de pilotage : le rapport annuel de détection de fraude}{112}{section.6.3}%
 \contentsline {section}{\numberline {6.4}Un outil dynamique}{114}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Limites de l'outil créé dans ce mémoire et réflexions autour de l'IA}{116}{chapter.7}%
+\contentsline {chapter}{\numberline {7}Conclusion, limites de l'outil créé dans ce mémoire et réflexions autour de l'IA}{116}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Un outil d'aide à la décision : complémentaire avec l'humain}{116}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Nature de l'IA utilisée : de l'IA générative à l'IA agentique}{118}{section.7.2}%
 \contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{119}{section.7.3}%
