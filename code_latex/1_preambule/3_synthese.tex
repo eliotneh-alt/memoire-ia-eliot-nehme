@@ -2,12 +2,113 @@
 % Ajouter manuellement cette section à la table des matières
 \addcontentsline{toc}{chapter}{Synthèse}
 
-Reposant sur le principe de mutualisation des risques, l'assurance suppose un climat de confiance entre assureur et assuré que la fraude vient détourner. En assurance non-vie, ce phénomène représente une charge estimée à environ 2,5~milliards d'euros par an en France, dont une partie importante demeure non détectée. La lutte traditionnelle, fondée sur le jugement des gestionnaires et des cellules spécialisées, se heurte à une couverture partielle des dossiers, à une forte dépendance à l'expertise individuelle et à un coût de contrôle rendant non rentable l'investigation de la fraude de faible montant.
+%   \usepackage{booktabs}   % pour \toprule \midrule \bottomrule
+%   \usepackage{pgfplots}   % pour le graphique en barres
+%   \pgfplotsset{compat=1.18}
+%   \usepackage{xcolor}     % (déjà présent : couleur accenture)
+%
+% Le graphique est tracé nativement en pgfplots (pas d'image externe).
+% Si tu préfères insérer ta capture d'écran à la place, remplace le
+% bloc "tikzpicture" par un \includegraphics classique.
+% ==============================================================
 
-Face à ce constat, ce mémoire conçoit un processus de détection automatisé de la fraude automobile s'appuyant sur un agent d'intelligence artificielle. La démarche est volontairement circonscrite à la fraude circonstancielle, décelable à partir de données structurées (caractéristiques du sinistre, antécédents, cohérence déclarative), et s'appuie sur une base publique de 30\,000 sinistres enrichie de variables reproduisant l'information réellement disponible chez un assureur.
+Reposant sur le principe de mutualisation des risques, l'assurance suppose un climat de confiance entre l'assureur et l'assuré, que la fraude vient détourner à son profit. En assurance non-vie, ce phénomène représente une charge estimée à environ 2,5~milliards d'euros par an en France, soit près de 5~\% du niveau d'encaissement des primes, dont une partie importante demeure non détectée. Au-delà de son coût direct, la fraude alourdit la prime de chaque assuré honnête d'une cinquantaine d'euros par contrat automobile et fragilise à terme la solidarité même de la mutualité.
 
-Trois modèles sont construits et comparés selon un arbitrage entre interprétabilité et performance : un scoring en points, transparent et proche des pratiques actuarielles ; un arbre de décision, capable de capter interactions et effets de seuil ; et un modèle de Gradient Boosting, qui obtient les meilleures performances discriminantes (AUC de 0,942, lift de $\times$6,66 au premier décile). L'évaluation mobilise une batterie d'indicateurs adaptés au fort déséquilibre des classes (Gini, KS, précision, rappel, PR-AUC, PSI), le choix du seuil de décision relevant d'un arbitrage économique entre coût des faux positifs et coût des fraudes non détectées.
+La lutte traditionnelle contre ce phénomène, fondée sur le jugement des gestionnaires de sinistres et l'intervention de cellules spécialisées, atteint aujourd'hui ses limites. Elle ne permet de contrôler qu'une fraction des dossiers, dépend fortement de l'expertise individuelle des enquêteurs, et se heurte à une contrainte économique difficilement surmontable : le coût d'une investigation manuelle rend non rentable le contrôle de la fraude de faible montant, pourtant la plus répandue. C'est de ce constat qu'est né le présent mémoire, dont l'objet est de concevoir et de mettre en œuvre un processus de détection automatisé de la fraude automobile, reposant sur un agent d'intelligence artificielle et couvrant l'intégralité de la chaîne, de l'ingestion des données jusqu'au pilotage du dispositif.
 
-L'outil se structure en deux modules indépendants correspondant à deux profils d'utilisateurs : un premier module de construction et de calibration du modèle, destiné aux actuaires ; un second module opérationnel d'aide à la décision, destiné aux gestionnaires, qui attribue à chaque sinistre une probabilité de fraude et l'oriente vers une zone de risque. Ce dispositif est complété par une boucle d'enrichissement continu, alimentée par les issues réelles des dossiers investigués, et par un rapport de pilotage mesurant la fraude évitée, l'impact sur le ratio Sinistres/Primes et le retour sur investissement.
+\bigskip
 
-L'ensemble s'inscrit dans un cadre de gouvernance conforme au RGPD et à l'AI Act, garantissant explicabilité, traçabilité et maintien d'une supervision humaine : l'agent hiérarchise les dossiers sans se substituer à la décision de l'enquêteur. Le mémoire se conclut sur les limites du dispositif et ses perspectives d'extension : couplage à la base portefeuille, intégration de données externes, mutualisation inter-assureurs et approche multi-produits.
+\noindent\textbf{Enjeux et positionnement :} Le mémoire s'ouvre sur une caractérisation de la fraude à l'assurance, de ses typologies (opportuniste ou organisée, à la souscription ou au sinistre) et de son cadre juridique, avant d'en établir l'enjeu économique. La valeur d'un dispositif de détection ne se mesure pas à sa seule performance statistique, mais à la charge de sinistres qu'il permet d'éviter : cet ancrage économique, formalisé par la notion de gain unitaire espéré, constitue le fil conducteur du travail et justifie que le choix des paramètres du modèle relève in fine d'un arbitrage coût-bénéfice. Le mémoire dresse ensuite un panorama des méthodes de détection, opposant les approches manuelles traditionnelles aux apports de l'intelligence artificielle, pour aboutir à une conviction qui oriente toute la suite : loin de remplacer l'expertise humaine, l'IA doit s'articuler avec elle selon une logique de complémentarité, où l'algorithme filtre et hiérarchise tandis que l'humain investigue et décide.
+
+\bigskip
+
+\noindent\textbf{Cadre théorique :} La partie méthodologique présente les modèles supervisés retenus (du scoring en points à la régression logistique, en passant par les arbres de décision et les méthodes d'ensemble comme le Gradient Boosting), ainsi que les approches non supervisées mobilisables pour la fraude organisée (détection d'anomalies, clustering, analyse de graphes). Une attention particulière est portée aux critères d'évaluation adaptés au fort déséquilibre des classes : dans une population où la fraude est rare, les indicateurs usuels comme le taux de bonne classification deviennent trompeurs, et l'on doit leur préférer l'AUC-ROC, le coefficient de Gini, la statistique de Kolmogorov-Smirnov, la précision, le rappel ou la PR-AUC. Cette partie insiste enfin sur les exigences de gouvernance, d'interprétabilité et de conformité réglementaire (RGPD, AI Act) encadrant le déploiement de tels modèles.
+
+\bigskip
+
+\noindent\textbf{Conception de l'outil :} Le cœur du mémoire est consacré à la mise en œuvre concrète. La démarche est volontairement circonscrite à la fraude circonstancielle, décelable à partir de données structurées : caractéristiques du sinistre, antécédents de l'assuré et des intervenants, cohérence de la déclaration. Elle s'appuie sur une base publique de 30~000 sinistres automobiles et 24 variables, présentant un taux de fraude de 11,5~\%. La base est ensuite enrichie de trente variables supplémentaires simulées pour reproduire l'information réellement disponible chez un assureur (historique du réparateur, du tiers et du véhicule, comportement déclaratif, dimension géographique et temporelle). 
+
+L'outil se structure en deux modules, correspondant à deux profils d'utilisateurs et à deux temporalités. Le premier, destiné aux actuaires, prend en charge la construction du modèle : ingestion standardisée, audit automatisé de la qualité des données, analyse statistique descriptive, construction des modèles et sélection du meilleur au regard des critères de qualité. Le second, destiné aux gestionnaires de sinistres, exploite le modèle calibré sans en exposer la complexité : pour chaque nouveau dossier, il restitue une probabilité de fraude et l'oriente vers une zone de risque conditionnant le niveau d'investigation. La logique de l'agent est pilotée par un prompt décomposé en étapes successives, qui reproduit la démarche actuarielle et garantit la traçabilité de chaque maillon de la chaîne.
+
+\bigskip
+
+\noindent\textbf{Résultats :} L'analyse descriptive fait ressortir les déterminants majeurs de la fraude : le rôle central de l'environnement du réparateur, les antécédents de fraude de l'assuré, la cohérence de la déclaration et le ratio entre la facture de réparation et le prix de marché. Un constat contre-intuitif s'en dégage : la fraude ne concerne pas les sinistres les plus coûteux, ce qui justifie pleinement le recours à une approche multivariée. Trois modèles sont alors construits et comparés selon un arbitrage entre interprétabilité et performance, dont les résultats sont synthétisés ci-dessous.
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.35}
+    \begin{tabular}{l c c c}
+        \toprule
+        \textbf{Indicateur} & \textbf{Scoring en points} & \textbf{Arbre de décision} & \textbf{Gradient Boosting} \\
+        \midrule
+        AUC-ROC            & 0,923  & 0,838  & \textbf{0,942} \\
+        Gini               & 0,846  & 0,676  & \textbf{0,885} \\
+        KS                 & 0,688  & 0,565  & \textbf{0,740} \\
+        Lift @10\,\%       & --     & $\times$4,61 & \textbf{$\times$6,66} \\
+        PSI                & 0,0008 & 0,0026 & 0,0023 \\
+        Écart backtesting  & 0,009  & 0,039  & 0,026 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Synthèse des indicateurs de qualité des trois modèles testés}
+    \label{tab:synthese-modeles}
+\end{table}
+
+Le Gradient Boosting s'impose comme le modèle le plus discriminant (AUC de 0,942, Gini de 0,885, lift de $\times$6,66 au premier décile) et est retenu à ce titre. Le scoring en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,923, il se situe très près du Gradient Boosting tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
+
+Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés, comme l'illustre le profil du modèle retenu.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xbar,
+            width=0.86\textwidth,
+            height=8cm,
+            xmin=0, xmax=30,
+            xlabel={Importance relative (\%)},
+            symbolic y coords={
+                {Autorités contactées},
+                {Nb sinistres passés (véhicule)},
+                {Délai de déclaration},
+                {Âge du véhicule},
+                {Durée de possession du véhicule},
+                {Nb d'amendements à la déclaration},
+                {Valeur marchande du véhicule},
+                {Nb fraudes passées (assuré)},
+                {Historique montants réclamés},
+                {Ratio facture / marché (réparateur)}
+            },
+            ytick=data,
+            nodes near coords,
+            nodes near coords align={horizontal},
+            every node near coord/.append style={font=\footnotesize},
+            bar width=9pt,
+            enlarge y limits=0.08,
+            tick label style={font=\footnotesize},
+            label style={font=\small},
+        ]
+        \addplot[fill=accenture, draw=accenture] coordinates {
+            (5,{Autorités contactées})
+            (5,{Nb sinistres passés (véhicule)})
+            (6,{Délai de déclaration})
+            (6,{Âge du véhicule})
+            (7,{Durée de possession du véhicule})
+            (8,{Nb d'amendements à la déclaration})
+            (10,{Valeur marchande du véhicule})
+            (12,{Nb fraudes passées (assuré)})
+            (16,{Historique montants réclamés})
+            (25,{Ratio facture / marché (réparateur)})
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Importance relative des variables dans le modèle retenu (Gradient Boosting)}
+    \label{fig:importance-gb}
+\end{figure}
+
+\bigskip
+
+\noindent\textbf{Exploitation et gouvernance :} Le dispositif est complété par une boucle d'enrichissement continu : une fois l'investigation d'un dossier close, son issue réelle (fraude avérée ou non) est renseignée sous forme binaire, et seuls les dossiers ainsi qualifiés alimentent la base d'apprentissage, permettant au modèle de se recalibrer sur des cas avérés et de suivre l'évolution des comportements frauduleux. Un rapport de pilotage restitue en continu la valeur ajoutée de l'outil : montant de fraude évitée, impact sur le ratio Sinistres/Primes et retour sur investissement. L'ensemble demeure placé sous supervision humaine : l'agent hiérarchise et oriente les dossiers, mais ne prononce aucune décision défavorable de façon automatique, l'investigation et la décision finale relevant toujours de l'enquêteur, conformément à l'article~22 du RGPD et à l'AI Act.
+
+\bigskip
+
+\noindent\textbf{Limites et perspectives :} Le mémoire se conclut sur une réflexion critique. Parmi les limites figurent le caractère partiellement simulé des données d'enrichissement, la sur-représentation probable de la fraude dans la base retenue (11,5~\% contre environ 5~\% en réalité), et la nécessité de recalibrer le modèle sur une sinistralité représentative avant tout déploiement. L'outil ouvre néanmoins de nombreuses voies : le couplage à une base portefeuille offrant une profondeur historique et relationnelle inaccessible au seul niveau du sinistre, l'intégration de données externes, la mutualisation inter-assureurs pour détecter les fraudeurs « nomades », ou encore l'extension à d'autres branches de l'assurance non-vie. À mesure que les capacités de l'intelligence artificielle progressent, la question n'est sans doute plus de savoir si ces outils transformeront la lutte anti-fraude, mais comment les assureurs sauront en faire un usage à la fois performant, maîtrisé et respectueux des droits des assurés.

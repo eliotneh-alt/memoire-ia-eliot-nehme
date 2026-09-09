@@ -29,9 +29,19 @@
 \usepackage{array}
 \usepackage{eurosym}
 \usepackage{longtable}
-
+%\usepackage{seqsplit}
+%\usepackage{pdflscape} % Fait pivoter la page dans le PDF
+%\usepackage{adjustbox}
 
 \definecolor{accenture}{HTML}{A100FF}
+\definecolor{axehist}{HTML}{FBF8E8}    % Historique assuré - crème/jaune très clair
+\definecolor{axecontrat}{HTML}{E4ECF6}  % Contrat enrichi - bleu clair
+\definecolor{axegarage}{HTML}{EDE7F5}  % Réseau garagiste - violet clair
+\definecolor{axetiers}{HTML}{EDE7F5}   % Réseau tiers - violet clair
+\definecolor{axevehic}{HTML}{E7F1E4}   % Véhicule - vert clair
+\definecolor{axecompo}{HTML}{FBEAEA}   % Comportement déclaratif - rouge/rose clair
+\definecolor{axegeo}{HTML}{FBF8E8}     % Géographique - jaune clair
+\definecolor{axetemp}{HTML}{D3DBD0}
 \usetikzlibrary{positioning, shapes.geometric, arrows.meta, shapes.misc, backgrounds, fit, shadows}
 \usetikzlibrary{shapes, arrows, positioning}
 \setlist[itemize]{itemsep=8pt, topsep=2pt} % Applique ces réglages à toutes les listes itemize
@@ -47,7 +57,7 @@
 
 \titleformat{\chapter}[display]
   {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
   {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
   {\Huge} % Taille de la police pour le titre du chapitre
 
@@ -146,14 +156,14 @@
 \include{1_preambule/4_synthesis}
 
 
-\clearpage
+%\clearpage
 \pagenumbering{arabic}
 
 \include{1_preambule/5_introduction}
 
 \titleformat{\chapter}[display]
   {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
   {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
   {\Huge} % Taille de la police pour le titre du chapitre
 %  [\vfill\newpage] % Reste de la page vide et saut de page
@@ -168,7 +178,7 @@
 
 \titleformat{\chapter}[display]
   {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{50pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
   {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
   {\Huge} % Taille de la police pour le titre du chapitre
   

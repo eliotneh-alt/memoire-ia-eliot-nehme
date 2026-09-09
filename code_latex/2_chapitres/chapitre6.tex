@@ -31,16 +31,16 @@ En amont de son utilisation, les seuils de décision sont définis par l'actuair
 À ce stade, on retient à titre illustratif le dernier modèle (\textit{Gradient Boosting}) et les seuils suivants :
 
 \begin{itemize}
-    \item[] $Seuil_{\inf} = Seuil_{optimal} - 10~\%$
-    \item[] $Seuil_{\sup} = Seuil_{optimal} + 10~\%$
+    \item[$\bullet$] $Seuil_{\inf} = Seuil_{optimal} - 10~\%$
+    \item[$\bullet$] $Seuil_{\sup} = Seuil_{optimal} + 10~\%$
 \end{itemize}
 
 Ce qui crée naturellement les trois zones :
 
 \begin{itemize}
-    \item une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$ ;
-    \item une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$ ;
-    \item une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$.
+    \item[$\bullet$] une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$ ;
+    \item[$\bullet$] une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$ ;
+    \item[$\bullet$] une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$.
 \end{itemize}
 
 Ces seuils traduisent un arbitrage actuariel entre le \textbf{coût des investigations} (notamment en termes de ressources mobilisées et de délais de gestion) et le \textbf{gain attendu lié à la détection de fraude}, en tenant compte des taux de faux positifs et de faux négatifs.
@@ -68,9 +68,9 @@ Cette probabilité constitue une mesure synthétique du risque, intégrant l'ens
 La décision opérationnelle repose alors sur la \textbf{comparaison de cette probabilité aux seuils définis dans l'outil précédent (enregistrés en paramètres)}. Chaque sinistre est ainsi affecté à une classe de risque, à laquelle est associée une stratégie de gestion différenciée :
 
 \begin{itemize}
-    \item absence d'investigation pour les niveaux faibles ;
-    \item contrôles ciblés pour les niveaux intermédiaires ;
-    \item et investigations approfondies pour les niveaux élevés.
+    \item[$\bullet$] absence d'investigation pour les niveaux faibles ;
+    \item[$\bullet$] contrôles ciblés pour les niveaux intermédiaires ;
+    \item[$\bullet$] et investigations approfondies pour les niveaux élevés.
 \end{itemize}
 
 Ce dispositif permet d'optimiser la \textbf{fonction de coût globale} du processus de détection, en concentrant les efforts sur les dossiers présentant le meilleur ratio entre probabilité de fraude et coût d'investigation.
@@ -98,26 +98,30 @@ Enfin, cet outil constitue un levier d'\textbf{harmonisation et de pilotage} à 
 \section{Un outil permettant l'enrichissement du modèle en continu}
 % --------------------------------------------------------------
 
-Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (feedback loop) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base historique, dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
-
-Lorsque l'utilisateur soumet un nouveau sinistre pour estimer sa probabilité de fraude, le dossier scoré rejoint la base historique.
-
-Au moment du calcul de la probabilité de fraude, la base historique ne contient toutefois pas encore l'information la plus précieuse pour le modèle : l'issue réelle du dossier. En effet, savoir si un sinistre s'est effectivement révélé frauduleux n'est connu qu'à l'issue de son instruction, souvent plusieurs semaines ou mois après la déclaration. C'est ce constat qui structure la logique d'enrichissement retenue.
-
-Plutôt que de demander au gestionnaire de statuer immédiatement sur une fraude qu'il ne peut encore confirmer, l'outil lui permet de revenir à tout moment dans la base historique pour y renseigner le statut final d'un ou plusieurs sinistres (fraude avérée ou non). Cette dissociation entre le moment du scoring et le moment de la qualification reflète fidèlement la réalité opérationnelle de la gestion des sinistres, où le dénouement d'un dossier est par nature différé.
+Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (\textit{feedback loop}) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base historique, dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=0.55\textwidth]{images/chapitre6/schema_macro.png}
+    \caption{Schéma macro du mécanisme d'enrichissement de la base de données}
+    \label{schéma_macro}
+\end{figure}
+
+Comme l'illustre le schéma ci-dessus, lorsque l'utilisateur soumet un nouveau sinistre pour en estimer la probabilité de fraude, le dossier scoré rejoint la base historique. À ce stade, cette base ne contient toutefois pas encore l'information la plus précieuse pour le modèle : l'issue réelle du dossier. Savoir si un sinistre s'est effectivement révélé frauduleux n'est en effet connu qu'à l'issue de son instruction, souvent plusieurs semaines, voire plusieurs mois, après la déclaration. C'est ce constat qui structure la logique d'enrichissement retenue.
+
+Plutôt que de demander au gestionnaire de statuer immédiatement sur une fraude qu'il ne peut encore confirmer, l'outil lui permet de revenir à tout moment dans la base historique pour y renseigner le statut final d'un ou plusieurs sinistres (fraude avérée ou non). Cette dissociation entre le moment du \textit{scoring} et celui de la qualification reflète fidèlement la réalité opérationnelle de la gestion des sinistres, où le dénouement d'un dossier est par nature différé.
+\begin{figure}[H]
+    \centering
     \includegraphics[width=0.55\textwidth]{images/chapitre6/renseignement_sinistre.png}
-    \caption{Feuille de renseignement d'un sinistre}
+    \caption{Feuille de renseignement d'un sinistre à l'issue d'une investigation}
     \label{fig:renseignement-sinistre}
 \end{figure}
 
-Une fois cette issue renseignée, le sinistre concerné dispose désormais d'un couple complet : ses caractéristiques d'entrée d'une part, et sa variable cible de fraude (\textit{fraud\_reported}) d'autre part. Il devient alors une observation exploitable pour l'apprentissage, au même titre que les données ayant servi à la construction initiale du modèle.
+Une fois cette issue renseignée, le sinistre concerné dispose d'un couple complet d'informations : ses caractéristiques d'entrée d'une part, et sa variable cible de fraude (\textit{fraud\_reported}) d'autre part. Il devient alors une observation exploitable pour l'apprentissage, au même titre que les données ayant servi à la construction initiale du modèle. C'est bien un statut binaire, et non une probabilité, qui alimente ainsi la base : un sinistre confirmé comme frauduleux après investigation est enregistré à 1, tandis qu'un sinistre investigué mais jugé finalement légitime est enregistré à 0. Le modèle ne se réentraîne donc que sur des cas dont l'issue est avérée, et non sur de simples suspicions, ce qui garantit la fiabilité de son apprentissage au fil du temps.
 
-L'enrichissement de la base de données ne modifie pas le modèle de façon instantanée. Le réentraînement s'effectue en repassant par le module de construction (Module 1), qui réapprend le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est menée à intervalle régulier, typiquement une fois par an, afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
+A noter que \textbf{l'enrichissement de la base de données ne modifie pas le modèle de façon instantanée}. En effet le réentraînement s'effectue en repassant par le module de construction (Module 1), qui refait tourner le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est menée à intervalles de temps réguliers (, typiquement une fois par an), afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
 
-Cette approche présente plusieurs intérêts sur le plan actuariel. D'abord, elle permet d'augmenter la taille et la représentativité de la base d'apprentissage, en y intégrant des cas récents qui reflètent l'évolution des comportements frauduleux. Elle contribue ainsi à réduire le décalage entre les données historiques initiales et la réalité opérationnelle, dans un contexte où les schémas de fraude évoluent rapidement.
+Cette approche présente plusieurs intérêts sur le plan actuariel. D'abord, elle permet d'augmenter la taille et la représentativité de la base d'apprentissage, en y intégrant des cas récents qui reflètent l'évolution des comportements frauduleux et des méthodes de fraude utilisées. Elle contribue ainsi à réduire le décalage entre les données historiques initiales et la réalité opérationnelle, dans un contexte où les schémas de fraude évoluent rapidement.
 
 Ensuite, ces nouvelles observations permettent un recalibrage et une réestimation réguliers du modèle : actualisation des paramètres, amélioration de la capacité de discrimination et, le cas échéant, réajustement de la pondération des variables. L'objectif est de maintenir dans le temps une performance prédictive stable, mesurée à l'aide d'indicateurs tels que l'AUC, le Gini ou les courbes de gains, et de surveiller l'absence de dérive du modèle (via le PSI notamment).
 
@@ -126,12 +130,12 @@ Enfin, l'intégration systématique des issues réelles permet de mieux maîtris
 Ainsi, l'outil ne se limite pas à une utilisation statique du modèle : il s'inscrit dans une démarche dynamique de modélisation itérative, où chaque sinistre qualifié vient affiner la connaissance du risque et améliorer la pertinence du dispositif de détection.
 
 % --------------------------------------------------------------
-\section{Un outil de pilotage : le rapport annuel de détection de fraude}
+\section{Rapport annuel de détection de fraude}
 % --------------------------------------------------------------
 
-Au-delà du scoring individuel des sinistres, l'outil intègre une fonctionnalité de pilotage offrant une vision agrégée de la performance du dispositif sur une période donnée. Ce rapport annuel constitue la synthèse cumulative de l'activité de détection : il s'appuie sur la base historique $H$, une fois les issues réelles des sinistres renseignées, pour mesurer l'efficacité effective de l'outil et son apport économique.
+Au-delà du \textit{scoring} individuel des sinistres, l'outil \textbf{intègre une fonctionnalité de pilotage} offrant une vision agrégée de la performance du dispositif sur une période donnée (paramétrable mais dans les faits, mensuelle ou annuelle). Lancé annuellement, il constitue la synthèse cumulative de l'activité de détection de fraudes : il s'appuie sur l'ensemble des sinistres testés dans l'outil pour obtention de score de fraude et les résultats des investigations renseignés. Ainsi, il permet de ressortir des indicateurs de volume (sur les dossiers traités) mais également économiques (fraude évitée en montant).
 
-Cette vue de synthèse répond à un besoin actuariel essentiel : ne pas se limiter à une utilisation opérationnelle au fil de l'eau, mais disposer d'indicateurs consolidés permettant d'évaluer, de justifier et d'ajuster le dispositif dans le temps.
+Cette vue de synthèse répond à un besoin actuariel essentiel : ne pas se limiter à une utilisation opérationnelle au fil de l'eau, mais disposer d'indicateurs consolidés permettant d'évaluer et de justifier l'utilisation de l'outil et d'ajuster le dispositif mis en place dans le temps.
 
 \begin{figure}[H]
     \centering
@@ -140,22 +144,28 @@ Cette vue de synthèse répond à un besoin actuariel essentiel : ne pas se limi
     \label{fig:rapport-annuel}
 \end{figure}
 
-Les premiers indicateurs portent sur le \textbf{volume et la détection} : nombre de sinistres testés, nombre d'alertes générées par le modèle et nombre de fraudes effectivement confirmées après investigation. Leur mise en regard permet d'apprécier la charge de travail générée par l'outil et le taux de concrétisation des alertes.
+Dans notre outil, différents indicateurs ont été mis en place :
 
-Viennent ensuite les indicateurs \textbf{financiers}, au cœur de l'enjeu actuariel. Le montant de fraude évitée agrège les sinistres frauduleux confirmés qui n'ont pas donné lieu à indemnisation grâce à l'outil. Surtout, l'impact sur le \textbf{ratio Sinistres / Primes (S/P)} traduit directement le gain apporté par la détection sur l'équilibre technique du portefeuille : en écartant une partie de la charge frauduleuse, l'outil améliore mécaniquement ce ratio. Cet indicateur fait le lien avec l'analyse développée au chapitre~\ref{chap:contexte} : là où nous avions modélisé la surprime supportée par les assurés honnêtes par la relation $\Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}$, le rapport annuel permet de quantifier \textit{a posteriori} la part de charge frauduleuse $\alpha$ effectivement récupérée, et donc l'effet réel de l'outil sur la tarification.
+\begin{enumerate}
 
-Le rapport suit également la \textbf{qualité opérationnelle} du dispositif. La précision de l'outil mesure, parmi les alertes confirmées, la proportion de véritables fraudes, indicateur clé pour éviter de mobiliser inutilement les équipes d'investigation sur des faux positifs. La répartition des sinistres par zone de risque (verte, orange, rouge) permet quant à elle de visualiser la distribution du portefeuille et d'ajuster les seuils $Seuil_{\inf}$ et $Seuil_{\sup}$ si nécessaire.
+    \item[$\bullet$] Les premiers indicateurs portent sur le \textbf{volume et la détection} : nombre de sinistres testés, nombre d'alertes générées par le modèle et nombre de fraudes effectivement confirmées après investigation. Leur mise en regard permet d'apprécier la charge de travail générée par l'outil et le taux de concrétisation des alertes.
 
-Enfin, deux indicateurs relèvent d'une logique d'\textbf{intelligence fraude} plus avancée. L'identification des réseaux, en repérant les sinistres impliquant plusieurs véhicules, signale une suspicion de fraude organisée, distincte de la fraude opportuniste. La détection de nouvelles tendances met en évidence l'émergence de schémas de fraude inédits, permettant d'anticiper l'évolution des comportements frauduleux.
+    \item[$\bullet$] Viennent ensuite les indicateurs \textbf{financiers}, au cœur de l'enjeu actuariel. Le montant de fraude évitée agrège les sinistres frauduleux confirmés qui n'ont pas donné lieu à indemnisation grâce à l'outil. Pour compléter cet indicateur, un KPI important est également calculé : l'impact sur le \textbf{ratio Sinistres / Primes (S/P)} de la détection de fraude qui traduit directement le gain apporté par la détection sur l'équilibre technique du portefeuille. En effet, en écartant une partie de la charge frauduleuse, l'outil améliore mécaniquement ce ratio. Cet indicateur fait le lien avec l'analyse développée au chapitre~\ref{chap:contexte} : là où nous avions modélisé la surprime supportée par les assurés honnêtes par la relation $\Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}$, le rapport annuel permet de quantifier \textit{a posteriori} la part de charge frauduleuse $\alpha$ effectivement récupérée, et donc l'effet réel de l'outil sur la tarification.
+
+    \item[$\bullet$] Le rapport suit également la \textbf{qualité opérationnelle} du dispositif. La précision de l'outil mesure, parmi les alertes confirmées, la proportion de véritables fraudes, indicateur clé pour éviter de mobiliser inutilement les équipes d'investigation sur des faux positifs. La répartition des sinistres par zone de risque (verte, orange, rouge) permet quant à elle de visualiser la distribution du portefeuille et d'ajuster les seuils $Seuil_{\inf}$ et $Seuil_{\sup}$ si nécessaire.
+
+    \item[$\bullet$] Enfin, deux indicateurs relèvent d'une logique d'\textbf{intelligence fraude} plus avancée. L'identification des réseaux, en repérant les sinistres impliquant plusieurs véhicules, signale une suspicion de fraude organisée, distincte de la fraude opportuniste. La détection de nouvelles tendances met en évidence l'émergence de schémas de fraude inédits, permettant d'anticiper l'évolution des comportements frauduleux.
+
+\end{enumerate}
 
 L'ensemble se synthétise dans une mesure du \textbf{retour sur investissement (ROI) de l'outil}, rapprochant le gain généré (fraude évitée) du coût de mise en œuvre et d'exploitation du dispositif. Cet indicateur répond directement à la problématique de rentabilité posée en introduction : il démontre que l'automatisation de la détection, en abaissant le coût marginal de contrôle, rend rentable l'analyse de l'ensemble des sinistres, y compris ceux de faible montant jusque-là trop coûteux à investiguer manuellement.
 
-Ce rapport peut par ailleurs être exporté au format PDF, offrant un livrable synthétique directement transmissible à la direction technique, au service anti-fraude ou aux instances de gouvernance. Cette possibilité d'extraction facilite le reporting périodique et la traçabilité des résultats, en cohérence avec les exigences de documentation évoquées dans le cadre de gouvernance de l'outil (cf.~section~\ref{sec:gouvernance}).
+Ce rapport peut par ailleurs être exporté au format PDF, offrant un livrable synthétique directement transmissible à la Direction Technique, au service anti-fraude ou aux instances de gouvernance. Cette possibilité d'extraction facilite le reporting périodique et la traçabilité des résultats, en cohérence avec les exigences de documentation évoquées dans le cadre de gouvernance de l'outil (cf.~section~\ref{sec:gouvernance}).
 
 Ainsi, le rapport annuel transforme l'outil de détection en véritable instrument de pilotage actuariel. Il ne se contente pas de traiter les sinistres individuellement, mais fournit une lecture consolidée et chiffrée de la performance du dispositif, permettant de justifier son maintien, d'en ajuster les paramètres et d'en mesurer l'impact réel sur l'équilibre technique du portefeuille.
 
 % --------------------------------------------------------------
-\section{Un outil dynamique}
+\section{Dynamisme de l'outil mis en place}
 % --------------------------------------------------------------
 
 Le modèle développé présente un caractère \textbf{dynamique et évolutif}, essentiel dans un environnement assurantiel en constante mutation. Concrètement, il ne s'agit pas d'un modèle figé : sa structure permet de \textbf{modifier le format des données d'entrée}, qu'il s'agisse des variables utilisées, de leurs modalités ou encore des règles de segmentation associées. Il est ainsi possible d'intégrer de nouvelles caractéristiques, d'adapter les découpages existants ou de faire évoluer les référentiels, puis de \textbf{relancer le processus d'apprentissage} afin de recalibrer automatiquement le modèle.

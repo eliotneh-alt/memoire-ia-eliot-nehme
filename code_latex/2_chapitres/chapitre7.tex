@@ -1,10 +1,10 @@
-\chapter{Conclusion, limites de l'outil créé dans ce mémoire et réflexions autour de l'IA}
+\chapter{7	Réflexions autour de l'IA et limites de l'outil créé}
 \label{chap:limites}
 
-Le développement d'un outil de détection de fraude basé sur un agent IA et un modèle de prédiction de la fraude en assurance automobile constitue une avancée significative en matière d'aide à la décision. Néanmoins, son utilisation doit être appréhendée avec recul, tant sur le plan opérationnel que méthodologique, et ouvre plusieurs perspectives d'amélioration.
+Le développement d'un outil de détection de fraude basé sur un agent IA, en assurance automobile constitue une avancée significative en matière d'aide à la décision. Néanmoins, son utilisation doit être appréhendée avec recul, tant sur le plan opérationnel que méthodologique, et ouvre plusieurs perspectives d'amélioration.
 
 % --------------------------------------------------------------
-\section{Un outil d'aide à la décision : complémentaire avec l'humain}
+\section{Un outil d'aide à la décision complémentaire avec l'humain}
 % --------------------------------------------------------------
 
 Il est encore une fois essentiel de souligner que l'agent IA ne se substitue pas au gestionnaire, mais s'inscrit dans une logique de \textbf{complémentarité homme-machine}. L'intervention humaine reste centrale à chaque étape du processus.
@@ -90,19 +90,19 @@ Ainsi, l'amélioration de la détection de fraude passe non seulement par le cho
 \subsection{Ajout de données externes}
 % --------------------------------------------------------------
 
-Au-delà de l'enrichissement par les données issues de la base portefeuille, le recours à des \textbf{sources de données complémentaires} constitue un levier majeur d'amélioration des modèles de détection de fraude. En effet, la fraude étant un phénomène complexe et évolutif, sa détection nécessite une approche multidimensionnelle intégrant des informations variées, parfois extérieures au strict périmètre assurantiel.
+En complément à l'enrichissement par les données issues de la base portefeuille, le recours à des \textbf{sources de données complémentaires} constitue un levier majeur d'amélioration des modèles de détection de fraude. En effet, la fraude étant un phénomène complexe et évolutif, sa détection nécessite une approche multidimensionnelle intégrant des informations variées, parfois extérieures au strict périmètre assurantiel.
 
-En premier lieu, l'exploitation de données externes ouvertes (open data) peut permettre d'apporter un éclairage contextuel précieux. Par exemple, les données météorologiques peuvent être mobilisées afin de vérifier la cohérence entre les circonstances déclarées d'un sinistre et les conditions climatiques réelles (pluie, grêle, tempête).
+En premier lieu, l'exploitation de données externes ouvertes (\textit{open data}) peut permettre d'apporter un éclairage contextuel précieux. Par exemple, les données météorologiques peuvent être mobilisées afin de vérifier la cohérence entre les circonstances déclarées d'un sinistre et les conditions climatiques réelles (pluie, grêle, tempête).
 
 De même, les données géographiques permettent d'identifier des zones à risque, notamment en matière de vol ou de vandalisme, et d'analyser la fréquence des sinistres dans certaines localisations. Enfin, les données socio-économiques locales peuvent contribuer à affiner la compréhension des comportements, en intégrant des variables de contexte telles que le niveau de revenu ou les caractéristiques du territoire.
 
-Par ailleurs, lorsque cela est possible, l'intégration de données télématiques constitue un apport particulièrement structurant. Ces données, issues de capteurs embarqués ou d'applications mobiles, permettent de reconstituer le comportement de conduite (vitesse, accélérations, freinages, horaires d'utilisation) et d'évaluer la cohérence entre l'usage réel du véhicule et le sinistre déclaré. Par exemple, un sinistre survenu dans des conditions incompatibles avec les données de conduite enregistrées peut constituer un signal fort de fraude.
+Par ailleurs, lorsque cela est possible, l'intégration de données télématiques constitue un apport particulièrement structurant. Ces données, issues de capteurs embarqués ou d'applications mobiles, permettent de reconstituer le comportement de conduite (vitesse, accélérations, freinages, horaires d'utilisation) et d'évaluer la cohérence entre l'usage réel du véhicule et le sinistre déclaré. Ainsi, un sinistre survenu dans des conditions incompatibles avec les données de conduite enregistrées peut constituer un signal fort de fraude.
 
 Les données issues des prestataires (réparateurs, experts, avocats) représentent également une source d'information à forte valeur ajoutée. L'analyse de leur historique d'intervention permet d'identifier des acteurs apparaissant de manière récurrente dans des dossiers suspects. Une surreprésentation de certains prestataires dans des sinistres à fort taux de fraude peut révéler des comportements anormaux, voire des complicités, et constitue ainsi un levier de détection des fraudes organisées.
 
 En outre, l'exploitation des données textuelles non structurées, telles que les descriptions de sinistres ou les comptes rendus d'expertise, ouvre des perspectives intéressantes grâce aux techniques de traitement automatique du langage (NLP). L'analyse de ces textes permet de détecter des incohérences, des formulations atypiques ou des schémas linguistiques récurrents associés à des comportements frauduleux. Ces informations, difficilement exploitables dans une approche classique, enrichissent considérablement la capacité du modèle à capter des signaux faibles.
 
-Une autre piste d'amélioration repose sur l'utilisation d'une approche réseau (graph analytics). Cette méthodologie consiste à modéliser les relations entre les différents acteurs d'un sinistre (assurés, tiers, véhicules, adresses, prestataires) afin d'identifier des communautés ou des structures anormales. Elle permet notamment de détecter des schémas de fraude organisée, caractérisés par la répétition de certaines combinaisons d'acteurs ou de situations (par exemple, les mêmes individus impliqués dans plusieurs sinistres, les mêmes véhicules ou les mêmes adresses apparaissant de manière récurrente). Cette approche relationnelle dépasse la simple analyse individuelle des dossiers et offre une vision plus globale des phénomènes de fraude.
+Une autre piste d'amélioration repose sur l'utilisation d'une approche réseau (\textit{graph analytics}). Cette méthodologie consiste à modéliser les relations entre les différents acteurs d'un sinistre (assurés, tiers, véhicules, adresses, prestataires) afin d'identifier des communautés ou des structures anormales. Elle permet notamment de détecter des schémas de fraude organisée, caractérisés par la répétition de certaines combinaisons d'acteurs ou de situations (typiquement, les mêmes individus impliqués dans plusieurs sinistres, les mêmes véhicules ou les mêmes adresses apparaissant de manière récurrente). Cette approche relationnelle dépasse la simple analyse individuelle des dossiers et offre une vision plus globale des phénomènes de fraude.
 
 Enfin, la mise en place de dispositifs de mutualisation inter-assureurs constituerait un levier particulièrement puissant. Le partage d'informations, dans un cadre réglementaire adapté, permettrait de disposer d'un historique multi-compagnies et de détecter des comportements frauduleux dits « nomades », consistant pour un individu à reproduire des schémas de fraude auprès de différents assureurs. Une telle mutualisation renforcerait significativement la capacité de détection, en élargissant le périmètre d'observation et en limitant les angles morts propres à chaque compagnie.
 
@@ -119,7 +119,7 @@ Ainsi, l'intégration de ces différentes sources de données permettrait de fai
 \section{Mutualisation inter-assureurs et détection des fraudes organisées}
 % --------------------------------------------------------------
 
-Une piste d'amélioration majeure réside dans la \textbf{mutualisation des données et des outils entre assureurs}. En effet, les fraudes organisées reposent souvent sur des schémas répétés et peuvent concerner plusieurs compagnies. Un fraudeur détecté chez un assureur est susceptible de reproduire des comportements similaires auprès d'autres acteurs du marché.
+Outre l'ajout de données externes, une piste d'amélioration majeure réside dans la \textbf{mutualisation des données et des outils entre assureurs}. En effet, les fraudes organisées reposent souvent sur des schémas répétés et peuvent concerner plusieurs compagnies. Un fraudeur détecté chez un assureur est susceptible de reproduire des comportements similaires auprès d'autres acteurs du marché.\footnote{https://www.ccomptes.fr/fr/publications/la-fraude-aux-cartes-grises}
 
 Le partage d'informations, dans un cadre réglementaire maîtrisé, permettrait d'améliorer les \textbf{taux de détection des fraudes en bande organisée}, en identifiant plus rapidement des schémas récurrents et des profils à risque. Un agent IA alimenté par une base mutualisée bénéficierait ainsi d'une \textbf{vision élargie}, renforçant significativement son efficacité.
 
@@ -139,4 +139,4 @@ Enfin, l'approche développée pourrait être étendue à une analyse transverse
 
 Une vision consolidée du client à travers l'ensemble des garanties permettrait de mieux capter ces comportements et d'améliorer la cohérence globale de la détection.
 
-Cette approche multi-produits s'inscrit dans une logique actuarielle de vision client 360°, encore peu exploitée mais porteuse de gains significatifs en matière de lutte contre la fraude.
+Cette approche multi-produits s'inscrit dans une logique actuarielle de \textbf{vision client 360°}, encore peu exploitée mais porteuse de gains significatifs en matière de lutte contre la fraude.

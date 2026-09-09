@@ -1,4 +1,4 @@
-\chapter{Création du modèle de détection de fraude (Étapes 4 et 5)}
+\chapter{Création du modèle de détection de fraude : Étapes 4 et 5}
 \label{chap:creation-modele}
 
 Dans la suite de l'analyse, l'étude se concentre sur trois approches de modélisation couramment utilisées en détection de fraude :
@@ -121,9 +121,9 @@ Dans notre exemple, on observe une première cassure autour de 350 points, à pa
 Autrement dit, les règles d'investigation suivantes peuvent être mises en place :
 
 \begin{itemize}
-    \item[$\bullet$] score compris entre 0 et 350 : pas d'investigation ;
-    \item[$\bullet$] score compris entre 350 et 500 : investigation légère ;
-    \item[$\bullet$] score supérieur à 500 : investigation poussée.
+    \item[$\bullet$] Score compris entre 0 et 350 : pas d'investigation
+    \item[$\bullet$] Score compris entre 350 et 500 : investigation légère
+    \item[$\bullet$] Score supérieur à 500 : investigation poussée
 \end{itemize}
 
 Enfin, si l'on considère les sinistres classifiés comme nécessitant une investigation poussée comme « frauduleux » (score supérieur à 500), le score étant construit sur une échelle de 0 à 1\,000 points, un seuil de 500 points équivaut à la moitié de l'échelle, soit 50~\% ; c'est cette normalisation qui permet d'exprimer le seuil de décision en pourcentage dans la matrice de confusion. Dans notre choix graphique ci-dessus, on obtient la matrice de confusion suivante :
@@ -138,8 +138,9 @@ Enfin, si l'on considère les sinistres classifiés comme nécessitant une inves
 Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (prédit non-fraude / réel non-fraude) : $5\,296 / 5\,312 = 99{,}70~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $169 / 688 = 24{,}56~\%$.
+    \item[$\bullet$] Le taux de bien classés (prédit non-fraude / réel non-fraude) : $5\,296 / 5\,312 = 99{,}70~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $169 / 688 = 24{,}56~\%$.
+    \item[$\bullet$] Le taux de sinistres signalés : $205 / 6\,000 = 3{,}42~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une \textbf{optimisation du seuil} afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -168,16 +169,16 @@ Les résultats du modèle obtenus avec l'utilisation de ce seuil sont présenté
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_optimal_points.png}
-    \caption{Matrice de confusion au seuil optimal du modèle de scoring en points}
+    \caption{Matrice de confusion au seuil optimal du modèle de scoring en points (35~\%)}
     \label{fig:matrice-optimal-points}
 \end{figure}
 
-Pour commencer, cette matrice permet de calculer :
+Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (réel non-fraude / prédit non-fraude) : $4\,566 / 5\,312 = 85{,}96~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $548 / 688 = 79{,}65~\%$ ;
-    \item[$\bullet$] le taux de sinistres signalés frauduleux : $1\,294 / 6\,000 = 21{,}57~\%$.
+    \item[$\bullet$] Le taux de bien classés (réel non-fraude / prédit non-fraude) : $4\,566 / 5\,312 = 85{,}96~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $548 / 688 = 79{,}65~\%$ ;
+    \item[$\bullet$] Le taux de sinistres signalés : $1\,294 / 6\,000 = 21{,}57~\%$.
 \end{itemize}
 
 L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 21,57~\% des sinistres, parmi lesquels 42,35~\% sont réellement frauduleux, soit une densité de fraude environ 3,7 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
@@ -277,12 +278,12 @@ L'arbre construit admet les paramètres suivants :
     \item[$\bullet$] Nœuds internes : 66
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/parametre_arbre.png}
-    \caption{Paramètres du modèle arbre de décision}
-    \label{fig:parametre-arbre}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/parametre_arbre.png}
+%     \caption{Paramètres du modèle arbre de décision}
+%     \label{fig:parametre-arbre}
+% \end{figure}
 
 L'arbre construit admet les caractéristiques structurelles suivantes :
 
@@ -355,8 +356,9 @@ Enfin, si l'on considère les sinistres classifiés comme nécessitant une inves
 Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (non-fraude prédite / non-fraude) : $5\,167 / 5\,309 = 97{,}33~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $269 / 688 = 39{,}10~\%$.
+    \item[$\bullet$] Le taux de bien classés (non-fraude prédite / non-fraude) : $5\,167 / 5\,309 = 97{,}33~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $269 / 688 = 39{,}10~\%$.
+    \item[$\bullet$] Le taux de sinistres signalés : $1\,294 / 5\,977 = 21{,}64~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une optimisation du seuil afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -381,9 +383,9 @@ Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer
 Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (non-fraude prédite / non-fraude) : $4\,211 / 5\,309 = 79{,}31~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $512 / 688 = 74{,}41~\%$ ;
-    \item[$\bullet$] le taux de sinistres signalés : $1\,610 / 5\,977 = 26{,}94~\%$.
+    \item[$\bullet$] Le taux de bien classés (non-fraude prédite / non-fraude) : $4\,211 / 5\,309 = 79{,}31~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $512 / 688 = 74{,}41~\%$ ;
+    \item[$\bullet$] Le taux de sinistres signalés : $1\,610 / 5\,977 = 26{,}94~\%$.
 \end{itemize}
 
 L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 26,94~\% des sinistres, parmi lesquels 31,80~\% sont réellement frauduleux, soit une densité de fraude environ 2,8 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
@@ -526,8 +528,9 @@ D'où les zones d'investigation suivantes :
 Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (non-fraude prédite / non-fraude) : $5\,195 / 5\,312 = 97{,}80~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $445 / 688 = 64{,}68~\%$.
+    \item[$\bullet$] Le taux de bien classés (non-fraude prédite / non-fraude) : $5\,195 / 5\,312 = 97{,}80~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $445 / 688 = 64{,}68~\%$.
+    \item[$\bullet$] Le taux de sinistres signalés : $1\,157 / 5\,977 = 19{,}36~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une optimisation du seuil afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -554,9 +557,9 @@ Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer
 Cette matrice permet de calculer :
 
 \begin{itemize}
-    \item[$\bullet$] le taux de bien classés (non-fraude prédite / non-fraude) : $4\,780 / 5\,312 = 89{,}98~\%$ ;
-    \item[$\bullet$] le taux de fraude détectée (prédit fraude / réel fraude) : $576 / 688 = 82{,}41~\%$ ;
-    \item[$\bullet$] le taux de sinistres signalés : $1\,108 / 6\,000 = 18{,}47~\%$.
+    \item[$\bullet$] Le taux de bien classés (non-fraude prédite / non-fraude) : $4\,780 / 5\,312 = 89{,}98~\%$ ;
+    \item[$\bullet$] Le taux de fraude détectée (prédit fraude / réel fraude) : $576 / 688 = 82{,}41~\%$ ;
+    \item[$\bullet$] Le taux de sinistres signalés : $1\,108 / 6\,000 = 18{,}47~\%$.
 \end{itemize}
 
 L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 18,47~\% des sinistres, parmi lesquels 51,99~\% sont réellement frauduleux, soit une densité de fraude environ 4,5 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
