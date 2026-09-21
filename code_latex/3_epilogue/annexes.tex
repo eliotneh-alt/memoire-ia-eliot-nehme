@@ -1,6 +1,227 @@
 \chapter*{Annexes}
 \addcontentsline{toc}{chapter}{Annexes}
 
+\section*{Méthodes de classification}
+\addcontentsline{toc}{section}{Méthodes de classification}
+
+% ==============================================================
+\subsection*{Le clustering par K-means : regroupement autour de centres mobiles}
+% ==============================================================
+
+\subsubsection*{Principe}
+
+Le clustering est une méthode statistique de division d'un ensemble de données en groupes homogènes. L'homogénéité n'a pas de sens en elle-même : elle se définit par un critère de proximité, lequel suppose d'avoir introduit au préalable une mesure de distance entre les observations. De nombreux algorithmes conduisent à une partition des données ; celui des K-means est l'un des plus répandus et convient notamment au découpage d'une variable quantitative continue.
+
+Son principe est itératif. On part d'une partition aléatoire de l'ensemble des observations en $K$ classes, puis on reforme pas à pas ces $K$ classes de manière à ce qu'elles contiennent des individus de plus en plus proches les uns des autres. L'algorithme s'arrête lorsque la partition n'évolue plus.
+
+\subsubsection*{Cadre et notations}
+
+Considérons un ensemble fini $E$ de $n$ individus décrits par $p$ caractéristiques quantitatives. Dès que $p$ dépasse 2, la représentation des individus ne tient plus dans un repère simple : on raisonne sur un nuage de $n$ points de $\mathbb{R}^p$, chaque individu étant représenté par un vecteur $x_i$.
+
+Les variables ne sont pas nécessairement exprimées dans la même unité, ni du même ordre de grandeur. Sans précaution, celles dont l'échelle est la plus large domineraient entièrement le calcul des distances. Elles sont donc centrées et réduites au préalable, chaque variable étant transformée selon :
+
+\begin{equation}
+    x_i^j \longrightarrow \frac{x_i^j - \bar{x}_j}{\sigma_j}
+\end{equation}
+
+où $\bar{x}_j$ désigne la moyenne de la $j$-ième variable et $\sigma_j$ son écart-type. Chaque variable pèse alors le même poids dans la mesure de proximité. L'objectif est de répartir les $n$ individus en $K$ classes homogènes.
+
+\subsubsection*{La notion de distance}
+
+Une distance sur un ensemble $E$ est une application $d$ définie sur le produit $E^2 = E \times E$ et à valeurs dans l'ensemble $\mathbb{R}^+$ des réels positifs, qui vérifie les trois propriétés suivantes :
+
+\begin{itemize}[label=$\bullet$]
+    \item \textbf{symétrie} : $d(x, y) = d(y, x)$ pour tout couple d'éléments ;
+    \item \textbf{séparation} : $d(x, y) = 0$ si et seulement si $x = y$ ;
+    \item \textbf{inégalité triangulaire} : $d(x, z) \leq d(x, y) + d(y, z)$ pour tout triplet d'éléments.
+\end{itemize}
+
+Deux distances sont d'usage courant. La distance euclidienne :
+
+\begin{equation}
+    d(x, y) = \sqrt{\sum_{j=1}^{p} (x^j - y^j)^2}
+\end{equation}
+
+et la distance de Manhattan :
+
+\begin{equation}
+    d(x, y) = \sum_{j=1}^{p} \left| x^j - y^j \right|
+\end{equation}
+
+Le choix de la distance n'est pas neutre : la distance euclidienne, qui élève les écarts au carré, accorde plus de poids aux observations éloignées que la distance de Manhattan. Dans le cas particulier d'une variable unique, les deux se confondent avec l'écart absolu entre les valeurs.
+
+\subsubsection*{Inertie et critère de classification}
+
+L'inertie d'un nuage de $n$ points est la moyenne des carrés des distances de ces points à leur centre de gravité, noté $g$. L'inertie totale s'écrit :
+
+\begin{equation}
+    I_T = \frac{1}{n} \sum_{i=1}^{n} d^2(x_i, g) \qquad \text{avec} \qquad g = \frac{1}{n} \sum_{i=1}^{n} x_i
+\end{equation}
+
+Pour un ensemble de points donné, cette quantité est une constante : elle ne dépend pas de la partition retenue. C'est précisément ce qui en fait une référence pour juger de la qualité d'une classification.
+
+Une classe (ou cluster) $k$ est un ensemble non vide d'observations, noté $\pi_k = \{ i \mid x_i \text{ appartient à la classe } k \}$. Son effectif est $n_k = \text{Card}\, \pi_k$, et son centre de gravité :
+
+\begin{equation}
+    g_k = \frac{1}{n_k} \sum_{i \in \pi_k} x_i
+\end{equation}
+
+L'inertie de cette classe mesure sa dispersion interne :
+
+\begin{equation}
+    I_k = \frac{1}{n_k} \sum_{i \in \pi_k} d^2(x_i, g_k)
+\end{equation}
+
+Une classe est d'autant plus homogène que ses éléments sont proches de son centre de gravité, c'est-à-dire que son inertie est faible.
+
+La mesure globale de l'homogénéité des classes est la moyenne des inerties des $K$ classes, chacune pondérée par son poids relatif. On l'appelle inertie intra-classes, d'où le symbole $W$ (pour \textit{within}) :
+
+\begin{equation}
+    I_W = \sum_{k=1}^{K} \frac{n_k}{n} I_k = \frac{1}{n} \sum_{k=1}^{K} \sum_{i \in \pi_k} d^2(x_i, g_k)
+\end{equation}
+
+Symétriquement, l'inertie du nuage des $K$ centres de gravité mesure la séparation des classes. On l'appelle inertie inter-classes, d'où le symbole $B$ (pour \textit{between}) :
+
+\begin{equation}
+    I_B = \sum_{k=1}^{K} \frac{n_k}{n} \, d^2(g_k, g)
+\end{equation}
+
+Le théorème de Huygens relie ces trois quantités :
+
+\begin{equation}
+    I_T = I_W + I_B
+\end{equation}
+
+L'inertie totale étant constante, minimiser l'inertie intra-classes et maximiser l'inertie inter-classes sont deux formulations du même problème : chercher des classes à la fois homogènes en leur sein et bien séparées les unes des autres. Le critère de classification retenu est donc celui qui rend l'inertie intra-classes minimale. Ce problème n'admet pas de solution analytique et se résout par itérations successives.
+
+\subsubsection*{L'algorithme}
+
+À chaque étape de l'algorithme, chaque individu porte un numéro de classe compris entre 1 et $K$. Notons $L_t^{(i)}$ le numéro de la classe de l'individu $x_i$ à l'issue de l'étape $t$, et $g_k^t$ le centre de gravité de la classe $k$ à cette même étape.
+
+\textbf{Étape 1 --- Initialisation.} $K$ centres de gravité $g_k^0$ sont tirés aléatoirement, puis chaque individu est affecté à la classe dont le centre est le plus proche :
+
+\begin{equation}
+    L_0^{(i)} = n \quad \text{tel que} \quad d(x_i, g_n^0) = \min_{k \in \llbracket 1 ; K \rrbracket} \left\{ d(x_i, g_k^0) \right\}
+\end{equation}
+
+À l'issue de cette première étape, $K$ groupes sont constitués, mais de façon purement arbitraire : ils contiennent des individus qui ne se ressemblent pas. Les étapes suivantes vont progressivement attirer vers un même centre les individus semblables.
+
+\textbf{Étape 2 --- Réaffectation.} Les barycentres des classes obtenues à l'étape précédente sont recalculés, puis chaque observation est réaffectée au barycentre dont elle est la plus proche. De nouvelles classes se forment :
+
+\begin{equation}
+    L_t^{(i)} = n \quad \text{tel que} \quad d(x_i, g_n^t) = \min_{k \in \llbracket 1 ; K \rrbracket} \left\{ d(x_i, g_k^t) \right\}
+\end{equation}
+
+\textbf{Étape 3 --- Itération.} L'étape 2 est renouvelée jusqu'à l'obtention d'un critère de classification stable, c'est-à-dire jusqu'à ce que plus aucune observation ne change de classe d'une itération à la suivante.
+
+\medskip
+\noindent\fbox{%
+    \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+        \textbf{Remarque --- dépendance à l'initialisation}\\[0.5ex]
+        Le processus de classification est simple, mais la partition finale dépend de la partition aléatoire initiale : l'algorithme converge vers un minimum local de l'inertie intra-classes, et non nécessairement vers le minimum global. Il convient donc de relancer l'algorithme un nombre suffisant de fois, à partir de tirages initiaux différents, et de retenir la meilleure partition obtenue. C'est à cette condition seulement que la classification choisie peut être jugée robuste.%
+    }%
+}
+\medskip
+
+\subsubsection*{Le choix du nombre de classes}
+
+Le nombre de classes $K$ n'est pas déterminé par l'algorithme : il doit être fixé en entrée. Pour perdre le moins d'information possible, on le choisit de sorte que le rapport de la variance inter-classes à la variance totale atteigne un seuil élevé, fixé par exemple à 95~\% :
+
+\begin{equation}
+    \frac{\text{variance inter-classes}}{\text{variance totale}} > 95~\%
+\end{equation}
+
+Ce rapport croît mécaniquement avec $K$ --- il vaut 1 lorsque chaque observation forme sa propre classe --- de sorte que le seuil retenu arbitre entre finesse de la partition et parcimonie. En pratique, on retient le plus petit nombre de classes satisfaisant le seuil.
+
+\medskip
+\noindent\fbox{%
+    \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+        \textbf{Remarque --- exploitabilité de la partition obtenue}\\[0.5ex]
+        Les classes issues de l'algorithme ne sont pas toujours utilisables telles quelles. Le cas le plus fréquent est celui de classes d'effectifs très hétérogènes, certaines étant trop peu peuplées pour qu'un paramètre puisse y être estimé de façon fiable. Il est alors nécessaire de procéder à des regroupements complémentaires, propres à la problématique étudiée, pour rendre la partition exploitable --- au prix d'un écart au critère d'inertie initialement optimisé.%
+    }%
+}
+\medskip
+
+% ==============================================================
+\subsection*{La Classification Hiérarchique Ascendante}
+% ==============================================================
+
+\subsubsection*{Principe}
+
+Lorsqu'une population décrite par des variables quantitatives doit être partitionnée en sous-populations relativement homogènes, une seconde approche consiste à procéder par agrégations successives. On part des individus pris un à un et l'on regroupe les plus semblables ; une fois les premiers regroupements effectués, l'opération est renouvelée sur les classes ainsi formées, de manière à constituer des classes de classes, jusqu'à obtenir à l'extrême une unique classe réunissant l'ensemble de la population.
+
+La proximité, entre individus comme entre classes déjà formées, est mesurée par une distance. Cette construction ascendante, qui remonte jusqu'à un groupe unique, porte le nom de Classification Hiérarchique Ascendante (CAH). Elle produit non pas une partition, mais une hiérarchie de partitions emboîtées, à l'image d'un système d'appartenances successives : un astre appartient à un système, qui appartient à un amas, lui-même inclus dans une galaxie, et ainsi de suite jusqu'à l'univers entier.
+
+À chaque étape de l'agrégation, de l'information est perdue, puisque des éléments jusque-là distincts deviennent indiscernables ; mais l'on sait en contrepartie que les éléments réunis dans une même classe sont relativement proches les uns des autres.
+
+\subsubsection*{L'algorithme}
+
+\textbf{Première étape --- Préparation des données.} Mesurer une distance entre individus suppose des données numériques et comparables entre elles. Deux traitements sont donc appliqués au préalable :
+
+\begin{itemize}[label=$\bullet$]
+    \item les variables qualitatives sont rendues quantitatives. La technique usuelle consiste à créer, pour chaque modalité existante, une variable indicatrice valant 1 en cas de présence de la modalité et 0 en cas d'absence ;
+    \item les variables sont centrées et réduites, en retranchant la moyenne de la variable considérée et en divisant par son écart-type, afin que chacune pèse le même poids dans le calcul des distances.
+\end{itemize}
+
+\textbf{Deuxième étape --- Application de l'algorithme.}
+
+\textit{Initialisation.} Les classes initiales sont les $n$ singletons, chaque individu constituant sa propre classe. La matrice des distances deux à deux entre ces $n$ classes est calculée.
+
+\textit{Regroupement.} Les deux classes les plus proches, au sens de la distance entre groupes retenue, sont réunies. Le tableau des distances est mis à jour : les deux classes fusionnées y sont remplacées par la classe nouvellement formée, dont la distance à chacune des autres classes est recalculée.
+
+\textit{Itération.} Les deux opérations précédentes sont répétées jusqu'à l'agrégation de l'ensemble des observations en une classe unique.
+
+L'algorithme effectue ainsi $n - 1$ regroupements, chacun correspondant à un niveau de la hiérarchie. Aucun choix de nombre de classes n'intervient pendant son déroulement : contrairement aux K-means, la décision est reportée à la lecture du résultat.
+
+\subsubsection*{Le choix d'une distance entre classes : la méthode de Ward}
+
+La CAH suppose de définir une distance non pas entre individus, mais entre groupes d'individus. Ce choix est appelé stratégie d'agrégation, et il détermine entièrement la forme de la hiérarchie obtenue.
+
+La méthode de Ward est la plus courante. Elle consiste à réunir, à chaque étape, les deux classes dont le regroupement fera le moins baisser l'inertie inter-classes. La distance de Ward entre deux classes $A$ et $B$ est définie comme le carré de la distance entre leurs centres de gravité, pondéré par les effectifs des deux classes :
+
+\begin{equation}
+    \Delta(A, B) = \frac{n_A \times n_B}{n_A + n_B} \times d^2(g_A, g_B)
+\end{equation}
+
+où :
+
+\begin{itemize}[label=$\bullet$]
+    \item $n_A$ et $n_B$ désignent les effectifs des classes $A$ et $B$ ;
+    \item $g_A$ et $g_B$ leurs centres de gravité respectifs ;
+    \item $d$ la distance euclidienne, dont l'existence entre observations est ici supposée.
+\end{itemize}
+
+La pondération par les effectifs a une conséquence pratique notable : à distance égale entre centres de gravité, deux petites classes sont réunies avant deux grandes. La méthode de Ward tend donc à regrouper les petites classes entre elles, et produit des hiérarchies relativement équilibrées.
+
+\medskip
+\noindent\fbox{%
+    \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+        \textbf{Remarque --- lien avec la décomposition de l'inertie}\\[0.5ex]
+        Lorsque deux classes sont remplacées par leur réunion, la diminution de l'inertie inter-classes --- et donc, par le théorème de Huygens, l'augmentation de l'inertie intra-classes --- est exactement égale à la distance de Ward entre ces deux classes. La méthode de Ward revient ainsi à choisir, à chaque étape, le regroupement qui dégrade le moins l'homogénéité interne des classes. C'est le même critère d'inertie que celui des K-means, appliqué de façon séquentielle et non plus globale.%
+    }%
+}
+\medskip
+
+\subsubsection*{La représentation : l'arbre de classification}
+
+La notion de hiérarchie s'appréhende aisément par une représentation visuelle appelée arbre de classification, ou dendrogramme. Il s'agit d'un arbre binaire représentant les agrégations successives, depuis les individus isolés jusqu'à la réunion de tous en une classe unique.
+
+La hauteur d'une branche y est proportionnelle à la distance entre les deux objets regroupés. Dans le cas du saut de Ward, elle est donc proportionnelle à la perte d'inertie inter-classes occasionnée par le regroupement : une branche haute signale la réunion de deux classes qui se ressemblaient peu.
+
+\subsubsection*{Le choix du nombre de classes}
+
+Le nombre de classes à retenir revient à couper l'arbre à une certaine hauteur. Cette partition doit d'abord être définie en accord avec les objectifs de l'étude ; l'arbre fournit ensuite un critère de lecture.
+
+À chaque agrégation, la distance entre les groupes réunis diminue, et cette décroissance est directement lisible sur le dendrogramme. La meilleure partition est généralement celle qui précède une valeur de la distance inter-classes brutalement plus faible : au-delà de ce point, les regroupements suivants ne réunissent plus que des classes déjà très semblables et n'apportent donc plus d'information. Une forte perte d'inertie inter-classes observée au passage de $k$ à $k-1$ classes conduit ainsi à retenir $k$ classes.
+
+\medskip
+\noindent\fbox{%
+    \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
+        \textbf{Remarque --- effectifs et pertinence des classes}\\[0.5ex]
+        Comme pour les K-means, les classes obtenues peuvent présenter des effectifs hétérogènes, voire insuffisants au regard des seuils habituellement retenus. Le réflexe de les regrouper n'est toutefois pas systématique : lorsque la faiblesse d'un effectif traduit un écart réel et durable de comportement --- une modalité rare mais nettement plus risquée que les autres, par exemple --- la fusionner avec une classe voisine ferait disparaître l'information même que la classification avait mise en évidence. L'arbitrage entre robustesse statistique et finesse de la segmentation relève alors du jugement, non de l'algorithme.%
+    }%
+}
+
 \section*{Chapitre 4}
 
 \newpage

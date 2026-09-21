@@ -91,3 +91,4 @@
 \contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{130}{section.7.4}%
 \contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{131}{section.7.5}%
 \contentsline {chapter}{Annexes}{133}{chapter*.7}%
+\contentsline {section}{Méthodes de classification}{133}{section*.8}%
