@@ -16,31 +16,31 @@ Avant même d'aborder la conception technique de l'outil, la mise en place d'un 
 
 La gouvernance n'est donc pas un complément formel postérieur au modèle, mais un préalable structurant qui en définit le cahier des charges. On peut l'articuler autour de trois niveaux complémentaires :
 
-\begin{itemize}
-    \item un cadre réglementaire et de conformité,
-    \item une organisation interne et une répartition des responsabilités,
-    \item et enfin une maîtrise opérationnelle du cycle de vie du modèle assortie d'une supervision humaine.
+\begin{itemize}[label = $\bullet$]
+    \item Un cadre réglementaire et de conformité,
+    \item Une organisation interne et une répartition des responsabilités,
+    \item Et enfin une maîtrise opérationnelle du cycle de vie du modèle assortie d'une supervision humaine.
 \end{itemize}
 
 Sur le plan réglementaire, le dispositif s'inscrit d'abord dans le cadre du Règlement général sur la protection des données (RGPD).
 
-Les principes de finalité, de minimisation et de légalité du traitement encadrent la collecte et l'usage des données du sinistre et de l'assuré, tandis que l'article 22\footnote{« La personne concernée a le droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé, y compris le profilage, produisant des effets juridiques la concernant ou l'affectant de manière significative de façon similaire. » (§1, \url{https://gdpr-text.com/fr/read/article-22/}).}, relatif aux décisions individuelles fondées exclusivement sur un traitement automatisé, impose une vigilance particulière : un assuré ne saurait voir sa déclaration rejetée sur la seule base d'un score algorithmique, sans intervention humaine ni possibilité de contestation.
+Les principes de finalité, de minimisation et de légalité du traitement encadrent la collecte et l'usage des données du sinistre et de l'assuré, tandis que \textbf{l'article 22}\footnote{« La personne concernée a le droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé, y compris le profilage, produisant des effets juridiques la concernant ou l'affectant de manière significative de façon similaire. » (§1, \url{https://gdpr-text.com/fr/read/article-22/}).}, relatif aux décisions individuelles fondées exclusivement sur un traitement automatisé, impose une vigilance particulière : un assuré ne saurait voir sa déclaration rejetée sur la seule base d'un score algorithmique, sans intervention humaine ni possibilité de contestation.
 
-À ce socle s'ajoute désormais le règlement européen sur l'intelligence artificielle (« AI Act »). Le règlement (UE) 2024/1689 est entré en vigueur le 1\textsuperscript{er} août 2024 selon une application échelonnée, les pratiques interdites étant effectives depuis le 2 février 2025. Son annexe III classe parmi les systèmes à haut risque ceux relevant de l'accès aux services essentiels, dont l'assurance. À la suite de l'accord politique dit « Digital Omnibus » du printemps 2026, l'application des obligations relatives aux systèmes à haut risque de l'annexe III a toutefois été reportée au 2 décembre 2027.
+À ce socle s'ajoute désormais le \textbf{règlement européen sur l'intelligence artificielle (« AI Act »)}. Le règlement (UE) 2024/1689 est entré en vigueur le 1\textsuperscript{er} août 2024 selon une application échelonnée, les pratiques interdites étant effectives depuis le 2 février 2025. Son annexe III classe parmi les \textbf{systèmes à haut risque} ceux relevant de l'accès aux services essentiels, dont l'assurance. À la suite de l'accord politique dit « Digital Omnibus » du printemps 2026, l'application des obligations relatives aux systèmes à haut risque de l'annexe III a toutefois été reportée au 2 décembre 2027.
 
 La qualification précise d'un agent de détection de fraude automobile reste à apprécier au cas par cas : la catégorie à haut risque vise surtout l'évaluation du risque et la tarification, de sorte qu'un outil qui se borne à signaler des dossiers à des enquêteurs humains se situe vraisemblablement à un niveau de risque inférieur.
 
 La prudence conduit néanmoins à anticiper les exigences applicables aux systèmes sensibles : un système de gestion des risques documenté, une gouvernance des données garantissant leur qualité et l'absence de biais discriminatoires, une documentation technique complète, la journalisation des activités assurant la traçabilité, des obligations de transparence, une supervision humaine et un niveau adéquat de précision, de robustesse et de cybersécurité.
 
-Pour certains déployeurs de services essentiels privés, une analyse d'impact sur les droits fondamentaux (FRIA\footnote{Évaluation structurée, réalisée avant le déploiement, imposée par l'article 27 de l'AI Act à certains déployeurs de systèmes d'IA à haut risque.}, Fundamental Rights Impact Assessment) peut par ailleurs être requise, distincte de l'analyse d'impact relative à la protection des données. Enfin, l'agent évolue dans l'environnement particulier de la lutte contre la fraude à l'assurance, qui mobilise des dispositifs sectoriels propres (échanges de place, conventions professionnelles) et impose le respect du secret et des droits de la personne concernée.
+Pour certains déployeurs de services essentiels privés, une analyse d'impact sur les droits fondamentaux (FRIA\footnote{Évaluation structurée, réalisée avant le déploiement, imposée par l'article 27 de l'AI Act à certains déployeurs de systèmes d'IA à haut risque.}, \textit{Fundamental Rights Impact Assessment}) peut par ailleurs être requise, distincte de l'analyse d'impact relative à la protection des données. Enfin, l'agent évolue dans l'environnement particulier de la lutte contre la fraude à l'assurance, qui mobilise des dispositifs sectoriels propres (échanges de place, conventions professionnelles) et impose le respect du secret et des droits de la personne concernée.
 
 Au-delà du cadre légal, la gouvernance doit intégrer les attentes du superviseur national.
 
-Dès juin 2020, l'ACPR a publié un document de réflexion sur la gouvernance des algorithmes d'intelligence artificielle dans le secteur financier, fruit de travaux exploratoires menés depuis 2018 avec des acteurs du secteur, et portant notamment sur l'explicabilité et la gouvernance du machine learning\footnote{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}}.
+Dès juin 2020, l'ACPR a publié un document de réflexion sur la gouvernance des algorithmes d'intelligence artificielle dans le secteur financier, fruit de travaux exploratoires menés depuis 2018 avec des acteurs du secteur, et portant notamment sur l'explicabilité et la gouvernance du \textit{machine learning}.
 
 Ces travaux ont dégagé quatre critères interdépendants d'évaluation des algorithmes : la gestion appropriée des données, la performance, la stabilité et l'explicabilité. Un arbitrage est nécessaire entre ces quatre critères, ainsi qu'un principe de validation continue. L'explicabilité y est érigée en pilier et déclinée selon plusieurs niveaux, selon que l'on s'adresse à la clientèle, à des experts métier ou à des auditeurs.
 
-Ces orientations fixent un horizon clair : l'agent devra être non seulement performant, mais aussi auditable et explicable à différents publics, ce qui justifie a posteriori l'attention portée à l'interprétabilité des modèles dans la partie théorique.
+Ces orientations fixent un horizon clair : \textbf{l'agent devra être non seulement performant, mais aussi auditable et explicable à différents publics, ce qui justifie a posteriori l'attention portée à l'interprétabilité des modèles dans la partie théorique\footnote{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}}.}
 
 Ce cadre externe se traduit en interne par une organisation et une répartition des rôles formalisées. La conduite du projet gagne à être pilotée par une instance de gouvernance réunissant les parties prenantes : les équipes métier de la gestion des sinistres et de la lutte anti-fraude, qui portent le besoin et la connaissance du terrain ; les data scientistes et actuaires, responsables de la conception et de la validation statistique ; la fonction conformité et juridique ainsi que le délégué à la protection des données, garants du respect du cadre réglementaire ; et le contrôle interne ou l'audit, chargés d'une revue indépendante.
 
@@ -69,13 +69,15 @@ Posée en amont, cette gouvernance conditionne la confiance, la conformité et l
 \subsection{Base de données source}
 % --------------------------------------------------------------
 
-L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en open source sous : \url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}
+L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en open source sous : 
+
+\textbf{\url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}}
 
 Cette base de données concerne des sinistres automobiles, et contient le flag « frauduleux » sur lequel repose notre modélisation.
 
 Elle contient 30\,000 sinistres, dont 11,5~\% sont des sinistres frauduleux. Ce pourcentage est sensiblement supérieur aux estimations communément admises en France, qui situent la fraude réelle autour de 5~\% des sinistres automobile. Cet écart s'explique vraisemblablement par le mode de constitution de la base : les dossiers qui la composent ont en grande partie fait l'objet d'une instruction approfondie ou d'une suspicion préalable, ce qui tend mécaniquement à sur-représenter les cas frauduleux par rapport à un portefeuille de sinistres bruts. Conscient de ce biais, nous avons néanmoins choisi de travailler sur cette base, dans la mesure où elle offre un volume suffisant de cas labellisés pour entraîner et évaluer les modèles de détection. Les résultats obtenus devront donc être interprétés avec cette réserve méthodologique à l'esprit, et toute généralisation à l'ensemble du portefeuille automobile français nécessiterait une recalibration du modèle sur des données plus représentatives de la sinistralité réelle.
 
-Usuellement dans les mémoires, une présentation de la base de données est réalisée en amont de la mise en place d'un modèle sur les données. On se propose ici de revisiter cette présentation, qui sera introduite dans les résultats de l'agent IA afin de mettre en avant le fait que ces travaux ont été automatisés via l'agent et non réalisés manuellement ou via un Code R, Python ou encore SAS, comme c'est le cas usuellement.
+Usuellement dans les mémoires, une présentation de la base de données est réalisée en amont de la mise en place d'un modèle sur les données. \textbf{On se propose ici de revisiter cette présentation, qui sera introduite dans les résultats de l'agent IA afin de mettre en avant le fait que ces travaux ont été automatisés via l'agent et non réalisés manuellement ou via un Code R, Python ou encore SAS, comme c'est le cas usuellement.}
 
 Néanmoins, les variables présentes dans la base de données sinistre sont listées ci-dessous :
 
@@ -100,51 +102,51 @@ Néanmoins, les variables présentes dans la base de données sinistre sont list
     \endlastfoot
     policy\_id & Identifiant contrat & Identifiant & Texte & Identifiant unique du contrat d'assurance & POL100000 … POL129999 \\
     \hline
-    policy\_state & État de souscription & Contrat & Catégoriel & État américain de souscription du contrat & GA, PA, MI, CA, OH, NC, SC, WA, TX, NY… \\
+    \champA{policy\_state} & \nomA{État de souscription} & Contrat & Catégoriel & État américain de souscription du contrat & GA, PA, MI, CA, OH, NC, SC, WA, TX, NY… \\
     \hline
-    policy\_deductible & Franchise & Contrat & Numérique & Montant de la franchise (USD) & 300 / 400 / 600 / 1000 \\
+    \champA{policy\_deductible} & \nomA{Franchise} & Contrat & Numérique & Montant de la franchise (USD) & 300 / 400 / 600 / 1000 \\
     \hline
-    policy\_annual\_premium & Prime annuelle & Contrat & Numérique & Prime annuelle payée par l'assuré (USD) & Float > 0 \\
+    \champA{policy\_annual\_premium} & \nomA{Prime annuelle} & Contrat & Numérique & Prime annuelle payée par l'assuré (USD) & Float > 0 \\
     \hline
-    insured\_age & Âge de l'assuré & Assuré & Entier & Âge de l'assuré en années & 18 -- 75 \\
+    \champA{insured\_age} & \nomA{Âge de l'assuré} & Assuré & Entier & Âge de l'assuré en années & 18 -- 75 \\
     \hline
-    insured\_sex & Sexe de l'assuré & Assuré & Catégoriel & Sexe déclaré de l'assuré & MALE, FEMALE, OTHER \\
+    \champA{insured\_sex} & \nomA{Sexe de l'assuré} & Assuré & Catégoriel (3) & Sexe déclaré de l'assuré & MALE, FEMALE, OTHER \\
     \hline
-    insured\_education\_level & Niveau d'études & Assuré & Catégoriel & Niveau d'études de l'assuré & High School, College, Master, PhD, JD, MD \\
+    \champA{insured\_education\_level} & \nomA{Niveau d'études} & Assuré & Catégoriel (4) & Niveau d'études de l'assuré & High School, College, Master, PhD \\
     \hline
-    insured\_occupation & Profession & Assuré & Catégoriel & Profession de l'assuré & Manager, Lawyer, Doctor, Teacher, Sales, Clerk, Technician, Engineer \\
+    \champA{insured\_occupation} & \nomA{Profession} & Assuré & Catégoriel (8) & Profession de l'assuré & Manager, Lawyer, Doctor, Teacher, Sales, Clerk, Technician, Engineer \\
     \hline
-    insured\_hobbies & Loisirs & Assuré & Catégoriel & Loisirs déclarés de l'assuré & reading, chess, yachting, golf, hiking… \\
+    \champA{insured\_hobbies} & \nomA{Loisirs} & Assuré & Catégoriel (7) & Loisirs déclarés de l'assuré & reading, chess, yachting, hiking, camping, movies, paintball \\
     \hline
-    incident\_date & Date du sinistre & Sinistre & Date & Date du sinistre déclaré & YYYY-MM-DD \\
+    \champB{incident\_date} & \nomB{Date du sinistre} & Sinistre & Date & Date du sinistre déclaré & YYYY-MM-DD \\
     \hline
-    incident\_type & Type de sinistre & Sinistre & Catégoriel & Nature du sinistre & Parked Car, Vehicle Theft, Single Vehicle Collision, Multi-vehicle Collision \\
+    \champB{incident\_type} & \nomB{Type de sinistre} & Sinistre & Catégoriel (4) & Nature du sinistre & Parked Car, Vehicle Theft, Single Vehicle Collision, Multi-vehicle Collision \\
     \hline
-    collision\_type & Zone d'impact & Sinistre & Catégoriel & Zone d'impact lors de la collision & Front, Rear, Side, Unknown \\
+    \champB{collision\_type} & \nomB{Zone d'impact} & Sinistre & Catégoriel (4) & Zone d'impact lors de la collision & Front, Rear, Side, Unknown \\
     \hline
-    incident\_severity & Gravité du sinistre & Sinistre & Catégoriel & Gravité des dégâts matériels & Minor Damage, Major Damage, Total Loss \\
+    \champB{incident\_severity} & \nomB{Gravité du sinistre} & Sinistre & Catégoriel (3) & Gravité des dégâts matériels & Minor Damage, Major Damage, Total Loss \\
     \hline
-    authorities\_contacted & Autorités contactées & Sinistre & Catégoriel & Autorités contactées suite au sinistre & Police, Fire, Ambulance, None (NaN) \\
+    \champB{authorities\_contacted} & \nomB{Autorités contactées} & Sinistre & Catégoriel (4)& Autorités contactées suite au sinistre & Police, Fire, Ambulance, None (NaN) \\
     \hline
-    incident\_state & État du sinistre & Sinistre & Catégoriel & État américain où le sinistre a eu lieu & GA, PA, MI, CA, OH, NC… \\
+    \champB{incident\_state} & \nomB{État du sinistre} & Sinistre & Catégoriel (10) & État américain où le sinistre a eu lieu & GA, PA, MI, CA, OH, NC… \\
     \hline
-    incident\_city & Ville du sinistre & Sinistre & Texte & Ville où le sinistre a eu lieu & Texte libre \\
+    \champB{incident\_city} & \nomB{Ville du sinistre} & Sinistre & Texte & Ville où le sinistre a eu lieu & Texte libre \\
     \hline
-    incident\_hour\_of\_the\_day & Heure du sinistre & Sinistre & Entier & Heure du sinistre (format 24h) & 0 -- 23 \\
+    \champB{incident\_hour\_of\_the\_day} & \nomB{Heure du sinistre} & Sinistre & Entier & Heure du sinistre (format 24h) & 0 -- 23 \\
     \hline
-    number\_of\_vehicles\_involved & Nb véhicules impliqués & Sinistre & Entier & Nombre de véhicules impliqués dans le sinistre & 1 -- 4 \\
+    \champB{number\_of\_vehicles\_involved} & \nomB{Nb véhicules impliqués} & Sinistre & Entier & Nombre de véhicules impliqués dans le sinistre & 1 -- 4 \\
     \hline
-    bodily\_injuries & Nb blessés déclarés & Sinistre & Entier & Nombre de blessés corporels déclarés & 0 -- 4 \\
+    \champB{bodily\_injuries} & \nomB{Nb blessés déclarés} & Sinistre & Entier & Nombre de blessés corporels déclarés & 0 -- 4 \\
     \hline
-    witnesses & Nb témoins & Sinistre & Entier & Nombre de témoins déclarés & 0 -- 5 \\
+    \champB{witnesses} & \nomB{Nb témoins} & Sinistre & Entier & Nombre de témoins déclarés & 0 -- 5 \\
     \hline
-    police\_report\_available & Rapport police disponible & Sinistre & Booléen & Rapport de police disponible & Yes, No \\
+    \champB{police\_report\_available} & \nomB{Rapport police disponible} & Sinistre & Booléen & Rapport de police disponible & Yes, No \\
     \hline
-    claim\_amount & Montant réclamé & Réclamation & Numérique & Montant réclamé par l'assuré pour ce sinistre (USD) & Float > 0 \\
+    \champB{claim\_amount} & \nomB{Montant réclamé} & Réclamation & Numérique & Montant réclamé par l'assuré pour ce sinistre (USD) & Float > 0 \\
     \hline
-    total\_claim\_amount & Indemnisation totale & Réclamation & Numérique & Montant total de l'indemnisation versée (USD) & Float > 0 \\
+    \champB{total\_claim\_amount} & \nomB{Indemnisation totale} & Réclamation & Numérique & Montant total de l'indemnisation versée (USD) & Float > 0 \\
     \hline
-    fraud\_reported & Fraude confirmée (cible) & Cible ML & Catégoriel & Variable cible : fraude confirmée ou non. Variable à prédire par le modèle. 11,5~\% de Y dans la base. & Y (fraude) / N (légitime) \\
+    \champB{fraud\_reported} & \nomB{Fraude confirmée (cible)} & Cible ML & Catégoriel & Variable cible : fraude confirmée ou non. Variable à prédire par le modèle. 11,5~\% de Y dans la base. & Y (fraude) / N (légitime) \\
     \hline
     \caption{Variables de la base de données source}
     \label{tab:variables-source}
@@ -160,19 +162,19 @@ Au total 24 variables, avec la variable « fraud\_reported » correspondant au f
 
 Afin de rendre ce mémoire proche de la réalité des assureurs, le choix d'enrichir la base de données disponible a été réalisé.
 
-En effet, certaines informations incluses dans la base telles que le niveau d'éducation (insured\_education\_level) ou encore les passions de l'assuré (insured\_hobbies) ne font pas partie des questionnaires usuels de souscription en assurance automobile sur le marché français.
+En effet, certaines informations incluses dans la base telles que le niveau d'éducation (\textit{insured\_education\_level}) ou encore les passions de l'assuré (\textit{insured\_hobbies}) ne font pas partie des questionnaires usuels de souscription en assurance automobile sur le marché français.
 
-De plus, l'assureur, lors de la déclaration d'un sinistre, a accès à bien plus d'informations que celles reportées dans cette base : ces dernières ont été recréées par simulation à l'aide de Claude\footnote{Assistant conversationnel développé par Anthropic, société américaine spécialisée en intelligence artificielle.} avec pour consigne d'être explicatives dans notre recherche d'identification de fraude sans pour autant être en lien direct avec la variable à expliquer (fraud\_reported).
+De plus, l'assureur, lors de la déclaration d'un sinistre, a accès à bien plus d'informations que celles reportées dans cette base : ces dernières ont été recréées par simulation à l'aide de Claude\footnote{Assistant conversationnel développé par Anthropic, société américaine spécialisée en intelligence artificielle.} avec pour consigne d'être explicatives dans notre recherche d'identification de fraude \textbf{sans pour autant être en lien direct avec la variable à expliquer} (\textit{fraud\_reported}).
 
 Ainsi, la base a été enrichie avec 6 types de données, toutes les données pouvant être rendues disponibles en pratique chez un assureur lors de la survenance d'un sinistre automobile :
 
 \begin{enumerate}
-    \item L'historique de l'assuré, notamment ses sinistres passés, l'historique du contrat etc. ;
-    \item Des informations sur le réseau de garagistes et les prestataires impliqués dans la réparation du sinistre ;
-    \item Des informations sur le tiers et les témoins, de manière à identifier d'éventuels témoins récurrents ou des liens entre le tiers et l'assuré/les témoins ;
-    \item Des informations sur le véhicule, notamment son âge et sa valeur ;
-    \item Des informations sur le comportement déclaratif, notamment le délai entre la date de sinistre et de déclaration, le nombre de fois où l'assuré a modifié sa déclaration, le canal de déclaration etc. ;
-    \item Des informations géographiques et temporelles, notamment le jour de l'accident (férié/week-end) ou son lieu de survenance.
+    \item \textbf{L'historique de l'assuré}, notamment ses sinistres passés, l'historique du contrat etc. ;
+    \item \textbf{Des informations sur le réseau de garagistes et les prestataires} impliqués dans la réparation du sinistre ;
+    \item \textbf{Des informations sur le tiers et les témoins}, de manière à identifier d'éventuels témoins récurrents ou des liens entre le tiers et l'assuré/les témoins ;
+    \item \textbf{Des informations sur le véhicule}, notamment son âge et sa valeur ;
+    \item \textbf{Des informations sur le comportement déclaratif}, notamment le délai entre la date de sinistre et de déclaration, le nombre de fois où l'assuré a modifié sa déclaration, le canal de déclaration etc. ;
+    \item \textbf{Des informations géographiques et temporelles}, notamment le jour de l'accident (férié/week-end) ou son lieu de survenance.
 \end{enumerate}
 
 Au total, trente variables ont été générées et sont décrites ci-dessous :
@@ -194,65 +196,63 @@ Au total, trente variables ont été générées et sont décrites ci-dessous :
     \endfoot
     \hline
     \endlastfoot
-    \rowcolor{axehist} insured\_id & Identifiant assuré & Historique assuré & Texte & Identifiant stable de l'assuré, indépendant du numéro de contrat. Permet de relier les dossiers d'un même assuré. & INS000001 … INS0XXXXX \\
+    \rowcolor{axehist} \textbf{insured\_id} & Identifiant assuré & Historique assuré & Texte & Identifiant stable de l'assuré, indépendant du numéro de contrat. Permet de relier les dossiers d'un même assuré. & INS000001 … INS0XXXXX \\
     \hline
-    \rowcolor{axehist} insured\_nb\_past\_claims & Nb sinistres passés & Historique assuré & Entier & Nombre total de sinistres déclarés par cet assuré sur les 5 dernières années. Distributions chevauchantes, signal modéré. & 0 -- 5 \\
+    \rowcolor{axehist} \textbf{insured\_nb\_past\_claims} & Nb sinistres passés & Historique assuré & Entier & Nombre total de sinistres déclarés par cet assuré sur les 5 dernières années. Distributions chevauchantes, signal modéré. & 0 -- 5 \\
     \hline
-    \rowcolor{axehist} insured\_nb\_past\_fraud & Nb fraudes passées confirmées & Historique assuré & Entier & Nombre de fraudes confirmées antérieures pour cet assuré. & 0 -- 3 \\
+    \rowcolor{axehist} \textbf{insured\_nb\_past\_fraud} & Nb fraudes passées confirmées & Historique assuré & Entier & Nombre de fraudes confirmées antérieures pour cet assuré. & 0 -- 3 \\
     \hline
-    \rowcolor{axehist} insured\_days\_since\_last\_claim & Jours depuis dernier sinistre & Historique assuré & Entier & Jours depuis le dernier sinistre de cet assuré. & 60 -- 2500 \\
+    \rowcolor{axehist} \textbf{insured\_days\_since\_last\_claim} & Jours depuis dernier sinistre & Historique assuré & Entier & Jours depuis le dernier sinistre de cet assuré. & 60 -- 2500 \\
     \hline
-    \rowcolor{axehist} insured\_claim\_amount\_history & Montant réclamé cumulé (3 ans) & Historique assuré & Numérique & Montant cumulé (USD) de toutes les réclamations de cet assuré sur 3 ans. & 0 -- 55 000 \\
+    \rowcolor{axehist} \textbf{insured\_claim\_amount\_history} & Montant réclamé cumulé (3 ans) & Historique assuré & Numérique & Montant cumulé (USD) de toutes les réclamations de cet assuré sur 3 ans. & 0 -- 55 000 \\
     \hline
-    \rowcolor{axecontrat} policy\_age\_at\_incident\_days & Ancienneté contrat (jours) & Contrat enrichi & Entier & Ancienneté du contrat en jours au moment du sinistre. & 30 -- 3600 \\
+    \rowcolor{axecontrat} \textbf{policy\_age\_at\_incident\_days} & Ancienneté contrat (jours) & Contrat enrichi & Entier & Ancienneté du contrat en jours au moment du sinistre. & 30 -- 3600 \\
     \hline
-    \rowcolor{axecontrat} insured\_nb\_policies\_active & Nb contrats actifs & Contrat enrichi & Entier & Nombre de contrats d'assurance actifs simultanément (multi-assurance). & 1 -- 4 \\
+    \rowcolor{axecontrat} \textbf{insured\_nb\_policies\_active} & Nb contrats actifs & Contrat enrichi & Entier & Nombre de contrats d'assurance actifs simultanément (multi-assurance). & 1 -- 4 \\
     \hline
-    \rowcolor{axehist} insured\_address\_changes\_12m & Changements d'adresse (12 mois) & Historique assuré & Entier & Nombre de changements d'adresse dans les 12 derniers mois. & 0 -- 3 \\
+    \rowcolor{axehist} \textbf{insured\_address\_changes\_12m} & Changements d'adresse (12 mois) & Historique assuré & Entier & Nombre de changements d'adresse dans les 12 derniers mois. & 0 -- 3 \\
     \hline
-    \rowcolor{axegarage} repairer\_id & Identifiant réparateur & Réseau garagiste & Texte & Identifiant unique du réparateur mandaté. NONE = pas de réparateur. & GAR0001…\allowbreak GAR0899,\allowbreak NONE \\
+    \rowcolor{axegarage} \textbf{repairer\_id} & Identifiant réparateur & Réseau garagiste & Texte & Identifiant unique du réparateur mandaté. NONE = pas de réparateur. & GAR0001…\allowbreak GAR0899,\allowbreak NONE \\
     \hline
-    \rowcolor{axegarage} repairer\_nb\_claims\_total & Nb dossiers traités (réparateur) & Réseau garagiste & Entier & Nombre total de dossiers sinistres traités par ce réparateur dans la base. & 0 -- 200 \\
+    \rowcolor{axegarage} \textbf{repairer\_nb\_claims\_total} & Nb dossiers traités (réparateur) & Réseau garagiste & Entier & Nombre total de dossiers sinistres traités par ce réparateur dans la base. & 0 -- 200 \\
     \hline
-    \rowcolor{axegarage} repairer\_nb\_fraud\_confirmed & Nb fraudes (réparateur) & Réseau garagiste & Entier & Nombre de fois où ce réparateur apparaît dans un dossier clôturé fraude. & 0 -- \textasciitilde100 \\
+    \rowcolor{axegarage} \textbf{repairer\_nb\_fraud\_confirmed} & Nb fraudes (réparateur) & Réseau garagiste & Entier & Nombre de fois où ce réparateur apparaît dans un dossier clôturé fraude. & 0 -- \textasciitilde100 \\
     \hline
-    \rowcolor{axegarage} repairer\_avg\_invoice\_vs\_market & Ratio facture / marché & Réseau garagiste & Numérique & Ratio facture réparateur / prix marché. >1 = surfacturation. & 0,85 -- 1,55 \\
+    \rowcolor{axegarage} \textbf{repairer\_fraud\_rate} & Taux de fraude (réparateur) & Réseau garagiste & Numérique & Taux de fraudes du réparateur mandaté calculé comme repairer\_nb\_fraud\_confirmed / repairer\_nb\_claims\_total. & 0 -- 0,48 \\
     \hline
-    \rowcolor{axegarage} repairer\_is\_flagged & Réparateur signalé & Réseau garagiste & Booléen 0/1 & Réparateur inscrit en liste de vigilance. & 0 = non signalé / 1 = signalé \\
+    \rowcolor{axegarage} \textbf{repairer\_avg\_invoice\_vs\_market} & Ratio facture / marché & Réseau garagiste & Numérique & Ratio facture réparateur / prix marché. >1 = surfacturation. & 0,85 -- 1,55 \\
     \hline
-    \rowcolor{axetiers} third\_party\_id & Identifiant tiers & Réseau tiers & Texte & Identifiant du tiers impliqué. NONE si sinistre sans tiers. & TRS00001…\allowbreak TRS09999,\allowbreak NONE \\
+    \rowcolor{axegarage} \textbf{repairer\_is\_flagged} & Réparateur signalé & Réseau garagiste & Booléen 0/1 & Réparateur inscrit en liste de vigilance. & 0 = non signalé / 1 = signalé \\
     \hline
-    \rowcolor{axetiers} third\_party\_nb\_past\_incidents & Nb incidents passés (tiers) & Réseau tiers & Entier & Nombre de fois où ce tiers est apparu dans des dossiers passés. & 0 -- 5 \\
+    \rowcolor{axetiers} \textbf{third\_party\_id} & Identifiant tiers & Réseau tiers & Texte & Identifiant du tiers impliqué. NONE si sinistre sans tiers. & TRS00001…\allowbreak TRS09999,\allowbreak NONE \\
     \hline
-    \rowcolor{axetiers} witness\_id & Identifiant témoin & Réseau tiers & Texte & Identifiant du témoin principal. NONE si pas de témoin. & WIT00001…\allowbreak WIT11999,\allowbreak NONE \\
+    \rowcolor{axetiers} \textbf{third\_party\_nb\_past\_incidents} & Nb incidents passés (tiers) & Réseau tiers & Entier & Nombre de fois où ce tiers est apparu dans des dossiers passés. & 0 -- 5 \\
     \hline
-    \rowcolor{axetiers} insured\_third\_party\_known & Tiers connu de l'assuré & Réseau tiers & Booléen 0/1 & Assuré et tiers se connaissent (même adresse, téléphone ou lien familial). & 0 = inconnus / 1 = connus \\
+    \rowcolor{axetiers} \textbf{witness\_id} & Identifiant témoin & Réseau tiers & Texte & Identifiant du témoin principal. NONE si pas de témoin. & WIT00001…\allowbreak WIT11999,\allowbreak NONE \\
     \hline
-    \rowcolor{axevehic} vehicle\_id & Identifiant véhicule & Véhicule & Texte & Immatriculation anonymisée. & VEH000001…\allowbreak VEH027999 \\
+    \rowcolor{axetiers} \textbf{insured\_third\_party\_known} & Tiers connu de l'assuré & Réseau tiers & Booléen 0/1 & Assuré et tiers se connaissent (même adresse, téléphone ou lien familial). & 0 = inconnus / 1 = connus \\
     \hline
-    \rowcolor{axevehic} vehicle\_age\_years & Âge du véhicule (années) & Véhicule & Entier & Âge du véhicule en années. & 1 -- 22 \\
+    \rowcolor{axevehic} \textbf{vehicle\_id} & Identifiant véhicule & Véhicule & Texte & Immatriculation anonymisée. & VEH000001…\allowbreak VEH027999 \\
     \hline
-    \rowcolor{axevehic} vehicle\_market\_value & Valeur marché du véhicule & Véhicule & Numérique & Valeur argus estimée du véhicule (USD). Distributions très chevauchantes. & 2 000 -- 40 000 \\
+    \rowcolor{axevehic} \textbf{vehicle\_age\_years} & Âge du véhicule (années) & Véhicule & Entier & Âge du véhicule en années. & 0 -- 20 \\
     \hline
-    \rowcolor{axevehic} vehicle\_overvalue\_ratio & Ratio surévaluation réclamation & Véhicule & Numérique & claim\_amount / vehicle\_market\_value. >1 = réclamation dépasse la valeur du véhicule. & 0,10 -- 5,00 \\
+    \rowcolor{axevehic} \textbf{vehicle\_market\_value} & Valeur marché du véhicule & Véhicule & Numérique & Valeur argus estimée du véhicule (USD). Distributions très chevauchantes. & 2 000 -- 40 000 \\
     \hline
-    \rowcolor{axevehic} vehicle\_nb\_past\_claims & Nb sinistres passés (véhicule) & Véhicule & Entier & Sinistres antérieurs sur ce véhicule, tous propriétaires confondus. & 0 -- 4 \\
+    \rowcolor{axevehic} \textbf{vehicle\_overvalue\_ratio} & Ratio surévaluation réclamation & Véhicule & Numérique & claim\_amount / vehicle\_market\_value. >1 = réclamation dépasse la valeur du véhicule. & 0,10 -- 5,00 \\
     \hline
-    \rowcolor{axevehic} vehicle\_ownership\_duration\_days & Durée possession (jours) & Véhicule & Entier & Jours de possession avant le sinistre. & 20 -- 3500 \\
+    \rowcolor{axevehic} \textbf{vehicle\_nb\_past\_claims} & Nb sinistres passés (véhicule) & Véhicule & Entier & Sinistres antérieurs sur ce véhicule, tous propriétaires confondus. & 0 -- 4 \\
     \hline
-    \rowcolor{axecompo} time\_to\_report\_days & Délai de déclaration (jours) & Comportement déclaratif & Entier & Délai entre sinistre et déclaration. & 0 -- 75 \\
+    \rowcolor{axecompo} \textbf{nb\_amendments\_declaration} & Nb modifications déclaration & Comportement déclaratif & Entier & Nombre de modifications de la déclaration initiale. & 0 -- 4 \\
     \hline
-    \rowcolor{axecompo} nb\_amendments\_declaration & Nb modifications déclaration & Comportement déclaratif & Entier & Nombre de modifications de la déclaration initiale. & 0 -- 4 \\
+    \rowcolor{axecompo} \textbf{declaration\_channel} & Canal de déclaration & Comportement déclaratif & Catégoriel (4) & Canal utilisé pour déclarer le sinistre. & web, telephone, agence, courtier \\
     \hline
-    \rowcolor{axecompo} declaration\_channel & Canal de déclaration & Comportement déclaratif & Catégoriel & Canal utilisé pour déclarer le sinistre. & web, telephone, agence, courtier \\
+    \rowcolor{axecompo} \textbf{injury\_claimed\_without\_medical} & Blessure sans justificatif & Comportement déclaratif & Booléen 0/1 & Blessures corporelles déclarées sans justificatif médical. & 0 = justificatif présent / 1 = absent \\
     \hline
-    \rowcolor{axecompo} injury\_claimed\_without\_medical & Blessure sans justificatif & Comportement déclaratif & Booléen 0/1 & Blessures corporelles déclarées sans justificatif médical. & 0 = justificatif présent / 1 = absent \\
+    \rowcolor{axetemp} \textbf{incident\_zip\_fraud\_rate} & Taux fraude de la zone & Géographique & Numérique & Taux historique de fraude dans l'État du sinistre, calculé sur la base. & 0,00 -- 0,30 \\
     \hline
-    \rowcolor{axetemp} incident\_zip\_fraud\_rate & Taux fraude de la zone & Géographique & Numérique & Taux historique de fraude dans l'État du sinistre, calculé sur la base. & 0,00 -- 0,30 \\
+    \rowcolor{axetemp} \textbf{incident\_is\_weekend} & Sinistre en weekend & Temporel & Booléen 0/1 & Sinistre un vendredi soir, samedi ou dimanche. & 0 = semaine / 1 = weekend \\
     \hline
-    \rowcolor{axetemp} incident\_is\_weekend & Sinistre en weekend & Temporel & Booléen 0/1 & Sinistre un vendredi soir, samedi ou dimanche. & 0 = semaine / 1 = weekend \\
-    \hline
-    \rowcolor{axetemp} incident\_is\_holiday & Sinistre jour férié & Temporel & Booléen 0/1 & Sinistre un jour férié américain (1er jan, 4 juillet, Thanksgiving, Noël). & 0 = jour normal / 1 = jour férié \\
+    \rowcolor{axetemp} \textbf{incident\_is\_holiday} & Sinistre jour férié & Temporel & Booléen 0/1 & Sinistre un jour férié américain (1er jan, 4 juillet, Thanksgiving, Noël). & 0 = jour normal / 1 = jour férié \\
     \hline
     \caption{Variables d'enrichissement de la base de données}
     \label{tab:variables-enrichissement}
@@ -268,7 +268,7 @@ La base de données finale rassemble ainsi 24 variables issues de la base source
 
 Afin de répondre aux enjeux de rentabilité évoqués précédemment, un processus de détection automatisé à l'aide d'un Agent IA a été construit. L'objectif est de fournir aux équipes d'investigation un outil d'aide à la décision opérationnelle « clé en main ».
 
-Cet outil repose sur une logique en deux temps, articulée autour de deux profils d'utilisateurs distincts :
+Cet outil repose sur une \textbf{logique en deux temps}, articulée autour de \textbf{deux profils d'utilisateurs distincts} :
 
 \begin{itemize}
     \item[$\bullet$] Dans un premier temps, une équipe d'actuaires se charge de modéliser, construire et entraîner le modèle de détection. À partir d'une base de données sinistres au format standardisé, l'outil réalise automatiquement des contrôles qualité sur les données, produit une étude statistique descriptive mettant en avant les indicateurs clés (fréquence de fraude, coût moyen, segmentation par critères prédéfinis), puis entraîne un modèle de détection de fraude. Le résultat est un modèle calibré, sauvegardé et prêt à être déployé.
@@ -278,7 +278,7 @@ Cet outil repose sur une logique en deux temps, articulée autour de deux profil
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/schema_macro.png}
-    \caption{Schéma macroscopique du fonctionnement de l'outil}
+    \caption{Vision macro   du fonctionnement de l'outil}
     \label{fig:schema-macro}
 \end{figure}
 
@@ -288,7 +288,7 @@ L'architecture complète de ce processus est détaillée dans les chapitres suiv
 \subsection*{Le plus de l'agent : un suivi du ROI disponible}
 % --------------------------------------------------------------
 
-Enfin, l'outil produit automatiquement un rapport annuel de détection de fraude, enrichi à chaque fois qu'un sinistre testé est renseigné comme frauduleux par un expert. Ce rapport est accessible à tout moment et fournit une synthèse consolidée des performances : nombre de sinistres analysés, taux d'alertes générées, fraudes confirmées et montant de fraude évitée. Il calcule notamment l'impact direct sur le ratio Sinistres/Primes (S/P), indicateur clé de rentabilité en assurance, en rapportant le montant de fraude évitée à la masse de primes du portefeuille. Cette restitution permet au management de suivre en continu le retour sur investissement de l'outil (ROI) et d'objectiver la valeur ajoutée de la détection automatisée année après année.
+Enfin, l'outil produit automatiquement un \textbf{rapport annuel de détection de fraude}, enrichi à chaque fois qu'un sinistre testé est renseigné comme frauduleux par un expert. Ce rapport est accessible à tout moment et fournit une \textbf{synthèse consolidée des performances }: nombre de sinistres analysés, taux d'alertes générées, fraudes confirmées et montant de fraude évitée. Il calcule notamment l'impact direct sur le ratio Sinistres/Primes (S/P), indicateur clé de rentabilité en assurance, en rapportant le montant de fraude évitée à la masse de primes du portefeuille. Cette restitution permet au management de suivre en continu le retour sur investissement de l'outil (ROI) et d'objectiver la valeur ajoutée de la détection automatisée année après année.
 
 % --------------------------------------------------------------
 \subsection{Le prompt : la décomposition du besoin en étapes}
@@ -296,7 +296,7 @@ Enfin, l'outil produit automatiquement un rapport annuel de détection de fraude
 
 Dans le contexte de l'intelligence artificielle, et plus particulièrement des modèles de langage, un prompt désigne l'ensemble des instructions, du contexte et des données fournis au modèle afin de guider son comportement et d'orienter la nature des réponses ou des actions qu'il produit. Il constitue le point d'entrée de l'interaction entre l'utilisateur (ou un système) et l'agent. Un prompt ne se réduit pas à une simple question : il peut comporter des consignes précises, des contraintes, des exemples et une structuration attendue du résultat. De façon générale, plus il est clair, détaillé et contextualisé, plus le modèle est en mesure de produire une réponse pertinente et alignée sur l'objectif visé.
 
-D'un point de vue méthodologique, le prompt peut être assimilé à la spécification fonctionnelle de la tâche confiée à l'agent : il joue, vis-à-vis du modèle, un rôle comparable à celui d'un cahier des charges vis-à-vis d'un modèle actuariel. Sa qualité conditionne directement celle du résultat, au même titre que la rigueur d'une note technique conditionne la fiabilité d'un calcul. Cette exigence rejoint les principes de gouvernance évoqués précédemment : un prompt explicite, documenté et reproductible contribue à la traçabilité et à l'auditabilité du dispositif, en rendant intelligibles les consignes sur lesquelles repose le comportement de l'agent.
+D'un point de vue méthodologique, le prompt peut être assimilé à la \textbf{spécification fonctionnelle} de la tâche confiée à l'agent : il joue, vis-à-vis du modèle, un rôle comparable à celui d'un cahier des charges vis-à-vis d'un modèle actuariel. Sa qualité conditionne directement celle du résultat, au même titre que la rigueur d'une note technique conditionne la fiabilité d'un calcul. Cette exigence rejoint les principes de gouvernance évoqués précédemment : un prompt explicite, documenté et reproductible contribue à la traçabilité et à l'auditabilité du dispositif, en rendant intelligibles les consignes sur lesquelles repose le comportement de l'agent.
 
 Concrètement, un prompt bien construit remplit trois fonctions :
 
@@ -353,22 +353,21 @@ De plus, l'outil reste lié de manière cyclique au modèle puisque le renseigne
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/module2.png}
-    \caption{Agent d'aide à la détection de fraude}
+    \caption{Représentation des différents blocs de l'agent d'aide à la détection de fraude}
     \label{fig:module2}
 \end{figure}
 
 À noter que la logique de création des deux agents respecte l'objectif d'utilisation de ces derniers : \textbf{deux équipes distinctes seront en charge de leur utilisation, d'où le besoin de rendre totalement indépendants les deux agents créés.}
 
-
-% --------------------------------------------------------------
-\section{Résultats fournis par l'Agent IA pour la construction du modèle de scoring de fraude : Étapes 1 à 3}
-% --------------------------------------------------------------
-
-Dans cette section, nous présentons la restitution concrète produite par notre outil sur le portefeuille de sinistres simulé (construit à partir des données \textit{Kaggle} enrichies).
+Dans les paragraphes suivants, nous présenterons la restitution concrète produite par notre outil sur le portefeuille de sinistres simulé (construit à partir des données \textit{Kaggle} enrichies).
 
 Cette phase de conception du modèle constitue une étape amont essentielle, mais elle \textbf{n'a pas vocation à être maîtrisée par les équipes opérationnelles en charge de la détection de la fraude}. En effet, l'outil final qui leur est destiné repose sur un modèle déjà entraîné et optimisé, qu'ils pourront exploiter sans avoir à intervenir sur ses mécanismes internes. Ainsi, la complexité technique est volontairement « encapsulée » afin de \textbf{proposer une solution simple d'utilisation, centrée sur l'aide à la décision} aux gestionnaires.
 
 Dans la pratique, la responsabilité de la construction, de l'ajustement et de l'amélioration continue du modèle incombe généralement à des profils spécialisés, tels que les actuaires ou les data scientistes. Ces experts interviennent pour affiner les performances du modèle, intégrer de nouvelles données, ajuster les paramètres et garantir la robustesse des résultats dans le temps. Cette séparation des rôles permet d'assurer à la fois un haut niveau de performance analytique et une appropriation efficace de l'outil par les équipes métiers.
+
+% --------------------------------------------------------------
+\section{Étapes 1 \& 2 : Ingestion de la base de données et Audit de contrôles de cohérence}
+% --------------------------------------------------------------
 
 % --------------------------------------------------------------
 \subsection{Étape 1 : Ingestion de la base de données}
@@ -381,8 +380,8 @@ Sur la page d'accueil de l'outil, intitulée « Aide à la détection de fraude 
 Le dépôt peut se faire de deux manières :
 
 \begin{itemize}
-    \item[$\bullet$] soit par glisser-déposer directement dans la zone prévue à cet effet,
-    \item[$\bullet$] soit en cliquant sur le bouton « Parcourir vos fichiers » afin de sélectionner le document depuis l'explorateur.
+    \item[$\bullet$] Soit par glisser-déposer directement dans la zone prévue à cet effet,
+    \item[$\bullet$] Soit en cliquant sur le bouton « Parcourir vos fichiers » afin de sélectionner le document depuis l'explorateur.
 \end{itemize}
 
 Les formats acceptés sont les plus courants pour ce type de données, à savoir CSV, Excel (.xlsx et .xls) et ODS, de manière à s'adapter aux différents systèmes de gestion des professionnels de l'assurance.
@@ -398,7 +397,7 @@ Les formats acceptés sont les plus courants pour ce type de données, à savoir
 
 Enfin, nous signalons à l'utilisateur que les données importées sont traitées de manière sécurisée et confidentielle, l'outil étant réservé aux professionnels de l'assurance.
 
-L'utilisateur clique ensuite sur le bouton « submit » pour passer à l'étape suivante.
+L'utilisateur clique ensuite sur le bouton « \textit{submit} » pour passer à l'étape suivante.
 
 \begin{figure}[H]
     \centering
@@ -417,7 +416,7 @@ Concrètement, comme illustré dans le tableau de restitution ci-dessous, le mot
 
 \begin{itemize}
     \item[$\bullet$] \textbf{La vérification du typage} : l'outil confronte le type de donnée attendu par le système au type réellement détecté. Cela permet de bloquer instantanément les erreurs de formatage.
-    \item[$\bullet$] \textbf{L'analyse des plages et modalités} : le système extrait automatiquement les bornes pour les variables numériques, et liste les différentes catégories pour les variables textuelles, facilitant la détection immédiate de valeurs aberrantes (outliers).
+    \item[$\bullet$] \textbf{L'analyse des plages et modalités} : le système extrait automatiquement les bornes pour les variables numériques, et liste les différentes catégories pour les variables textuelles, facilitant la détection immédiate de valeurs aberrantes (\textit{outliers}).
     \item[$\bullet$] \textbf{Le contrôle de complétude} : il calcule le taux de remplissage exact pour mettre en évidence les données manquantes. En cas de donnée(s) manquante(s), l'Agent demande à l'utilisateur de les remplacer par une valeur par défaut à renseigner. À noter qu'il aurait également été possible de proposer des options de remplissage par défaut, par exemple, pour une variable quantitative, la moyenne ou encore la médiane ou la valeur la plus représentée.
 \end{itemize}
 
@@ -432,7 +431,7 @@ Dans notre outil, un contrôle bloquant a été mis en place sur la complétude 
     \label{fig:analyse-qualite}
 \end{figure}
 
-Ici, la variable « policy\_deductible » qui correspond à la franchise du contrat admet une valeur manquante. L'utilisateur est invité à choisir une des valeurs qui s'affiche pour compléter la ligne manquante (les valeurs affichées correspondent aux modalités observées dans la base d'entrée), ou à entrer manuellement une valeur dans un champ dédié.
+Ici, la variable « \textit{policy\_deductible} » qui correspond à la franchise du contrat admet une valeur manquante. L'utilisateur est invité à choisir une des valeurs qui s'affiche pour compléter la ligne manquante (les valeurs affichées correspondent aux modalités observées dans la base d'entrée), ou à entrer manuellement une valeur dans un champ dédié.
 
 Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en Annexe (Cf.~XXXX).} :
 
@@ -446,43 +445,44 @@ Une fois l'information complétée, l'affichage se met à jour automatiquement\f
 L'examen du tableau de contrôle permet de formuler deux observations métier majeures sur notre jeu de données :
 
 \begin{itemize}
-    \item[$\bullet$] D'une part, le contrôle des bornes (colonne « Modalités / Plage ») valide la cohérence globale de notre portefeuille. À titre d'exemple, l'outil confirme immédiatement que la variable insured\_age est strictement comprise entre 18 et 75 ans. L'absence de valeurs irréalistes confirme que les règles de gestion ont été respectées lors de la saisie.
-    \item[$\bullet$] De plus, la variable cible de notre étude, fraud\_reported, est correctement identifiée et renseignée à 100~\%, condition sine qua non pour l'entraînement d'un modèle supervisé.
+    \item[$\bullet$] D'une part, le contrôle des bornes (colonne « Modalités / Plage ») valide la cohérence globale de notre portefeuille. À titre d'exemple, l'outil confirme immédiatement que la variable \textit{insured\_age} est strictement comprise entre 18 et 75 ans. L'absence de valeurs irréalistes confirme que les règles de gestion ont été respectées lors de la saisie.
+    \item[$\bullet$] De plus, la variable cible de notre étude, \textit{fraud\_reported}, est correctement identifiée et renseignée à 100~\%, condition sine qua non pour l'entraînement d'un modèle supervisé.
 \end{itemize}
 
-De plus, l'agent a la capacité de détecter les variables susceptibles d'être utilisées dans le modèle et celles qui ne le sont pas (cf. dernière colonne « Inclure ») : la variable « policy\_id » correspondant à l'identifiant du contrat a été reconnue comme une variable d'incrément et est exclue de la modélisation. L'utilisateur peut également en exclure d'autres, pour des raisons réglementaires ou techniques à ce niveau.
+De plus, l'agent a la capacité de détecter les variables susceptibles d'être utilisées dans le modèle et celles qui ne le sont pas (cf. dernière colonne « Inclure ») : la variable « \textit{policy\_id} » correspondant à l'identifiant du contrat a été reconnue comme une variable d'incrément et est exclue de la modélisation. L'utilisateur peut également en exclure d'autres, pour des raisons réglementaires ou techniques à ce niveau.
 
 Enfin, en bas de page, l'utilisateur doit préciser à l'agent quelle variable désigne la variable à expliquer.
 
 Pour cela il suffit de sélectionner la variable cible dans la liste déroulante proposée :
 
-\begin{figure}[H]
+\begin{figure*}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/valeur_cible1.png}
     \label{fig:valeur-cible1}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[H]
+\begin{figure*}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/valeur_cible2.png}
     \label{fig:valeur-cible2}
-\end{figure}
+\end{figure*}
 
-Ici, c'est la variable fraud\_reported qui est la variable à modéliser, et elle sera appelée « fraude » dans la suite des analyses.
+Ici, c'est la variable \textit{fraud\_reported} qui est la variable à modéliser, et elle sera appelée « fraude » dans la suite des analyses.
 
 % --------------------------------------------------------------
-\subsection{Étape 3 : Analyse statistique des données}
+\section{Étape 3 : Analyse statistique des données}
 % --------------------------------------------------------------
 
 Une fois la qualité des données validée, l'agent bascule dans une phase d'analyse exploratoire :
 
-\begin{itemize}
+\begin{itemize}[label = $\bullet$]
     \item Univariée : il s'agit d'analyser la composition de notre portefeuille par variable ;
     \item Bivariée : il s'agit ici d'analyser la fréquence et le coût moyen de la fraude, au même titre que les analyses qui seraient réalisées dans le cadre d'une tarification produit.
 \end{itemize}
 
 % --------------------------------------------------------------
-\subsubsection*{Analyse de la composition du portefeuille}
+\subsection{Analyse de la composition du portefeuille}
+\label{subsec:composition-portefeuille}
 % --------------------------------------------------------------
 
 Avant d'engager toute modélisation ou détection de comportements atypiques, il est essentiel de dresser un portrait détaillé de la base de données sinistres automobiles étudiée.
@@ -502,6 +502,8 @@ Le prompt adressé à l'agent concernant l'analyse de composition de portefeuill
 
 La base de données étudiée comprend 30\,000 sinistres automobiles, offrant ainsi un volume suffisant pour mener une analyse statistique robuste et entraîner des modèles de détection de la fraude performants.
 
+Les classifications de certaines variables proposées ici en sortie (comme \textit{insured\_age} et \textit{incident\_hour\_of\_the\_day}) ont été définies par l'agent. Ces dernières seront modifiées par la suite et recréées via les méthodes classiques de création de classes telles que l'algorithme K-means ou encore la méthode de classification hiérarchique ascendante (cf. paragraphe 4.5.2).
+
 La répartition par tranche d'âge (par pas de cinq ans) est relativement homogène, à l'exception de la tranche des 18-20 ans, nettement moins représentée (1~556 sinistres), ce qui s'explique par sa moindre amplitude et la faible part des très jeunes conducteurs. La répartition par sexe est quant à elle quasi équilibrée, avec une part similaire d'hommes (33,5~\%), de femmes (32,9~\%) et de personnes morales (33,6~\%).
 
 Les sinistres surviennent majoritairement la nuit, entre 0h et 6h (8~715 cas, soit environ 29~\%), devant l'après-midi et le matin, ce qui constitue un premier signal d'attention dans une optique anti-fraude, la nuit étant une période propice aux déclarations difficiles à contredire faute de témoins. À cet égard, on note que 66,8~\% des sinistres impliquent au moins deux témoins, tandis que 16,4~\% n'en comptent aucun. Par ailleurs, 60,1~\% des sinistres font état d'au moins deux blessés corporels, un chiffre élevé qui mérite d'être mis en perspective avec le taux de fraude observé.
@@ -517,7 +519,417 @@ Cette analyse descriptive de la base sinistres permet d'établir une vision glob
 Enfin, l'agent permet l'export de la sortie graphique de composition du portefeuille, à des fins de traçabilité ou d'études intermédiaires par exemple.
 
 % --------------------------------------------------------------
-\subsubsection*{Analyse des corrélations entre les variables}
+\subsection{Création de classes de variables}
+% --------------------------------------------------------------
+
+La création de classes constitue une étape préalable importante à la mise en œuvre de certains modèles prédictifs, notamment lorsque les variables explicatives sont continues ou présentent un grand nombre de modalités.
+
+Cette discrétisation permet de regrouper des observations présentant des caractéristiques similaires, afin de réduire la complexité des données, de limiter la sensibilité du modèle aux fluctuations locales et de faciliter l'interprétation des effets associés aux différentes variables.
+
+En actuariat, elle contribue également à obtenir des groupes suffisamment homogènes et robustes d'un point de vue statistique.
+
+Plusieurs approches peuvent être utilisées pour construire ces classes, parmi lesquelles les méthodes fondées sur des quantiles ou des intervalles de largeur constante, les méthodes de classification via l'algorithme des K-means ou encore une classification hiérarchique ascendante.
+
+Une présentation plus détaillée des principes théoriques et des principales méthodes de discrétisation est proposée en Annexe X. \textbf{METTRE LE LABEL AVEC LE MEMOIRE DE RACHEL}
+
+Pour la suite des traitements, les variables suivantes ont été classifiées selon le découpage suivant :
+
+\begin{footnotesize}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|>{\raggedright\arraybackslash}p{4.3cm}|>{\centering\arraybackslash}p{1.8cm}|>{\raggedright\arraybackslash}p{4.0cm}|>{\raggedright\arraybackslash}p{4.3cm}|}
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Variable}} & \textcolor{white}{\textbf{Nombre de classes créées}} & \textcolor{white}{\textbf{Méthode de classification}} & \textcolor{white}{\textbf{Descriptif des classes}} \\
+    \hline
+    \endfirsthead
+    \hline
+    \rowcolor{accenture}
+    \textcolor{white}{\textbf{Variable}} & \textcolor{white}{\textbf{Nombre de classes créées}} & \textcolor{white}{\textbf{Méthode de classification}} & \textcolor{white}{\textbf{Descriptif des classes}} \\
+    \hline
+    \endhead
+    \hline
+    \endfoot
+    \hline
+    \endlastfoot
+    \textbf{policy\_annual\_premium} (prime annuelle) & 5 & Découpage de l'intervalle de valeur $[600 ; 1\,500]$ en amplitudes égales. Contrôle de l'effectif par classe créée ($\geq 5~\%$) & $[600 ; 780]$ \newline $]780 ; 960]$ \newline $]960 ; 1\,140]$ \newline $]1\,140 ; 1\,320]$ \newline $]1\,320 ; 1\,500]$ \\
+    \hline
+    \textbf{insured\_age} (âge de l'assuré) & 2 & Arbre de décision CART univarié & 18 -- 24 ans \newline 25 -- 75 ans \\
+    \hline
+    \textbf{incident\_hour\_of\_the\_day} (heure du sinistre) & 3 & Découpage métier (créneaux horaires) & Nuit : 22h -- 6h \newline Matin : 6h -- 12h \newline Après-midi / soir : 12h -- 22h \\
+    \hline
+    \textbf{total\_claim\_amount} (montant total du sinistre) & 5 & Quantiles arrondis à des bornes métier de 5\,000~\euro{} & $\leq 5\,000$ \newline $]5\,000 ; 10\,000]$ \newline $]10\,000 ; 15\,000]$ \newline $]15\,000 ; 20\,000]$ \newline $> 20\,000$ \\
+    \hline
+    \textbf{insured\_days\_since\_last\_claim} (jours depuis le dernier sinistre) & 3 & Arbre CART univarié & $\leq 800$ jours ($\approx$ 2 ans) \newline $]800 ; 2\,500]$ jours \newline $> 2\,500$ jours ($\approx$ 7 ans) \\
+    \hline
+    \textbf{insured\_claim\_amount\_history} (historique des montants indemnisés) & 2 & Arbre CART univarié & $\leq 30\,000$ \newline $> 30\,000$ \\
+    \hline
+    \textbf{policy\_age\_at\_incident\_days} (ancienneté du contrat) & 3 & Découpage métier & Moins de 1 an ($< 365$ jours) \newline Entre 1 an et 3 ans \newline Plus de 3 ans \\
+    \hline
+    \textbf{repairer\_fraud\_rate} (taux de fraude du réparateur) & 4 & Découpage métier + arbre CART univarié & Pas de réparateur identifié \newline 0~\% (réparateur avec historique, aucune fraude) \newline $]0~\% ; 5~\%]$ \newline $> 5~\%$ \\
+    \hline
+    \textbf{repairer\_avg\_invoice\_vs\_market} (facture moyenne / prix du marché) & 2 & Arbre CART univarié & On market : $\leq 1,15$ \newline Off market (surfacturation) : $> 1,15$ \\
+    \hline
+    \textbf{vehicle\_age\_years} (âge du véhicule) & 2 & Arbre CART univarié & 0 -- 8 ans \newline 9 ans et plus \\
+    \hline
+    \textbf{vehicle\_market\_value} (valeur de marché du véhicule) & 3 & Arbre CART univarié & $\leq 5\,500$ \newline $]5\,500 ; 28\,000]$ \newline $> 28\,000$ \\
+    \hline
+    \textbf{vehicle\_overvalue\_ratio} (ratio de survalorisation) & 4 & Quantiles + validation par CART & $\leq 0,50$ \newline $]0,50 ; 0,95]$ \newline $]0,95 ; 2,20]$ \newline $> 2,20$ \\
+    \hline
+    \textbf{incident\_zip\_fraud\_rate} (taux de fraude du code postal) & 3 & Terciles des 10 modalités observées & Faible : $\leq 11,05~\%$ \newline Moyen : $]11,05~\% ; 11,71~\%]$ \newline Élevé : $> 11,71~\%$ \\
+    \hline
+    \caption{Méthodes de discrétisation retenues pour chaque variable}
+    \label{tab:discretisation-recap}
+\end{longtable}
+\end{footnotesize}
+
+\bigskip
+
+\noindent Le détail du découpage de chaque variable est présenté ci-dessous.
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{policy\_annual\_premium} » est quantitative et admet des valeurs comprises entre 600 et 1\,500 USD. Le choix de découpage pour la création de classes a été de créer cinq classes de valeur d'amplitudes égales, tout en s'assurant que chacune des classes créées admettait assez de volume (au minimum 5~\% de la base de sinistres testée).
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{3.2cm}|>{\centering\arraybackslash}p{3.2cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{policy\_annual\_premium}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} \\
+        \hline
+        $[600 ; 780]$ & 5\,970 & 19,90~\% \\
+        \hline
+        $]780 ; 960]$ & 6\,031 & 20,10~\% \\
+        \hline
+        $]960 ; 1\,140]$ & 5\,933 & 19,78~\% \\
+        \hline
+        $]1\,140 ; 1\,320]$ & 5\,992 & 19,97~\% \\
+        \hline
+        $]1\,320 ; 1\,500]$ & 6\,074 & 20,25~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable policy\_annual\_premium}
+    \label{tab:repartition-premium}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{insured\_age} », correspondant à l'âge de l'assuré, prend ses valeurs entre 18 et 75 ans. Usuellement, ce sont des classes d'âge d'amplitude 5 ou 10 ans qui sont créées en tarification automobile ou en suivi du risque en portefeuille. Pour ce mémoire, l'objectif étant de créer un modèle prédictif de fraude automobile, c'est avant tout l'impact de l'âge sur le taux de fraude qui a été utilisé pour orienter le choix de création de classes sur cette variable. Ce découpage a été établi à l'aide d'un arbre de décision CART univarié, avec en paramétrage un minimum de 5~\% des lignes de la base sinistre par feuille. Ainsi, un seuil unique à 24,5 ans a été établi, suivi d'une fusion des classes à taux homogènes. Seules 2 classes ont donc été créées : les moins de 24 ans et les plus de 24 ans.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{insured\_age}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        18 -- 24 ans & 3\,539 & 11,80~\% & 2,21~\% \\
+        \hline
+        25 -- 75 ans & 26\,461 & 88,20~\% & 9,26~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable insured\_age}
+    \label{tab:repartition-age}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{incident\_hour\_of\_the\_day} », correspondant à l'heure du sinistre, a été découpée selon une logique métier, afin de représenter les différents moments de la journée. Ainsi, 3 classes ont été créées : Nuit (22h -- 6h), Matin (6h -- 12h) et Après-midi -- soir (12h -- 22h).
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{incident\_hour\_of\_the\_day}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        Nuit : 22h -- 6h & 9\,932 & 33,11~\% & 3,77~\% \\
+        \hline
+        Matin : 6h -- 12h & 7\,535 & 25,12~\% & 2,79~\% \\
+        \hline
+        Après-midi -- soir : 12h -- 22h & 12\,533 & 41,78~\% & 4,91~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable incident\_hour\_of\_the\_day}
+    \label{tab:repartition-hour}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{total\_claim\_amount} », correspondant au montant total du sinistre, a été découpée en quintiles (5 classes) avec un arrondi par tranche de 5\,000 USD.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{total\_claim\_amount}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $\leq 5\,000$ & 5\,410 & 18,03~\% & 2,19~\% \\
+        \hline
+        $]5\,000 ; 10\,000]$ & 6\,168 & 20,56~\% & 2,25~\% \\
+        \hline
+        $]10\,000 ; 15\,000]$ & 6\,199 & 20,66~\% & 2,40~\% \\
+        \hline
+        $]15\,000 ; 20\,000]$ & 6\,151 & 20,50~\% & 2,35~\% \\
+        \hline
+        $> 20\,000$ & 6\,072 & 20,24~\% & 2,28~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable total\_claim\_amount}
+    \label{tab:repartition-claim}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{insured\_days\_since\_last\_claim} », correspondant au nombre de jours depuis le dernier sinistre, a été découpée en 3 classes. Ce découpage a été établi à l'aide d'un arbre de décision CART univarié, avec en paramétrage un minimum de 5~\% des lignes de la base sinistre par feuille. Ainsi, deux seuils ont été établis, 798,5 et 2\,504,5 jours, arrondis respectivement à 800 et 2\,500 jours.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{insured\_days\_since\_last\_claim}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $\leq 800$ jours ($\approx$ 2 ans) & 9\,910 & 33,03~\% & 5,71~\% \\
+        \hline
+        $]800 ; 2\,500]$ jours & 17\,415 & 58,05~\% & 5,35~\% \\
+        \hline
+        $> 2\,500$ jours ($\approx$ 7 ans) & 2\,675 & 8,92~\% & 0,41~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable insured\_days\_since\_last\_claim}
+    \label{tab:repartition-days}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{insured\_claim\_amount\_history} », correspondant à l'historique des montants indemnisés, a été découpée en 2 classes. Ce découpage a été établi à l'aide d'un arbre de décision CART univarié, avec en paramétrage un minimum de 5~\% des lignes de la base sinistre par feuille. Ainsi, le seuil de 29\,997 USD a été établi, arrondi à 30\,000 USD.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{insured\_claim\_amount\_history}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $\leq 30\,000$ & 27\,206 & 90,69~\% & 7,83~\% \\
+        \hline
+        $> 30\,000$ & 2\,794 & 9,31~\% & 3,64~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable insured\_claim\_amount\_history}
+    \label{tab:repartition-history}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{policy\_age\_at\_incident\_days} », correspondant à l'ancienneté du contrat, a été découpée selon une logique métier de manière à isoler les polices récentes des polices plus anciennes, tout en assurant un volume suffisant d'information par classe créée. Ainsi 3 classes ont été créées : moins de 1 an, 1--3 ans et plus de 3 ans.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{policy\_age\_at\_incident\_days}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $< 1$ an & 4\,439 & 14,80~\% & 2,46~\% \\
+        \hline
+        1--3 ans & 8\,502 & 28,34~\% & 3,81~\% \\
+        \hline
+        $> 3$ ans & 17\,059 & 56,86~\% & 5,19~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable policy\_age\_at\_incident\_days}
+    \label{tab:repartition-policyage}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{repairer\_fraud\_rate} », correspondant au taux de fraude du réparateur, a été découpée selon un découpage métier de manière à isoler la modalité structurelle « pas de réparateur ». Ce découpage a été réalisé à l'aide d'un arbre CART donnant un intervalle de $[0 ; 10~\%]$, ramené à $[0 ; 5~\%]$ pour respecter la contrainte d'effectif par classe créée ($> 5~\%$).
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{repairer\_fraud\_rate}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        Pas de réparateur identifié & 6\,074 & 20,25~\% & 2,29~\% \\
+        \hline
+        0~\% (réparateur avec historique, aucune fraude) & 11\,680 & 38,93~\% & 2,85~\% \\
+        \hline
+        $]0~\% ; 5~\%]$ & 9\,696 & 32,32~\% & 2,43~\% \\
+        \hline
+        $> 5~\%$ & 2\,550 & 8,50~\% & 3,90~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable repairer\_fraud\_rate}
+    \label{tab:repartition-repairerfraud}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{repairer\_avg\_invoice\_vs\_market} », correspondant au ratio facture moyenne / prix du marché, a été découpée en 2 classes à l'aide d'un arbre CART. Le seuil obtenu est de 1,15.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{repairer\_avg\_invoice\_vs\_market}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        On market : $\leq 1,15$ & 27\,589 & 91,96~\% & 7,60~\% \\
+        \hline
+        Off market (surfacturation) : $> 1,15$ & 2\,411 & 8,04~\% & 3,87~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable repairer\_avg\_invoice\_vs\_market}
+    \label{tab:repartition-invoice}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{vehicle\_age\_years} », correspondant à l'âge du véhicule, a été découpée en 2 classes de manière à mettre en évidence les écarts relatifs au taux de fraude observé. Un arbre de décision CART univarié a été utilisé, le seuil de 8,5 ans a été mis en évidence.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{vehicle\_age\_years}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        0 -- 8 ans & 22\,480 & 74,93~\% & 6,37~\% \\
+        \hline
+        9 ans et plus & 7\,520 & 25,07~\% & 5,10~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable vehicle\_age\_years}
+    \label{tab:repartition-vehicleage}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{vehicle\_market\_value} », correspondant à la valeur de marché du véhicule, a été découpée à l'aide d'un arbre de décision CART univarié, avec en paramétrage un minimum de 5~\% des lignes de la base sinistre par feuille. Ainsi, deux seuils de 5\,140 et 27\,970 ont été établis, arrondis à 5\,500 et 28\,000 USD respectivement pour garantir un volume $\geq 5~\%$ par classe.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{vehicle\_market\_value}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $\leq 5\,500$ & 1\,825 & 6,08~\% & 1,35~\% \\
+        \hline
+        $]5\,500 ; 28\,000]$ & 20\,204 & 67,35~\% & 9,07~\% \\
+        \hline
+        $> 28\,000$ & 7\,971 & 26,57~\% & 1,05~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable vehicle\_market\_value}
+    \label{tab:repartition-marketvalue}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{vehicle\_overvalue\_ratio} », correspondant au ratio de survalorisation, a été découpée à l'aide de la méthode des quantiles, associée à une validation par CART.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{vehicle\_overvalue\_ratio}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        $\leq 0,50$ & 14\,829 & 49,43~\% & 4,22~\% \\
+        \hline
+        $]0,50 ; 0,95]$ & 7\,721 & 25,74~\% & 3,21~\% \\
+        \hline
+        $]0,95 ; 2,20]$ & 5\,553 & 18,51~\% & 2,77~\% \\
+        \hline
+        $> 2,20$ & 1\,897 & 6,32~\% & 1,27~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable vehicle\_overvalue\_ratio}
+    \label{tab:repartition-overvalue}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item La variable « \textbf{incident\_zip\_fraud\_rate} », correspondant au taux de fraude du code postal, a été regroupée en 3 classes selon les terciles des valeurs (10 valeurs uniquement).
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{incident\_zip\_fraud\_rate}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
+        \hline
+        Faible : $\leq 11,05~\%$ & 9\,011 & 30,04~\% & 3,26~\% \\
+        \hline
+        Moyen : $]11,05~\% ; 11,71~\%]$ & 8\,995 & 29,98~\% & 3,44~\% \\
+        \hline
+        Élevé : $> 11,71~\%$ & 11\,994 & 39,98~\% & 4,77~\% \\
+        \hline
+        \rowcolor{gray!15}
+        \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
+        \hline
+    \end{tabularx}
+    \caption{Répartition des classes de la variable incident\_zip\_fraud\_rate}
+    \label{tab:repartition-zipfraud}
+\end{table}
+
+% --------------------------------------------------------------
+\subsection{Analyse des corrélations entre les variables}
 % --------------------------------------------------------------
 
 L'agent renvoie également une table de corrélation entre variables après l'analyse de composition du portefeuille, qui faisait partie de notre demande dans le prompt adressé.
@@ -536,16 +948,16 @@ La nature mixte des variables retenues (à la fois quantitatives et qualitatives
 Les corrélations entre variables quantitatives sont mesurées via le coefficient de Pearson. Pour deux variables $X$ et $Y$, il est défini par :
 
 \begin{equation}
-    \rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \, \sigma_Y}
+    \rho_{X,Y} = \frac{\text{Cov}(X, Y)}{\sigma_X \, \sigma_Y} = \frac{\mathbb{E}\left[(X - \mu_X)(Y - \mu_Y)\right]}{\sqrt{\mathbb{E}[(X - \mu_X)^2] \, \mathbb{E}[(Y - \mu_Y)^2]}}
 \end{equation}
 
 Son estimateur empirique sur un échantillon de taille $n$ s'écrit :
 
 \begin{equation}
-    r_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}
+    \hat{\rho}_{X,Y} = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n} (x_i - \bar{x})^2} \, \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}
 \end{equation}
 
-Ce coefficient, borné dans $[-1, 1]$, mesure exclusivement l'intensité et le sens d'une relation linéaire. Une valeur proche de 1 traduit une relation positive forte (les deux variables évoluent dans le même sens), une valeur proche de $-1$ une relation négative forte (l'une croît lorsque l'autre décroît), et une valeur proche de 0 l'absence de relation linéaire.
+Ce coefficient, borné dans $[-1, 1]$, mesure exclusivement l'intensité et le sens d'une relation \textit{linéaire}. Une valeur proche de 1 traduit une relation positive forte (les deux variables évoluent dans le même sens), une valeur proche de $-1$ une relation négative forte (l'une croît lorsque l'autre décroît), et une valeur proche de 0 l'absence de relation linéaire.
 
 Attention, une valeur nulle n'exclut pas l'existence d'une dépendance non linéaire, ce qui justifie de compléter l'analyse par une inspection graphique lorsque cela est pertinent.
 
@@ -558,13 +970,13 @@ Attention, une valeur nulle n'exclut pas l'existence d'une dépendance non liné
 Les associations entre variables qualitatives sont quant à elles évaluées à l'aide du V de Cramér (dérivé de la statistique du $\chi^2$ de Pearson). Pour deux variables qualitatives comportant respectivement $k$ et $l$ modalités, croisées dans un tableau de contingence de $n$ observations, il est défini par :
 
 \begin{equation}
-    V = \sqrt{\frac{\chi^2 / n}{\min(k - 1, l - 1)}}
+    V = \sqrt{\frac{\chi^2}{n*\min(k - 1, l - 1)}}
 \end{equation}
 
 où la statistique du $\chi^2$ est donnée par :
 
 \begin{equation}
-    \chi^2 = \sum_{i=1}^{k} \sum_{j=1}^{l} \frac{(n_{ij} - n_{ij}^*)^2}{n_{ij}^*}
+    \chi^2 = \sum_{i=1}^{k} \sum_{j=1}^{l} \frac{(n_{ij} - n_{ij}^*)^2}{n_{ij}^*}, \qquad \text{avec} \qquad n_{ij}^* = \frac{n_{i\cdot} n_{\cdot j}}{n} 
 \end{equation}
 
 Les termes $n_{ij}$ désignent les effectifs observés dans la cellule $(i, j)$ et $n_{ij}^*$ les effectifs théoriques sous l'hypothèse d'indépendance des deux variables. Le V de Cramér prend ses valeurs dans $[0, 1]$, une valeur nulle traduisant l'indépendance et une valeur unitaire une association parfaite.
@@ -579,7 +991,7 @@ Contrairement au coefficient de Pearson, le V de Cramér ne renseigne pas sur le
 \vspace{1ex}
 % --------------------------------------------------------------
 
-Les relations entre une variable quantitative et une variable qualitative sont appréhendées par le rapport de corrélation ($\eta^2$).
+Les relations entre une variable quantitative et une variable qualitative sont appréhendées par le \textbf{rapport de corrélation ($\eta^2$)}.
 
 Soit $Y$ une variable quantitative et $X$ une variable qualitative à $k$ modalités partitionnant l'échantillon en $k$ classes d'effectifs $n_1, \dots, n_k$. En notant $\bar{y}_j$ la moyenne de $Y$ dans la classe $j$ et $\bar{y}$ la moyenne globale, la décomposition de la variance totale s'écrit :
 
@@ -587,15 +999,15 @@ Soit $Y$ une variable quantitative et $X$ une variable qualitative à $k$ modali
     \underbrace{\sum_{j=1}^{k} \sum_{i=1}^{n_j} (y_{ij} - \bar{y})^2}_{SC_{\text{totale}}} = \underbrace{\sum_{j=1}^{k} n_j (\bar{y}_j - \bar{y})^2}_{SC_{\text{inter}}} + \underbrace{\sum_{j=1}^{k} \sum_{i=1}^{n_j} (y_{ij} - \bar{y}_j)^2}_{SC_{\text{intra}}}
 \end{equation}
 
-avec $SC$ la somme des carrés. Le rapport de corrélation est alors défini par :
+Avec $SC$ la somme des carrés. Le rapport de corrélation est alors défini par :
 
 \begin{equation}
-    \eta^2 = \frac{SC_{\text{inter}}}{SC_{\text{totale}}}
+    \eta^2 = \frac{SC_{\text{inter}}}{SC_{\text{totale}}} \in [0, 1]
 \end{equation}
 
 Il s'interprète comme la part de la variance de $Y$ expliquée par l'appartenance aux modalités de $X$. Une valeur proche de zéro indique une absence de discrimination des modalités de $X$ sur les niveaux moyens de $Y$, tandis qu'une valeur proche de 1 traduit une segmentation forte.
 
-Par convention, un coefficient supérieur à 0,7 est généralement considéré comme révélateur d'une association forte, pouvant justifier l'exclusion ou la transformation de l'une des variables concernées.
+Par convention, un coefficient supérieur à \textbf{0,7} est généralement considéré comme révélateur d'une association forte, pouvant justifier l'exclusion ou la transformation de l'une des variables concernées.
 
 % --------------------------------------------------------------
 \vspace{2ex}
@@ -605,18 +1017,40 @@ Par convention, un coefficient supérieur à 0,7 est généralement considéré 
 
 Les tableaux ci-dessous synthétisent l'ensemble de ces mesures et constituent ainsi un prérequis méthodologique essentiel à la construction de modèles robustes et interprétables, en garantissant la qualité et l'indépendance de l'information apportée par chaque variable retenue dans l'analyse.
 
+Pour chaque paire de variables par type, le coefficient de corrélation est calculé. La variable de fraude avérée (fraud\_reported), qui est notre variable à expliquer, ne fait pas partie des corrélations testées. L'objet ici est uniquement de relever les corrélations entre les variables explicatives.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/3_matrices_correlation.png}
-    \caption{Matrices d'association entre variables : coefficient de Pearson (quantitatives), V de Cramér (qualitatives) et rapport de corrélation $\eta^2$ (mixtes)}
-    \label{fig:matrice-correlation}
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation1.png}
+    \label{fig:matrice-correlation1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation2.png}
+    \label{fig:matrice-correlation2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation3.png}
+    \label{fig:matrice-correlation3}
 \end{figure}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 
-S'agissant des variables quantitatives, la grande majorité des corrélations de Pearson sont très faibles (proches de 0), traduisant une quasi-indépendance linéaire entre la plupart des grandeurs continues (prime, franchise, âge, délais, etc.). Deux exceptions se distinguent toutefois nettement. D'une part, le montant réclamé et le montant total de l'indemnisation présentent une corrélation très élevée (0,90), ce qui est logique puisque ces deux variables mesurent des quantités monétaires étroitement liées. D'autre part, le ratio de surévaluation de la réclamation est corrélé de façon marquée à ces mêmes montants (0,76 et 0,70). Ces redondances signalent un risque de multicolinéarité qu'il conviendra de traiter lors de la modélisation, par exemple en ne conservant qu'une seule de ces variables ou en construisant un indicateur synthétique, afin de préserver la stabilité et l'interprétabilité des modèles.
+S'agissant des variables quantitatives, la grande majorité des corrélations de Pearson sont très faibles (proches de 0), traduisant une quasi-indépendance linéaire entre la plupart des grandeurs continues (prime, franchise, âge, délais, etc.). Deux exceptions se distinguent toutefois nettement.
 
-\textbf{Parmi les variables qualitatives}, mesurées par le V de Cramér, l'association la plus marquée avec la fraude concerne le statut de réparateur signalé ($V = 0{,}26$), suivi des autorités contactées ($V = 0{,}18$), de la présence d'une blessure déclarée sans preuve médicale ($V = 0{,}17$) et du fait que le tiers soit déjà connu de l'assuré ($V = 0{,}17$). Les autres variables qualitatives (gravité de l'incident, canal de déclaration, profession, etc.) présentent des associations nettement plus faibles.
+% \begin{itemize}[label=$\bullet$]
+%     \item En premier lieu, le \textbf{taux de fraude du code postal} de l'endroit \textbf{et état_id} (indiquer le n)
+
+D'une part, le montant réclamé et le montant total de l'indemnisation présentent une corrélation très élevée (0,90), ce qui est logique puisque ces deux variables mesurent des quantités monétaires étroitement liées. D'autre part, le ratio de surévaluation de la réclamation est corrélé de façon marquée à ces mêmes montants (0,76 et 0,70). Ces redondances signalent un risque de multicolinéarité qu'il conviendra de traiter lors de la modélisation, par exemple en ne conservant qu'une seule de ces variables ou en construisant un indicateur synthétique, afin de préserver la stabilité et l'interprétabilité des modèles.
+
+\textbf{Parmi les variables qualitatives}, les corrélations les plus fortes mesurées par le V de Cramér sont : 
+
+ICI ON VA LISTER 
+
+Les autres variables qualitatives (gravité de l'incident, canal de déclaration, profession, etc.) présentent des associations nettement plus faibles entre elles.
 
 \textbf{Parmi les variables quantitatives}, mesurées par le rapport de corrélation $\eta^2$, les intensités les plus fortes s'observent pour le passé du réparateur, avec le nombre de fraudes qu'il a déjà confirmées ($\eta^2 = 0{,}32$) et son nombre total de sinistres traités ($\eta^2 = 0{,}19$), ainsi que pour le ratio entre la facture et le prix de marché ($\eta^2 = 0{,}28$) et les antécédents de fraude de l'assuré ($\eta^2 = 0{,}24$). Viennent ensuite l'historique des montants réclamés (0,19), le nombre de modifications apportées à la déclaration (0,18) et le nombre d'incidents passés du tiers (0,17).
 
@@ -626,7 +1060,7 @@ Concernant les corrélations linéaires entre variables quantitatives, seul le c
 \subsubsection*{Élimination des variables corrélées}
 % --------------------------------------------------------------
 
-À l'issue de l'analyse des matrices d'association, l'outil offre à l'utilisateur la possibilité d'écarter les variables jugées redondantes. Cette étape de sélection vise à ne conserver, parmi les variables candidates, que celles qui apportent une information « propre » et non déjà captée par d'autres, afin de ne pas dégrader la qualité des modèles construits par la suite.
+À l'issue de l'analyse des matrices d'association, l'outil offre à l'utilisateur la possibilité d'écarter les variables jugées redondantes. Cette étape de sélection vise à ne conserver, parmi les variables candidates, que celles qui apportent une information « propre » et non déjà captée par d'autres variables par ailleurs, afin de ne pas dégrader la qualité des modèles construits par la suite.
 
 \begin{figure}[H]
     \centering
@@ -634,7 +1068,11 @@ Concernant les corrélations linéaires entre variables quantitatives, seul le c
 \end{figure}
 
 
-Sur les 54 variables explicatives disponibles à ce stade (24 issues de la base source et 30 issues de l'enrichissement), 45 ont été retenues pour la modélisation. Les 9 variables restantes ont été écartées automatiquement par l'outil, qui les a identifiées comme non pertinentes pour la prédiction : la variable cible fraud\_reported, qui constitue précisément la grandeur à prédire et ne peut donc servir d'entrée ; les identifiants uniques ou quasi uniques, dépourvus de tout pouvoir prédictif généralisable (policy\_id, insured\_id, repairer\_id, third\_party\_id, witness\_id, vehicle\_id) ; et deux variables trop granulaires pour une analyse statistique robuste, à savoir la date exacte du sinistre (incident\_date) et la ville du sinistre (incident\_city), dont le très grand nombre de modalités rendrait les effectifs par catégorie trop faibles. Ce filtrage, réalisé en amont par l'agent sans intervention manuelle, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
+Sur les 53 variables explicatives disponibles à ce stade (24 issues de la base source et 29 issues de l'enrichissement), 44 ont été retenues pour la modélisation.
+
+En effet, 9 variables ont été écartées \textbf{automatiquement} par l'outil, qui les a identifiées comme non pertinentes pour la prédiction : 
+
+la variable cible fraud\_reported, qui constitue précisément la grandeur à prédire et ne peut donc servir d'entrée ; les identifiants uniques ou quasi uniques, dépourvus de tout pouvoir prédictif généralisable (policy\_id, insured\_id, repairer\_id, third\_party\_id, witness\_id, vehicle\_id) ; et deux variables trop granulaires pour une analyse statistique robuste, à savoir la date exacte du sinistre (incident\_date) et la ville du sinistre (incident\_city), dont le très grand nombre de modalités rendrait les effectifs par catégorie trop faibles. Ce filtrage, réalisé en amont par l'agent sans intervention manuelle, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
 
 \begin{figure}[H]
     \centering
@@ -645,10 +1083,10 @@ Sur les 54 variables explicatives disponibles à ce stade (24 issues de la base 
 
 Le retrait des variables fortement corrélées répond à un enjeu méthodologique important. Lorsque deux variables explicatives sont redondantes, elles introduisent un phénomène de multicolinéarité qui peut fragiliser le modèle de plusieurs manières.
 
-Sur les modèles de type régression ou scoring, la multicolinéarité rend l'estimation des coefficients instable : de faibles variations dans les données peuvent entraîner des changements importants dans les pondérations attribuées à chaque variable, rendant leur interprétation peu fiable, voire trompeuse. Sur l'ensemble des modèles, elle nuit également à la parcimonie et à la lisibilité du dispositif, sans améliorer le pouvoir prédictif puisque l'information est déjà présente. Éliminer ces redondances en amont permet donc de gagner en robustesse, en stabilité et en interprétabilité, sans perte d'information significative.
+Sur les modèles de type régression ou \textit{scoring}, la multicolinéarité rend l'estimation des coefficients instable : de faibles variations dans les données peuvent entraîner des changements importants dans les pondérations attribuées à chaque variable, rendant leur interprétation peu fiable, voire trompeuse. Sur l'ensemble des modèles, elle nuit également à la parcimonie et à la lisibilité du dispositif, sans améliorer le pouvoir prédictif puisque l'information est déjà présente. Éliminer ces redondances en amont permet donc de gagner en robustesse, en stabilité et en interprétabilité, sans perte d'information significative.
 
 % --------------------------------------------------------------
-\subsubsection*{Analyse de la fréquence de fraude}
+\subsection*{Analyse de la fréquence de fraude}
 % --------------------------------------------------------------
 
 Le système ne se contente plus de décrire chaque variable isolément, il croise systématiquement chaque caractéristique avec la variable cible (fraud\_reported) préalablement identifiée par l'utilisateur.
@@ -670,7 +1108,7 @@ L'objectif de cette interface est de réaliser un « profilage » automatisé. E
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude.png}
-    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes par variables sur la base de données de sinistres automobile}
+    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes pour variables sur la base de données de sinistres automobile}
     \label{fig:analyse-repartition-fraude}
 \end{figure}
 
@@ -679,7 +1117,7 @@ Afin de permettre à l'utilisateur de visualiser l'ensemble des variables, un ch
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude_barre.png}
-    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes pour les variables des autorités contactées et nombre de fraudes passées sur la base de données de sinistres automobile}
+    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes sur la base de données de sinistres automobile}
     \label{fig:analyse-repartition-fraude-barre}
 \end{figure}
 
@@ -723,7 +1161,7 @@ L'analyse de ces graphiques et diagrammes permet de dégager des enseignements m
 \subsubsection*{Analyse du coût moyen de la fraude}
 % --------------------------------------------------------------
 
-Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (variable total\_claim\_amount).
+Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (variable \textit{total\_claim\_amount}).
 
 \begin{figure}[H]
     \centering
@@ -734,14 +1172,12 @@ Après avoir analysé la fréquence de fraude, une étude est réalisée sur le 
 
 Ces indicateurs nous permettent de faire un constat contre-intuitif : la fraude ne concerne pas les sinistres les plus coûteux. Le coût moyen des 3\,440 dossiers frauduleux s'élève à 12\,675,09~\euro{}, soit un montant quasiment identique, et même légèrement inférieur, au coût moyen global (12\,757,74~\euro{}). Autrement dit, les dossiers frauduleux ne se distinguent pas par des montants réclamés plus élevés que les dossiers sains.
 
-Ce résultat, à première vue surprenant, a une implication importante : \textbf{le montant du sinistre n'est pas, à lui seul, un signal permettant d'orienter la détection vers les fraudeurs}. Une stratégie de contrôle qui se concentrerait uniquement sur les sinistres les plus coûteux passerait donc à côté d'une large part de la fraude. C'est précisément ce qui justifie le recours à une approche multivariée : la fraude se révèle non pas par le montant réclamé, mais par la combinaison de signaux comportementaux et déclaratifs identifiés précédemment (antécédents, cohérence de la déclaration, environnement du sinistre).
+Ce résultat, à première vue surprenant, a une implication importante : \textbf{le montant du sinistre n'est pas, à lui seul, un signal permettant d'orienter la détection vers les fraudeurs}. Une stratégie de contrôle qui se concentrerait uniquement sur les sinistres les plus coûteux passerait donc à côté d'une large part de la fraude. C'est précisément ce qui justifie le recours à une approche multivariée : la fraude se révèle non pas par le montant réclamé, mais par la combinaison de signaux comportementaux et déclaratifs identifiés précédemment (antécédents, cohérence de la déclaration, environnement du sinistre). L'objectif du mémoire étant de modéliser une \textbf{probabilité de fraude} (variable cible binaire), l'étude du coût moyen n'entre a priori pas directement dans la spécification du modèle. Néanmoins, elle conserve une justification importante dans un mémoire actuariel : la justification de l'enjeu économique du modèle. En effet, modéliser une probabilité de fraude n'a de valeur opérationnelle que si la fraude représente un enjeu financier significatif.
 
-L'objectif du mémoire étant de modéliser une \textbf{probabilité de fraude} (variable cible binaire), l'étude du coût moyen n'entre a priori pas directement dans la spécification du modèle. Néanmoins, elle conserve une justification importante dans un mémoire actuariel : la justification de l'enjeu économique du modèle. En effet, modéliser une probabilité de fraude n'a de valeur opérationnelle que si la fraude représente un enjeu financier significatif.
+% Ainsi, comparer le coût moyen d'un sinistre frauduleux $\bar{C}_F$ à celui d'un sinistre non frauduleux $\bar{C}_{NF}$ permet de quantifier la charge évitée par un sinistre correctement détecté :
 
-Ainsi, le gain unitaire espéré d'une fraude correctement détectée correspond au coût moyen d'un sinistre frauduleux $\bar{C}_F$ :
+% \begin{equation}
+%     \text{Gain unitaire espéré} \approx \bar{C}_F
+% \end{equation}
 
-\begin{equation}
-    \text{Gain unitaire espéré} \approx \bar{C}_F
-\end{equation}
-
-Ce gain correspond au montant que l'assureur évite de verser indûment en écartant le dossier. On fait ici l'hypothèse qu'un sinistre identifié comme frauduleux est intégralement rejeté ; dans le cas d'une simple exagération, seul le surcoût frauduleux serait effectivement récupéré. Cela pose le cadre économique qui légitime la démarche de modélisation.
+Le gain unitaire espéré d'une fraude détectée correspond au coût moyen d'un sinistre frauduleux ($\bar{C}_F$), c'est-à-dire au montant que l'assureur évite de verser indûment en écartant le dossier. On fait ici l'hypothèse qu'un sinistre identifié comme frauduleux est intégralement rejeté ; dans le cas d'une simple exagération, seul le surcoût frauduleux serait récupéré. Cela pose le cadre économique qui légitime la démarche de modélisation.

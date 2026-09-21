@@ -78,23 +78,44 @@ La fraude à la souscription peut ainsi priver totalement l'assuré de garantie 
 
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
-        \toprule
-        & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
-        \midrule
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\extrarowheight}{2pt}
+    \renewcommand\tabularxcolumn[1]{m{#1}}   % colonnes X centrées verticalement
+    % --- rembourrage vertical des cellules ---
+    \newcommand{\padV}{6pt}                  % <<< régler l'espace ici
+    \newcommand{\hautCell}{\vspace*{\padV}}
+    \newcommand{\basCell}{\vspace*{\dimexpr\padV-4pt\relax}}
+    \newcommand{\puce}[1]{%
+        \leavevmode\hspace{0.3em}%
+        \parbox[t]{\dimexpr\linewidth-0.9em\relax}{%
+            \hangindent=0.9em\hangafter=1%
+            \makebox[0.9em][l]{$\bullet$}#1\par}%
+        \vspace{4pt}%
+    }
+    \begin{tabularx}{\textwidth}{%
+        |>{\centering\arraybackslash}m{2.4cm}%
+        |>{\raggedright\arraybackslash}X%
+        |>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{Assurance automobile}} & \textcolor{white}{\textbf{Assurance habitation}} \\
+        \hline
         \textbf{Fraude à la souscription}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item Fausse déclaration du \textbf{conducteur principal} : un parent déclare être le conducteur principal alors que le véhicule est utilisé principalement par un jeune conducteur afin d'éviter une surprime.
-            \item Fausse \textbf{adresse de garage} : déclaration d'un stationnement en zone rurale alors que le véhicule est stationné en zone urbaine à forte sinistralité.
-            \item Dissimulation d'un \textbf{usage professionnel} : déclarer un usage « privé » alors que le véhicule est utilisé pour des livraisons ou VTC.
-            \item Fraude documentaire : faux papiers d'identité.
-          \end{itemize}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item Sous-évaluation du \textbf{capital mobilier} pour réduire la prime.
-            \item Omission de \textbf{circonstances aggravantes} : logement inoccupé plusieurs mois par an, absence de système de sécurité, activité professionnelle à domicile.
-            \item Fausse déclaration de la \textbf{qualité d'occupant} (se déclarer propriétaire occupant plutôt que bailleur).
-          \end{itemize} \\
-        \bottomrule
+        &
+        \hautCell
+        \puce{Fausse déclaration du \textbf{conducteur principal} : un parent déclare être le conducteur principal alors que le véhicule est utilisé principalement par un jeune conducteur afin d'éviter une surprime.}
+        \puce{Fausse \textbf{adresse de garage} : déclaration d'un stationnement en zone rurale alors que le véhicule est stationné en zone urbaine à forte sinistralité.}
+        \puce{Dissimulation d'un \textbf{usage professionnel} : déclarer un usage «~privé~» alors que le véhicule est utilisé pour des livraisons ou VTC.}
+        \puce{Fraude documentaire : faux papiers d'identité.}%
+        \basCell
+        &
+        \hautCell
+        \puce{Sous-évaluation du \textbf{capital mobilier} pour réduire la prime.}
+        \puce{Omission de \textbf{circonstances aggravantes} : logement inoccupé plusieurs mois par an, absence de système de sécurité, activité professionnelle à domicile.}
+        \puce{Fausse déclaration de la \textbf{qualité d'occupant} (se déclarer propriétaire occupant plutôt que bailleur).}%
+        \basCell
+        \\
+        \hline
     \end{tabularx}
     \caption{Exemples de fraude à la souscription en assurance non-vie}
     \label{tab:fraude-souscription}
@@ -110,27 +131,48 @@ La fraude la plus courante en assurance non-vie se produit lors de la déclarati
 
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
-        \toprule
-        & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
-        \midrule
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\extrarowheight}{2pt}
+    \renewcommand\tabularxcolumn[1]{m{#1}}   % colonnes X centrées verticalement
+    % --- rembourrage vertical des cellules ---
+    \newcommand{\padV}{6pt}                  % <<< régler l'espace ici
+    \newcommand{\hautCell}{\vspace*{\padV}}
+    \newcommand{\basCell}{\vspace*{\dimexpr\padV-4pt\relax}}
+    \newcommand{\puce}[1]{%
+        \leavevmode\hspace{0.3em}%
+        \parbox[t]{\dimexpr\linewidth-0.9em\relax}{%
+            \hangindent=0.9em\hangafter=1%
+            \makebox[0.9em][l]{$\bullet$}#1\par}%
+        \vspace{4pt}%
+    }
+    \begin{tabularx}{\textwidth}{%
+        |>{\centering\arraybackslash}m{2.4cm}%
+        |>{\raggedright\arraybackslash}X%
+        |>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{Assurance automobile}} & \textcolor{white}{\textbf{Assurance habitation}} \\
+        \hline
         \textbf{Fraude à la déclaration d'un sinistre}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item \textbf{Exagération des dommages} : ajout de dégâts antérieurs sur le constat amiable.
-            \item \textbf{Fausse date de sinistre} : déclarer un accident survenu avant la souscription comme postérieur à celle-ci.
-            \item \textbf{Sinistre fictif} : déclaration d'un vol de véhicule inexistant ou maquillage d'un incendie volontaire.
-            \item \textbf{Accident provoqué} intentionnellement (fraude organisée dans certains cas).
-            \item \textbf{Constats de complaisance} entre complices pour imputer la responsabilité à un tiers assuré.
-            \item \textbf{Fraude documentaire} : faux devis, fausses factures de réparation, gonflement des temps de main-d'œuvre, faux certificats de cession ou documents d'identité, manipulation de photos (dommages antérieurs).
-          \end{itemize}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item \textbf{Ajout d'objets inexistants} lors d'un vol déclaré.
-            \item \textbf{Surestimation de la valeur des biens} (factures falsifiées ou modifiées).
-            \item \textbf{Déclaration d'un dégât des eaux ancien comme récent} pour le rendre indemnisable.
-            \item \textbf{Incendie volontaire} destiné à obtenir une indemnité.
-            \item \textbf{Fraude documentaire} : fausses factures d'ameublement après vol, devis travaux surévalués après dégât des eaux, falsification de preuves d'effraction, antidatation de justificatifs.
-          \end{itemize} \\
-        \bottomrule
+        &
+        \hautCell
+        \puce{\textbf{Exagération des dommages} : ajout de dégâts antérieurs sur le constat amiable.}
+        \puce{\textbf{Fausse date de sinistre} : déclarer un accident survenu avant la souscription comme postérieur à celle-ci.}
+        \puce{\textbf{Sinistre fictif} : déclaration d'un vol de véhicule inexistant ou maquillage d'un incendie volontaire.}
+        \puce{\textbf{Accident provoqué} intentionnellement (fraude organisée dans certains cas).}
+        \puce{\textbf{Constats de complaisance} entre complices pour imputer la responsabilité à un tiers assuré.}
+        \puce{\textbf{Fraude documentaire} : faux devis, fausses factures de réparation, gonflement des temps de main-d'œuvre, faux certificats de cession ou documents d'identité, manipulation de photos (dommages antérieurs).}%
+        \basCell
+        &
+        \hautCell
+        \puce{\textbf{Ajout d'objets inexistants} lors d'un vol déclaré.}
+        \puce{\textbf{Surestimation de la valeur des biens} (factures falsifiées ou modifiées).}
+        \puce{\textbf{Déclaration d'un dégât des eaux ancien comme récent} pour le rendre indemnisable.}
+        \puce{\textbf{Incendie volontaire} destiné à obtenir une indemnité.}
+        \puce{\textbf{Fraude documentaire} : fausses factures d'ameublement après vol, devis travaux surévalués après dégât des eaux, falsification de preuves d'effraction, antidatation de justificatifs.}%
+        \basCell
+        \\
+        \hline
     \end{tabularx}
     \caption{Exemples de fraude à la déclaration d'un sinistre en assurance non-vie}
     \label{tab:fraude-declaration}
@@ -150,26 +192,47 @@ Par exemple, en assurance automobile, dans le cadre d'un sinistre survenu lors d
 
 \begin{table}[H]
     \centering
-    \begin{tabularx}{\textwidth}{@{}l >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X@{}}
-        \toprule
-        & \textbf{Assurance automobile} & \textbf{Assurance habitation} \\
-        \midrule
+    \renewcommand{\arraystretch}{1.3}
+    \setlength{\extrarowheight}{2pt}
+    \renewcommand\tabularxcolumn[1]{m{#1}}   % colonnes X centrées verticalement
+    % --- rembourrage vertical des cellules ---
+    \newcommand{\padV}{6pt}                  % <<< régler l'espace ici
+    \newcommand{\hautCell}{\vspace*{\padV}}
+    \newcommand{\basCell}{\vspace*{\dimexpr\padV-4pt\relax}} % 4pt déjà ajoutés par la dernière puce
+    \newcommand{\puce}[1]{%
+        \leavevmode\hspace{0.3em}%
+        \parbox[t]{\dimexpr\linewidth-0.9em\relax}{%
+            \hangindent=0.9em\hangafter=1%
+            \makebox[0.9em][l]{$\bullet$}#1\par}%
+        \vspace{4pt}%
+    }
+    \begin{tabularx}{\textwidth}{%
+        |>{\centering\arraybackslash}m{2.4cm}%
+        |>{\raggedright\arraybackslash}X%
+        |>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{Assurance automobile}} & \textcolor{white}{\textbf{Assurance habitation}} \\
+        \hline
         \textbf{Fraude liée aux conditions générales}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item \textbf{Requalification d'un usage exclu} : déclarer un sinistre survenu dans un cadre privé alors que le véhicule était utilisé à titre professionnel, afin de bénéficier de la garantie.
-            \item \textbf{Déclaration inexacte des circonstances du vol} : affirmer que les clés n'étaient pas laissées dans le véhicule ou à proximité, afin d'éviter l'application d'une exclusion.
-            \item \textbf{Manipulation des circonstances du sinistre} : faire passer une panne mécanique ou un défaut d'entretien pour un dommage accidentel couvert par le contrat.
-            \item \textbf{Fausse qualité du conducteur au moment du sinistre} : déclarer que le véhicule était conduit par un conducteur autorisé alors qu'il était utilisé par une personne exclue ou non déclarée.
-            \item \textbf{Contournement d'une franchise ou d'un plafond} : fractionner artificiellement un dommage ou modifier sa nature pour obtenir une meilleure prise en charge contractuelle.
-          \end{itemize}
-        & \begin{itemize}[leftmargin=*, nosep]
-            \item \textbf{Fausse déclaration d'effraction} : présenter un vol simple comme un vol avec effraction pour satisfaire à la condition contractuelle de garantie.
-            \item \textbf{Transformation d'un défaut d'entretien en événement accidentel} : présenter une infiltration progressive ou un défaut d'étanchéité comme un dégât des eaux soudain et garanti.
-            \item \textbf{Dissimulation de l'inoccupation du logement} : omettre que le logement était vacant au-delà de la durée prévue par le contrat au moment du sinistre.
-            \item \textbf{Requalification d'un bien exclu en bien garanti} : déclarer comme mobilier assuré un objet relevant d'une exclusion ou nécessitant une garantie spécifique.
-            \item \textbf{Mise en scène d'un dommage garanti} : présenter un dommage esthétique, ancien ou non garanti comme consécutif à un événement couvert (incendie, dégât des eaux, vol).
-          \end{itemize} \\
-        \bottomrule
+        &
+        \hautCell
+        \puce{\textbf{Requalification d'un usage exclu} : déclarer un sinistre survenu dans un cadre privé alors que le véhicule était utilisé à titre professionnel, afin de bénéficier de la garantie.}
+        \puce{\textbf{Déclaration inexacte des circonstances du vol} : affirmer que les clés n'étaient pas laissées dans le véhicule ou à proximité, afin d'éviter l'application d'une exclusion.}
+        \puce{\textbf{Manipulation des circonstances du sinistre} : faire passer une panne mécanique ou un défaut d'entretien pour un dommage accidentel couvert par le contrat.}
+        \puce{\textbf{Fausse qualité du conducteur au moment du sinistre} : déclarer que le véhicule était conduit par un conducteur autorisé alors qu'il était utilisé par une personne exclue ou non déclarée.}
+        \puce{\textbf{Contournement d'une franchise ou d'un plafond} : fractionner artificiellement un dommage ou modifier sa nature pour obtenir une meilleure prise en charge contractuelle.}%
+        \basCell
+        &
+        \hautCell
+        \puce{\textbf{Fausse déclaration d'effraction} : présenter un vol simple comme un vol avec effraction pour satisfaire à la condition contractuelle de garantie.}
+        \puce{\textbf{Transformation d'un défaut d'entretien en événement accidentel} : présenter une infiltration progressive ou un défaut d'étanchéité comme un dégât des eaux soudain et garanti.}
+        \puce{\textbf{Dissimulation de l'inoccupation du logement} : omettre que le logement était vacant au-delà de la durée prévue par le contrat au moment du sinistre.}
+        \puce{\textbf{Requalification d'un bien exclu en bien garanti} : déclarer comme mobilier assuré un objet relevant d'une exclusion ou nécessitant une garantie spécifique.}
+        \puce{\textbf{Mise en scène d'un dommage garanti} : présenter un dommage esthétique, ancien ou non garanti comme consécutif à un événement couvert (incendie, dégât des eaux, vol).}%
+        \basCell
+        \\
+        \hline
     \end{tabularx}
     \caption{Exemples de fraude liée aux conditions générales en assurance non-vie}
     \label{tab:fraude-cg}
@@ -304,10 +367,34 @@ La Prime Pure (PP) est modélisée par le produit de l'espérance de la fréquen
 
 L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour calibrer ces modèles tarifaires (que ce soit via des GLM traditionnels ou des algorithmes de Machine Learning comme XGBoost) :
 
-\begin{itemize}
-    \item \textbf{Impact sur la fréquence ($N$)} : la fraude opportuniste ou préméditée (déclaration de sinistres imaginaires) augmente artificiellement le nombre de sinistres dans le portefeuille.
-    \item \textbf{Impact sur le coût moyen ($C$)} : la majoration de dommages (ajout d'éléments fictifs sur une facture réelle) gonfle la sévérité moyenne des sinistres.
-\end{itemize}
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{2.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{Assurance automobile}} & \textcolor{white}{\textbf{Assurance habitation}} \\
+        \hline
+        \textbf{Fraude liée aux conditions générales}
+        & \begin{itemize}[leftmargin=1.2em, nosep, label=$\bullet$]
+            \item \textbf{Requalification d'un usage exclu} : déclarer un sinistre survenu dans un cadre privé alors que le véhicule était utilisé à titre professionnel, afin de bénéficier de la garantie.
+            \item \textbf{Déclaration inexacte des circonstances du vol} : affirmer que les clés n'étaient pas laissées dans le véhicule ou à proximité, afin d'éviter l'application d'une exclusion.
+            \item \textbf{Manipulation des circonstances du sinistre} : faire passer une panne mécanique ou un défaut d'entretien pour un dommage accidentel couvert par le contrat.
+            \item \textbf{Fausse qualité du conducteur au moment du sinistre} : déclarer que le véhicule était conduit par un conducteur autorisé alors qu'il était utilisé par une personne exclue ou non déclarée.
+            \item \textbf{Contournement d'une franchise ou d'un plafond} : fractionner artificiellement un dommage ou modifier sa nature pour obtenir une meilleure prise en charge contractuelle.
+          \end{itemize}
+        & \begin{itemize}[leftmargin=1.2em, nosep, label=$\bullet$]
+            \item \textbf{Fausse déclaration d'effraction} : présenter un vol simple comme un vol avec effraction pour satisfaire à la condition contractuelle de garantie.
+            \item \textbf{Transformation d'un défaut d'entretien en événement accidentel} : présenter une infiltration progressive ou un défaut d'étanchéité comme un dégât des eaux soudain et garanti.
+            \item \textbf{Dissimulation de l'inoccupation du logement} : omettre que le logement était vacant au-delà de la durée prévue par le contrat au moment du sinistre.
+            \item \textbf{Requalification d'un bien exclu en bien garanti} : déclarer comme mobilier assuré un objet relevant d'une exclusion ou nécessitant une garantie spécifique.
+            \item \textbf{Mise en scène d'un dommage garanti} : présenter un dommage esthétique, ancien ou non garanti comme consécutif à un événement couvert (incendie, dégât des eaux, vol).
+          \end{itemize} \\
+        \hline
+    \end{tabularx}
+    \caption{Exemples de fraude liée aux conditions générales en assurance non-vie}
+    \label{tab:fraude-cg}
+\end{table}
 
 Si l'actuaire calibre ses modèles sur ces données polluées, il surestime le risque réel du portefeuille sain. La prime demandée aux assurés honnêtes augmente, ce qui dégrade la compétitivité de l'assureur sur le marché.
 
@@ -412,4 +499,4 @@ Pour y parvenir, l'étude s'appuie sur une base de données publique de sinistre
 
 Pour pallier en partie à ce recalibrage inexistant, cette base a été enrichie avec des données qui auraient été disponibles chez un assureur de manière à enrichir le modèle de détection de fraude créé.
 
-Les chapitres suivants détailleront cette démarche : après un état des lieux des processus de détection existants et de l'apport de l'intelligence artificielle (Chapitre~2), en opposition à ce qui se fait déjà en matière de détection de fraude (Chapitre~3), nous présenterons la construction et la comparaison des trois modèles de détection retenus (scoring en points, arbre de décision et Gradient Boosting) ainsi que l'évaluation de leurs performances respectives (Chapitre~4). Le Chapitre~5 décrira l'outil opérationnel développé à destination des services de gestion des sinistres, suivi du Chapitre~6 qui expliquera la logique d'enrichissement continu du modèle. Enfin, le Chapitre~7 ouvrira sur les limites de l'outil et les perspectives d'évolution, notamment autour de la qualité des données, de la mutualisation inter-assureurs et de l'extension à une approche multi-produits.
+Les chapitres suivants détailleront la démarche de mise en oeuvre d'un tel outil pas à pas : après un état des lieux des processus de détection existants et de l'apport de l'intelligence artificielle (Chapitre~2), en opposition à ce qui se fait déjà en matière de détection de fraude (Chapitre~3), nous présenterons la construction et la comparaison des trois modèles de détection retenus (scoring en points, arbre de décision et Gradient Boosting) ainsi que l'évaluation de leurs performances respectives (Chapitre~4). Le Chapitre~5 décrira l'outil opérationnel développé à destination des services de gestion des sinistres, suivi du Chapitre~6 qui détaillera son utilisation pratique et sa logique d'enrichissement continu. Enfin, le Chapitre~7 ouvrira sur les limites de l'outil et les perspectives d'évolution, notamment autour de la qualité des données, de la mutualisation inter-assureurs et de l'extension de l'outil à une approche multi-produits.

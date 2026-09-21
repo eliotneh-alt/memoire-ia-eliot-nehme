@@ -32,6 +32,8 @@
 %\usepackage{seqsplit}
 %\usepackage{pdflscape} % Fait pivoter la page dans le PDF
 %\usepackage{adjustbox}
+\usepackage{multirow}
+
 
 \definecolor{accenture}{HTML}{A100FF}
 \definecolor{axehist}{HTML}{FBF8E8}    % Historique assuré - crème/jaune très clair
@@ -42,6 +44,9 @@
 \definecolor{axecompo}{HTML}{FBEAEA}   % Comportement déclaratif - rouge/rose clair
 \definecolor{axegeo}{HTML}{FBF8E8}     % Géographique - jaune clair
 \definecolor{axetemp}{HTML}{D3DBD0}
+\definecolor{colchamp}{HTML}{C00000}     % Champ (EN) - rouge
+\definecolor{bleu}{HTML}{0C447C}      % Nom (FR) - bleu  : Identifiant / Contrat / Assuré
+\definecolor{marron}{HTML}{633806}      % Nom (FR) - orange : Sinistre / Réclamation / Cible ML
 \usetikzlibrary{positioning, shapes.geometric, arrows.meta, shapes.misc, backgrounds, fit, shadows}
 \usetikzlibrary{shapes, arrows, positioning}
 \setlist[itemize]{itemsep=8pt, topsep=2pt} % Applique ces réglages à toutes les listes itemize
@@ -52,6 +57,10 @@
 % et le titre du chapitre également en \Huge
 % Redéfinition complète du format des pages de chapitre
 
+\newcommand{\champA}[1]{\textcolor{bleu}{\textbf{#1}}}
+\newcommand{\champB}[1]{\textcolor{marron}{\textbf{#1}}}
+\newcommand{\nomA}[1]{\textcolor{bleu}{\textit{#1}}}
+\newcommand{\nomB}[1]{\textcolor{marron}{\textit{#1}}}
 
 % --- 1. Apparence des titres (police, taille, gras...) ---
 

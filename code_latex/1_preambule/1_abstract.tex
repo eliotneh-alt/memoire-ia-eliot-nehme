@@ -2,11 +2,14 @@
 % Ajouter manuellement cette section à la table des matières
 \addcontentsline{toc}{chapter}{Abstract}
 
-Fraud in non-life insurance is a major financial concern, estimated at around 2.5~billion of euros per year in France, a large share of which still evades traditional detection systems. Relying on human expertise, these systems examine only a fraction of claims and struggle to address low-value mass fraud, where the cost of manual verification often exceeds the expected gain.
+Fraud in non-life insurance represents a major financial challenge in France, with annual losses estimated at approximately €2.5 billion, a substantial share of which remains undetected by traditional detection systems. As these systems rely primarily on human expertise, they examine only a fraction of claims and struggle to address high-volume, low-value fraud, for which the cost of manual verification often exceeds the expected financial benefit.
 
-This dissertation sets out to design and deploy, using an artificial-intelligence agent, an automated motor-insurance fraud detection process spanning data ingestion through to steering the system. Starting from a claims database enriched with variables reproducing the information available to an insurer, three models are built and compared along an interpretability-versus-predictive-power trade-off: a points-based scorecard, a decision tree and a Gradient Boosting model. The latter achieves the best performance (AUC of 0.942, top-decile lift of $\times$6.66) while effectively concentrating fraud within a limited volume of claims to investigate.
+This thesis proposes the design and deployment of an AI-agent-supported process for the automated detection of motor insurance fraud, covering the entire workflow from data ingestion to system monitoring. Using a claims dataset enriched with variables designed to replicate the information available to an insurer, three fraud-probability estimation models are developed and compared in terms of the trade-off between interpretability and predictive performance: a points-based scorecard, a decision tree, and a Gradient Boosting model.
 
-The tool is organised into two modules aimed at two distinct teams: model construction by actuaries, and operational use by claims handlers, complemented by a continuous-enrichment feedback loop and a monitoring report measuring the return on investment. The whole framework complies with the GDPR and the AI Act, preserving human oversight at every stage.
+Ultimately, the Gradient Boosting model achieves the strongest performance, with an AUC of 0.942 and a lift of $\times 6.66$ in the first decile, while effectively concentrating fraudulent claims within a limited volume of cases requiring investigation.
 
-\vspace{1em}
-\noindent\textbf{Keywords:} insurance fraud, non-life insurance, automated detection, artificial intelligence, machine learning, scoring, Gradient Boosting, actuarial science.
+The tool comprises two modules designed for two distinct teams: a model-development module for actuaries and an operational-use module for claims handlers, complemented by a continuous data-enrichment loop and a monitoring report that assesses the tool's return on investment. The overall framework is governed in accordance with the GDPR and the AI Act and maintains human oversight at every stage of the fraud-detection process.
+
+\textbf{Note :} The diagrams and illustrations included in this thesis were produced with the assistance of generative artificial intelligence tools. Likewise, part of the data used to enrich the dataset was simulated using such tools, as specified in Section 4.2.2.
+
+\textbf{Keywords :} insurance fraud, non-life insurance, automated detection, artificial intelligence, \textit{machine learning}, points-based scoring, Gradient Boosting, decision tree, process, actuarial science.

@@ -64,20 +64,20 @@ L'absence de ces variables limite la capacité du modèle à capter des comporte
 À titre d'exemple, en assurance automobile, l'accès à la base portefeuille permettrait de détecter plus efficacement certains schémas de fraude tels que :
 
 \begin{itemize}
-    \item \textbf{Fraudes opportunistes liées à une ancienneté très faible du contrat} : un sinistre survenant peu de temps après la souscription (ex : vol ou incendie dans les premières semaines) constitue un signal faible classique, difficile à exploiter sans information sur la date d'entrée en portefeuille.
-    \item \textbf{Récurrence de sinistres sur un même assuré} : un assuré présentant une fréquence de sinistralité anormalement élevée sur une période donnée peut indiquer un comportement suspect (ex : déclarations répétées de bris de glace ou d'accidents matériels). Sans historique consolidé, ces signaux ne peuvent être captés que partiellement.
-    \item \textbf{Stratégies de multi-assurance ou de résiliation stratégique} : certains fraudeurs peuvent multiplier les contrats auprès de différents assureurs ou résilier après sinistre pour éviter d'être détectés. L'analyse des trajectoires contractuelles (durée de détention, fréquence de changement d'assureur) constitue alors une variable explicative clé.
-    \item \textbf{Fraudes en réseau ou en bande organisée} : l'identification de liens entre individus (même adresse, même véhicule impliqué dans plusieurs sinistres, tiers récurrents dans des accidents) permettrait de détecter des schémas de fraude structurés. Par exemple, des accidents impliquant régulièrement les mêmes personnes ou garages peuvent révéler des montages frauduleux (accidents simulés, complicités avec des réparateurs, etc.).
-    \item \textbf{Incohérences entre profil assuré et sinistre déclaré} : certaines variables portefeuille (âge, ancienneté de conduite, historique de comportement) permettent de mieux contextualiser un sinistre. Par exemple, un assuré sans historique de sinistre déclarant soudainement un sinistre grave peut être analysé différemment d'un profil déjà sinistré.
+    \item[$\bullet$] \textbf{Fraudes opportunistes liées à une ancienneté très faible du contrat} : un sinistre survenant peu de temps après la souscription (ex : vol ou incendie dans les premières semaines) constitue un signal faible classique, difficile à exploiter sans information sur la date d'entrée en portefeuille.
+    \item[$\bullet$] \textbf{Récurrence de sinistres sur un même assuré} : un assuré présentant une fréquence de sinistralité anormalement élevée sur une période donnée peut indiquer un comportement suspect (ex : déclarations répétées de bris de glace ou d'accidents matériels). Sans historique consolidé, ces signaux ne peuvent être captés que partiellement.
+    \item[$\bullet$] \textbf{Stratégies de multi-assurance ou de résiliation stratégique} : certains fraudeurs peuvent multiplier les contrats auprès de différents assureurs ou résilier après sinistre pour éviter d'être détectés. L'analyse des trajectoires contractuelles (durée de détention, fréquence de changement d'assureur) constitue alors une variable explicative clé.
+    \item[$\bullet$] \textbf{Fraudes en réseau ou en bande organisée} : l'identification de liens entre individus (même adresse, même véhicule impliqué dans plusieurs sinistres, tiers récurrents dans des accidents) permettrait de détecter des schémas de fraude structurés. Par exemple, des accidents impliquant régulièrement les mêmes personnes ou garages peuvent révéler des montages frauduleux (accidents simulés, complicités avec des réparateurs, etc.).
+    \item[$\bullet$] \textbf{Incohérences entre profil assuré et sinistre déclaré} : certaines variables portefeuille (âge, ancienneté de conduite, historique de comportement) permettent de mieux contextualiser un sinistre. Par exemple, un assuré sans historique de sinistre déclarant soudainement un sinistre grave peut être analysé différemment d'un profil déjà sinistré.
 \end{itemize}
 
 L'intégration de ces données permettrait d'introduire de nouvelles variables explicatives à forte valeur ajoutée actuarielle, telles que :
 
 \begin{itemize}
-    \item des indicateurs de fréquence individuelle de sinistralité ;
-    \item des variables de durée en portefeuille ;
-    \item des scores de comportement client ;
-    \item des variables de réseaux (graph analytics) identifiant des connexions entre dossiers.
+    \item[$\bullet$] des indicateurs de fréquence individuelle de sinistralité ;
+    \item[$\bullet$] des variables de durée en portefeuille ;
+    \item[$\bullet$] des scores de comportement client ;
+    \item[$\bullet$] des variables de réseaux (graph analytics) identifiant des connexions entre dossiers.
 \end{itemize}
 
 Ces enrichissements contribueraient à améliorer significativement la capacité de discrimination du modèle, en captant des dimensions aujourd'hui absentes, notamment les effets temporels et relationnels. En pratique, cela se traduirait par une meilleure séparation entre sinistres frauduleux et non frauduleux, et donc une optimisation des actions de détection.
@@ -140,3 +140,6 @@ Enfin, l'approche développée pourrait être étendue à une analyse transverse
 Une vision consolidée du client à travers l'ensemble des garanties permettrait de mieux capter ces comportements et d'améliorer la cohérence globale de la détection.
 
 Cette approche multi-produits s'inscrit dans une logique actuarielle de \textbf{vision client 360°}, encore peu exploitée mais porteuse de gains significatifs en matière de lutte contre la fraude.
+
+\subsection*{Conclusion}
+

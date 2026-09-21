@@ -38,9 +38,9 @@ En amont de son utilisation, les seuils de décision sont définis par l'actuair
 Ce qui crée naturellement les trois zones :
 
 \begin{itemize}
-    \item[$\bullet$] une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$ ;
-    \item[$\bullet$] une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$ ;
-    \item[$\bullet$] une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$.
+    \item[$\bullet$] Une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$ ;
+    \item[$\bullet$] Une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$ ;
+    \item[$\bullet$] Une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$.
 \end{itemize}
 
 Ces seuils traduisent un arbitrage actuariel entre le \textbf{coût des investigations} (notamment en termes de ressources mobilisées et de délais de gestion) et le \textbf{gain attendu lié à la détection de fraude}, en tenant compte des taux de faux positifs et de faux négatifs.
@@ -68,21 +68,21 @@ Cette probabilité constitue une mesure synthétique du risque, intégrant l'ens
 La décision opérationnelle repose alors sur la \textbf{comparaison de cette probabilité aux seuils définis dans l'outil précédent (enregistrés en paramètres)}. Chaque sinistre est ainsi affecté à une classe de risque, à laquelle est associée une stratégie de gestion différenciée :
 
 \begin{itemize}
-    \item[$\bullet$] absence d'investigation pour les niveaux faibles ;
-    \item[$\bullet$] contrôles ciblés pour les niveaux intermédiaires ;
-    \item[$\bullet$] et investigations approfondies pour les niveaux élevés.
+    \item[$\bullet$] Absence d'investigation pour les niveaux faibles ;
+    \item[$\bullet$] Contrôles ciblés pour les niveaux intermédiaires ;
+    \item[$\bullet$] Et investigations approfondies pour les niveaux élevés.
 \end{itemize}
 
 Ce dispositif permet d'optimiser la \textbf{fonction de coût globale} du processus de détection, en concentrant les efforts sur les dossiers présentant le meilleur ratio entre probabilité de fraude et coût d'investigation.
 
+À titre d'illustration, sur un échantillon test de 500 sinistres, l'outil réalise un filtrage puissant en isolant immédiatement 474 dossiers en zone verte (ne nécessitant aucune investigation humaine), 21 dossiers en zone orange (à surveiller ou contrôler superficiellement) et seulement 5 dossiers en zone rouge (faisant l'objet d'une alerte prioritaire).
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre6/tableau_proba.png}
-    \caption{Probabilité en sortie de l'outil et action à mener en fonction des seuils renseignés}
+    \caption{Probabilité en sortie de l'outil}
     \label{fig:tableau-proba}
 \end{figure}
-
-À titre d'illustration, sur un échantillon test de 500 sinistres, l'outil réalise un filtrage puissant en isolant immédiatement 474 dossiers en zone verte (ne nécessitant aucune investigation humaine), 21 dossiers en zone orange (à surveiller ou contrôler superficiellement) et seulement 5 dossiers en zone rouge (faisant l'objet d'une alerte prioritaire).
 
 Ainsi, l'outil s'inscrit dans une démarche actuarielle classique de \textbf{segmentation du risque et de prise de décision sous contrainte}, en transformant une estimation probabiliste issue du modèle en règles de gestion opérationnelles directement exploitables par les équipes métiers.
 
@@ -98,7 +98,7 @@ Enfin, cet outil constitue un levier d'\textbf{harmonisation et de pilotage} à 
 \section{Un outil permettant l'enrichissement du modèle en continu}
 % --------------------------------------------------------------
 
-Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (\textit{feedback loop}) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base historique, dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
+Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (\textit{feedback loop}) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base "historique" (ensemble des sinistres renseignés dans l'outil afin d'obtenir une probabilité de fraude), dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
 
 \begin{figure}[H]
     \centering
