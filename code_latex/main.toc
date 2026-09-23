@@ -62,33 +62,34 @@
 \contentsline {section}{\numberline {4.5}Étape 3 : Analyse statistique des données}{55}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Analyse de la composition du portefeuille}{56}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Création de classes de variables}{58}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Analyse des corrélations entre les variables}{64}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.3}Analyse de la fréquence de la fraude}{65}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Analyse des corrélations entre les variables}{65}{subsection.4.5.4}%
 \contentsline {chapter}{\numberline {5}Création du modèle de détection de fraude : Étapes 4 et 5}{77}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Scoring en points}{79}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{79}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{84}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{88}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Arbre de décision}{90}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{90}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{95}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{99}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Un modèle de Machine learning : le Gradient Boosting}{100}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Résultats du modèle}{100}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{87}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{91}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Arbre de décision}{91}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{91}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{97}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{100}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Un modèle de Machine learning : le Gradient Boosting}{101}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Résultats du modèle}{101}{subsection.5.3.1}%
 \contentsline {subsection}{\numberline {5.3.2}Qualité du modèle obtenu}{105}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Limites et précautions d'interprétation}{108}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Comparaison des modèles}{109}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Outil mis à disposition du service de détection des fraudes}{112}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Utilisation pratique de l'outil}{113}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{117}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Rapport annuel de détection de fraude}{120}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Dynamisme de l'outil mis en place}{122}{section.6.4}%
-\contentsline {chapter}{\numberline {7}7 Réflexions autour de l'IA et limites de l'outil créé}{124}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Un outil d'aide à la décision complémentaire avec l'humain}{124}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Nature de l'IA utilisée : de l'IA générative à l'IA agentique}{126}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{127}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{127}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{129}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{130}{section.7.4}%
-\contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{131}{section.7.5}%
-\contentsline {chapter}{Annexes}{133}{chapter*.7}%
-\contentsline {section}{Méthodes de classification}{133}{section*.8}%
+\contentsline {subsection}{\numberline {5.3.3}Limites et précautions d'interprétation}{109}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Comparaison des modèles}{110}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Outil mis à disposition du service de détection des fraudes}{113}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Utilisation pratique de l'outil}{114}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{118}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Rapport annuel de détection de fraude}{121}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Dynamisme de l'outil mis en place}{123}{section.6.4}%
+\contentsline {chapter}{\numberline {7}7 Réflexions autour de l'IA et limites de l'outil créé}{125}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Un outil d'aide à la décision complémentaire avec l'humain}{125}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Nature de l'IA utilisée : de l'IA générative à l'IA agentique}{127}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{128}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{128}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{130}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{131}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{132}{section.7.5}%
+\contentsline {chapter}{Annexes}{134}{chapter*.7}%
+\contentsline {section}{Méthodes de classification}{134}{section*.8}%

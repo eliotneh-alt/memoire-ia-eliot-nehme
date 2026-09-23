@@ -4,9 +4,9 @@
 Dans la suite de l'analyse, l'étude se concentre sur trois approches de modélisation couramment utilisées en détection de fraude :
 
 \begin{itemize}
-    \item[$\bullet$] Un \textbf{modèle de scoring en points} (interprétable et proche des pratiques actuarielles traditionnelles) ;
-    \item[$\bullet$] Un \textbf{arbre de décision} (permettant de capturer des effets non linéaires et des interactions) ;
-    \item[$\bullet$] Un \textbf{modèle de type Gradient Boosting} (plus performant en général grâce aux méthodes d'ensemble).
+    \item Un \textbf{modèle de \textit{Scoring} en points} (interprétable et proche des pratiques actuarielles traditionnelles) ;
+    \item Un \textbf{arbre de décision} (permettant de capturer des effets non linéaires et des interactions) ;
+    \item Un \textbf{modèle de type Gradient Boosting} (plus performant en général grâce aux méthodes d'ensemble).
 \end{itemize}
 
 L'objectif est d'évaluer et de comparer leur \textbf{qualité de prédiction} à partir de métriques adaptées, tout en tenant compte des enjeux d'interprétabilité et d'implémentation opérationnelle.
@@ -14,8 +14,8 @@ L'objectif est d'évaluer et de comparer leur \textbf{qualité de prédiction} �
 Dans ce cadre, l'outil développé propose dans un premier temps de sélectionner un partitionnement de la base globale de manière à définir deux jeux de données :
 
 \begin{itemize}
-    \item[$\bullet$] Un jeu qui servira de base d'apprentissage ;
-    \item[$\bullet$] Un jeu qui servira de base de test du modèle créé.
+    \item Un jeu qui servira de base d'apprentissage ;
+    \item Un jeu qui servira de base de test du modèle créé.
 \end{itemize}
 
 Le choix du partitionnement est laissé à l'utilisateur, avec une valeur par défaut de départ à 80/20 (base d'apprentissage/base de test) correspondant aux proportions généralement utilisées lors de la mise en place de modèles sur ce type de volumétrie de données.
@@ -50,14 +50,15 @@ Une présentation et analyse des résultats de chaque modèle est proposée ci-d
 \section{Scoring en points}
 % ==============================================================
 
-Sur la base de sinistre transmise, l'Agent IA va à présent appliquer un \textit{\textbf{modèle de scoring en points}}.
+Sur la base de sinistre transmise, l'Agent IA va à présent appliquer un \textit{\textbf{modèle de \textit{Scoring} en points}}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/choix_point.png}
-    \caption{Sélection du modèle de scoring en points}
     \label{fig:choix-point}
 \end{figure}
+
+A noter que pour faciliter l'interprétation des scores obtenus et leur passage en probabilité de fraude, nous avons demandé à l'agent de normaliser le barème de score de manière à ce que l'ensemble des combinaisons possibles soient comprises entre 0 et 1000 points.
 
 % --------------------------------------------------------------
 \subsection{Résultats du modèle}
@@ -71,19 +72,85 @@ Une fois la phase de sélection des variables terminée, un nombre de points est
 
 Le \textit{scoring} en points repose donc sur une logique additive : chaque dossier cumule des points selon les caractéristiques qu'il présente. Le barème reflète ainsi la contribution relative de chaque critère au risque de fraude.
 
+En sortie du modèle, on obtient les indicateurs suivants :
+
+\begin{itemize}[label=$\bullet$]
+    \item Le nombre de variables retenues dans le modèle de \textit{Scoring} (20) ;
+    \item Pour chaque variable, le nombre de points associé à chaque modalité ;
+    \item «~Effectif train~» correspondant au nombre de lignes de chaque modalité au sein de la base d'apprentissage ;
+    \item «~Taux de fraude train~», le taux de fraude observé sur la base d'apprentissage ;
+    \item Le WOE (Weight of Evidence), qui correspond au log-odds de la modalité, recentré sur le log-odds global :
+\end{itemize}
+
+\begin{equation}
+    \text{WOE} = \ln(\text{odds}_{\text{modalité}}) - \ln(\text{odds}_{\text{global}})
+\end{equation}
+
+\textcolor{vert}{Par exemple, pour la variable « \textit{repaired\_avg\_invoice\_vs\_market} », sur la modalité « Off market », le taux global de fraude est de $2\,752 / 24\,000 \approx 11,5~\%$, donc $\ln(0,48 / 0,52) - \ln(0,115 / 0,885) = 1,96$}. Un WOE positif signifie donc « plus risqué que la moyenne du portefeuille », négatif « moins risqué », et 0 correspond exactement au risque moyen. C'est la variable explicative réellement injectée dans la régression : chaque modalité est remplacée par son WOE.
+
+\begin{itemize}[label=$\bullet$]
+    \item L'Information Value (IV) : c'est une mesure de pouvoir discriminant univarié, indépendante du modèle final, donnée par :
+\end{itemize}
+
+\begin{equation}
+    \text{IV} = \sum_{\text{modalités}} (\%\,\text{fraudes} - \%\,\text{non-fraudes}) \times \text{WOE}
+\end{equation}
+
+\textcolor{vert}{Par exemple, sur la variable «\textit{repaired\_avg\_invoice\_vs\_market} » : $(0,661 - 0,953) \times (-0,366) + (0,339 - 0,048) \times 1,965 = 0,680$.}
+
+\begin{table}[H]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{0.7\textwidth}{|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Valeur de l'IV}} & \textcolor{white}{\textbf{Interprétation}} \\
+        \hline
+        $< 0,02$ & Inutile \\
+        \hline
+        $0,02 - 0,1$ & Faible \\
+        \hline
+        $0,1 - 0,3$ & Moyen \\
+        \hline
+        $0,3 - 0,5$ & Fort \\
+        \hline
+        $> 0,5$ & À examiner \\
+        \hline
+    \end{tabularx}
+    \caption{Grille d'interprétation de l'IV}
+    \label{tab:interpretation-iv}
+\end{table}
+
+\begin{itemize}[label=$\bullet$]
+    \item Le coefficient logistique : c'est le coefficient de la variable WOE-isée dans la régression multivariée. Sa référence naturelle est 1 : si une variable était seule dans le modèle, son coefficient vaudrait mécaniquement 1 puisque le WOE est déjà exprimé en log-odds. Les valeurs retournées par le modèle (ici 0,997 / 0,980 / 0,980 / 0,904) sont donc à lire comme un facteur d'atténuation. S'il est proche de 1, cela signifie que la variable apporte une information peu redondante avec les autres. À noter que le 0,904 de « \textit{vehicle\_market\_value} » indique un léger recouvrement avec d'autres variables du modèle. Les signaux d'alerte seraient un coefficient très inférieur à 1 (redondance forte), supérieur à 1,3--1,5, ou négatif, ce dernier cas traduisant une inversion de sens due à de la colinéarité.
+    \item La stabilité de la variable : elle représente la fréquence de sélection de la variable sur des rééchantillonnages (\textit{bootstrap} ou validation croisée). La valeur 1 indique que la variable est systématiquement retenue.
+\end{itemize}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/grille_points.png}
-    \caption{Extrait de la grille d'attribution des points du modèle de scoring en points}
+    \caption{Extrait de la grille d'attribution des points du modèle de \textit{Scoring} en points}
     \label{fig:grille-points}
 \end{figure}
 
-Les résultats du modèle de scoring permettent de distinguer 3 catégories d'indicateurs :
+Les résultats du modèle de \textit{Scoring} permettent de distinguer 3 catégories d'indicateurs :
 
-\begin{itemize}
-    \item[$\bullet$] Tout d'abord, les \textbf{signaux forts (individuels)} correspondent à des indicateurs particulièrement discriminants, historiquement associés à un sur-risque de fraude. Ils sont donc fortement pondérés en points. Les plus marquants concernent l'environnement du réparateur et les antécédents de l'assuré. Ainsi, un réparateur présentant au moins 28 fraudes déjà confirmées atteint un taux de fraude de 51,1~\% (contre 11,5~\% en moyenne) et se voit attribuer 91 points ; un assuré ayant déjà connu une fraude par le passé (taux de 32,1~\%) reçoit 76 points ; un délai de déclaration très court, inférieur à deux jours (24,9~\% de fraude), rapporte 61 points. Le nombre d'amendements apportés à la déclaration constitue également un signal fort, un dossier comportant au moins trois modifications (27,2~\% de fraude) recevant 71 points.
-    \item[$\bullet$] Le deuxième type correspond aux \textbf{signaux moyens}, qui sont des indicateurs plus diffus ou moins discriminants pris individuellement, mais qui contribuent néanmoins à affiner l'évaluation du risque lorsqu'ils s'accumulent. Il peut s'agir de l'ancienneté ou de la durée de possession du véhicule (un véhicule possédé depuis moins de 237 jours reçoit 81 points), de l'âge du véhicule, du nombre de sinistres passés (de l'assuré comme du véhicule), du nombre de polices actives ou encore des changements récents d'adresse. Ces signaux ont une pondération plus modérée, mais leur cumul peut significativement influencer le score final.
-    \item[$\bullet$] Enfin, des \textbf{pénalités (signaux négatifs)} (points nuls ou faibles) sont attribuées aux situations jugées rassurantes, afin d'éviter une surévaluation du risque. Ainsi, un dossier où les autorités ont été contactées (Police, Pompiers, Ambulance) reçoit très peu de points, contre 59 points en leur absence ; de même, la présence d'au moins un témoin, un délai de déclaration long ou un véhicule ancien dans le portefeuille se traduisent par une contribution nulle ou négligeable au score. Ces ajustements permettent de rééquilibrer l'analyse.
+\begin{itemize}[label=$\bullet$]
+    \item En premier lieu, les signaux forts correspondent aux variables les plus discriminantes, historiquement associées à un sur-risque de fraude et donc fortement pondérées.
+    \begin{itemize}[label=$\circ$]
+        \item Le ratio facture/marché du réparateur domine le barème : une facture supérieure de 15~\% au prix de marché (« off market ») atteint un taux de fraude de 48,0~\% (contre 11,5~\% en moyenne) et se voit attribuer le maximum de 108 points, pour une IV de 0,680.
+        \item Viennent ensuite l'historique des montants réclamés par l'assuré (un cumul supérieur à 30\,000 USD porte le taux de fraude à 39,0~\% et vaut 87 points) ;
+        \item Les antécédents de fraude de l'assuré (au moins une fraude passée : 32,1~\% de fraude, 74 points) ;
+        \item Et la valeur marchande du véhicule (un véhicule de moins de 5\,500~\euro{} atteint 22,6~\% de fraude, 83 points).
+    \end{itemize}
+\end{itemize}
+
+\noindent\textbf{Ces quatre variables concentrent l'essentiel du pouvoir discriminant du modèle.}
+
+\begin{itemize}[label=$\bullet$]
+    \item En deuxième lieu, les signaux moyens sont des indicateurs plus diffus, moins déterminants pris isolément, mais dont le cumul affine sensiblement l'évaluation du risque. On y retrouve le nombre d'amendements à la déclaration (jusqu'à 67 points pour au moins trois modifications, 26,3~\% de fraude), l'âge du véhicule (49 points au-delà de neuf ans), le nombre de sinistres passés du véhicule comme de l'assuré, le nombre de contrats actifs, le délai depuis le dernier sinistre (64 points en deçà de 800 jours) ou encore les changements récents d'adresse. Chacun pèse modérément, mais leur accumulation sur un même dossier peut faire fortement grimper le score final.
+    \item En troisième lieu, la logique du barème intègre des modalités protectrices, auxquelles zéro ou très peu de points sont attribués afin d'éviter une surévaluation du risque. Ainsi, un dossier où la police a été contactée ne reçoit aucun point, contre 60 points en l'absence de toute autorité ; la présence d'au moins un témoin annule les 38 points attribués à un dossier sans témoin ; de même, un véhicule de plus de 28\,000 USD, un contrat de plus de trois ans ou un assuré de plus de 24 ans ne contribuent pas au score. Ces situations, statistiquement associées à un moindre risque de fraude, viennent naturellement contrebalancer les signaux aggravants.
+    \item Enfin, on notera la présence de variables faiblement discriminantes conservées dans le barème mais au poids marginal, comme la profession de l'assuré (IV de 0,022) ou le canal de déclaration : elles n'apportent qu'un ajustement mineur au score et confirment, à l'inverse, la prééminence des signaux liés au réparateur et aux antécédents de l'assuré.
 \end{itemize}
 
 Dans l'ensemble, ce barème repose sur une logique transparente et interprétable, combinant expertise métier et observations empiriques, afin de produire un score global reflétant le niveau de suspicion de fraude associé à chaque dossier.
@@ -93,17 +160,21 @@ On peut également s'intéresser à l'importance relative des variables dans le 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/importance_variables_points.png}
-    \caption{Hiérarchie de l'importance globale des variables dans le modèle de scoring en points}
+    \caption{Hiérarchie de l'importance globale des variables dans le modèle de \textit{scoring} en points}
     \label{fig:importance-variables-points}
 \end{figure}
 
-On remarque que l'importance des variables est ici remarquablement homogène : les dix variables retenues se répartissent le pouvoir explicatif de façon assez équilibrée, entre 8~\% et 13~\%, sans qu'aucune ne domine nettement les autres. Les contributions les plus fortes proviennent de l'historique des montants réclamés par l'assuré (13~\%), de la valeur marchande et de la durée de possession du véhicule (13~\% et 12~\%), suivies du nombre de fraudes passées, du ratio facture/marché et du nombre d'amendements à la déclaration (10~\% chacun).
+On remarque que l'importance des variables est ici relativement répartie, mais avec une hiérarchie nette : le pouvoir explicatif s'étale de 2~\% à 11~\%, sans qu'aucune variable n'écrase les autres, tout en laissant émerger un petit groupe de signaux dominants.
 
-Cette répartition équilibrée est cohérente avec la nature même du \textit{scoring} en points : reposant sur une agrégation additive de critères, le modèle répartit le risque sur un ensemble de signaux plutôt que de le concentrer sur quelques-uns. C'est une force car il ne dépend pas excessivement d'une seule variable, ce qui le rend robuste et stable (ce que confirment son PSI très faible et l'absence de surapprentissage), notamment si une des variables est manquante dans le dossier sinistre. 
+En tête figure le ratio facture/marché du réparateur (11~\%), suivi de l'historique des montants réclamés par l'assuré (9~\%), de la valeur marchande du véhicule (8~\%), du nombre de fraudes passées et du nombre d'amendements à la déclaration (7~\% chacun). À l'autre extrémité, des variables comme la profession de l'assuré, le canal de déclaration ou le ratio de surévaluation ne pèsent chacune que 2~\%.
 
-\textit{ICI FAIRE LE COMMENTAIRE}
+Cette hiérarchie relativement douce est cohérente avec la nature même du \textit{Scoring} en points : reposant sur une agrégation additive de nombreux critères, le modèle répartit le risque sur un large ensemble de signaux plutôt que de le concentrer sur quelques-uns. C'est là une force autant qu'une caractéristique : le modèle ne dépend pas excessivement d'une seule variable, ce qui le rend robuste et stable (son PSI très faible et l'absence de surapprentissage le confirment) et lui permet de conserver sa pertinence même lorsqu'une variable est absente d'un dossier de sinistre.
 
-Le modèle est ensuite appliqué à l'ensemble de la base sinistres. Pour chaque dossier, on additionne les points associés aux différentes caractéristiques observées. On obtient alors un \textbf{score global de suspicion}, qui synthétise le niveau de risque du sinistre au regard des signaux de fraude intégrés dans le modèle. Plus le score est élevé, plus le dossier présente un profil proche de celui des sinistres historiquement identifiés comme frauduleux.
+On note enfin que les variables présentant les plus fortes importances sont aussi celles susceptibles d'attribuer le plus grand nombre de points dans le barème : le ratio facture/marché, qui domine ce classement, est également la variable la mieux dotée de la grille (jusqu'à 108 points). Cette cohérence entre poids dans la grille et importance dans le score global est logique, puisque l'importance mesure précisément la part de l'amplitude totale de points qu'une variable peut faire varier.
+
+Ces observations sont en accord avec l'étude de fréquence réalisée en amont du lancement du modèle (cf. \ref{subsec:analyse-frequence}).
+
+Le modèle est ensuite appliqué à l'ensemble de la base sinistres : pour chaque dossier, les points associés aux caractéristiques observées sont additionnés, produisant un score global de suspicion qui synthétise le niveau de risque du sinistre. Plus ce score est élevé, plus le dossier présente un profil proche de celui des sinistres historiquement identifiés comme frauduleux.
 
 Une fois les scores calculés, il est important de regarder leur distribution par classe (histogrammes superposés) de fraudeurs/non fraudeurs : visuellement, plus les deux distributions sont \textbf{séparées}, meilleur est le modèle.
 
@@ -125,37 +196,37 @@ L'analyse de la sortie du modèle ne se limite pas à la distribution des scores
     \label{fig:taux-fraude-points}
 \end{figure}
 
-À noter que les figures~\ref{fig:distribution-points} et~\ref{fig:taux-fraude-points} mesurent la qualité prédictive sur le jeu de test, c'est-à-dire sur des sinistres que le modèle n'a pas vus lors de la phase d'apprentissage. Les indicateurs reflètent donc sa capacité de généralisation à de nouveaux dossiers, et non une simple performance sur les données d'entraînement.
+À noter que les figures~\ref{fig:distribution-points} et~\ref{fig:taux-fraude-points} mesurent la qualité prédictive sur le jeu de test, c'est-à-dire sur des sinistres dont le modèle n'a pas eu connaissance lors de sa phase d'apprentissage. Les indicateurs reflètent donc sa capacité de généralisation à de nouveaux dossiers, et non une simple performance sur les données d'entraînement.
 
 La figure~\ref{fig:taux-fraude-points} met ici en évidence une relation croissante par paliers entre le score de suspicion et le taux de fraude avérée, ce qui confirme la capacité du modèle à discriminer efficacement les dossiers selon leur niveau de risque : plus le score est élevé, plus la probabilité de fraude augmente.
 
 À partir de la distribution des scores et de la capacité discriminante du modèle, des seuils opérationnels peuvent être définis. Ces seuils permettent de transformer un score continu en règle de gestion. Par exemple, un score faible peut correspondre à une absence de recherche complémentaire, un score intermédiaire à une investigation légère, et un score élevé à une recherche approfondie. Le choix de ces seuils repose sur un arbitrage actuariel et opérationnel entre le coût des contrôles, le nombre de faux positifs acceptables et le gain attendu en matière de fraude détectée.
 
-Dans notre exemple, on observe une première cassure autour de 350 points, à partir de laquelle le taux de fraude avérée augmente légèrement : ce premier changement de régime justifie le déclenchement d'une investigation légère. Une seconde cassure apparaît autour de 500 points, où le taux de fraude avérée croît nettement, seuil à partir duquel une investigation approfondie se justifie.
+Dans notre exemple, on observe une première cassure autour de 350 points, à partir de laquelle le taux de fraude avérée augmente légèrement : ce premier changement de régime justifie le déclenchement d'une investigation légère. Une seconde cassure apparaît autour de 450 points, où le taux de fraude avérée croît nettement, seuil à partir duquel une investigation approfondie se justifie.
 
 Autrement dit, les règles d'investigation suivantes peuvent être mises en place :
 
-\begin{itemize}
-    \item[$\bullet$] Score compris entre 0 et 350 : pas d'investigation
-    \item[$\bullet$] Score compris entre 350 et 500 : investigation légère
-    \item[$\bullet$] Score supérieur à 500 : investigation poussée
+\begin{itemize}[label=$\bullet$]
+    \item \textcolor{vert}{Score compris entre 0 et 350 : pas d'investigation}
+    \item \textcolor{orange}{Score compris entre 350 et 450 : investigation légère}
+    \item \textcolor{rouge}{Score supérieur à 450 : investigation poussée}
 \end{itemize}
 
-Enfin, si l'on considère les sinistres classifiés comme nécessitant une investigation poussée comme « frauduleux » (score supérieur à 500), le score étant construit sur une échelle de 0 à 1\,000 points, un seuil de 500 points équivaut à la moitié de l'échelle, soit 50~\% ; c'est cette normalisation qui permet d'exprimer le seuil de décision en pourcentage dans la matrice de confusion. Dans notre choix graphique ci-dessus, on obtient la matrice de confusion suivante :
+Enfin, si l'on considère les sinistres classifiés comme nécessitant une investigation poussée comme « frauduleux » (score supérieur à 450), le score étant construit sur une échelle de 0 à 1\,000 points, un seuil de 450 points équivaut à  45~\% de l'échelle ; c'est cette normalisation qui permet d'exprimer le seuil de décision en pourcentage dans la matrice de confusion. Dans notre choix graphique ci-dessus, on obtient la matrice de confusion suivante :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_50_points.png}
-    \caption{Matrice de confusion du modèle de scoring en points pour un seuil de 50~\%}
-    \label{fig:matrice-50-points}
+    \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_45_points.png}
+    \caption{Matrice de confusion du modèle de \textit{Scoring} en points pour un seuil de 45~\%}
+    \label{fig:matrice-45-points}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $5\,296 / 5\,312 = 99{,}70~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $169 / 688 = 24{,}56~\%$.
-    \item[$\bullet$] Le taux de sinistres signalés : $185 / 6\,000 = 3{,}42~\%$.
+\begin{itemize}[label =$\bullet$]
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $5\,247 / 5\,312 = 98{,}77~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $294 / 688 = 42{,}73~\%$.
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $359 / 6\,000 = 5{,}98~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une \textbf{optimisation du seuil} afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -167,7 +238,7 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 
 Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles présentés en section~\ref{sec:criteres-evaluation}.
 
-Pour commencer, un point de vigilance mérite d'être souligné concernant le \textbf{choix du seuil de décision}. Le modèle ne restitue pas une classification binaire mais une probabilité de fraude ; il convient donc de fixer un seuil (\textit{cut-off}) au-delà duquel un sinistre est considéré comme frauduleux. Le seuil de 0,5, retenu par convention, se révèle en réalité inadapté aux données fortement déséquilibrées : avec seulement 11,5~\% de fraudes, la majorité des scores se concentrent sous 0,5, si bien que le modèle ne détecte qu'une fraction infime des fraudes réelles, d'où un rappel de seulement 24,6~\% à ce seuil.
+Pour commencer, un point de vigilance mérite d'être souligné concernant le \textbf{choix du seuil de décision}. Le modèle ne restitue pas une classification binaire mais une probabilité de fraude ; il convient donc de fixer un seuil au-delà duquel un sinistre est considéré comme frauduleux. Le seuil de 0,5, retenu par méthode graphique, se révèle en réalité inadapté aux données fortement déséquilibrées : avec seulement 11,5~\% de fraudes, la majorité des scores se concentrent sous 0,45, si bien que le modèle ne détecte qu'une fraction infime des fraudes réelles.
 
 Pour corriger ce biais, on recourt à l'\textbf{indice de Youden}, défini comme :
 
@@ -177,103 +248,78 @@ Pour corriger ce biais, on recourt à l'\textbf{indice de Youden}, défini comme
 
 Cet indice identifie le seuil qui maximise l'écart entre le taux de vrais positifs (fraudes correctement détectées) et le taux de faux positifs (non-fraudes signalées à tort) ; il correspond graphiquement au point de la courbe ROC le plus éloigné de la diagonale du hasard, c'est-à-dire celui où le modèle sépare le mieux les deux populations.
 
-Appliqué à ce modèle, le seuil optimal ressort à 35~\%.
+Appliqué à ce modèle, le seuil optimal est alors de 35~\%.
 
-Les résultats du modèle obtenus avec l'utilisation de ce seuil sont présentés ci-dessous :
+\underline{Les résultats du modèle obtenus avec l'utilisation de ce seuil sont présentés ci-dessous} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_optimal_points.png}
-    \caption{Matrice de confusion au seuil optimal du modèle de scoring en points (35~\%)}
+    \caption{Matrice de confusion au seuil optimal du modèle de \textit{Scoring} en points (35~\%)}
     \label{fig:matrice-optimal-points}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
 \begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $4\,566 / 5\,312 = 85{,}96~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $548 / 688 = 79{,}65~\%$ ;
-    \item[$\bullet$] Le taux de sinistres signalés : $1\,294 / 6\,000 = 21{,}57~\%$.
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $4\,732 / 5\,312 = 89{,}08~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $527 / 688 = 76{,}60~\%$ ;
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $1\,107 / 6\,000 = 18{,}45~\%$.
 \end{itemize}
 
-L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 21,57~\% des sinistres, parmi lesquels 42,35~\% sont réellement frauduleux, soit une densité de fraude environ 3,7 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 18,45~\% des sinistres, parmi lesquels 76,42~\% sont réellement frauduleux, soit une densité de fraude environ 6,6 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+%calcul du 6,6 : 76,42 / 11,5 = 6,6
 
-À présent, observons les autres indicateurs de qualité du modèle :
+\underline{À présent, observons les autres indicateurs de qualité du modèle} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/synthese_points.png}
-    \caption{Synthèse des métriques de performance et de stabilité du modèle de scoring en points}
+    \caption{Synthèse des métriques de performance et de stabilité du modèle de \textit{scoring} en points}
     \label{fig:synthese-points}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/courbe_roc_auc_points.png}
-    \caption{Courbe ROC-AUC correspondant au modèle de scoring en points}
+    \caption{Courbe ROC et AUC correspondant au modèle de \textit{scoring} en points}
     \label{fig:roc-points}
 \end{figure}
 
 En retenant le seuil optimal de 35~\%, les indicateurs obtenus s'interprètent de la façon suivante :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{AUC-ROC (0,910)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
-    \item[$\bullet$] \textbf{Gini (0,820)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
-    \item[$\bullet$] \textbf{KS (0,668)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
-    \item[$\bullet$] \textbf{Précision (42,4~\%)} : parmi les dossiers signalés comme frauduleux, un peu plus de quatre sur dix le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
-    \item[$\bullet$] \textbf{Rappel (79,7~\%)} : le modèle détecte près de quatre fraudes sur cinq, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item[$\bullet$] \textbf{F1-score (55,3~\%)} : compromis honnête entre précision et rappel, en nette amélioration par rapport au seuil de 0,5.
-    \item[$\bullet$] \textbf{Accuracy (85,2~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
-    \item[$\bullet$] \textbf{Log-loss (0,2079)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
-    \item[$\bullet$] \textbf{Backtesting (écart AUC train/test de 0,002)} : écart quasi nul entre apprentissage et test, confirmant l'absence de surapprentissage et une bonne capacité de généralisation.
-    \item[$\bullet$] \textbf{PSI (0,0014)} : très inférieur à 0,1, il atteste d'une parfaite stabilité de la distribution des scores.
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{AUC-ROC (0,917)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
+    \item \textbf{Gini (0,835)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
+    \item \textbf{KS (0,666)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
+    \item \textbf{Précision (47,6~\%)} : parmi les dossiers signalés comme frauduleux, un peu plus de quatre sur dix le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
+    \item \textbf{Rappel (76,6~\%)} : le modèle détecte près de quatre fraudes sur cinq, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
+    \item \textbf{F1-score (58,7~\%)} : compromis honnête entre précision et rappel, en nette amélioration par rapport au seuil de 0,5.
+    \item \textbf{Accuracy (87,6~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
+    \item \textbf{Log-loss (0,2015)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
 \end{itemize}
 
 Dans l'ensemble, le modèle présente d'excellents indicateurs de discrimination et de stabilité ; le seul point de vigilance concerne la précision modérée, contrepartie assumée d'un rappel volontairement élevé.
 
-À ce seuil, le rappel passe de 24,6~\% à 79,7~\%, au prix d'une précision plus faible (42,4~\% contre 91,3~\%). Ce résultat est rassurant : il indique que le modèle est correctement calibré et que l'abaissement du seuil améliore nettement la détection.
+Ces résultats sont cohérents avec la nature du modèle : sa simplicité et sa parcimonie le rendent naturellement robuste et peu sujet au surajustement.
 
-Ces valeurs illustrent surtout un arbitrage fondamental propre à la détection de fraude sur données déséquilibrées : le modèle privilégie un rappel élevé (près de 80~\% des fraudes détectées) au prix d'une précision plus modérée (environ quatre dossiers signalés sur dix sont réellement frauduleux). Ce compromis est cohérent avec l'enjeu métier : dans un contexte où le coût d'un faux négatif (une fraude non détectée, donc indemnisée à tort) est généralement bien supérieur à celui d'un faux positif (une investigation inutile mobilisant les équipes), il est préférable de maximiser la détection quitte à générer davantage de dossiers à contrôler. Le choix final du seuil ne relève donc pas d'une logique purement statistique mais d'un arbitrage économique, qui rejoint directement l'analyse coût-bénéfice développée au chapitre~\ref{chap:contexte}.
+\underline{Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus} :
 
-Enfin, concernant les indicateurs de robustesse et de stabilité du modèle, les résultats suivants sont obtenus :
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Backtesting (écart AUC train/test de 0,003)} : écart quasi nul entre apprentissage et test, confirmant l'absence de surapprentissage et une bonne capacité de généralisation.
+    \item \textbf{PSI (0,0026)} : très inférieur à 0,1, il atteste d'une parfaite stabilité de la distribution des scores.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/robustesse_points.png}
-    \caption{Indicateurs de robustesse et de stabilité du modèle de scoring en points}
+    \caption{Indicateurs de robustesse et de stabilité du modèle de \textit{scoring} en points}
     \label{fig:robustesse-points}
 \end{figure}
-
-Le modèle de \textit{scoring} présente un écart quasi nul entre l'AUC d'entraînement (0,933) et l'AUC de validation (0,923), de l'ordre de 0,009. Cette proximité témoigne de l'absence de surapprentissage et d'une excellente capacité de généralisation à de nouvelles données. Le PSI\footnote{Population Stability Index : indicateur mesurant la dérive de la distribution des scores entre deux périodes. En deçà de 0,1, la population est considérée comme stable ; au-delà de 0,25, la dérive est importante.}, égal à 0,0008, très inférieur au seuil de 0,1, confirme par ailleurs une parfaite stabilité de la distribution des scores.
-
-Ces résultats sont cohérents avec la nature du modèle : sa simplicité et sa parcimonie le rendent naturellement robuste et peu sujet au surajustement.
 
 % --------------------------------------------------------------
 \subsection{Limites et précautions d'interprétation}
 % --------------------------------------------------------------
-
-Il convient de rappeler qu'un \textit{scoring} en points reste une modélisation simplifiée du risque de fraude. Sa performance dépend fortement de la qualité des données disponibles, de la pertinence des critères retenus et de la représentativité des fraudes observées historiquement. Il doit donc être régulièrement recalibré et suivi dans le temps afin de garantir sa robustesse et son adéquation aux évolutions des comportements frauduleux.
-
-Malgré sa simplicité et son interprétabilité, le modèle de \textit{scoring} en points présente plusieurs limites dont il convient de tenir compte 
-La première tient à sa construction même : le \textbf{n'est pas nécessairement strictement monotone au niveau de chaque variable}. En effet, le nombre de points attribué à une modalité ne suit pas toujours exactement l'ordre du risque sous-jacent. Ainsi, pour une variable comme le nombre de sinistres traités par le réparateur, la progression des points affectés ne reproduit pas rigoureusement celle du nombre de sinistres : deux modalités voisines peuvent recevoir une pondération qui ne respecte pas strictement leur hiérarchie de risque, comme on peut le constater sur la figure~\ref{fig:grille-points-reparateur} ci-dessous. 
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/points/grille_points_reparateur.png}
-    \label{fig:grille-points-reparateur}
-\end{figure}
-
-Cette entorse à la monotonie découle de la nature additive et discrétisée du modèle, qui affecte les points par classe plutôt que par une fonction continue du risque.
-
-Il faut toutefois distinguer cette limite, qui porte sur le barème variable par variable, de la qualité du classement global des dossiers. À l'échelle du score total, la relation avec la fraude reste, elle, remarquablement monotone : comme l'illustrait la figure \ref{fig:taux-fraude-points} présentée lors de l'analyse des résultats, le taux de fraude avérée croît régulièrement avec le score, passant de moins de 3~\% en deçà de 300 points à plus de 90~\% au-delà de 500 points, sans inversion entre tranches successives. Autrement dit, si le barème sous-jacent n'est pas parfaitement monotone au niveau de chaque critère, l'agrégation de l'ensemble des signaux produit néanmoins un score global qui ordonne correctement les dossiers selon leur risque de fraude (bien que cela aurait pu ne pas être le cas).
-
-Par ailleurs, la transformation de variables continues en classes (via des tranches ou des modalités) entraîne une perte d'information et peut introduire des effets de seuil artificiels. Une légère variation d'un critère de part et d'autre d'une borne de classe peut modifier le score de façon discontinue, sans que le risque réel n'évolue de manière proportionnelle ; inversement, des différences significatives de profil au sein d'une même classe ne seront pas reflétées dans le score.
-
-En outre, le \textit{scoring} en points ne fournit pas directement une probabilité calibrée de fraude, mais plutôt un indicateur ordinal de suspicion. L'interprétation du score en termes de probabilité nécessiterait une étape de calibration supplémentaire, ce qui peut compliquer la définition économique optimale des seuils de décision (arbitrage entre coût des faux positifs et gains liés à la fraude détectée).
-
-Enfin, ce type de modèle est sensible aux biais présents dans les données historiques, notamment les biais de sélection liés aux fraudes détectées (toutes les fraudes ne sont pas observées) et les biais d'investigation (certains dossiers étant plus contrôlés que d'autres). Ces biais peuvent affecter la cohérence du score et accentuer les défauts de classement.
-
-Ainsi, bien que le \textit{scoring} en points constitue un outil robuste et interprétable, il doit être utilisé avec prudence, notamment lorsqu'il s'agit de hiérarchiser finement le risque de fraude ou d'interpréter le score comme une mesure probabiliste. Un suivi régulier de la performance (courbes de gains, lift, analyse par déciles) est nécessaire pour s'assurer que le modèle conserve une capacité de discrimination cohérente dans le temps.
 
 % ==============================================================
 \section{Arbre de décision}
@@ -281,37 +327,33 @@ Ainsi, bien que le \textit{scoring} en points constitue un outil robuste et inte
 
 Cette section présente l'utilisation de la modélisation via un « arbre de décision » pour estimer la probabilité de fraude.
 
-% --------------------------------------------------------------
-\subsection{Résultats du modèle}
-% --------------------------------------------------------------
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/arbre.png}
     \label{fig:choix-arbre}
 \end{figure}
 
+% --------------------------------------------------------------
+\subsection{Résultats du modèle}
+% --------------------------------------------------------------
+
+\textit{TROUVER UNE LIMITE}
+
+
 L'arbre construit admet les paramètres suivants :
 
-\begin{itemize}
-    \item[$\bullet$] Profondeur : 5
-    \item[$\bullet$] Feuilles : 67
-    \item[$\bullet$] Nœuds internes : 66
+\begin{itemize}[label = $\bullet$]
+    \item Profondeur : 5
+    \item Feuilles : 68
+    \item Nœuds internes : 67
 \end{itemize}
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/parametre_arbre.png}
-%     \caption{Paramètres du modèle arbre de décision}
-%     \label{fig:parametre-arbre}
-% \end{figure}
 
 L'arbre construit admet les caractéristiques structurelles suivantes :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{La profondeur (5)}, qui correspond au nombre maximal de niveaux de décision successifs entre la racine de l'arbre et ses feuilles. Concrètement, un dossier traverse au plus cinq coupures successives (cinq questions posées sur ses variables) avant d'aboutir à une prédiction. Cette profondeur a été volontairement limitée à 5 : un arbre trop profond mémoriserait les particularités de l'échantillon d'apprentissage (sur-apprentissage) et généraliserait mal à de nouveaux dossiers, tandis qu'un arbre trop peu profond serait incapable de capter les interactions entre variables. Une profondeur de 5 constitue ainsi un compromis entre pouvoir de discrimination et capacité de généralisation.
-    \item[$\bullet$] \textbf{Les feuilles (67)} sont les nœuds terminaux de l'arbre, c'est-à-dire les points d'aboutissement où une décision finale est rendue (dossier classé frauduleux ou non). Chaque feuille regroupe un ensemble de dossiers partageant le même parcours de décision, et se voit attribuer une probabilité de fraude correspondant à la proportion de fraudes observée parmi les dossiers d'apprentissage qui y aboutissent. L'arbre compte ici 67 feuilles, soit 67 profils de risque distincts.
-    \item[$\bullet$] \textbf{Les nœuds internes (66)} sont les points de décision situés avant les feuilles : à chaque nœud interne, l'arbre applique un test sur une variable (par exemple « le réparateur est-il signalé ? » ou « le montant réclamé dépasse-t-il un certain seuil ? ») qui oriente le dossier vers l'une ou l'autre branche. Le nombre de nœuds internes est directement lié au nombre de feuilles : un arbre binaire comportant 67 feuilles possède nécessairement 66 nœuds internes.
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{La profondeur (5)}, qui correspond au nombre maximal de niveaux de décision successifs entre la racine de l'arbre et ses feuilles. Concrètement, un dossier traverse au plus cinq coupures successives (cinq questions posées sur ses variables) avant d'aboutir à une prédiction. Cette profondeur a été volontairement limitée à 5 : un arbre trop profond mémoriserait les particularités de l'échantillon d'apprentissage (sur-apprentissage) et généraliserait mal à de nouveaux dossiers, tandis qu'un arbre trop peu profond serait incapable de capter les interactions entre variables. Une profondeur de 5 constitue ainsi un compromis entre pouvoir de discrimination et capacité de généralisation.
+    \item \textbf{Les feuilles (68)} sont les nœuds terminaux de l'arbre, c'est-à-dire les points d'aboutissement où une décision finale est rendue (dossier classé frauduleux ou non). Chaque feuille regroupe un ensemble de dossiers partageant le même parcours de décision, et se voit attribuer une probabilité de fraude correspondant à la proportion de fraudes observée parmi les dossiers d'apprentissage qui y aboutissent. L'arbre compte ici 68 feuilles, soit 68 profils de risque distincts.
+    \item \textbf{Les nœuds internes (67)} sont les points de décision situés avant les feuilles : à chaque nœud interne, l'arbre applique un test sur une variable (par exemple « le réparateur est-il signalé ? » ou « le montant réclamé dépasse-t-il un certain seuil ? ») qui oriente le dossier vers l'une ou l'autre branche. Le nombre de nœuds internes est directement lié au nombre de feuilles : un arbre binaire comportant 68 feuilles possède nécessairement 67 nœuds internes.
 \end{itemize}
 
 \begin{figure}[H]
@@ -330,9 +372,16 @@ On peut également s'intéresser à l'importance relative des variables dans le 
     \label{fig:importance-variables-arbre}
 \end{figure}
 
-Contrairement au modèle de \textit{scoring} en point, le profil est ici beaucoup plus contrasté : le ratio facture/marché du réparateur domine très largement, avec 34~\% de l'importance totale, soit à lui seul près d'un tiers du pouvoir explicatif du modèle. Viennent ensuite l'historique des montants réclamés (21~\%) et le nombre de fraudes passées de l'assuré (16~\%). À eux trois, ces critères concentrent plus de 70~\% de l'importance, les autres variables ne jouant qu'un rôle marginal (7~\% ou moins).
+Le profil d'importance de l'arbre de décision est ici assez réparti, sans variable dominante isolée. 
+Trois critères arrivent en tête à égalité, chacun structurant 14~\% des décisions de l'arbre : le ratio facture/marché du réparateur, l'historique des montants réclamés par l'assuré et le nombre de fraudes passées de l'assuré.
 
-Cette concentration est caractéristique des arbres de décision : en construisant ses premières coupures sur les variables les plus discriminantes, l'arbre accorde un poids déterminant à un petit nombre de critères, ceux qui séparent le mieux les populations dès le sommet de l'arbre. Le ratio facture/marché s'impose ainsi comme le signal roi, ce qui rejoint directement l'analyse des corrélations où cette variable ressortait déjà comme l'une des plus liées à la fraude. Cette forte dépendance à quelques variables explique aussi la sensibilité de l'arbre au surapprentissage, déjà relevée par l'écart un peu plus marqué entre ses AUC d'entraînement et de validation : l'arbre s'ajuste finement à un nombre restreint de signaux, au risque de manquer de nuance sur les cas moins typiques.
+Ils sont suivis de près par l'âge du véhicule et la présence d'une blessure déclarée sans preuve médicale (12~\% chacun), puis par le nombre d'amendements à la déclaration (10~\%) et le nombre de sinistres passés du véhicule (9~\%). Ce n'est qu'ensuite que les autres variables voient leur poids décroître nettement, jusqu'à devenir marginales (2~\% ou moins pour l'ancienneté du contrat, les autorités contactées ou le nombre de véhicules impliqués).
+
+On notera par ailleurs que les variables absentes de ce graphique présentent une importance nulle : elles n'ont tout simplement jamais été retenues comme critère de coupure par l'arbre. Ce phénomène s'explique par la structure même du modèle, dont la profondeur a été limitée à 5 niveaux : \textbf{avec seulement 67 nœuds internes disponibles, l'arbre concentre ses coupures sur les variables les plus discriminantes et n'a pas l'occasion de mobiliser les autres, qui restent inexploitées.}
+
+Cette répartition indique que l'arbre construit ses coupures successives sur un ensemble relativement large de variables, plutôt que de faire reposer sa structure sur un ou deux critères dominants. On retrouve néanmoins \textbf{en tête les mêmes signaux forts que dans les autres modèles} (ratio facture/marché, historique de l'assuré, antécédents de fraude), ce qui rejoint directement l'analyse de fréquence de fraude où ces variables ressortaient déjà comme les plus discriminantes. La cohérence entre modèles renforce la confiance dans la pertinence de ces résultats.
+
+Il faut toutefois noter que cette mesure d'importance renseigne sur la manière dont l'arbre est structuré (la part des sinistres traités par les nœuds utilisant chaque variable), et non directement sur sa capacité de généralisation. L'arbre de décision demeure en effet le modèle le plus exposé au surapprentissage, comme le montre l'écart un peu plus marqué entre son AUC d'entraînement et son AUC de validation (cf. plus bas): sa structure s'ajuste finement aux données observées, au risque de manquer de robustesse sur les cas moins typiques.
 
 L'agent retourne une représentation visuelle complète de l'arbre créé mais également d'autres graphiques\footnote{Graphiques réalisés sur la base de l'échantillon test (6\,000 lignes) et non sur l'échantillon d'apprentissage du modèle.}, tels que la distribution des scores par classe (histogrammes superposés) : distribution du score des fraudeurs vs distribution du score des non-fraudeurs. Comme pour le modèle de \textit{scoring} en points, visuellement, plus les deux distributions sont \textbf{séparées}, meilleur est le modèle.
 
@@ -364,35 +413,35 @@ Si l'on s'appuie sur la distribution observée, l'idée est de définir des seui
 
 On peut distinguer \textbf{trois zones de risque} assez naturelles :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{Zone faible ($<$45~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$10~\%, sauf un pic isolé à 14~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
-    \item[$\bullet$] \textbf{Zone intermédiaire ($\approx$ 45~\% à 85~\%)} : on observe une montée progressive du taux de fraude (environ 20~\% à 30~\%+) : un \textbf{seuil de vérification intermédiaire autour de 65--70~\%} paraît pertinent. À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
-    \item[$\bullet$] \textbf{Zone élevée ($>$ 85~\%)} : le taux de fraude devient nettement plus important (60~\% à plus de 70~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 85~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Zone faible ($<$35~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$10~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
+    \item \textbf{Zone intermédiaire ($\approx$ 35~\% à 90~\%)} : on observe une montée progressive du taux de fraude (environ 20~\% à 30~\%+) : un \textbf{seuil de vérification intermédiaire autour de 65--70~\%} paraît pertinent. À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
+    \item \textbf{Zone élevée ($>$ 90~\%)} : le taux de fraude devient nettement plus important (60~\% à plus de 70~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 90~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
 \end{itemize}
 
 Autrement dit, les règles d'investigation suivantes peuvent être mises en place :
 
-\begin{itemize}
-    \item[$\bullet$] probabilité $<$ 45~\% : pas d'investigation ;
-    \item[$\bullet$] probabilité comprise entre 45~\% et 85~\% : investigation légère ;
-    \item[$\bullet$] probabilité supérieure à 85~\% : investigation poussée.
+\begin{itemize}[label = $\bullet$]
+    \item \textcolor{vert}{Probabilité $<$ 35~\% : pas d'investigation}
+    \item \textcolor{orange}{Probabilité comprise entre 35~\% et 90~\% : investigation légère}
+    \item \textcolor{rouge}{Probabilité supérieure à 90~\% : investigation poussée}
 \end{itemize}
 
-Enfin, si l'on considère les sinistres classifiés comme nécessitant une investigation poussée comme « frauduleux » (score supérieur à 80 dans notre choix graphique ici), on obtient la matrice de confusion suivante :
+Enfin, si l'on considère les sinistres classifiés comme nécessitant une investigation poussée comme « frauduleux » (score supérieur à 90 dans notre choix graphique ici), on obtient la matrice de confusion suivante :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/matrice_confusion_85_arbre.png}
-    \caption{Matrice de confusion du modèle arbre de décision pour un seuil de 85~\%}
-    \label{fig:matrice-85-arbre}
+    \includegraphics[width=0.9\textwidth]{images/chapitre5/arbre/matrice_confusion_90_arbre.png}
+    \caption{Matrice de confusion du modèle arbre de décision pour un seuil de 90~\%}
+    \label{fig:matrice-90-arbre}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $5\,167 / 5\,309 = 97{,}33~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $269 / 688 = 39{,}10~\%$.
-    \item[$\bullet$] Le taux de sinistres signalés : $411 / 5\,977 = 6{,}88~\%$.
+\begin{itemize}[label = $\bullet$]
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $5\,206 / 5\,312 = 98{,}00~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $218 / 688 = 31{,}69~\%$.
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $324 / 6\,000 = 5{,}40~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une optimisation du seuil afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -401,7 +450,7 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 \subsection{Qualité du modèle obtenu}
 % --------------------------------------------------------------
 
-L'introduction d'un arbre de décision permet de franchir un cap significatif. En intégrant des interactions entre variables et des effets de seuil, le modèle améliore la structuration du risque et offre une segmentation plus nette du portefeuille. La hiérarchisation des dossiers est plus cohérente : les feuilles les plus risquées de l'arbre concentrent un taux de fraude très élevé, proche de 79~\%, bien au-delà de ce que permettait le scoring en points. Le modèle gagne ainsi en pouvoir discriminant sur les segments extrêmes, tout en conservant une certaine lisibilité grâce à sa structure arborescente.
+L'introduction d'un arbre de décision permet de franchir un cap significatif. En intégrant des interactions entre variables et des effets de seuil, le modèle améliore la structuration du risque et offre une segmentation plus nette du portefeuille. La hiérarchisation des dossiers est plus cohérente : les feuilles les plus risquées de l'arbre concentrent un taux de fraude très élevé, proche de 79~\%, bien au-delà de ce que permettait le \textit{scoring} en points. Le modèle gagne ainsi en pouvoir discriminant sur les segments extrêmes, tout en conservant une certaine lisibilité grâce à sa structure arborescente.
 
 Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-evaluation}.
 
@@ -414,17 +463,18 @@ Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer
     \label{fig:matrice-optimal-arbre}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $4\,211 / 5\,309 = 79{,}31~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $512 / 688 = 74{,}41~\%$ ;
-    \item[$\bullet$] Le taux de sinistres signalés : $411 / 5\,977 = 6{,}88~\%$.
+\begin{itemize}[label = $\bullet$]
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $4\,311 / 5\,312 = 81{,}16~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $517 / 688 = 75{,}15~\%$ ;
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $1\,518 / 6\,000 = 25{,}30~\%$.
 \end{itemize}
 
-L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 6,88~\% des sinistres, parmi lesquels 31,80~\% sont réellement frauduleux, soit une densité de fraude environ 2,8 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 25,30~\% des sinistres, parmi lesquels 75,15~\% sont réellement frauduleux, soit une densité de fraude environ 6,5 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+%calcul du 6,5 : 75,15 / 11,5 = 6,5
 
-À présent, observons les autres indicateurs de qualité du modèle :
+\underline{À présent, observons les autres indicateurs de qualité du modèle} :
 
 \begin{figure}[H]
     \centering
@@ -442,18 +492,25 @@ L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à conc
 
 En retenant le seuil optimal de 45~\%, les indicateurs obtenus s'interprètent de la façon suivante :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{AUC-ROC (0,852)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
-    \item[$\bullet$] \textbf{Gini (0,704)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
-    \item[$\bullet$] \textbf{KS (0,568)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
-    \item[$\bullet$] \textbf{Précision (31,8~\%)} : parmi les dossiers signalés comme frauduleux, un peu plus de trois sur dix le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
-    \item[$\bullet$] \textbf{Rappel (76,6~\%)} : le modèle détecte près de trois fraudes sur quatre, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item[$\bullet$] \textbf{F1-score (45,0~\%)} : compromis correct entre précision et rappel.
-    \item[$\bullet$] \textbf{Accuracy (79,0~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
-    \item[$\bullet$] \textbf{Log-loss (0,4724)} : valeur modérée, traduisant une calibration des probabilités prédites correcte mais perfectible.
-\end{itemize}
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{AUC-ROC (0,845)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
+    \item \textbf{Gini (0,690)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
+    \item \textbf{KS (0,564)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
+    \item \textbf{Précision (34,1~\%)} : parmi les dossiers signalés comme frauduleux, un peu d'un tiers le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
+    \item \textbf{Rappel (75,1~\%)} : le modèle détecte près de trois fraudes sur quatre, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
+    \item \textbf{F1-score (46,9~\%)} : compromis correct entre précision et rappel.
+    \item \textbf{Accuracy (80,5~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
+    \item \textbf{Log-loss (0,4825)} : valeur modérée, traduisant une calibration des probabilités prédites correcte mais perfectible.
+\end{itemize} 
 
 Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus :
+
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Backtesting (écart AUC train/test de 0,039)} : écart modéré entre apprentissage et test, signalant une tendance au surapprentissage mais restant contenue.
+    \item \textbf{PSI (0,0026)} : très inférieur à 0,1, il atteste d'une bonne stabilité de la distribution des scores.
+\end{itemize}
+
+Ces résultats sont satisfaisants, mais restent moins bons que ceux du modèle de \textit{scoring} en points.
 
 \begin{figure}[H]
     \centering
@@ -461,8 +518,6 @@ Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les r�
     \caption{Indicateurs de robustesse et stabilité du modèle arbre de décision}
     \label{fig:robustesse-arbre}
 \end{figure}
-
-L'arbre de décision affiche un écart un peu plus marqué entre l'AUC d'entraînement (0,877) et l'AUC de validation (0,838), soit 0,039. Ce léger écart, signalé comme point de vigilance, traduit une tendance modérée au surapprentissage, caractéristique des arbres de décision dont la structure s'ajuste finement aux données d'entraînement. Il reste toutefois contenu et n'entame pas significativement la capacité de généralisation. Le PSI, à 0,0026, demeure très faible et atteste d'une bonne stabilité de la distribution des scores dans le temps.
 
 % --------------------------------------------------------------
 \subsection{Limites et précautions d'interprétation}
@@ -486,7 +541,7 @@ Ainsi, les arbres de décision offrent un bon compromis entre performance et lis
 \section{Un modèle de Machine learning : le Gradient Boosting}
 % ==============================================================
 
-Enfin, le dernier modèle à être testé et dont les résultats sont présentés ci-dessous est un modèle de Machine Learning « Gradient Boosting ».
+Enfin, le dernier modèle à être testé et dont les résultats sont présentés ci-dessous est un modèle de Machine Learning « Gradient \textit{Boosting} ».
 
 \begin{figure}[H]
     \centering
@@ -498,23 +553,16 @@ Enfin, le dernier modèle à être testé et dont les résultats sont présenté
 \subsection{Résultats du modèle}
 % --------------------------------------------------------------
 
-Les paramètres du modèle de \textit{Gradient Boosting} créé sont les suivants :
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/parametre_boost.png}
-    \caption{Paramètres du modèle Gradient Boosting}
-    \label{fig:parametre-boost}
-\end{figure}
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{Le nombre d'arbres (200)} correspond au nombre de modèles élémentaires construits successivement. Dans le \textit{boosting}, chaque nouvel arbre corrige les erreurs résiduelles des précédents ; l'accumulation de 200 arbres permet d'affiner progressivement la prédiction.
-    \item[$\bullet$] \textbf{La profondeur maximale (3)} limite chaque arbre à trois niveaux de coupures. Des arbres volontairement peu profonds (« arbres faibles ») sont caractéristiques du \textit{boosting} : leur pouvoir prédictif individuel est limité, mais leur combinaison séquentielle produit un modèle performant tout en réduisant le risque de surapprentissage.
-    \item[$\bullet$] \textbf{Le taux d'apprentissage (0,1)} pondère la contribution de chaque arbre au modèle final. Une valeur faible ralentit l'apprentissage mais le rend plus stable et plus robuste, chaque arbre n'apportant qu'une correction mesurée.
-    \item[$\bullet$] \textbf{Le sous-échantillonnage (0,8)} signifie que chaque arbre est entraîné sur 80~\% des observations, tirées aléatoirement. Cette introduction de hasard limite le surapprentissage et améliore la capacité de généralisation du modèle.
+Les paramètres du modèle de Gradient \textit{Boosting} créé sont les suivants :
+
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Le nombre d'arbres (200)} correspond au nombre de modèles élémentaires construits successivement. Dans le \textit{boosting}, chaque nouvel arbre corrige les erreurs résiduelles des précédents ; l'accumulation de 200 arbres permet d'affiner progressivement la prédiction.
+    \item \textbf{La profondeur maximale (3)} limite chaque arbre à trois niveaux de coupures. Des arbres volontairement peu profonds (« arbres faibles ») sont caractéristiques du \textit{boosting} : leur pouvoir prédictif individuel est limité, mais leur combinaison séquentielle produit un modèle performant tout en réduisant le risque de surapprentissage.
+    \item \textbf{Le taux d'apprentissage (0,1)} pondère la contribution de chaque arbre au modèle final. Une valeur faible ralentit l'apprentissage mais le rend plus stable et plus robuste, chaque arbre n'apportant qu'une correction mesurée.
+    \item \textbf{Le sous-échantillonnage (0,8)} signifie que chaque arbre est entraîné sur 80~\% des observations, tirées aléatoirement. Cette introduction de hasard limite le surapprentissage et améliore la capacité de généralisation du modèle.
 \end{itemize}
-
-Comme pour les deux autres modèles précédents, l'Agent IA retourne dans un premier temps la distribution du nombre de sinistres par tranche de 5~\% de probabilité selon l'état du sinistre (frauduleux ou non).
 
 On peut également s'intéresser à l'importance relative des variables dans le modèle de prédiction de fraude :
 
@@ -525,12 +573,11 @@ On peut également s'intéresser à l'importance relative des variables dans le 
     \label{fig:importance-variables-boost}
 \end{figure}
 
-Le Gradient Boosting présente un profil intermédiaire, plus équilibré que l'arbre mais toujours hiérarchisé. Le ratio facture/marché reste en tête (25~\%), suivi de l'historique des montants réclamés (16~\%) et du nombre de fraudes passées de l'assuré (12~\%), mais le pouvoir explicatif est ensuite mieux réparti sur une gamme plus large de variables (valeur du véhicule, amendements, durée de possession, âge du véhicule…), chacune contribuant de façon non négligeable.
+Le Gradient \textit{Boosting} présente un profil intermédiaire, plus équilibré que l'arbre mais toujours hiérarchisé. Le ratio facture/marché reste en tête avec 25~\%, suivi de l'historique des montants réclamés (16~\%) et du nombre de fraudes passées de l'assuré (13~\%), mais le pouvoir explicatif est ensuite mieux réparti sur une gamme plus large de variables (valeur du véhicule, amendements, durée de possession, âge du véhicule…), chacune contribuant de façon non négligeable au modèle (entre 5~\% et 8~\%).
 
-Ce profil illustre bien ce qui fait la performance du Gradient Boosting : en combinant de nombreux arbres construits séquentiellement, le modèle conserve la hiérarchie des signaux forts (le ratio facture/marché demeure central) tout en exploitant l'information résiduelle portée par des variables secondaires que l'arbre unique négligeait. Il réalise ainsi un compromis entre la concentration de l'arbre et la dilution du \textit{scoring}, ce qui explique son meilleur pouvoir discriminant (AUC de 0,942). On retrouve par ailleurs les mêmes variables clés que dans les deux autres modèles (ratio facture/marché, historique de l'assuré, antécédents de fraude) ce qui témoigne de la robustesse de ces signaux quel que soit le modèle.
+Ce profil illustre bien ce qui fait la performance du Gradient \textit{Boosting} : en combinant de nombreux arbres construits séquentiellement, le modèle conserve la hiérarchie des signaux forts (le ratio facture/marché demeure central) tout en exploitant l'information résiduelle portée par des variables secondaires que l'arbre unique négligeait. Il réalise ainsi un compromis entre la concentration de l'arbre et la dilution du \textit{scoring}. On retrouve par ailleurs les mêmes variables clés que dans les deux autres modèles (ratio facture/marché, historique de l'assuré, antécédents de fraude) ce qui témoigne de la robustesse de ces signaux quel que soit le modèle.
 
-Le modèle \textit{Gradient Boosting} présente une très bonne séparation des deux classes (sinistres frauduleux / non frauduleux). La grande majorité des sinistres non frauduleux se concentre dans les tranches de faible probabilité (inférieures à 20~\%) tandis que la part de sinistres frauduleux (en rouge) croît fortement dans les tranches élevées, devenant prépondérante autour des scores supérieurs à 80~\%. 
-
+Comme pour les deux autres modèles précédents, l'Agent IA retourne dans un premier temps la distribution du nombre de sinistres par tranche de 5~\% de probabilité selon l'état du sinistre (frauduleux ou non).
 
 \begin{figure}[H]
     \centering
@@ -539,7 +586,9 @@ Le modèle \textit{Gradient Boosting} présente une très bonne séparation des 
     \label{fig:distribution-boost}
 \end{figure}
 
-Ce basculement net, ainsi que le moindre chevauchement des distributions par rapport aux deux modèles précédents confirment la supériorité du \textit{Gradient Boosting} en matière de discrimination entre dossiers frauduleux et sains.
+Le modèle Gradient \textit{Boosting} présente une très bonne séparation des deux classes (sinistres frauduleux / non frauduleux). La grande majorité des sinistres non frauduleux se concentre dans les tranches de faible probabilité (inférieures à 30~\%) tandis que la part de sinistres frauduleux (en rouge) croît fortement dans les tranches élevées, devenant prépondérante autour des scores supérieurs à 85~\%.
+
+Ce basculement net, ainsi que le moindre chevauchement des distributions par rapport aux deux modèles précédents confirment la supériorité du Gradient \textit{Boosting} en matière de discrimination entre dossiers frauduleux et sains.
 
 Dans un second temps, l'Agent affiche la performance du modèle au travers de l'indicateur de taux de fraude avéré par tranche de probabilité.
 
@@ -552,33 +601,33 @@ Dans un second temps, l'Agent affiche la performance du modèle au travers de l'
 
 Ces graphiques mesurent la qualité prédictive du modèle sur le jeu de test, c'est-à-dire sur des sinistres qui n'ont pas été utilisés par le modèle lors de l'apprentissage. Les indicateurs reflètent donc sa capacité de généralisation à de nouveaux dossiers, et non une simple performance sur les données d'entraînement.
 
-La sortie du modèle \textit{Gradient Boosting} met en évidence une capacité de discrimination particulièrement élevée entre les dossiers frauduleux et non frauduleux. On observe une augmentation très marquée du taux de fraude avérée à mesure que la probabilité estimée croît, ce qui traduit une excellente cohérence entre les prédictions du modèle et la réalité observée sur les données d'apprentissage.
+La sortie du modèle Gradient \textit{Boosting} met en évidence une capacité de discrimination particulièrement élevée entre les dossiers frauduleux et non frauduleux. On observe une augmentation très marquée du taux de fraude avérée à mesure que la probabilité estimée croît, ce qui traduit une excellente cohérence entre les prédictions du modèle et la réalité observée sur les données d'apprentissage.
 
-Contrairement aux modèles plus simples, la montée du taux de fraude est ici beaucoup plus prononcée. Au-delà de 80~\%, on entre dans une zone où plus d'un sinistre sur deux est frauduleux, jusqu'à des taux proches de 100~\% sur la tranche la plus élevée. Cela signifie que le modèle concentre très efficacement les fraudes dans les segments à forte probabilité.
+Contrairement aux modèles plus simples, la montée du taux de fraude est ici beaucoup plus prononcée. Au-delà de 85~\%, on entre dans une zone où plus d'un sinistre sur deux est frauduleux, jusqu'à un taux de 91~\% sur la tranche la plus élevée. Cela signifie que le modèle concentre très efficacement les fraudes dans les segments à forte probabilité.
 
-Cette performance s'explique par la capacité du \textit{Gradient Boosting} à capter des relations complexes, non linéaires et des interactions fines entre variables, ce qui lui permet d'identifier des schémas de fraude difficiles à détecter avec des approches plus classiques.
+Cette performance s'explique par la capacité du Gradient \textit{Boosting} à capter des relations complexes, non linéaires et des interactions fines entre variables, ce qui lui permet d'identifier des schémas de fraude difficiles à détecter avec des approches plus classiques.
 
 D'où les zones d'investigation suivantes :
 
 \begin{itemize}
-    \item[$\bullet$] \textbf{Zone faible ($<$60~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$15~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
-    \item[$\bullet$] \textbf{Zone intermédiaire ($\approx$ 60~\% à 80~\%)} : on observe une montée progressive du taux de fraude (environ 25~\% à 40~\%). À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
-    \item[$\bullet$] \textbf{Zone élevée ($>$ 80~\%)} : le taux de fraude devient nettement plus important (50~\% à plus de 90~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 80~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
+    \item \textbf{Zone faible ($<$45~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$10~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
+    \item \textbf{Zone intermédiaire ($\approx$ 45~\% à 85~\%)} : on observe une montée progressive du taux de fraude (environ 10~\% à 45~\%). À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
+    \item \textbf{Zone élevée ($>$ 85~\%)} : le taux de fraude devient nettement plus important (58~\% à plus de 90~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 85~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/matrice_confusion_80_boost.png}
-    \caption{Matrice de confusion du modèle Gradient Boosting pour un seuil de 80~\%}
-    \label{fig:matrice-80-boost}
+    \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/matrice_confusion_85_boost.png}
+    \caption{Matrice de confusion du modèle Gradient Boosting pour un seuil de 85~\%}
+    \label{fig:matrice-85-boost}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
 \begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $5\,195 / 5\,312 = 97{,}80~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $445 / 688 = 64{,}68~\%$.
-    \item[$\bullet$] Le taux de sinistres signalés : $562 / 6\,000 = 9{,}37~\%$.
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $5\,213 / 5\,312 = 98{,}14~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $390 / 688 = 56{,}69~\%$.
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $489 / 6\,000 = 8{,}15~\%$.
 \end{itemize}
 
 Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours la meilleure et une optimisation du seuil afin d'obtenir la meilleure qualité de modèle est proposée dans le passage suivant.
@@ -587,37 +636,38 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 \subsection{Qualité du modèle obtenu}
 % --------------------------------------------------------------
 
-Le recours à une méthode ensembliste comme le \textit{Gradient Boosting} marque une rupture en termes de performance. Le modèle parvient à capturer des relations complexes et non linéaires, ce qui se traduit par une courbe de risque nettement plus régulière et globalement monotone.
+Le recours à une méthode ensembliste comme le Gradient \textit{Boosting} marque une rupture en termes de performance. Le modèle parvient à capturer des relations complexes et non linéaires, ce qui se traduit par une courbe de risque nettement plus régulière et globalement monotone.
 
 La concentration des fraudes dans les tranches de probabilité élevées est particulièrement marquée, avec des taux proches de 100~\% sur les segments les plus extrêmes (sur données d'apprentissage).
 
 Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-evaluation}.
 
-Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden (présenté en section~\ref{sec:qualite-modele}). Pour le modèle utilisant de \textit{Gradient Boosting}, le seuil optimal est de 50~\%.
+Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer que les sinistres sont frauduleux à l'aide de l'indicateur de Youden (présenté en section~\ref{sec:qualite-modele}). Pour le modèle utilisant de Gradient \textit{Boosting}, le seuil optimal est de 50~\%.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/matrice_confusion_optimal_50_boost.png}
-    \caption{Matrice de confusion du modèle Gradient Boosting avec un seuil de 50~\%}
+    \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/matrice_confusion_optimal_45_boost.png}
+    \caption{Matrice de confusion du modèle Gradient Boosting avec un seuil de 45~\%}
     \label{fig:matrice-optimal-boost}
 \end{figure}
 
-Cette matrice permet de calculer :
+\underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
-    \item[$\bullet$] Le taux de non-fraudes bien classées (prédit non-fraude / réel non-fraude) : $4\,780 / 5\,312 = 89{,}98~\%$ ;
-    \item[$\bullet$] Le taux de fraude détectées (prédit fraude / réel fraude) : $576 / 688 = 82{,}41~\%$ ;
-    \item[$\bullet$] Le taux de sinistres signalés : $1\,108 / 6\,000 = 18{,}47~\%$.
+\begin{itemize}[label = $\bullet$]
+    \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $4\,499 / 5\,312 = 84{,}69~\%$ ;
+    \item Le taux de fraude détectées (prédit fraude / réel fraude) : $601 / 688 = 87{,}35~\%$ ;
+    \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $1\,414 / 6\,000 = 23{,}57~\%$.
 \end{itemize}
 
-L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 18,47~\% des sinistres, parmi lesquels 51,99~\% sont réellement frauduleux, soit une densité de fraude environ 4,5 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à concentrer la fraude dans un volume restreint de dossiers à investiguer. Au seuil retenu, le modèle signale 23,57~\% des sinistres, parmi lesquels 87,35~\% sont réellement frauduleux, soit une densité de fraude environ 7,6 fois supérieure à celle d'un contrôle aléatoire. L'outil permet ainsi aux gestionnaires de concentrer leurs efforts sur un sous-ensemble à forte valeur, plutôt que de traiter l'ensemble du portefeuille.
+%calcul du 7,6 : 87,35 / 11,5 = 7,6
 
-À présent, observons les autres indicateurs de qualité du modèle :
+\underline{À présent, observons les autres indicateurs de qualité du modèle} :
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/synthese_metrique_boost.png}
-    \caption{Synthèse des métriques de discrimination et classification du modèle Gradient Boosting au seuil 50~\%}
+    \caption{Synthèse des métriques de discrimination et classification du modèle Gradient Boosting au seuil 45~\%}
     \label{fig:synthese-boost}
 \end{figure}
 
@@ -628,20 +678,26 @@ L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à conc
     \label{fig:roc-boost}
 \end{figure}
 
-En retenant le seuil optimal de 50~\%, les indicateurs obtenus s'interprètent de la façon suivante :
+En retenant le seuil optimal de 45~\%, les indicateurs obtenus s'interprètent de la façon suivante :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{AUC-ROC (0,942)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
-    \item[$\bullet$] \textbf{Gini (0,885)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
-    \item[$\bullet$] \textbf{KS (0,740)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
-    \item[$\bullet$] \textbf{Précision (52,0~\%)} : parmi les dossiers signalés comme frauduleux, environ un sur deux l'est réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
-    \item[$\bullet$] \textbf{Rappel (83,7~\%)} : le modèle détecte plus de quatre fraudes sur cinq, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item[$\bullet$] \textbf{F1-score (64,1~\%)} : bon compromis entre précision et rappel.
-    \item[$\bullet$] \textbf{Accuracy (89,3~\%)} : taux de bonnes classifications élevé.
-    \item[$\bullet$] \textbf{Log-loss (0,2724)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{AUC-ROC (0,933)} : excellente capacité de discrimination, très au-dessus du seuil de 0,8 considéré comme bon ; le modèle sépare efficacement fraudeurs et non-fraudeurs.
+    \item \textbf{Gini (0,867)} : cohérent avec l'AUC, ce niveau traduit un pouvoir discriminant élevé, largement supérieur aux standards habituels en assurance.
+    \item \textbf{KS (0,724)} : bien au-delà du seuil de 0,5, il confirme une nette séparation entre les distributions de scores des deux populations.
+    \item \textbf{Précision (42,5~\%)} : parmi les dossiers signalés comme frauduleux, un peu moins d'un sur deux l'est réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
+    \item \textbf{Rappel (87,4~\%)} : le modèle détecte plus de quatre fraudes sur cinq, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
+    \item \textbf{F1-score (57,2~\%)} : bon compromis entre précision et rappel.
+    \item \textbf{Accuracy (85,0~\%)} : taux de bonnes classifications élevé.
+    \item \textbf{Log-loss (0,3131)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
+\end{itemize}   
+ 
+Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus :
+
+\begin{itemize}[label = $\bullet$]
+    \item {Backtesting (écart AUC train/test de 0,016)} : écart très faible entre apprentissage et test, signalant une excellente capacité de généralisation et l'absence de surapprentissage.
+    \item \textbf{PSI (0,0023)} : très inférieur à 0,1, il atteste d'une bonne stabilité de la distribution des scores.
 \end{itemize}
 
-Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus :
 
 \begin{figure}[H]
     \centering
@@ -650,25 +706,25 @@ Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les r�
     \label{fig:robustesse-boost}
 \end{figure}
 
-Le Gradient Boosting atteint les meilleures performances de discrimination, avec une AUC de validation de 0,942, tout en conservant un écart maîtrisé avec l'AUC d'entraînement (0,968), soit 0,026. Cet écart, jugé stable, confirme l'absence de surapprentissage malgré la puissance du modèle, ce qui témoigne de l'efficacité de sa régularisation (arbres peu profonds, sous-échantillonnage, taux d'apprentissage modéré). Le PSI, égal à 0,0023, très inférieur au seuil d'alerte, garantit enfin une excellente stabilité de la distribution des scores.
+% Le Gradient Boosting atteint les meilleures performances de discrimination, avec une AUC de validation de 0,942, tout en conservant un écart maîtrisé avec l'AUC d'entraînement (0,968), soit 0,026. Cet écart, jugé stable, confirme l'absence de surapprentissage malgré la puissance du modèle, ce qui témoigne de l'efficacité de sa régularisation (arbres peu profonds, sous-échantillonnage, taux d'apprentissage modéré). Le PSI, égal à 0,0023, très inférieur au seuil d'alerte, garantit enfin une excellente stabilité de la distribution des scores.
 
 % --------------------------------------------------------------
 \subsection{Limites et précautions d'interprétation}
 % --------------------------------------------------------------
 
-Le \textit{Gradient Boosting} constitue le modèle le plus performant de cette étude, grâce à sa capacité à combiner un grand nombre d'arbres faibles corrigeant successivement leurs erreurs. Cette puissance s'accompagne toutefois de plusieurs limites qu'il convient de considérer dans une utilisation opérationnelle.
+Le Gradient \textit{Boosting} constitue le modèle le plus performant de cette étude, grâce à sa capacité à combiner un grand nombre d'arbres faibles corrigeant successivement leurs erreurs. Cette puissance s'accompagne toutefois de plusieurs limites qu'il convient de considérer dans une utilisation opérationnelle.
 
-En premier lieu, le \textit{Gradient Boosting} est un modèle nettement moins interprétable que les précédents. Là où un arbre unique ou un \textit{scoring à point} offrent une lecture directe des règles de décision, la combinaison de deux cents arbres rend la logique globale difficile à retracer.
+En premier lieu, le Gradient \textit{Boosting} est un modèle nettement moins interprétable que les précédents. Là où un arbre unique ou un \textit{scoring à point} offrent une lecture directe des règles de décision, la combinaison de deux cents arbres rend la logique globale difficile à retracer.
 
 L'interprétation ne peut plus se faire directement sur la structure du modèle et nécessite le recours à des méthodes d'explicabilité complémentaires (importance des variables, valeurs de Shapley), qui restent des approximations et demandent une expertise spécifique.
 
 Par ailleurs, le modèle est particulièrement sensible au réglage de ses hyperparamètres. Le nombre d'arbres, la profondeur, le taux d'apprentissage ou le sous-échantillonnage influencent fortement la performance et la robustesse : un paramétrage mal maîtrisé peut conduire à un surapprentissage, le modèle s'ajustant trop finement aux données d'entraînement au détriment de sa capacité de généralisation. Un encadrement méthodologique rigoureux, via une validation appropriée, est donc indispensable.
 
-En outre, comme tout modèle supervisé, le \textit{Gradient Boosting} reste dépendant de la qualité et de la représentativité des données historiques. Il peut amplifier certains biais présents dans les données (biais de détection ou d'investigation) et reproduire des schémas passés qui ne reflètent pas nécessairement les fraudes futures.
+En outre, comme tout modèle supervisé, le Gradient \textit{Boosting} reste dépendant de la qualité et de la représentativité des données historiques. Il peut amplifier certains biais présents dans les données (biais de détection ou d'investigation) et reproduire des schémas passés qui ne reflètent pas nécessairement les fraudes futures.
 
 Enfin, la calibration des probabilités mérite attention : les scores produits ne sont pas toujours directement interprétables comme des probabilités exactes, ce qui justifie une étape de calibration et un choix réfléchi du seuil de décision.
 
-Ainsi, le \textit{Gradient Boosting} offre les meilleures performances prédictives de l'étude, mais au prix d'une moindre interprétabilité et d'une plus grande complexité de mise en œuvre, qui imposent un cadre de validation et de suivi rigoureux.
+Ainsi, le Gradient \textit{Boosting} offre les meilleures performances prédictives de l'étude, mais au prix d'une moindre interprétabilité et d'une plus grande complexité de mise en œuvre, qui imposent un cadre de validation et de suivi rigoureux.
 
 % ==============================================================
 \section{Comparaison des modèles}
@@ -686,17 +742,17 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
         \rowcolor{accenture}
         \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Scoring en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
         \hline
-        \textbf{AUC-ROC} & 0,923 & 0,838 & \textbf{0,942} \\
+        \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
         \hline
-        \textbf{Gini} & 0,846 & 0,676 & \textbf{0,885} \\
+        \textbf{Gini} & 0,835 & 0,690 & \textbf{0,867} \\
         \hline
-        \textbf{KS} & 0,688 & 0,565 & \textbf{0,74} \\
+        \textbf{KS} & 0,666 & 0,564 & \textbf{0,724} \\
         \hline
-        \textbf{Lift @10~\%} & --- & $\times$4,61 & \textbf{$\times$6,66} \\
+        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
         \hline
-        \textbf{PSI} & 0,0008 & 0,0026 & 0,0023 \\
+        \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
         \hline
-        \textbf{Écart Backtesting} & 0,009 & 0,039 & 0,026 \\
+        \textbf{Écart Backtesting} & \textbf{0,003} & 0,039 & 0,016 \\
         \hline
     \end{tabularx}
     \caption{Synthèse des résultats des indicateurs de qualité des différents modèles}
@@ -705,17 +761,17 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
 
 \subsubsection*{Stabilité et robustesse des modèles}
 
-Les trois modèles présentent une stabilité temporelle remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,0008 pour le \textit{scoring en points}, 0,0026 pour l'arbre de décision et 0,0023 pour le gradient boosting). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de validation, et confirment que les modèles ne sont pas sensibles à des dérives temporelles sur la période considérée. Par ailleurs, le \textit{backtesting} en split 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,009 pour le scoring en points, 0,039 pour l'arbre de décision et 0,026 pour le \textit{gradient boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
+Les trois modèles présentent une stabilité temporelle remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,003 pour le \textit{scoring en points}, 0,0026 pour l'arbre de décision et 0,0023 pour le gradient boosting). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de validation, et confirment que les modèles ne sont pas sensibles à des dérives temporelles sur la période considérée. Par ailleurs, le \textit{backtesting} en split 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,009 pour le \textit{Scoring} en points, 0,039 pour l'arbre de décision et 0,016 pour le Gradient \textit{Boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
 
 \subsubsection*{Analyse du compromis précision / rappel et choix du seuil de décision}
 
-Le \textit{Gradient Boosting} s'impose comme le modèle retenu à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0\,942, un indice de Gini de 0\,885 et un lift de $\times$6,66 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0\,838, indice de Gini de 0\,676, lift de $\times$4,61) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0\,923, indice de Gini de 0\,846). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
+Le Gradient \textit{Boosting} s'impose comme le modèle retenu à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0\,942, un indice de Gini de 0\,885 et un lift de $\times$6,66 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0\,838, indice de Gini de 0\,676, lift de $\times$4,61) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0\,923, indice de Gini de 0\,846). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
 
-Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,923 et un indice de Gini de 0,846, il se situe très près du Gradient Boosting et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (\textit{Gradient Boosting}) et interprétabilité (\text{scoring} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
+Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,923 et un indice de Gini de 0,846, il se situe très près du Gradient Boosting et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (Gradient \textit{Boosting}) et interprétabilité (\text{scoring} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
 
 Enfin, quel que soit le modèle retenu, la lecture des performances appelle une nuance commune. Le compromis entre précision et rappel est la conséquence directe du fort déséquilibre des classes dans les données de sinistres. D'un point de vue actuariel, ce ratio doit être piloté explicitement : modifier le seuil de décision permet d'ajuster le rappel au prix d'un volume plus ou moins élevé de dossiers à investiguer.
 
-Le choix optimal de ce curseur dépend du coût asymétrique des deux types d'erreurs : un faux négatif (fraude non détectée) engendre une perte indemnisée à tort, tandis qu'un faux positif (investigation inutile) représente un coût opérationnel pour la cellule fraude. C'est précisément pour cette raison que l'outil développé laisse à l'utilisateur le soin de manipuler dynamiquement le curseur des seuils de détection, afin d'adapter le dispositif au contexte et à l'appétence au risque de chaque assureur.
+Enfin, quel que soit le modèle retenu, la lecture des performances appelle une nuance commune, liée à la tension inhérente entre précision et rappel. Ces deux indicateurs évoluent en sens inverse selon le seuil de décision : abaisser le seuil permet de détecter davantage de fraudes (rappel plus élevé), mais au prix d'un plus grand nombre de dossiers sains signalés à tort (précision plus faible), et inversement.. D'un point de vue actuariel, ce ratio doit être piloté explicitement : modifier le seuil de décision permet d'ajuster le rappel au prix d'un volume plus ou moins élevé de dossiers à investiguer. Le choix optimal de ce curseur dépend du coût asymétrique des deux types d'erreurs : un faux négatif (fraude non détectée) engendre une perte indemnisée à tort, tandis qu'un faux positif (investigation inutile) représente un coût opérationnel pour la cellule fraude. C'est précisément pour cette raison que l'outil développé laisse à l'utilisateur le soin de manipuler dynamiquement le curseur des seuils de détection, afin d'adapter le dispositif au contexte et à l'appétence au risque de chaque assureur.
 
 \subsubsection*{Configuration finale du modèle}
 
@@ -723,13 +779,15 @@ La dernière étape de l'Agent IA de création du modèle d'aide à la détectio
 
 Pour ce faire, l'utilisateur doit confirmer le modèle retenu ainsi que le seuil optimal.
 
-Un seuil d'investigation fixé par défaut à $\pm$10~\%\footnote{Ces seuils d'investigation peuvent être modifiés par l'utilisateur s'il le souhaite.} du seuil optimal sera retenu, ainsi, si l'on considère par exemple un seuil optimal de 50~\%, trois zones d'investigations seront mises en place :
+Un seuil d'investigation fixé par défaut à $\pm$10~\%\footnote{Ces seuils d'investigation peuvent être modifiés par l'utilisateur s'il le souhaite.} du seuil optimal sera retenu, ainsi, si l'on considère par exemple un seuil optimal de 45~\%, trois zones d'investigations seront mises en place :
 
-\begin{itemize}
-    \item[$\bullet$] probabilité de fraude $<$ 40~\% : pas d'investigation ;
-    \item[$\bullet$] probabilité de fraude entre 40~\% et 60~\% : investigation légère ;
-    \item[$\bullet$] probabilité de fraude supérieure à 60~\% : investigation à lancer.
+\begin{itemize}[label = $\bullet$]
+    \item \textcolor{vert}{Probabilité de fraude $<$ 35~\% : pas d'investigation}
+    \item \textcolor{orange}{Probabilité de fraude entre 35~\% et 55~\% : investigation légère}
+    \item \textcolor{rouge}{Probabilité de fraude supérieure à 55~\% : investigation à lancer}
 \end{itemize}
+
+Dans notre cas, on choisit le modèle Gradient \textit{Boosting} avec les seuils 35~\% et 55~\% .
 
 \begin{figure}[H]
     \centering
