@@ -1,7 +1,7 @@
 \chapter{Outil mis à disposition du service de détection des fraudes}
 \label{chap:outil-operationnel}
 
-Le présent chapitre traite à présent du second outil créé à l'aide de l'Intelligence Artificielle.
+Le présent chapitre traite du second outil créé à l'aide de l'Intelligence Artificielle.
 
 Ce dernier se présente sous forme d'une interface utilisateur proposant trois fonctionnalités :
 
@@ -28,19 +28,19 @@ L'outil mis à disposition du service de détection des fraudes constitue la tra
 
 En amont de son utilisation, les seuils de décision sont définis par l'actuaire en charge du modèle, puis transmis aux gestionnaires sinistres pour paramétrage dans l'outil. Ces seuils permettent de segmenter l'espace des probabilités en différentes zones de risque.
 
-À ce stade, on retient à titre illustratif le dernier modèle (\textit{Gradient Boosting}) et les seuils suivants :
+À ce stade, on retient à titre illustratif le dernier modèle (Gradient \textit{Boosting}) et les seuils suivants :
 
-\begin{itemize}
-    \item[$\bullet$] $Seuil_{\inf} = Seuil_{optimal} - 10~\%$
-    \item[$\bullet$] $Seuil_{\sup} = Seuil_{optimal} + 10~\%$
+\begin{itemize}[label = $\bullet$]
+    \item $Seuil_{\inf} = Seuil_{optimal} - 10~\%$
+    \item $Seuil_{\sup} = Seuil_{optimal} + 10~\%$
 \end{itemize}
 
 Ce qui crée naturellement les trois zones :
 
-\begin{itemize}
-    \item[$\bullet$] Une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$ ;
-    \item[$\bullet$] Une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$ ;
-    \item[$\bullet$] Une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$.
+\begin{itemize}[label = $\bullet$]
+    \item \textcolor{vert}{Une zone de faible risque (verte) : $[\,0 \, ; \, Seuil_{\inf}[$}
+    \item \textcolor{orange}{Une zone de risque intermédiaire (orange) : $[\,Seuil_{\inf} \, ; \, Seuil_{\sup}[$}
+    \item \textcolor{rouge}{Une zone de risque élevé (rouge) : $[\,Seuil_{\sup} \, ; 100~\%]$}
 \end{itemize}
 
 Ces seuils traduisent un arbitrage actuariel entre le \textbf{coût des investigations} (notamment en termes de ressources mobilisées et de délais de gestion) et le \textbf{gain attendu lié à la détection de fraude}, en tenant compte des taux de faux positifs et de faux négatifs.
@@ -67,10 +67,10 @@ Cette probabilité constitue une mesure synthétique du risque, intégrant l'ens
 
 La décision opérationnelle repose alors sur la \textbf{comparaison de cette probabilité aux seuils définis dans l'outil précédent (enregistrés en paramètres)}. Chaque sinistre est ainsi affecté à une classe de risque, à laquelle est associée une stratégie de gestion différenciée :
 
-\begin{itemize}
-    \item[$\bullet$] Absence d'investigation pour les niveaux faibles ;
-    \item[$\bullet$] Contrôles ciblés pour les niveaux intermédiaires ;
-    \item[$\bullet$] Et investigations approfondies pour les niveaux élevés.
+\begin{itemize}[label = $\bullet$]
+    \item Absence d'investigation pour les niveaux faibles ;
+    \item Contrôles ciblés pour les niveaux intermédiaires ;
+    \item Et investigations approfondies pour les niveaux élevés.
 \end{itemize}
 
 Ce dispositif permet d'optimiser la \textbf{fonction de coût globale} du processus de détection, en concentrant les efforts sur les dossiers présentant le meilleur ratio entre probabilité de fraude et coût d'investigation.
@@ -148,13 +148,13 @@ Dans notre outil, différents indicateurs ont été mis en place :
 
 \begin{enumerate}
 
-    \item[$\bullet$] Les premiers indicateurs portent sur le \textbf{volume et la détection} : nombre de sinistres testés, nombre d'alertes générées par le modèle et nombre de fraudes effectivement confirmées après investigation. Leur mise en regard permet d'apprécier la charge de travail générée par l'outil et le taux de concrétisation des alertes.
+    \item Les premiers indicateurs portent sur le \textbf{volume et la détection} : nombre de sinistres testés, nombre d'alertes générées par le modèle et nombre de fraudes effectivement confirmées après investigation. Leur mise en regard permet d'apprécier la charge de travail générée par l'outil et le taux de concrétisation des alertes.
 
-    \item[$\bullet$] Viennent ensuite les indicateurs \textbf{financiers}, au cœur de l'enjeu actuariel. Le montant de fraude évitée agrège les sinistres frauduleux confirmés qui n'ont pas donné lieu à indemnisation grâce à l'outil. Pour compléter cet indicateur, un KPI important est également calculé : l'impact sur le \textbf{ratio Sinistres / Primes (S/P)} de la détection de fraude qui traduit directement le gain apporté par la détection sur l'équilibre technique du portefeuille. En effet, en écartant une partie de la charge frauduleuse, l'outil améliore mécaniquement ce ratio. Cet indicateur fait le lien avec l'analyse développée au chapitre~\ref{chap:contexte} : là où nous avions modélisé la surprime supportée par les assurés honnêtes par la relation $\Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}$, le rapport annuel permet de quantifier \textit{a posteriori} la part de charge frauduleuse $\alpha$ effectivement récupérée, et donc l'effet réel de l'outil sur la tarification.
+    \item Viennent ensuite les indicateurs \textbf{financiers}, au cœur de l'enjeu actuariel. Le montant de fraude évitée agrège les sinistres frauduleux confirmés qui n'ont pas donné lieu à indemnisation grâce à l'outil. Pour compléter cet indicateur, un KPI important est également calculé : l'impact sur le \textbf{ratio Sinistres / Primes (S/P)} de la détection de fraude qui traduit directement le gain apporté par la détection sur l'équilibre technique du portefeuille. En effet, en écartant une partie de la charge frauduleuse, l'outil améliore mécaniquement ce ratio. Cet indicateur fait le lien avec l'analyse développée au chapitre~\ref{chap:contexte} : là où nous avions modélisé la surprime supportée par les assurés honnêtes par la relation $\Pi_{\text{chargée}} = \frac{\Pi_{\text{pure}}}{1 - \alpha}$, le rapport annuel permet de quantifier \textit{a posteriori} la part de charge frauduleuse $\alpha$ effectivement récupérée, et donc l'effet réel de l'outil sur la tarification.
 
-    \item[$\bullet$] Le rapport suit également la \textbf{qualité opérationnelle} du dispositif. La précision de l'outil mesure, parmi les alertes confirmées, la proportion de véritables fraudes, indicateur clé pour éviter de mobiliser inutilement les équipes d'investigation sur des faux positifs. La répartition des sinistres par zone de risque (verte, orange, rouge) permet quant à elle de visualiser la distribution du portefeuille et d'ajuster les seuils $Seuil_{\inf}$ et $Seuil_{\sup}$ si nécessaire.
+    \item Le rapport suit également la \textbf{qualité opérationnelle} du dispositif. La précision de l'outil mesure, parmi les alertes confirmées, la proportion de véritables fraudes, indicateur clé pour éviter de mobiliser inutilement les équipes d'investigation sur des faux positifs. La répartition des sinistres par zone de risque (verte, orange, rouge) permet quant à elle de visualiser la distribution du portefeuille et d'ajuster les seuils $Seuil_{\inf}$ et $Seuil_{\sup}$ si nécessaire.
 
-    \item[$\bullet$] Enfin, deux indicateurs relèvent d'une logique d'\textbf{intelligence fraude} plus avancée. L'identification des réseaux, en repérant les sinistres impliquant plusieurs véhicules, signale une suspicion de fraude organisée, distincte de la fraude opportuniste. La détection de nouvelles tendances met en évidence l'émergence de schémas de fraude inédits, permettant d'anticiper l'évolution des comportements frauduleux.
+    \item Enfin, deux indicateurs relèvent d'une logique d'\textbf{intelligence fraude} plus avancée. L'identification des réseaux, en repérant les sinistres impliquant plusieurs véhicules, signale une suspicion de fraude organisée, distincte de la fraude opportuniste. La détection de nouvelles tendances met en évidence l'émergence de schémas de fraude inédits, permettant d'anticiper l'évolution des comportements frauduleux.
 
 \end{enumerate}
 

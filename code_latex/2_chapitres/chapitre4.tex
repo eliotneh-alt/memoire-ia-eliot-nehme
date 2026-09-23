@@ -524,7 +524,12 @@ Suite à l'analyse de composition du portefeuille, une analyse de la fréquence 
     \item Choisir la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barre pour les variables admettant un nombre plus important de modalités.
 \end{itemize}
 
-\textit{ICI METTRE CAPTURE D'ECRAN}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_frequence.png}
+    \caption{Analyse de la fréquence de la fraude}
+    \label{fig:analyse-frequence}
+\end{figure}
 
 L'affichage a volontairement été limité à 4 variables à la fois pour offrir une meilleure clarté à l'utilisateur. Afin de permettre à l'utilisateur de visualiser l'ensemble des variables, un choix d'affichage est disponible à droite sur simple clic.
 
@@ -532,12 +537,21 @@ L'affichage a volontairement été limité à 4 variables à la fois pour offrir
 
 L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
 
+L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
+
 \begin{itemize}[label = $\bullet$]
-    \item 
+    \item \textbf{Le statut de réparateur signalé} est la variable la plus discriminante (dispersion de 0,065). Lorsque le réparateur figure sur une liste de vigilance, le taux de fraude bondit à 56,1~\%, contre 10,0~\% dans le cas contraire, soit près de cinq fois le taux moyen du portefeuille (11,5~\%).
+
+    \item \textbf{Le nombre de fraudes passées de l'assuré} confirme le poids des antécédents (dispersion de 0,063) : le taux de fraude croît de façon strictement monotone avec le nombre de fraudes déjà commises, passant de 8,5~\% pour un assuré sans antécédent à 30,6~\%, 34,3~\% puis 39,8~\% au-delà de trois fraudes.
+
+    \item \textbf{Le nombre d'incidents passés du tiers} suit la même logique (dispersion de 0,042) : de 10,3~\% sans antécédent, le taux de fraude grimpe à 32,1~\% pour deux incidents et atteint 100~\% au-delà de trois, bien qu'il repose sur de faibles effectifs (87 et 36 dossiers), à interpréter donc avec prudence.
+
+    \item \textbf{Le nombre d'amendements à la déclaration} apparaît également discriminant (dispersion de 0,034) : les modifications successives d'une déclaration traduisent une hésitation ou un ajustement suspect, le taux de fraude passant de 7,5~\% sans amendement à 26,7~\% pour quatre modifications ou plus.
 \end{itemize}
 
 % --------------------------------------------------------------
 \subsection{Création de classes de variables}
+\label{subsec : création-classes}
 % --------------------------------------------------------------
 
 La création de classes constitue une étape préalable importante à la mise en œuvre de certains modèles prédictifs, notamment lorsque les variables explicatives sont continues ou présentent un grand nombre de modalités.
@@ -1065,151 +1079,102 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
         claim\_total & 0 & 0,01 & 0 & 0,77 \\
         \hline
     \end{tabularx}
-    \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives}\footnote{La variable "\textit{total\_claim\_amount}" est ici traitée}
+    \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives}\footnote{La variable "\textit{total\_claim\_amount}" est ici traitée comme une variable quantitative après avoir subi un regroupement en classes (cf. section \ref{subsec:création-classes}).}
     \label{tab:eta-extrait}
 \end{table}
 
+\textit{À noter que les matrices \ref{tab:cramer-extrait} et \ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe \ref{annexe:matrices-association}.}
+
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 
-S'agissant des variables quantitatives, la grande majorité des corrélations de Pearson sont très faibles (proches de 0), traduisant une quasi-indépendance linéaire entre la plupart des grandeurs continues (prime, franchise, âge, délais, etc.). Deux exceptions se distinguent toutefois nettement.
+\noindent\textbf{Parmi les variables quantitatives}, mesurées par le rapport de corrélation $\eta^2$, les intensités les plus fortes s'observent pour :
 
-% \begin{itemize}[label=$\bullet$]
-%     \item En premier lieu, le \textbf{taux de fraude du code postal} de l'endroit \textbf{et état_id} (indiquer le n)
-
-D'une part, le montant réclamé et le montant total de l'indemnisation présentent une corrélation très élevée (0,90), ce qui est logique puisque ces deux variables mesurent des quantités monétaires étroitement liées. D'autre part, le ratio de surévaluation de la réclamation est corrélé de façon marquée à ces mêmes montants (0,76 et 0,70). Ces redondances signalent un risque de multicolinéarité qu'il conviendra de traiter lors de la modélisation, par exemple en ne conservant qu'une seule de ces variables ou en construisant un indicateur synthétique, afin de préserver la stabilité et l'interprétabilité des modèles.
-
-\textbf{Parmi les variables qualitatives}, les corrélations les plus fortes mesurées par le V de Cramér sont : 
-
-ICI ON VA LISTER 
+\begin{itemize}[label=$\bullet$]
+    \item « \textit{repairer\_nb\_claims\_total} » et « \textit{repairer\_nb\_fraud\_confirmed} » (0,72).
+\end{itemize}
 
 Les autres variables qualitatives (gravité de l'incident, canal de déclaration, profession, etc.) présentent des associations nettement plus faibles entre elles.
 
-\textbf{Parmi les variables quantitatives}, mesurées par le rapport de corrélation $\eta^2$, les intensités les plus fortes s'observent pour le passé du réparateur, avec le nombre de fraudes qu'il a déjà confirmées ($\eta^2 = 0{,}32$) et son nombre total de sinistres traités ($\eta^2 = 0{,}19$), ainsi que pour le ratio entre la facture et le prix de marché ($\eta^2 = 0{,}28$) et les antécédents de fraude de l'assuré ($\eta^2 = 0{,}24$). Viennent ensuite l'historique des montants réclamés (0,19), le nombre de modifications apportées à la déclaration (0,18) et le nombre d'incidents passés du tiers (0,17).
+\noindent\textbf{Parmi les variables qualitatives}, les corrélations les plus fortes mesurées par le V de Cramér sont :
 
-Concernant les corrélations linéaires entre variables quantitatives, seul le couple montant réclamé / montant total dépasse le seuil de 0,7 retenu comme signal de redondance excessive (0,90). Cette forte corrélation justifie de ne conserver qu'une seule de ces deux variables lors de la modélisation. Pour l'ensemble des autres variables explicatives, aucune association n'atteint ce seuil : elles apportent une information suffisamment distincte pour être toutes conservées dans la phase de modélisation.
+\begin{itemize}[label=$\bullet$]
+    \item « \textit{incident\_state} » et « \textit{incident\_zip\_fraud\_rate} » (1), sans surprise puisque à chaque état est associé un taux de fraude ;
+    \item « \textit{repairer\_avg\_invoice\_vs\_market} » et « \textit{repairer\_fraud\_rate} » (0,97), qui témoigne de la corrélation importante entre la fraude et la surestimation du prix des réparations lors d'un sinistre.
+\end{itemize}
 
-% --------------------------------------------------------------
-\subsubsection*{Élimination des variables corrélées}
-% --------------------------------------------------------------
+Enfin, pour les couples de variables \textbf{quantitatives $\times$ qualitatives}, les corrélations les plus fortes sont :
 
-À l'issue de l'analyse des matrices d'association, l'outil offre à l'utilisateur la possibilité d'écarter les variables jugées redondantes. Cette étape de sélection vise à ne conserver, parmi les variables candidates, que celles qui apportent une information « propre » et non déjà captée par d'autres variables par ailleurs, afin de ne pas dégrader la qualité des modèles construits par la suite.
+\begin{itemize}[label=$\bullet$]
+    \item « \textit{repairer\_nb\_claims\_total} » et « \textit{repairer\_fraud\_rate} » (0,67) ;
+    \item « \textit{repairer\_nb\_fraud\_confirmed} » et « \textit{repairer\_fraud\_rate} » (0,70) ;
+    \item « \textit{repairer\_nb\_fraud\_confirmed} » et « \textit{repairer\_avg\_invoice\_vs\_market} » (0,85) ;
+    \item « \textit{repairer\_nb\_fraud\_confirmed} » et « \textit{repairer\_is\_flagged} » (0,78) ;
+    \item « \textit{claim\_amount} » et « \textit{total\_claim\_amount} » (0,77).
+\end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/retirer_variable.png}
-\end{figure}
-
-
-Sur les 53 variables explicatives disponibles à ce stade (24 issues de la base source et 29 issues de l'enrichissement), 44 ont été retenues pour la modélisation.
-
-En effet, 9 variables ont été écartées \textbf{automatiquement} par l'outil, qui les a identifiées comme non pertinentes pour la prédiction : 
-
-la variable cible fraud\_reported, qui constitue précisément la grandeur à prédire et ne peut donc servir d'entrée ; les identifiants uniques ou quasi uniques, dépourvus de tout pouvoir prédictif généralisable (policy\_id, insured\_id, repairer\_id, third\_party\_id, witness\_id, vehicle\_id) ; et deux variables trop granulaires pour une analyse statistique robuste, à savoir la date exacte du sinistre (incident\_date) et la ville du sinistre (incident\_city), dont le très grand nombre de modalités rendrait les effectifs par catégorie trop faibles. Ce filtrage, réalisé en amont par l'agent sans intervention manuelle, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/retirer_variable_cocher.png}
-    \caption{Interface de sélection permettant de conserver ou de retirer des variables}
-    \label{fig:retirer-variable}
-\end{figure}
+Ces redondances signalent un risque de multicolinéarité qu'il conviendra de traiter en amont de la modélisation, par exemple en ne conservant qu'une seule de ces variables ou en construisant un indicateur synthétique, afin de préserver la stabilité et l'interprétabilité des modèles.
 
 Le retrait des variables fortement corrélées répond à un enjeu méthodologique important. Lorsque deux variables explicatives sont redondantes, elles introduisent un phénomène de multicolinéarité qui peut fragiliser le modèle de plusieurs manières.
 
 Sur les modèles de type régression ou \textit{scoring}, la multicolinéarité rend l'estimation des coefficients instable : de faibles variations dans les données peuvent entraîner des changements importants dans les pondérations attribuées à chaque variable, rendant leur interprétation peu fiable, voire trompeuse. Sur l'ensemble des modèles, elle nuit également à la parcimonie et à la lisibilité du dispositif, sans améliorer le pouvoir prédictif puisque l'information est déjà présente. Éliminer ces redondances en amont permet donc de gagner en robustesse, en stabilité et en interprétabilité, sans perte d'information significative.
 
 % --------------------------------------------------------------
-\subsection*{Analyse de la fréquence de fraude}
+\subsubsection{Élimination des variables corrélées}
 % --------------------------------------------------------------
 
-Le système ne se contente plus de décrire chaque variable isolément, il croise systématiquement chaque caractéristique avec la variable cible (fraud\_reported) préalablement identifiée par l'utilisateur.
+À l'issue de l'analyse des matrices d'association, l'outil offre à l'utilisateur la possibilité d'écarter les variables jugées redondantes. Cette étape de sélection vise à ne conserver, parmi les variables candidates, que celles qui apportent une information « propre » et non déjà captée par d'autres variables par ailleurs, afin de ne pas dégrader la qualité des modèles construits par la suite.
 
-L'objectif de cette interface est de réaliser un « profilage » automatisé. En comparant visuellement la distribution des modalités au sein de la population saine (« Non-fraudeurs ») avec celle des fraudeurs avérés (« Fraudeurs »), l'outil calcule un indicateur de déviation statistique appelé le « Delta » :
+Sur les 53 variables explicatives initialement disponibles (24 issues de la base source et 29 issues de l'enrichissement), 39 ont finalement été retenues pour la modélisation.
 
-\begin{itemize}
-    \item[$\bullet$] un \textbf{delta positif} important révèle une \textbf{sur-représentation} anormale d'une caractéristique dans les dossiers de fraude historiques ;
-    \item[$\bullet$] à l'inverse, un \textbf{delta négatif} met en avant la \textbf{sous-représentation} de certaines caractéristiques dans les dossiers de fraude.
+En effet, 9 variables ont été écartées \textbf{automatiquement}\footnote{Ce choix automatique de l'outil met en avant la puissance des outils d'IA qui appliquent les « bons réflexes » et permettent à l'utilisateur d'éviter certains oublis.} par l'outil, qui les a identifiées comme non pertinentes pour la prédiction.
+
+Il s'agit :
+
+\begin{itemize}[label=$\bullet$]
+    \item Des 6 variables d'identifiants uniques (id), dépourvus de tout pouvoir prédictif généralisable (\textit{policy\_id}, \textit{insured\_id}, \textit{repairer\_id}, \textit{third\_party\_id}, \textit{witness\_id}, \textit{vehicle\_id}).
+    \item De la variable « \textit{incident\_date} », étant donné qu'elle présentait un nombre trop important de modalités distinctes et qu'elle est de plus exploitée autrement au travers de deux autres variables. En effet, les variables « \textit{incident\_is\_weekend} » et « \textit{incident\_is\_holiday} » permettent de déduire deux informations intéressantes à partir de la date de survenance du sinistre, à savoir si ce dernier a eu lieu un \textit{week-end} ou un jour de congés. Ces deux variables sont totalement corrélées à la variable date du sinistre puisqu'elles en découlent. Il est donc justifié de la supprimer.
+    \item De la variable « \textit{incident\_city} », car très fortement corrélée avec la variable « \textit{incident\_state} » (État du sinistre) qui est de plus une variable à champ texte libre (admettant donc un très grand nombre de modalités).
+    \item De la variable « \textit{fraud\_reported} », qui constitue la grandeur à prédire et ne peut donc servir de variable explicative.
 \end{itemize}
 
-\underline{L'agent va ensuite réaliser deux actions de manière autonome :}
+En plus de ces 9 variables supprimées par l'Agent, l'utilisateur peut ensuite décider d'une part s'il est d'accord ou non avec le choix réalisé par l'agent mais également de choisir d'en supprimer éventuellement d'autres en les sélectionnant manuellement.
 
-\begin{itemize}
-    \item[$\bullet$] afficher le top~3 des variables jugées comme les plus discriminantes au vu de la variable cible (affichage \textit{on Top}) ;
-    \item[$\bullet$] choisir la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barres pour les variables admettant un nombre plus important de modalités.
+Nous décidons, suite aux résultats des analyses de corrélation, de supprimer les variables suivantes :
+
+\begin{itemize}[label=$\bullet$]
+    \item « \textit{repairer\_nb\_fraud\_confirmed} » car corrélée à « \textit{repairer\_fraud\_rate} » ;
+    \item « \textit{repairer\_nb\_claims\_total} » car corrélée à « \textit{repairer\_fraud\_rate} » ;
+    \item « \textit{claim\_amount} » car corrélée à « \textit{total\_claim\_amount} » ;
+    \item « \textit{incident\_state} » car corrélée à « \textit{incident\_zip\_fraud\_rate} » ;
+    \item « \textit{repairer\_fraud\_rate} » car corrélée à « \textit{repairer\_avg\_invoice\_vs\_market} ».
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude.png}
-    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes pour variables sur la base de données de sinistres automobile}
-    \label{fig:analyse-repartition-fraude}
-\end{figure}
-
-Afin de permettre à l'utilisateur de visualiser l'ensemble des variables, un choix d'affichage est disponible à droite sur simple clic.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_repartition_selon_fraude_barre.png}
-    \caption{Extrait de la sortie de l'analyse statistique des fraudes/non fraudes sur la base de données de sinistres automobile}
-    \label{fig:analyse-repartition-fraude-barre}
-\end{figure}
-
-\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par police\_id par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
-
-Pour les variables dont les modalités ont été regroupées en classes, une loupe située en haut à droite permet d'afficher une version plus détaillée, où les tranches sont segmentées à la maille la plus fine disponible.
-
-
-
-\underline{Exemple avec la variable tranche d'âge :}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/tranche_age.png}
-    % \caption{Analyse de la variable tranche d'âge selon le statut fraude du sinistre}
-    \label{fig:tranche-age}
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/retirer_variable_cocher1.png}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/tranche_age_zoom.png}
-    \caption{Vue détaillée de la variable tranche d'âge}
-    \label{fig:tranche-age-zoom}
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/retirer_variable_cocher2.png}
+    \caption{Extrait de la sélection de la suppression de variables corrélées}
+    \label{fig:retirer-variable-cocher}
 \end{figure}
 
-Cette vue détaillée par âge fait apparaître une surreprésentation des assurés de 18 à 24 ans parmi les sinistres frauduleux : alors que la distribution des non-fraudeurs reste relativement uniforme sur l'ensemble des tranches d'âge, celle des fraudeurs présente un pic sur les premiers âges avant de se stabiliser au-delà de 24 ans. Cet effet reste toutefois localisé sur les jeunes conducteurs : au-delà de cette tranche, l'âge ne discrimine plus la fraude. L'âge n'est donc pas une variable fortement discriminante en soi, mais la classe des 18-24 ans mérite une attention particulière.
-
-L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour orienter les règles de gestion et alimenter les algorithmes prédictifs :
-
-\begin{enumerate}
-    \item \textbf{Les antécédents de fraude et l'environnement du sinistre : des signaux prioritaires.} L'analyse met en évidence une forte association entre la fraude et les informations relatives au réparateur ainsi qu'aux antécédents de l'assuré. Le nombre de fraudes déjà confirmées pour le réparateur constitue le signal le plus marqué ($\eta^2 = 0{,}32$), devant le ratio facture/marché ($\eta^2 = 0{,}28$) et le nombre de fraudes passées de l'assuré ($\eta^2 = 0{,}24$). S'y ajoute, parmi les variables qualitatives, le statut de réparateur signalé ($V = 0{,}26$). Ainsi, les assurés ayant déjà connu au moins une fraude représentent 35,6~\% des dossiers frauduleux, contre 9,6~\% des dossiers non frauduleux. Ces éléments justifient une vigilance renforcée lorsque l'historique de l'assuré et celui des intervenants convergent vers un profil à risque.
-
-    \item \textbf{La cohérence de la déclaration : un levier essentiel de détection.} Les modalités de déclaration du sinistre apportent des indicateurs particulièrement discriminants. L'absence d'autorités contactées apparaît dans 46,5~\% des dossiers frauduleux, contre 22,5~\% des dossiers non frauduleux, soit un écart de 24 points. Le nombre d'amendements apportés à la déclaration constitue également un signal important : les dossiers comprenant au moins deux modifications représentent 31,9~\% des fraudes, contre 13,5~\% des dossiers non frauduleux. Enfin, une blessure déclarée sans preuve médicale concerne 24,6~\% des dossiers frauduleux, contre 8,6~\% des dossiers non frauduleux. Ces incohérences ou ajustements successifs doivent donc alimenter les règles de contrôle et les mécanismes de priorisation des dossiers.
-
-    \item \textbf{Les historiques de sinistres : une lecture complémentaire du risque.} L'accumulation de sinistres antérieurs est davantage observée parmi les dossiers frauduleux. Les assurés ayant déclaré au moins deux sinistres par le passé représentent 47,6~\% des cas de fraude, contre 30,4~\% des dossiers non frauduleux. Les antécédents d'incidents du tiers impliqué suivent une logique similaire : 18,5~\% des dossiers frauduleux concernent un tiers ayant déjà connu au moins un incident, contre 8,2~\% des dossiers non frauduleux. Ces résultats confirment l'intérêt d'une analyse croisée entre l'historique de l'assuré, celui du tiers et les caractéristiques du réparateur, plutôt que d'une lecture fondée sur une seule variable.
-
-    \item \textbf{Les variables descriptives : utiles pour segmenter, moins déterminantes pour alerter.} Les caractéristiques socio-démographiques et contractuelles (le sexe, la prime annuelle, la franchise, l'heure de l'incident ou le nombre de véhicules impliqués) présentent des associations faibles avec la fraude. L'âge relève également de cette catégorie : hormis la surreprésentation ciblée des 18-24 ans évoquée plus haut, il ne constitue pas un facteur de priorisation. Ces variables contribuent à la description et à la segmentation du portefeuille, sans figurer parmi les principaux signaux d'alerte. La sévérité de l'incident conserve toutefois un intérêt descriptif : la modalité « perte totale » est présente dans 43,5~\% des fraudes, contre 32,4~\% des dossiers non frauduleux. L'évaluation globale du risque doit donc privilégier les éléments d'historique et de cohérence déclarative, tout en conservant les variables descriptives pour enrichir l'analyse des profils.
-\end{enumerate}
+Cette sélection, réalisée en amont de la modélisation, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
 
 % --------------------------------------------------------------
-\subsubsection*{Analyse du coût moyen de la fraude}
+\subsection*{Analyse du coût moyen de la fraude}
 % --------------------------------------------------------------
 
-Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (variable \textit{total\_claim\_amount}).
+Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (représenté par la variable « \textit{total\_claim\_amount} »).
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_cm.png}
-    \caption{Analyse du coût moyen des sinistres frauduleux et non frauduleux}
-    \label{fig:analyse-cm}
-\end{figure}
+\textit{ICI METTRE L'IMAGE}
 
-Ces indicateurs nous permettent de faire un constat contre-intuitif : la fraude ne concerne pas les sinistres les plus coûteux. Le coût moyen des 3\,440 dossiers frauduleux s'élève à 12\,675,09~\euro{}, soit un montant quasiment identique, et même légèrement inférieur, au coût moyen global (12\,757,74~\euro{}). Autrement dit, les dossiers frauduleux ne se distinguent pas par des montants réclamés plus élevés que les dossiers sains.
+Ces indicateurs nous permettent de faire un constat contre-intuitif : la fraude ne concerne pas les sinistres les plus coûteux. Le coût moyen des 3 440 dossiers frauduleux s'élève à $12\,675{,}09$ USD, soit un montant quasiment identique, et même légèrement inférieur, au coût moyen global ($12\,757{,}74$ USD). Autrement dit, les dossiers frauduleux ne se distinguent pas par des montants réclamés plus élevés que les dossiers sains.
 
-Ce résultat, à première vue surprenant, a une implication importante : \textbf{le montant du sinistre n'est pas, à lui seul, un signal permettant d'orienter la détection vers les fraudeurs}. Une stratégie de contrôle qui se concentrerait uniquement sur les sinistres les plus coûteux passerait donc à côté d'une large part de la fraude. C'est précisément ce qui justifie le recours à une approche multivariée : la fraude se révèle non pas par le montant réclamé, mais par la combinaison de signaux comportementaux et déclaratifs identifiés précédemment (antécédents, cohérence de la déclaration, environnement du sinistre). L'objectif du mémoire étant de modéliser une \textbf{probabilité de fraude} (variable cible binaire), l'étude du coût moyen n'entre a priori pas directement dans la spécification du modèle. Néanmoins, elle conserve une justification importante dans un mémoire actuariel : la justification de l'enjeu économique du modèle. En effet, modéliser une probabilité de fraude n'a de valeur opérationnelle que si la fraude représente un enjeu financier significatif.
+Ce résultat, à première vue surprenant, a une implication importante : le montant du sinistre n'est pas, à lui seul, un signal permettant d'orienter la détection vers les fraudeurs. Une stratégie de contrôle qui se concentrerait uniquement sur les sinistres les plus coûteux passerait donc à côté d'une large part de la fraude.
 
-% Ainsi, comparer le coût moyen d'un sinistre frauduleux $\bar{C}_F$ à celui d'un sinistre non frauduleux $\bar{C}_{NF}$ permet de quantifier la charge évitée par un sinistre correctement détecté :
+C'est précisément ce qui justifie le recours à une approche multivariée : la fraude se révèle non pas par le montant réclamé, mais par la combinaison de signaux comportementaux et déclaratifs identifiés précédemment (antécédents, cohérence de la déclaration, environnement du sinistre). L'objectif du mémoire étant de modéliser une probabilité de fraude (variable cible binaire), l'étude du coût moyen n'entre à priori pas directement dans la spécification du modèle. Néanmoins, elle conserve une justification importante dans un mémoire actuariel : la justification de l'enjeu économique du modèle. En effet, modéliser une probabilité de fraude n'a de valeur opérationnelle que si la fraude représente un enjeu financier significatif. 
 
-% \begin{equation}
-%     \text{Gain unitaire espéré} \approx \bar{C}_F
-% \end{equation}
-
-Le gain unitaire espéré d'une fraude détectée correspond au coût moyen d'un sinistre frauduleux ($\bar{C}_F$), c'est-à-dire au montant que l'assureur évite de verser indûment en écartant le dossier. On fait ici l'hypothèse qu'un sinistre identifié comme frauduleux est intégralement rejeté ; dans le cas d'une simple exagération, seul le surcoût frauduleux serait récupéré. Cela pose le cadre économique qui légitime la démarche de modélisation.
+Le gain unitaire espéré d'une fraude détectée correspond au coût moyen d'un sinistre frauduleux, c'est-à-dire au montant que l'assureur évite de verser indûment en écartant le dossier. On fait ici l'hypothèse qu'un sinistre identifié comme frauduleux est intégralement rejeté ; dans le cas d'une simple exagération, seul le surcoût frauduleux serait récupéré. Cela pose le cadre économique qui légitime la démarche de modélisation.

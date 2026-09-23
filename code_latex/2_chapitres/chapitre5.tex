@@ -18,7 +18,7 @@ Dans ce cadre, l'outil développé propose dans un premier temps de sélectionne
     \item Un jeu qui servira de base de test du modèle créé.
 \end{itemize}
 
-Le choix du partitionnement est laissé à l'utilisateur, avec une valeur par défaut de départ à 80/20 (base d'apprentissage/base de test) correspondant aux proportions généralement utilisées lors de la mise en place de modèles sur ce type de volumétrie de données.
+Le choix du partitionnement est laissé à l'utilisateur, avec une valeur par défaut de départ à 80/20 (ratio base d'apprentissage/base de test) correspondant aux proportions généralement utilisées lors de la mise en place de modèles sur ce type de volumétrie de données.
 
 \begin{figure}[H]
     \centering
@@ -27,7 +27,7 @@ Le choix du partitionnement est laissé à l'utilisateur, avec une valeur par d�
     \label{fig:partition}
 \end{figure}
 
-Pour notre exemple, une partition \textbf{80 / 20} est retenue : 80~\% des observations (24\,000 lignes) constituent le jeu d'apprentissage-validation, et les 20~\% restants (6\,000 lignes) forment le jeu de test final, mis de côté dès le départ et jamais utilisé pendant la phase de construction.
+Pour notre exemple, une partition \textbf{80 / 20} est retenue : 80~\% des observations (24\,000 lignes) constituent le jeu d'apprentissage-validation, et les 20~\% restants (6\,000 lignes) forment le jeu de test final, mis de côté dès le départ et non utilisé pendant la phase de construction.
 
 Ce partitionnement est \textbf{stratifié sur la variable cible}, ce qui signifie que le taux de fraude observé (11,5~\%) est préservé à l'identique dans les deux jeux. Cette précaution est essentielle sur des données déséquilibrées : un tirage purement aléatoire pourrait sur- ou sous-représenter les cas de fraude dans l'un des jeux, faussant l'apprentissage comme l'évaluation.
 
@@ -50,7 +50,7 @@ Une présentation et analyse des résultats de chaque modèle est proposée ci-d
 \section{Scoring en points}
 % ==============================================================
 
-Sur la base de sinistre transmise, l'Agent IA va à présent appliquer un \textit{\textbf{modèle de \textit{Scoring} en points}}.
+Sur la base de sinistre transmise, l'Agent IA va à présent appliquer un \textit{\textbf{modèle de \textit{scoring} en points}}.
 
 \begin{figure}[H]
     \centering
@@ -75,7 +75,7 @@ Le \textit{scoring} en points repose donc sur une logique additive : chaque doss
 En sortie du modèle, on obtient les indicateurs suivants :
 
 \begin{itemize}[label=$\bullet$]
-    \item Le nombre de variables retenues dans le modèle de \textit{Scoring} (20) ;
+    \item Le nombre de variables retenues dans le modèle de \textit{scoring} (20) ;
     \item Pour chaque variable, le nombre de points associé à chaque modalité ;
     \item «~Effectif train~» correspondant au nombre de lignes de chaque modalité au sein de la base d'apprentissage ;
     \item «~Taux de fraude train~», le taux de fraude observé sur la base d'apprentissage ;
@@ -129,11 +129,11 @@ En sortie du modèle, on obtient les indicateurs suivants :
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/grille_points.png}
-    \caption{Extrait de la grille d'attribution des points du modèle de \textit{Scoring} en points}
+    \caption{Extrait de la grille d'attribution des points du modèle de \textit{scoring} en points}
     \label{fig:grille-points}
 \end{figure}
 
-Les résultats du modèle de \textit{Scoring} permettent de distinguer 3 catégories d'indicateurs :
+Les résultats du modèle de \textit{scoring} permettent de distinguer 3 catégories d'indicateurs :
 
 \begin{itemize}[label=$\bullet$]
     \item En premier lieu, les signaux forts correspondent aux variables les plus discriminantes, historiquement associées à un sur-risque de fraude et donc fortement pondérées.
@@ -168,7 +168,7 @@ On remarque que l'importance des variables est ici relativement répartie, mais 
 
 En tête figure le ratio facture/marché du réparateur (11~\%), suivi de l'historique des montants réclamés par l'assuré (9~\%), de la valeur marchande du véhicule (8~\%), du nombre de fraudes passées et du nombre d'amendements à la déclaration (7~\% chacun). À l'autre extrémité, des variables comme la profession de l'assuré, le canal de déclaration ou le ratio de surévaluation ne pèsent chacune que 2~\%.
 
-Cette hiérarchie relativement douce est cohérente avec la nature même du \textit{Scoring} en points : reposant sur une agrégation additive de nombreux critères, le modèle répartit le risque sur un large ensemble de signaux plutôt que de le concentrer sur quelques-uns. C'est là une force autant qu'une caractéristique : le modèle ne dépend pas excessivement d'une seule variable, ce qui le rend robuste et stable (son PSI très faible et l'absence de surapprentissage le confirment) et lui permet de conserver sa pertinence même lorsqu'une variable est absente d'un dossier de sinistre.
+Cette hiérarchie relativement douce est cohérente avec la nature même du \textit{scoring} en points : reposant sur une agrégation additive de nombreux critères, le modèle répartit le risque sur un large ensemble de signaux plutôt que de le concentrer sur quelques-uns. C'est là une force autant qu'une caractéristique : le modèle ne dépend pas excessivement d'une seule variable, ce qui le rend robuste et stable (son PSI très faible et l'absence de surapprentissage le confirment) et lui permet de conserver sa pertinence même lorsqu'une variable est absente d'un dossier de sinistre.
 
 On note enfin que les variables présentant les plus fortes importances sont aussi celles susceptibles d'attribuer le plus grand nombre de points dans le barème : le ratio facture/marché, qui domine ce classement, est également la variable la mieux dotée de la grille (jusqu'à 108 points). Cette cohérence entre poids dans la grille et importance dans le score global est logique, puisque l'importance mesure précisément la part de l'amplitude totale de points qu'une variable peut faire varier.
 
@@ -217,7 +217,7 @@ Enfin, si l'on considère les sinistres classifiés comme nécessitant une inves
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_45_points.png}
-    \caption{Matrice de confusion du modèle de \textit{Scoring} en points pour un seuil de 45~\%}
+    \caption{Matrice de confusion du modèle de \textit{scoring} en points pour un seuil de 45~\%}
     \label{fig:matrice-45-points}
 \end{figure}
 
@@ -255,7 +255,7 @@ Appliqué à ce modèle, le seuil optimal est alors de 35~\%.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/points/matrice_optimal_points.png}
-    \caption{Matrice de confusion au seuil optimal du modèle de \textit{Scoring} en points (35~\%)}
+    \caption{Matrice de confusion au seuil optimal du modèle de \textit{scoring} en points (35~\%)}
     \label{fig:matrice-optimal-points}
 \end{figure}
 
@@ -706,8 +706,6 @@ Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les r�
     \label{fig:robustesse-boost}
 \end{figure}
 
-% Le Gradient Boosting atteint les meilleures performances de discrimination, avec une AUC de validation de 0,942, tout en conservant un écart maîtrisé avec l'AUC d'entraînement (0,968), soit 0,026. Cet écart, jugé stable, confirme l'absence de surapprentissage malgré la puissance du modèle, ce qui témoigne de l'efficacité de sa régularisation (arbres peu profonds, sous-échantillonnage, taux d'apprentissage modéré). Le PSI, égal à 0,0023, très inférieur au seuil d'alerte, garantit enfin une excellente stabilité de la distribution des scores.
-
 % --------------------------------------------------------------
 \subsection{Limites et précautions d'interprétation}
 % --------------------------------------------------------------
@@ -761,7 +759,7 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
 
 \subsubsection*{Stabilité et robustesse des modèles}
 
-Les trois modèles présentent une stabilité temporelle remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,003 pour le \textit{scoring en points}, 0,0026 pour l'arbre de décision et 0,0023 pour le gradient boosting). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de validation, et confirment que les modèles ne sont pas sensibles à des dérives temporelles sur la période considérée. Par ailleurs, le \textit{backtesting} en split 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,009 pour le \textit{Scoring} en points, 0,039 pour l'arbre de décision et 0,016 pour le Gradient \textit{Boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
+Les trois modèles présentent une stabilité temporelle remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,003 pour le \textit{scoring en points}, 0,0026 pour l'arbre de décision et 0,0023 pour le gradient boosting). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de validation, et confirment que les modèles ne sont pas sensibles à des dérives temporelles sur la période considérée. Par ailleurs, le \textit{backtesting} en split 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,009 pour le \textit{scoring} en points, 0,039 pour l'arbre de décision et 0,016 pour le Gradient \textit{Boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
 
 \subsubsection*{Analyse du compromis précision / rappel et choix du seuil de décision}
 
