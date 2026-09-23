@@ -502,21 +502,39 @@ Le prompt adressé à l'agent concernant l'analyse de composition de portefeuill
 
 La base de données étudiée comprend 30\,000 sinistres automobiles, offrant ainsi un volume suffisant pour mener une analyse statistique robuste et entraîner des modèles de détection de la fraude performants.
 
-Les classifications de certaines variables proposées ici en sortie (comme \textit{insured\_age} et \textit{incident\_hour\_of\_the\_day}) ont été définies par l'agent. Ces dernières seront modifiées par la suite et recréées via les méthodes classiques de création de classes telles que l'algorithme K-means ou encore la méthode de classification hiérarchique ascendante (cf. paragraphe 4.5.2).
-
-La répartition par tranche d'âge (par pas de cinq ans) est relativement homogène, à l'exception de la tranche des 18-20 ans, nettement moins représentée (1~556 sinistres), ce qui s'explique par sa moindre amplitude et la faible part des très jeunes conducteurs. La répartition par sexe est quant à elle quasi équilibrée, avec une part similaire d'hommes (33,5~\%), de femmes (32,9~\%) et de personnes morales (33,6~\%).
-
-Les sinistres surviennent majoritairement la nuit, entre 0h et 6h (8~715 cas, soit environ 29~\%), devant l'après-midi et le matin, ce qui constitue un premier signal d'attention dans une optique anti-fraude, la nuit étant une période propice aux déclarations difficiles à contredire faute de témoins. À cet égard, on note que 66,8~\% des sinistres impliquent au moins deux témoins, tandis que 16,4~\% n'en comptent aucun. Par ailleurs, 60,1~\% des sinistres font état d'au moins deux blessés corporels, un chiffre élevé qui mérite d'être mis en perspective avec le taux de fraude observé.
-
-La franchise du contrat est répartie de manière très uniforme entre les différents niveaux (de 200 à 1~000~\euro{}), avec des effectifs oscillant entre 3~674 et 3~794 sinistres par modalité, suggérant une bonne diversité des profils de contrats. Concernant les démarches déclaratives, un rapport de police est disponible dans 49,7~\% des cas, et les autorités les plus fréquemment contactées sont les pompiers (7~569) et la police (7~498), tandis que près de 25~\% des sinistres n'impliquent aucune autorité, ce qui peut constituer un indicateur de risque supplémentaire dans la modélisation.
-
-Au-delà de ces caractéristiques générales, la base intègre également plusieurs variables directement pensées pour la détection de la fraude, dont la distribution mérite d'être soulignée. Ainsi, 3,2~\% des sinistres font intervenir un réparateur préalablement signalé et 10,4~\% font état d'une blessure déclarée sans preuve médicale, deux signaux classiques d'alerte. De même, 9~\% des dossiers concernent un tiers déjà connu de l'assuré, configuration propice aux sinistres arrangés. Enfin, la grande majorité des assurés ne présente aucun antécédent de fraude (26~222 dossiers), les cas répétés restant marginaux, ce qui reflète le caractère rare et déséquilibré du phénomène étudié.
+Les classifications de certaines variables proposées ici en sortie (comme \textit{insured\_age} et \textit{incident\_hour\_of\_the\_day}) ont été définies par l'agent. Ces dernières seront modifiées par la suite et recréées via les méthodes classiques de création de classes telles que l'algorithme K-means ou encore la méthode de classification hiérarchique ascendante (cf. paragraphe \ref{subsec:analyse-frequence}).
 
 Cette analyse descriptive de la base sinistres permet d'établir une vision globale de la structure des données, sans distinction entre sinistres frauduleux et non frauduleux. La section suivante propose d'affiner cette exploration en adoptant une lecture bivariée, c'est-à-dire en comparant systématiquement la distribution de chaque variable selon le statut de fraude, afin d'identifier les premières variables discriminantes qui pourront guider la construction des modèles prédictifs.
 
 À noter que, de manière autonome, l'agent détecte automatiquement la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barres pour les variables admettant un nombre plus important de modalités.
 
 Enfin, l'agent permet l'export de la sortie graphique de composition du portefeuille, à des fins de traçabilité ou d'études intermédiaires par exemple.
+
+% --------------------------------------------------------------
+\subsection{Analyse de la fréquence de la fraude}
+\label{subsec:analyse-frequence}
+% --------------------------------------------------------------
+
+Suite à l'analyse de composition du portefeuille, une analyse de la fréquence de fraude selon les variables explicatives potentielles va être réalisée. Cette analyse permet d'avoir un premier aperçu des variables ayant un impact significatif sur le niveau de fraude observé et de valider par la suite la cohérence des modèles obtenus. Cette analyse permet également d'alimenter le choix de création de classes au sein d'une variables admettant des modalités ayant un comportement similaire en termes de taux de fraude.
+
+\underline{L'agent va ensuite réaliser deux actions de manière autonome} :
+
+\begin{itemize}[label = $\bullet$]
+    \item Afficher le top3 des variables jugées comme les plus discriminantes au vu de la variable cible (affichage \textit{on Top})
+    \item Choisir la représentation la plus adaptée à la variable à étudier, notamment des camemberts pour les variables qui admettent un faible nombre de modalités et des diagrammes en barre pour les variables admettant un nombre plus important de modalités.
+\end{itemize}
+
+\textit{ICI METTRE CAPTURE D'ECRAN}
+
+L'affichage a volontairement été limité à 4 variables à la fois pour offrir une meilleure clarté à l'utilisateur. Afin de permettre à l'utilisateur de visualiser l'ensemble des variables, un choix d'affichage est disponible à droite sur simple clic.
+
+\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par "police\_id" par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
+
+L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
+
+\begin{itemize}[label = $\bullet$]
+    \item 
+\end{itemize}
 
 % --------------------------------------------------------------
 \subsection{Création de classes de variables}
@@ -530,7 +548,7 @@ En actuariat, elle contribue également à obtenir des groupes suffisamment homo
 
 Plusieurs approches peuvent être utilisées pour construire ces classes, parmi lesquelles les méthodes fondées sur des quantiles ou des intervalles de largeur constante, les méthodes de classification via l'algorithme des K-means ou encore une classification hiérarchique ascendante.
 
-Une présentation plus détaillée des principes théoriques et des principales méthodes de discrétisation est proposée en Annexe X. \textbf{METTRE LE LABEL AVEC LE MEMOIRE DE RACHEL}
+Une présentation plus détaillée des principes théoriques et des principales méthodes de discrétisation est proposée en Annexe \ref{sec:methodes-classification}
 
 Pour la suite des traitements, les variables suivantes ont été classifiées selon le découpage suivant :
 
@@ -587,7 +605,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
 \noindent Le détail du découpage de chaque variable est présenté ci-dessous.
 
 \begin{itemize}[label=$\bullet$]
-    \item La variable « \textbf{policy\_annual\_premium} » est quantitative et admet des valeurs comprises entre 600 et 1\,500 USD. Le choix de découpage pour la création de classes a été de créer cinq classes de valeur d'amplitudes égales, tout en s'assurant que chacune des classes créées admettait assez de volume (au minimum 5~\% de la base de sinistres testée).
+    \item La variable « \textbf{policy\_annual\_premium} » est quantitative et admet des valeurs comprises entre 600 et 1\,500 USD. Le choix de découpage pour la création de classes a été de créer cinq classes de valeur d'amplitudes égales, tout en s'assurant que chacune des classes créées admettait assez de volume (à minima 5~\% de la base de sinistres testée).
 \end{itemize}
 
 \begin{table}[H]
@@ -612,7 +630,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable policy\_annual\_premium}
     \label{tab:repartition-premium}
 \end{table}
 
@@ -636,7 +653,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable insured\_age}
     \label{tab:repartition-age}
 \end{table}
 
@@ -662,7 +678,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable incident\_hour\_of\_the\_day}
     \label{tab:repartition-hour}
 \end{table}
 
@@ -692,7 +707,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable total\_claim\_amount}
     \label{tab:repartition-claim}
 \end{table}
 
@@ -718,7 +732,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable insured\_days\_since\_last\_claim}
     \label{tab:repartition-days}
 \end{table}
 
@@ -742,7 +755,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable insured\_claim\_amount\_history}
     \label{tab:repartition-history}
 \end{table}
 
@@ -768,7 +780,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable policy\_age\_at\_incident\_days}
     \label{tab:repartition-policyage}
 \end{table}
 
@@ -796,7 +807,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable repairer\_fraud\_rate}
     \label{tab:repartition-repairerfraud}
 \end{table}
 
@@ -820,7 +830,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable repairer\_avg\_invoice\_vs\_market}
     \label{tab:repartition-invoice}
 \end{table}
 
@@ -844,7 +853,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable vehicle\_age\_years}
     \label{tab:repartition-vehicleage}
 \end{table}
 
@@ -870,7 +878,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable vehicle\_market\_value}
     \label{tab:repartition-marketvalue}
 \end{table}
 
@@ -898,7 +905,6 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable vehicle\_overvalue\_ratio}
     \label{tab:repartition-overvalue}
 \end{table}
 
@@ -924,15 +930,8 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
         \hline
     \end{tabularx}
-    \caption{Répartition des classes de la variable incident\_zip\_fraud\_rate}
     \label{tab:repartition-zipfraud}
 \end{table}
-
-
-% --------------------------------------------------------------
-\subsection{Analyse de la fréquence de la fraude}
-\label{subsec:analyse-frequence}
-% --------------------------------------------------------------
 
 
 % --------------------------------------------------------------
@@ -1032,17 +1031,43 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
     \label{fig:matrice-correlation1}
 \end{figure}
 
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation2.png}
-    \label{fig:matrice-correlation2}
-\end{figure}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{incident\_zip\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_is\_flagged}} \\
+        \hline
+        incident\_state & \textbf{1} & 0,02 & 0,02 \\
+        \hline
+        repairer\_avg\_invoice\_vs\_market & 0,01 & \textbf{0,97} & \textbf{0,62} \\
+        \hline
+    \end{tabularx}
+    \caption{V de Cramér --- Extrait de la matrice qualitative $\times$ qualitative}
+    \label{tab:cramer-extrait}
+\end{table}
 
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation3.png}
-    \label{fig:matrice-correlation3}
-\end{figure}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{repairer\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_avg\_invoice\_vs\_market}} & \textcolor{white}{\textbf{repairer\_is\_flagged}} & \textcolor{white}{\textbf{total\_claim\_amount}} \\
+        \hline
+        repairer\_nb\_claims\_total & \textbf{0,67} & 0,6 & 0,45 & 0 \\
+        \hline
+        repairer\_nb\_fraud\_confirmed & \textbf{0,7} & \textbf{0,85} & \textbf{0,78} & 0 \\
+        \hline
+        claim\_total & 0 & 0,01 & 0 & 0,77 \\
+        \hline
+    \end{tabularx}
+    \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives}\footnote{La variable "\textit{total\_claim\_amount}" est ici traitée}
+    \label{tab:eta-extrait}
+\end{table}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 
