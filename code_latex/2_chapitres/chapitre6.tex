@@ -109,21 +109,22 @@ Dans une logique d'amélioration continue, l'outil intègre un mécanisme de bou
 
 Comme l'illustre le schéma ci-dessus, lorsque l'utilisateur soumet un nouveau sinistre pour en estimer la probabilité de fraude, le dossier scoré rejoint la base historique. À ce stade, cette base ne contient toutefois pas encore l'information la plus précieuse pour le modèle : l'issue réelle du dossier. Savoir si un sinistre s'est effectivement révélé frauduleux n'est en effet connu qu'à l'issue de son instruction, souvent plusieurs semaines, voire plusieurs mois, après la déclaration. C'est ce constat qui structure la logique d'enrichissement retenue.
 
-Plutôt que de demander au gestionnaire de statuer immédiatement sur une fraude qu'il ne peut encore confirmer, l'outil lui permet de revenir à tout moment dans la base historique pour y renseigner le statut final d'un ou plusieurs sinistres (fraude avérée ou non). Cette dissociation entre le moment du \textit{scoring} et celui de la qualification reflète fidèlement la réalité opérationnelle de la gestion des sinistres, où le dénouement d'un dossier est par nature différé.
+Plutôt que de demander au gestionnaire de statuer immédiatement sur une fraude qu'il ne peut encore confirmer, l'outil lui permet de revenir à tout moment dans la base historique pour y renseigner le statut final d'un ou plusieurs sinistres (fraude avérée ou non). \textbf{Cette dissociation entre le moment du \textit{scoring} et celui de la qualification reflète fidèlement la réalité opérationnelle de la gestion des sinistres, où le dénouement d'un dossier est par nature différé.}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.55\textwidth]{images/chapitre6/renseignement_sinistre.png}
-    \caption{Feuille de renseignement d'un sinistre à l'issue d'une investigation}
+    \caption{Fiche de renseignement d'un sinistre à l'issue d'une investigation}
     \label{fig:renseignement-sinistre}
 \end{figure}
 
 Une fois cette issue renseignée, le sinistre concerné dispose d'un couple complet d'informations : ses caractéristiques d'entrée d'une part, et sa variable cible de fraude (\textit{fraud\_reported}) d'autre part. Il devient alors une observation exploitable pour l'apprentissage, au même titre que les données ayant servi à la construction initiale du modèle. C'est bien un statut binaire, et non une probabilité, qui alimente ainsi la base : un sinistre confirmé comme frauduleux après investigation est enregistré à 1, tandis qu'un sinistre investigué mais jugé finalement légitime est enregistré à 0. Le modèle ne se réentraîne donc que sur des cas dont l'issue est avérée, et non sur de simples suspicions, ce qui garantit la fiabilité de son apprentissage au fil du temps.
 
-A noter que \textbf{l'enrichissement de la base de données ne modifie pas le modèle de façon instantanée}. En effet le réentraînement s'effectue en repassant par le module de construction (Module 1), qui refait tourner le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est menée à intervalles de temps réguliers (, typiquement une fois par an), afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
+A noter que \textbf{l'enrichissement de la base de données ne modifie pas le modèle de façon instantanée}. En effet le réentraînement s'effectue en repassant par le module de construction (Module 1), qui refait tourner le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est à mener à intervalles de temps réguliers (, typiquement une fois par an), afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
 
 Cette approche présente plusieurs intérêts sur le plan actuariel. D'abord, elle permet d'augmenter la taille et la représentativité de la base d'apprentissage, en y intégrant des cas récents qui reflètent l'évolution des comportements frauduleux et des méthodes de fraude utilisées. Elle contribue ainsi à réduire le décalage entre les données historiques initiales et la réalité opérationnelle, dans un contexte où les schémas de fraude évoluent rapidement.
 
-Ensuite, ces nouvelles observations permettent un recalibrage et une réestimation réguliers du modèle : actualisation des paramètres, amélioration de la capacité de discrimination et, le cas échéant, réajustement de la pondération des variables. L'objectif est de maintenir dans le temps une performance prédictive stable, mesurée à l'aide d'indicateurs tels que l'AUC, le Gini ou les courbes de gains, et de surveiller l'absence de dérive du modèle (via le PSI notamment).
+Ensuite, ces nouvelles observations permettent un recalibrage et une réestimation réguliers du modèle : actualisation des paramètres, amélioration de la capacité de discrimination et, le cas échéant, réajustement de la pondération des variables. L'objectif est de maintenir dans le temps une performance prédictive stable, mesurée à l'aide d'indicateurs tels que l'AUC, le Gini ou les courbes de gains, et de surveiller l'absence de dérive du modèle (notamment via le \textbf{Population Stability Index}).
 
 Enfin, l'intégration systématique des issues réelles permet de mieux maîtriser certains biais inhérents aux dispositifs de détection, en particulier le biais de sélection lié aux dossiers investigués. En alimentant la base avec les décisions finales issues de l'ensemble des sinistres traités (et non des seuls dossiers ayant fait l'objet d'une alerte) le modèle gagne en robustesse et en cohérence.
 
@@ -133,18 +134,18 @@ Ainsi, l'outil ne se limite pas à une utilisation statique du modèle : il s'in
 \section{Rapport annuel de détection de fraude}
 % --------------------------------------------------------------
 
-Au-delà du \textit{scoring} individuel des sinistres, l'outil \textbf{intègre une fonctionnalité de pilotage} offrant une vision agrégée de la performance du dispositif sur une période donnée (paramétrable mais dans les faits, mensuelle ou annuelle). Lancé annuellement, il constitue la synthèse cumulative de l'activité de détection de fraudes : il s'appuie sur l'ensemble des sinistres testés dans l'outil pour obtention de score de fraude et les résultats des investigations renseignés. Ainsi, il permet de ressortir des indicateurs de volume (sur les dossiers traités) mais également économiques (fraude évitée en montant).
+Au-delà du \textit{scoring} individuel des sinistres, l'outil intègre \textbf{une fonctionnalité de pilotage} offrant une vision agrégée de la performance du dispositif sur une période donnée (paramétrable mais dans les faits, mensuelle ou annuelle). Lancé annuellement, il constitue la synthèse cumulative de l'activité de détection de fraudes : il s'appuie sur l'ensemble des sinistres testés dans l'outil pour obtention de score de fraude et les résultats des investigations renseignés. Ainsi, il permet de ressortir des indicateurs de volume (sur les dossiers traités) mais également économiques (fraude évitée en montant).
 
 Cette vue de synthèse répond à un besoin actuariel essentiel : ne pas se limiter à une utilisation opérationnelle au fil de l'eau, mais disposer d'indicateurs consolidés permettant d'évaluer et de justifier l'utilisation de l'outil et d'ajuster le dispositif mis en place dans le temps.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapitre6/rapport_annuel.png}
-    \caption{Exemple de rapport annuel de la détection de fraude}
+    \caption{Extrait du rapport annuel de la détection de fraude}
     \label{fig:rapport-annuel}
 \end{figure}
 
-Dans notre outil, différents indicateurs ont été mis en place :
+\underline{Dans notre outil, différents indicateurs ont été mis en place} :
 
 \begin{enumerate}
 
@@ -179,9 +180,9 @@ Le modèle développé présente un caractère dynamique et évolutif, essentiel
         \rowcolor{accenture}
         \textcolor{white}{\textbf{Élément de l'outil}} & \textcolor{white}{\textbf{Choix retenu dans ce mémoire}} & \textcolor{white}{\textbf{Alternatives / paramétrage possible}} \\
         \hline
-        Variables d'entrée & 54 variables (24 source + 29 enrichies) & Nombre et nature libres : l'outil s'adapte à tout jeu de variables, avec ou sans enrichissement \\
+        Variables d'entrée & 53 variables (24 variables source + 29 ajoutées pour enrichissement) & Nombre et nature libres : l'outil s'adapte à tout jeu de variables, avec ou sans enrichissement \\
         \hline
-        Enrichissement de la base & 30 variables simulées (historique, réparateur, tiers, véhicule, comportement déclaratif, géo-temporel) & Enrichissement facultatif et extensible ; d'autres axes peuvent être ajoutés selon les données réellement disponibles chez l'assureur \\
+        Enrichissement de la base & 29 variables simulées (historique, réparateur, tiers, véhicule, comportement déclaratif, géo-temporel) & Enrichissement facultatif et extensible ; d'autres axes peuvent être ajoutés selon les données réellement disponibles chez l'assureur \\
         \hline
         Modèles de détection & 3 modèles (\textit{scoring} en points, arbre de décision, Gradient \textit{Boosting}) & Architecture agnostique : tout autre modèle de classification (régression logistique, forêt aléatoire, réseau de neurones\ldots) peut être branché \\
         \hline

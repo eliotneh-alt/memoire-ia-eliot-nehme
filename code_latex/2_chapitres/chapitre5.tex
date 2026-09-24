@@ -321,6 +321,19 @@ Ces résultats sont cohérents avec la nature du modèle : sa simplicité et sa 
 \subsection{Limites et précautions d'interprétation}
 % --------------------------------------------------------------
 
+Malgré sa simplicité et son interprétabilité, le modèle de scoring en points présente plusieurs limites dont il convient de tenir compte. 
+
+\textbf{En premier lieu, le principe d'additivité et l'absence d'interactions.} En effet, le score suppose que les contributions des variables s'additionnent dans l'échelle des log-odds. Or la fraude se reconnaît souvent à des combinaisons de signaux (contrat récent + sinistre de nuit + absence de tiers identifié + véhicule en fin de vie par exemple). Chaque élément pris isolément est banal, c'est le croisement qui est suspect. Il faut créer les interactions à la main, donc les avoir devinées à l'avance.
+
+\textbf{De plus, il existe une perte d'information par le \textit{binning}.} En effet, le découpage en classes lisse les non-linéarités mais détruit de la granularité et introduit des effets de seuil : deux dossiers quasi identiques de part et d'autre d'une frontière (ex. 31 jours vs 29 jours après souscription par exemple) reçoivent des points différents. Les bornes sont aussi une source de surapprentissage si elles sont optimisées sur les mêmes données que les poids.
+
+Ce type de modèle est également \textbf{sensible aux biais présents dans les données historiques}, notamment les biais de sélection liés aux fraudes détectées (toutes les fraudes ne sont pas observées) et les biais d'investigation (certains dossiers étant plus contrôlés que d'autres). Ces biais peuvent affecter la cohérence du score et accentuer les défauts de classement.
+
+Pire encore, il existe \textbf{une limite dynamique, liée au contexte \textit{adversarial}}, c'est-à-dire le fait que les fraudeurs essaient toujours de « faire mieux » pour ne pas être identifiés. Les fraudeurs s'adaptent. Une grille figée se dégrade plus vite qu'un modèle de risque classique, et si elle fuite en interne ou vers un intermédiaire, elle devient contournable point par point. Il faudrait alors un \textit{backtesting} rapproché et non pas un suivi de dérive ou une simple révision annuelle.
+
+Ainsi, bien que le \textit{scoring} en points constitue un outil robuste et interprétable, il doit être utilisé avec prudence, notamment lorsqu'il s'agit de hiérarchiser finement le risque de fraude ou d'interpréter le score comme une mesure probabiliste. Un suivi régulier de la performance (courbes de gains, lift, analyse par déciles) est nécessaire pour s'assurer que le modèle conserve une capacité de discrimination cohérente dans le temps.
+
+
 % ==============================================================
 \section{Arbre de décision}
 % ==============================================================
@@ -336,9 +349,6 @@ Cette section présente l'utilisation de la modélisation via un « arbre de dé
 % --------------------------------------------------------------
 \subsection{Résultats du modèle}
 % --------------------------------------------------------------
-
-\textit{TROUVER UNE LIMITE}
-
 
 L'arbre construit admet les paramètres suivants :
 

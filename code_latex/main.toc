@@ -18,8 +18,8 @@
 \contentsline {subsection}{\numberline {1.4.1}L'ampleur du marché de la fraude}{7}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}Impact de la fraude sur la tarification}{9}{subsection.1.4.2}%
 \contentsline {subsubsection}{\numberline {1.4.2.1}Modèle tarifaire usuel en assurance non-vie et biais statistiques}{9}{subsubsection.1.4.2.1}%
-\contentsline {subsubsection}{\numberline {1.4.2.2}Conséquence de la fraude sur la prime pure}{10}{subsubsection.1.4.2.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.3}L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}{11}{subsubsection.1.4.2.3}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}Conséquence de la fraude sur la prime pure}{9}{subsubsection.1.4.2.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}{10}{subsubsection.1.4.2.3}%
 \contentsline {subsubsection}{\numberline {1.4.2.4}L'automatisation de la détection de la fraude comme levier de rentabilité}{11}{subsubsection.1.4.2.4}%
 \contentsline {chapter}{\numberline {2}La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA}{13}{chapter.2}%
 \contentsline {section}{\numberline {2.1}L'approche traditionnelle : une détection manuelle et ciblée}{13}{section.2.1}%
@@ -70,8 +70,8 @@
 \contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{64}{subsection.5.1.1}%
 \contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{71}{subsection.5.1.2}%
 \contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{74}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Arbre de décision}{74}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{74}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.2}Arbre de décision}{75}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{75}{subsection.5.2.1}%
 \contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{79}{subsection.5.2.2}%
 \contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{83}{subsection.5.2.3}%
 \contentsline {section}{\numberline {5.3}Un modèle de Machine learning : le Gradient Boosting}{83}{section.5.3}%
@@ -90,8 +90,7 @@
 \contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{107}{section.7.3}%
 \contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{107}{subsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{108}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{110}{section.7.4}%
-\contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{111}{section.7.5}%
-\contentsline {section}{\textbf {Conclusion}}{111}{section.7.5}%
-\contentsline {chapter}{Annexes}{113}{chapter*.7}%
-\contentsline {section}{Méthodes de classification}{113}{section*.8}%
+\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et extension à une approche multiproduit}{110}{section.7.4}%
+\contentsline {chapter}{\textbf {Conclusion}}{112}{chapter*.7}%
+\contentsline {chapter}{Annexes}{114}{chapter*.8}%
+\contentsline {section}{Méthodes de classification}{114}{section*.9}%

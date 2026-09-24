@@ -40,7 +40,7 @@ Le principe de non-enrichissement joue également un rôle central dans la lutte
 
 \underline{Plusieurs dispositions viennent renforcer cette protection :}
 
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
     \item \textbf{Article L.113-2} : obligation pour l'assuré de répondre exactement aux questions posées lors de la souscription et de déclarer sincèrement le sinistre ;
     \item \textbf{Article L.113-8} : nullité du contrat en cas de réticence ou fausse déclaration intentionnelle ;
     \item \textbf{Article L.113-9} : réduction proportionnelle de l'indemnité en cas de déclaration inexacte non intentionnelle.
@@ -275,11 +275,11 @@ En pratique, la mise en œuvre de ces sanctions suppose toutefois que la fraude 
 \subsection{Preuve de la fraude et sanctions pénales}
 % --------------------------------------------------------------
 
-La mise en œuvre des sanctions contractuelles suppose, en premier lieu, que la fraude soit prouvée. En droit des assurances comme en droit commun, la fraude ne se présume pas. Il appartient donc à l'assureur d'établir l'existence de manœuvres intentionnelles destinées à obtenir un avantage indu. Cette exigence probatoire est particulièrement importante, car une simple incohérence ou une approximation dans les déclarations de l'assuré ne suffit pas, à elle seule, à caractériser une fraude.
+La mise en œuvre des sanctions contractuelles suppose, en premier lieu, que la fraude soit prouvée. En droit des assurances comme en droit commun, la fraude ne se présume pas. \textbf{Il appartient donc à l'assureur d'établir l'existence de manœuvres intentionnelles destinées à obtenir un avantage indu.} Cette exigence probatoire est particulièrement importante, car une simple incohérence ou une approximation dans les déclarations de l'assuré ne suffit pas, à elle seule, à caractériser une fraude.
 
 La preuve peut être rapportée par tout moyen et résulte souvent, en pratique, d'un faisceau d'indices graves, précis et concordants. Il peut s'agir, par exemple, d'incohérences entre les déclarations successives, d'anomalies documentaires, de contradictions entre les circonstances déclarées et les constatations matérielles, ou encore de rapprochements opérés à partir d'historiques de sinistres et de données comportementales.
 
-Cette dimension probatoire explique le recours croissant, chez les assureurs, à des dispositifs spécialisés d'investigation, à l'analyse de données et à des modèles de scoring destinés à hiérarchiser les dossiers les plus suspects, sans pour autant se substituer à l'appréciation humaine.
+\textbf{Cette dimension probatoire explique le recours croissant, chez les assureurs, à des dispositifs spécialisés d'investigation, à l'analyse de données et à des modèles de scoring destinés à hiérarchiser les dossiers les plus suspects, sans pour autant se substituer à l'appréciation humaine.}
 
 Au-delà des conséquences contractuelles, certaines fraudes à l'assurance peuvent également recevoir une qualification pénale. Lorsque l'assuré use de manœuvres frauduleuses afin de tromper l'assureur pour obtenir la remise de fonds, les faits peuvent relever de l'escroquerie au sens de l'article~313-1 du Code pénal.
 
@@ -317,11 +317,11 @@ Le volume de sinistres étant très important, il n'est pas envisageable de vér
 \end{table}
 \footnotetext{\url{https://www.franceassureurs.fr/wp-content/uploads/20260325_presentation-conference-de-presse-2.pdf}}
 
-Ainsi, la profession s'est structurée autour de l'ALFA (Agence de Lutte contre la Fraude à l'Assurance).
+Ainsi, la profession s'est structurée autour de l'\textbf{ALFA} (Agence de Lutte contre la Fraude à l'Assurance).
 
 Créée en février 1989, cette association professionnelle a pour mission d'accompagner les assureurs français dans la prévention et la détection des fraudes. Elle agit comme un véritable carrefour d'informations, centralisant les données, formant les gestionnaires et collaborant avec les pouvoirs publics (notamment le ministère de l'Intérieur) pour endiguer ce phénomène.
 
-La fraude à l'assurance est un phénomène complexe à quantifier avec précision, car par nature, une grande partie reste non détectée. Au niveau européen, la fédération Insurance Europe estime que la fraude représente jusqu'à 10~\% du coût total des sinistres\footnote{\url{https://www.insuranceeurope.eu/mediaitem/0bf0af82-e7ef-4439-a763-d7862859d421/The+impact+of+insurance+fraud.pdf}}. En France, selon les estimations de la Fédération Française de l'Assurance et de l'ALFA, le coût global de la fraude s'élèverait à environ 2,5~milliards d'euros par an, soit environ 5~\% du niveau d'encaissement des primes\footnote{\url{https://www.argusdelassurance.com/institutions/fraude-a-l-assurance-une-facture-de-2-5-md-en-dommages-en-2014-alfa.96060}}.
+La fraude à l'assurance est un phénomène complexe à quantifier avec précision, car par nature, une grande partie reste non détectée. Au niveau européen, la fédération \textit{Insurance Europe} estime que la fraude représente jusqu'à 10~\% du coût total des sinistres\footnote{\url{https://www.insuranceeurope.eu/mediaitem/0bf0af82-e7ef-4439-a763-d7862859d421/The+impact+of+insurance+fraud.pdf}}. En France, selon les estimations de la Fédération Française de l'Assurance et de l'ALFA, le coût global de la fraude s'élèverait à environ 2,5~milliards d'euros par an, soit environ 5~\% du niveau d'encaissement des primes\footnote{\url{https://www.argusdelassurance.com/institutions/fraude-a-l-assurance-une-facture-de-2-5-md-en-dommages-en-2014-alfa.96060}}.
 
 Les montants identifiés sont ainsi passés de 695~millions d'euros en 2023 à 902~millions d'euros en 2024 (+30~\%) et 947~millions d'euros en 2025 (+5~\%).
 
@@ -365,36 +365,12 @@ La Prime Pure (PP) est modélisée par le produit de l'espérance de la fréquen
     PP = \mathbb{E}[N] \times \mathbb{E}[C]
 \end{equation}
 
-L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour calibrer ces modèles tarifaires (que ce soit via des GLM traditionnels ou des algorithmes de Machine Learning comme XGBoost) :
+L'absence de détection de la fraude introduit un biais systématique dans les bases de données utilisées pour calibrer ces modèles tarifaires (que ce soit via des GLM traditionnels ou des algorithmes de \textit{Machine Learning} comme XGBoost) :
 
-\begin{table}[H]
-    \centering
-    \renewcommand{\arraystretch}{1.3}
-    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{2.4cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
-        \hline
-        \rowcolor{accenture}
-        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{Assurance automobile}} & \textcolor{white}{\textbf{Assurance habitation}} \\
-        \hline
-        \textbf{Fraude liée aux conditions générales}
-        & \begin{itemize}[leftmargin=1.2em, nosep, label=$\bullet$]
-            \item \textbf{Requalification d'un usage exclu} : déclarer un sinistre survenu dans un cadre privé alors que le véhicule était utilisé à titre professionnel, afin de bénéficier de la garantie.
-            \item \textbf{Déclaration inexacte des circonstances du vol} : affirmer que les clés n'étaient pas laissées dans le véhicule ou à proximité, afin d'éviter l'application d'une exclusion.
-            \item \textbf{Manipulation des circonstances du sinistre} : faire passer une panne mécanique ou un défaut d'entretien pour un dommage accidentel couvert par le contrat.
-            \item \textbf{Fausse qualité du conducteur au moment du sinistre} : déclarer que le véhicule était conduit par un conducteur autorisé alors qu'il était utilisé par une personne exclue ou non déclarée.
-            \item \textbf{Contournement d'une franchise ou d'un plafond} : fractionner artificiellement un dommage ou modifier sa nature pour obtenir une meilleure prise en charge contractuelle.
-          \end{itemize}
-        & \begin{itemize}[leftmargin=1.2em, nosep, label=$\bullet$]
-            \item \textbf{Fausse déclaration d'effraction} : présenter un vol simple comme un vol avec effraction pour satisfaire à la condition contractuelle de garantie.
-            \item \textbf{Transformation d'un défaut d'entretien en événement accidentel} : présenter une infiltration progressive ou un défaut d'étanchéité comme un dégât des eaux soudain et garanti.
-            \item \textbf{Dissimulation de l'inoccupation du logement} : omettre que le logement était vacant au-delà de la durée prévue par le contrat au moment du sinistre.
-            \item \textbf{Requalification d'un bien exclu en bien garanti} : déclarer comme mobilier assuré un objet relevant d'une exclusion ou nécessitant une garantie spécifique.
-            \item \textbf{Mise en scène d'un dommage garanti} : présenter un dommage esthétique, ancien ou non garanti comme consécutif à un événement couvert (incendie, dégât des eaux, vol).
-          \end{itemize} \\
-        \hline
-    \end{tabularx}
-    \caption{Exemples de fraude liée aux conditions générales en assurance non-vie}
-    \label{tab:fraude-cg}
-\end{table}
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Impact sur la fréquence (N) :} La fraude opportuniste ou préméditée (déclaration de sinistres imaginaires) augmente artificiellement le nombre de sinistres dans le portefeuille.
+    \item \textbf{Impact sur le coût moyen (C) :} La majoration de dommages (ajout d'éléments fictifs sur une facture réelle) gonfle la sévérité moyenne des sinistres.
+\end{itemize}
 
 Si l'actuaire calibre ses modèles sur ces données polluées, il surestime le risque réel du portefeuille sain. La prime demandée aux assurés honnêtes augmente, ce qui dégrade la compétitivité de l'assureur sur le marché.
 
@@ -443,7 +419,7 @@ où $\alpha$ est estimé entre 5~\% et 10~\% du volume des prestations selon les
     \label{tab:levier-fraude}
 \end{table}
 
-Il faut souligner que l'effet de la fraude sur la tarification ne se limite pas à une hausse mécanique de la prime pure. Il se propage également aux chargements de gestion, dans la mesure où la lutte contre la fraude mobilise des ressources d'expertise, de contrôle et de contentieux.
+Il faut souligner que l'effet de la fraude sur la tarification ne se limite pas à une hausse mécanique de la prime pure. Il se propage également aux \textbf{chargements de gestion}, dans la mesure où la lutte contre la fraude mobilise des ressources d'expertise, de contrôle et de contentieux.
 
 En outre, une répercussion trop importante de ces coûts dans les primes commerciales peut nuire à la compétitivité de l'assureur et accentuer les phénomènes d'anti-sélection, en éloignant les assurés les moins risqués du portefeuille.
 
@@ -451,7 +427,7 @@ De plus, un enjeu central réside dans le fait que la fraude peut fausser la seg
 
 En effet, certaines variables explicatives peuvent apparaître comme fortement corrélées à la sinistralité observée non pas en raison d'un risque assurantiel intrinsèque plus élevé, mais parce qu'elles sont associées à une fréquence accrue de comportements frauduleux ou à des modalités de détection différenciées. L'actuaire court alors le risque d'intégrer dans la tarification des effets qui relèvent moins du risque pur que de distorsions comportementales ou informationnelles.
 
-Inversement, l'amélioration des dispositifs de détection permet d'assainir les bases historiques servant à la modélisation actuarielle. À terme, une meilleure identification des dossiers frauduleux contribue à restaurer une mesure plus fidèle du risque technique, à améliorer la segmentation tarifaire et à limiter le transfert de charge vers les assurés honnêtes. La lutte contre la fraude devient ainsi non seulement un levier de réduction des pertes, mais également un instrument de qualité tarifaire.
+Inversement, l'amélioration des dispositifs de détection permet d'assainir les bases historiques servant à la modélisation actuarielle. À terme, une meilleure identification des dossiers frauduleux contribue à restaurer une mesure plus fidèle du risque technique, à améliorer la segmentation tarifaire et à limiter le transfert de charge vers les assurés honnêtes. \textbf{La lutte contre la fraude devient ainsi non seulement un levier de réduction des pertes, mais également un instrument de qualité tarifaire.}
 
 % --------------------------------------------------------------
 \subsubsection{L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}
@@ -467,7 +443,7 @@ Soit $C_{\text{invest}}$ le coût moyen d'une investigation et $M_{\text{sinistr
     M_{\text{sinistre}} \times P(\text{Fraude} \mid \text{Alerte}) > C_{\text{invest}}
 \end{equation}
 
-où $P(\text{Fraude} \mid \text{Alerte})$ représente la précision du modèle de détection (la probabilité que l'alerte soit réellement fondée).
+Où $P(\text{Fraude} \mid \text{Alerte})$ représente la précision du modèle de détection (la probabilité que l'alerte soit réellement fondée).
 
 Sur le marché IARD français, une expertise automobile classique coûte entre 70~\euro{} et 400~\euro{} par dossier\footnote{Source : Service public.}, tandis qu'une investigation spécialisée (enquêteur certifié ALFA) peut rapidement dépasser les 1~000~\euro{}, les honoraires étant libres et dépendant fortement du type de sinistre.
 
@@ -481,17 +457,17 @@ C'est sur cette « fraude de masse », de faible montant, que le modèle traditi
 
 En effet, à date, avec la digitalisation, on observe une hausse des tentatives de fraude, notamment au travers de falsifications numériques et de retouches d'image\footnote{La fraude documentaire (faux certificats, fausses factures, photos retouchées) est en explosion et représente désormais 39~\% des cas de fraude détectés en IARD (source : \url{https://www.itesoft.com/fr/blog/fraude-assurance-chiffres-cles-alfa/}).}.
 
-En parallèle, l'amélioration des outils tels que la Data analytics, la détection d'anomalies, l'analyse d'image ou le Cross-checking de bases externes permet d'améliorer le taux de détection des fraudes.
+En parallèle, l'amélioration des outils tels que la \textit{Data analytics}, la détection d'anomalies, l'analyse d'image ou le Cross-checking de bases externes permet d'améliorer le taux de détection des fraudes.
 
-Néanmoins, malgré l'amélioration des méthodes de détection de fraude, la fraude documentaire reste un poste matériel dans le coût technique global. En mettant en place des méthodes de détection de fraude automatiques (algorithmes de scoring, IA etc.), l'assureur réduit drastiquement le coût de traitement et de ciblage des fraudes.
+Néanmoins, malgré l'amélioration des méthodes de détection de fraude, la fraude documentaire reste un poste matériel dans le coût technique global. En mettant en place des méthodes de détection de fraude automatiques (algorithmes de \textit{scoring}, IA etc.), l'assureur réduit drastiquement le coût de traitement et de ciblage des fraudes.
 
 Le coût marginal de vérification s'approchant de zéro, il devient alors rentable d'investiguer des sinistres de plus faible montant, assainissant ainsi la base de sinistralité et protégeant l'équilibre de la prime.
 
-C'est précisément dans la réponse à ce défi opérationnel et financier que s'inscrit l'objectif central de ce mémoire. En effet, les ambitions des travaux de ce mémoire sont de concevoir et déployer un processus de détection automatisé des fraudes de bout en bout.
+\textbf{C'est précisément dans la réponse à ce défi opérationnel et financier que s'inscrit l'objectif central de ce mémoire. En effet, les ambitions des travaux de ce mémoire sont de concevoir et déployer un processus de détection automatisé des fraudes de bout en bout.}
 
 Il convient toutefois de circonscrire d'emblée le périmètre de cette détection. Notre démarche ne porte pas sur la fraude documentaire (falsification de factures, de devis ou d'attestations) ni sur la fraude relevant de l'analyse d'images (clichés retouchés ou détournés), faute de disposer des bases de données documentaires et photographiques nécessaires à l'entraînement de tels modèles.
 
-L'approche retenue se concentre au contraire sur la fraude circonstancielle, c'est-à-dire celle qui se révèle à travers les caractéristiques mêmes du sinistre et de l'assuré : nature et chronologie de la déclaration, antécédents et historique du contrat, profil du déclarant, cohérence entre les circonstances rapportées et les paramètres du sinistre, ou encore récurrence de signaux faibles susceptibles de trahir une intention frauduleuse.
+L'approche retenue se concentre au contraire sur la \textbf{fraude circonstancielle}, c'est-à-dire celle qui se révèle à travers les caractéristiques mêmes du sinistre et de l'assuré : nature et chronologie de la déclaration, antécédents et historique du contrat, profil du déclarant, cohérence entre les circonstances rapportées et les paramètres du sinistre, ou encore récurrence de signaux faibles susceptibles de trahir une intention frauduleuse.
 
 Cette orientation présente l'avantage de s'appuyer exclusivement sur des données structurées déjà disponibles dans les systèmes de gestion de l'assureur, ce qui en fait un levier à la fois exploitable, reproductible et directement intégrable au processus d'instruction des sinistres.
 

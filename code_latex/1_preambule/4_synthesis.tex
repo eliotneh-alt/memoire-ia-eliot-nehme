@@ -11,7 +11,7 @@
 % ==============================================================
 
 Risk pooling is a cornerstone of insurance and presupposes a relationship of trust between insurer and policyholder, which fraud subverts.
-In non-life insurance, this phenomenon is estimated to generate annual losses of approximately €2.5 billion in France, equivalent to nearly 5\% of premium income, a substantial share of which remains undetected. Beyond its direct cost, fraud adds approximately €50 to the premium paid by every honest policyholder for each motor insurance contract and, in the long term, undermines the solidarity underpinning risk pooling.
+In non-life insurance, this phenomenon is estimated to generate annual losses of approximately \euro{}~2.5 billion in France, equivalent to nearly 5\% of premium income, a substantial share of which remains undetected. Beyond its direct cost, fraud adds approximately \euro{}~50 to the premium paid by every honest policyholder for each motor insurance contract and, in the long term, undermines the solidarity underpinning risk pooling.
 
 Traditional approaches to combating fraud, based on the judgement of claims handlers and the intervention of specialised units, have now reached their limits. They allow only a fraction of claims to be reviewed, depend heavily on investigators' individual expertise, and face a difficult economic constraint: the cost of a manual investigation makes the review of low-value fraud-although the most widespread form, economically unviable. This observation gave rise to the present thesis, which sets out the step-by-step design and implementation of an automated motor insurance fraud-detection process supported by an artificial intelligence agent and covering the entire workflow, from data ingestion to system monitoring, against a backdrop in which similar tools have emerged on the market in recent years.
 
@@ -34,24 +34,6 @@ The agent's construction logic is governed by a prompt broken down into successi
 \textbf{Results :} The descriptive analysis identifies the principal determinants of fraud: the central role of the repairer environment, the policyholder's history of fraud, the consistency of the claim declaration, and the ratio of the repair invoice to the market price.
 
 A counter-intuitive finding emerges : fraud is not concentrated among the most costly claims, which fully justifies the use of a multivariate approach. Three models are therefore developed and compared according to the trade-off between interpretability and performance; their results are summarised below.
-
-\bigskip
-
-\noindent\textbf{Context and positioning:} The dissertation opens with a characterisation of insurance fraud, its typologies (opportunistic or organised, at underwriting or at the claim stage) and its legal framework, before establishing its economic stakes. The value of a detection system is not measured by its statistical performance alone, but by the claims burden it helps to avoid: this economic grounding, formalised through the notion of expected unit gain, constitutes the guiding thread of the work and justifies the fact that the choice of the model's parameters ultimately stems from a cost-benefit trade-off. The dissertation then provides an overview of detection methods, contrasting traditional manual approaches with the contributions of artificial intelligence, leading to a conviction that shapes the rest of the work: far from replacing human expertise, AI must be combined with it in a logic of complementarity, where the algorithm filters and prioritises while the human investigates and decides.
-
-\bigskip
-
-\noindent\textbf{Theoretical framework:} The methodological section presents the supervised models retained (from points-based scoring to logistic regression, through decision trees and ensemble methods such as Gradient Boosting), as well as the unsupervised approaches available for organised fraud (anomaly detection, clustering, graph analysis). Particular attention is paid to evaluation criteria suited to strong class imbalance: in a population where fraud is rare, standard indicators such as the overall accuracy rate become misleading, and should be replaced by the AUC-ROC, the Gini coefficient, the Kolmogorov-Smirnov statistic, precision, recall or the PR-AUC. This section finally stresses the requirements of governance, interpretability and regulatory compliance (GDPR, AI Act) framing the deployment of such models.
-
-\bigskip
-
-\noindent\textbf{Tool design:} The core of the dissertation is devoted to the concrete implementation of the motor-insurance fraud detection tool. The approach is deliberately confined to circumstantial fraud, detectable from structured data: claim characteristics, history of the policyholder and other parties involved, and consistency of the declaration. It draws on a public database of 30,000 motor claims and 24 variables, with a fraud rate of 11.5~\%. The database is then enriched with thirty additional variables, simulated by artificial intelligence, so as to reproduce the information actually available to an insurer (in particular the history of the repairer, the third party and the vehicle, declarative behaviour, and the geographical and temporal dimensions).
-
-The tool is structured into two modules, corresponding to two clearly distinct user profiles as well as two usage timeframes. The first tool, intended for actuaries, handles the construction of the model: standardised data ingestion, automated auditing of data quality, descriptive statistical analyses, construction of the fraud prediction models and selection of the most performant model with respect to the defined quality criteria. The second tool, this time intended for claims handlers, exploits the previously calibrated model without exposing its complexity, nor even its inner workings: for each new claim entered, it returns a fraud probability and directs the handler towards a risk zone determining the level of investigation.
-
-The logic used to build the agent is driven by a prompt broken down into successive steps, which reproduces the actuarial approach and guarantees the traceability of every link in the chain.
-
-\noindent\textbf{Results:} The descriptive analysis brings out the major drivers of fraud: the central role of the repairer's environment, the policyholder's history of fraud, the consistency of the declaration, and the ratio between the repair invoice and the market price. A counter-intuitive finding emerges: fraud does not concern the most costly claims, which fully justifies the use of a multivariate approach. Three models are then built and compared along an interpretability-versus-performance trade-off, the results of which are summarised below.
 
 \begin{table}[H]
     \centering
@@ -141,7 +123,7 @@ Cases are accordingly divided into three risk categories: a green category for l
     \label{fig:tableau-proba-en}
 \end{figure}
 
-The system is further complemented by a continuous enrichment loop. Once a case investigation has been completed, its actual outcome (confirmed fraud or no fraud) is recorded as a binary value. Only claims whose outcomes have thus been established are added to the training dataset, enabling the model to be recalibrated on confirmed cases and to track changes in fraudulent behaviour. A monitoring report continuously presents the tool’s added value through key performance indicators, including the amount of fraud avoided through the tool, the effect on the claims-to-premiums ratio, and the return on investment (ROI).
+The system is further complemented by a continuous enrichment loop. Once a case investigation has been completed, its actual outcome (confirmed fraud or no fraud) is recorded as a binary value. Only claims whose outcomes have thus been established are added to the training dataset, enabling the model to be recalibrated on confirmed cases and to track changes in fraudulent behaviour. A monitoring report continuously presents the tool's added value through key performance indicators, including the amount of fraud avoided through the tool, the effect on the claims-to-premiums ratio, and the return on investment (ROI).
 
 Although the fraud-detection process is largely automated using artificial intelligence, every stage remains subject to human oversight. The agent prioritises and routes cases but does not issue any adverse decision automatically; investigation and the final decision always remain the responsibility of the investigator, in accordance with Article 22 of the GDPR and the AI Act.
 
