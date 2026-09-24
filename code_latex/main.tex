@@ -53,7 +53,7 @@
 \definecolor{rouge}{HTML}{FF0000}    % Nom (FR) - rouge : pour les phrases
 \usetikzlibrary{positioning, shapes.geometric, arrows.meta, shapes.misc, backgrounds, fit, shadows}
 \usetikzlibrary{shapes, arrows, positioning}
-\setlist[itemize]{itemsep=8pt, topsep=2pt} % Applique ces réglages à toutes les listes itemize
+\setlist[itemize]{itemsep=2pt, topsep=2pt} % Applique ces réglages à toutes les listes itemize
 \setcounter{secnumdepth}{3} %pour que le niveau 3 (subsubsection soit numeroté)
 \setcounter{tocdepth}{2} %pour que le niveau 2 (subsection apparaisse dans la table des matieres)
 % Personnalisation des titres de chapitres
@@ -69,10 +69,16 @@
 % --- 1. Apparence des titres (police, taille, gras...) ---
 
 \titleformat{\chapter}[display]
-  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
-  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
-  {\Huge} % Taille de la police pour le titre du chapitre
+  {\normalfont\Huge\bfseries}
+  {\chaptertitlename\ \thechapter}
+  {15pt}
+  {\Huge}
+
+\titlespacing*{\chapter}
+  {0pt}
+  {0pt}
+  {20pt}
+
 
 \titleformat{\section}
   {\normalfont\LARGE\bfseries} % Police grande et en gras
@@ -98,19 +104,19 @@
 % Syntaxe : \titlespacing*{commande}{gauche}{AVANT}{APRES}
 
 \titlespacing*{\section}
-  {0pt}      % gauche
-  {10ex}      % avant (l'espace que vous vouliez ajouter)
-  {3ex}    % après
+  {0pt}
+  {4ex}
+  {2ex}
 
 \titlespacing*{\subsection}
-  {0pt}      % gauche
-  {6ex}    % avant
-  {2.5ex}    % après
+  {0pt}
+  {3ex}
+  {1.5ex}
 
 \titlespacing*{\subsubsection}
-  {0pt}      % gauche
-  {4ex}   % avant
-  {2.5ex}    % après
+  {0pt}
+  {2ex}
+  {1ex}
 
 \pgfplotsset{compat=1.14}
 
@@ -127,7 +133,7 @@
 \restoregeometry % Restaurer la géométrie précédente avant de la redéfinir pour le reste du document.
 
 % Redéfinir la géométrie pour le reste du document après la page de garde
-\newgeometry{left=2.54cm,right=2.54cm,top=3.54cm,bottom=3.54cm}
+\newgeometry{left=2cm,right=2cm,top=2cm,bottom=3cm}
 \onehalfspacing
 % Augmenter headheight pour accommoder des logos plus grands
 \setlength{\headheight}{50pt} % Ajusté pour des logos de 1.6cm de hauteur
@@ -162,9 +168,9 @@
 
 % IMPORTANT: Ensure all included .tex files exist in the specified paths
 % and do not contain LaTeX errors themselves!
+\include{1_preambule/2_remerciements}
 \include{1_preambule/0_resume}
 \include{1_preambule/1_abstract}
-\include{1_preambule/2_remerciements}
 \include{1_preambule/3_synthese}
 \include{1_preambule/4_synthesis}
 
@@ -174,12 +180,12 @@
 
 \include{1_preambule/5_introduction}
 
-\titleformat{\chapter}[display]
-  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
-  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
-  {\Huge} % Taille de la police pour le titre du chapitre
-%  [\vfill\newpage] % Reste de la page vide et saut de page
+% \titleformat{\chapter}[display]
+%   {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
+%   {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+%   {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
+%   {\Huge} % Taille de la police pour le titre du chapitre
+% %  [\vfill\newpage] % Reste de la page vide et saut de page
 
 \include{2_chapitres/chapitre1}
 \include{2_chapitres/chapitre2}
@@ -189,11 +195,11 @@
 \include{2_chapitres/chapitre6}
 \include{2_chapitres/chapitre7}
 
-\titleformat{\chapter}[display]
-  {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
-  {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
-  {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
-  {\Huge} % Taille de la police pour le titre du chapitre
+% \titleformat{\chapter}[display]
+%   {\normalfont\Huge\bfseries} % Apparence générale : gras et centré
+%   {\vspace*{25pt}\chaptertitlename\ \thechapter} % Espace au-dessus + Texte "Chapitre X"
+%   {25pt} % Espace vertical entre "Chapitre X" et le titre du chapitre
+%   {\Huge} % Taille de la police pour le titre du chapitre
   
 \include{3_epilogue/annexes}
 \include{3_epilogue/bibliographie}

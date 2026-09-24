@@ -1,5 +1,4 @@
 \chapter*{Synthèse}
-% Ajouter manuellement cette section à la table des matières
 \addcontentsline{toc}{chapter}{Synthèse}
 
 %   \usepackage{booktabs}   % pour \toprule \midrule \bottomrule
@@ -23,40 +22,46 @@ La lutte traditionnelle contre ce phénomène, fondée sur le jugement des gesti
 
 \bigskip
 
-\noindent\textbf{Cadre théorique :} La partie méthodologique présente les modèles supervisés retenus (du scoring en points à la régression logistique, en passant par les arbres de décision et les méthodes d'ensemble comme le Gradient Boosting), ainsi que les approches non supervisées mobilisables pour la fraude organisée (détection d'anomalies, clustering, analyse de graphes). Une attention particulière est portée aux critères d'évaluation adaptés au fort déséquilibre des classes : dans une population où la fraude est rare, les indicateurs usuels comme le taux de bonne classification deviennent trompeurs, et l'on doit leur préférer l'AUC-ROC, le coefficient de Gini, la statistique de Kolmogorov-Smirnov, la précision, le rappel ou la PR-AUC. Cette partie insiste enfin sur les exigences de gouvernance, d'interprétabilité et de conformité réglementaire (RGPD, AI Act) encadrant le déploiement de tels modèles.
+\noindent\textbf{Cadre théorique :} La partie méthodologique présente les modèles supervisés retenus (du \textit{scoring} en points à la régression logistique, en passant par les arbres de décision et les méthodes d'ensemble comme le Gradient \textit{Boosting}), ainsi que les approches non supervisées mobilisables pour la fraude organisée (détection d'anomalies, \textit{clustering}, analyse de graphes). Une attention particulière est portée aux critères d'évaluation adaptés au fort déséquilibre des classes : dans une population où la fraude est rare, les indicateurs usuels comme le taux de bonne classification deviennent trompeurs, et l'on doit leur préférer l'AUC-ROC, le coefficient de Gini, la statistique de Kolmogorov-Smirnov, la précision, le rappel ou la PR-AUC. Cette partie insiste enfin sur les exigences de gouvernance, d'interprétabilité et de conformité réglementaire (RGPD, AI Act) encadrant le déploiement de tels modèles.
 
 \bigskip
 
-\noindent\textbf{Conception de l'outil :} Le cœur du mémoire est consacré à la mise en œuvre concrète l'outil d'aide à la détection de fraude en assurance automobile. La démarche est volontairement circonscrite à la fraude circonstancielle, décelable à partir de données structurées : caractéristiques du sinistre, antécédents de l'assuré et des intervenants, cohérence de la déclaration. Elle s'appuie sur une base publique de 30~000 sinistres automobiles et 24 variables, présentant un taux de fraude de 11,5~\%. La base est ensuite enrichie de trente variables supplémentaires, simulées par l'intelligence artificielle, de manière à reproduire l'information réellement disponible chez un assureur (notamment l'historique du réparateur, du tiers et du véhicule, comportement déclaratif, dimension géographique et temporelle). 
+\noindent\textbf{Conception de l'outil :} Le cœur du mémoire est consacré à la mise en œuvre concrète l'outil d'aide à la détection de fraude en assurance automobile. La démarche est volontairement circonscrite à la fraude circonstancielle, décelable à partir de données structurées : caractéristiques du sinistre, antécédents de l'assuré et des intervenants, cohérence de la déclaration. Elle s'appuie sur une base publique de 30~000 sinistres automobiles et vingt-quatre variables, présentant un taux de fraude de 11,5~\%. La base est ensuite enrichie de vingt-neuf variables supplémentaires, simulées par l'intelligence artificielle, de manière à reproduire l'information réellement disponible chez un assureur (notamment l'historique du réparateur, du tiers et du véhicule, comportement déclaratif, dimension géographique et temporelle). 
 
-L'outil se structure en deux modules, correspondant à deux profils d'utilisateurs bien distrincts ainsi qu'à deux temporalités d'utilisation. Le premier outil, destiné aux actuaires, prend en charge la construction du modèle : ingestion standardisée des données, audit automatisé de la qualité de ces dernières, analyses statistiques descriptives, construction des modèles de prédiction de fraude et sélection du modèle le plus performant au regard des critères de qualité définis. Le second outil, cette fois ci destiné aux gestionnaires de sinistres, exploite le modèle précedemment calibré sans en exposer la complexité, ni même le fonctionnement : pour chaque nouveau dossier de sinistre renseigné, il restitue une probabilité de fraude et oriente le gestionnaire vers une zone de risque conditionnant le niveau d'investigation.
+L'outil se structure en deux modules, correspondant à deux profils d'utilisateurs bien distincts ainsi qu'à deux temporalités d'utilisation. Le premier outil, destiné aux actuaires, prend en charge la construction du modèle : ingestion standardisée des données, audit automatisé de la qualité de ces dernières, analyses statistiques descriptives, construction des modèles de prédiction de fraude et sélection du modèle le plus performant au regard des critères de qualité définis. Le second outil, cette fois ci destiné aux gestionnaires de sinistres, exploite le modèle précedemment calibré sans en exposer la complexité, ni même le fonctionnement : pour chaque nouveau dossier de sinistre renseigné, il restitue une probabilité de fraude et oriente le gestionnaire vers une zone de risque conditionnant le niveau d'investigation.
 
-La logique de construction de l'agent est pilotée par un prompt décomposé en étapes successives, qui reproduit la démarche actuarielle et garantit la traçabilité de chaque maillon de la chaîne.
+La logique de construction de l'agent est pilotée par un \textit{prompt} décomposé en étapes successives, qui reproduit la démarche actuarielle et garantit la traçabilité de chaque maillon de la chaîne.
 
 \noindent\textbf{Résultats :} L'analyse descriptive fait ressortir les déterminants majeurs de la fraude : le rôle central de l'environnement du réparateur, les antécédents de fraude de l'assuré, la cohérence de la déclaration et le ratio entre la facture de réparation et le prix de marché. Un constat contre-intuitif s'en dégage : la fraude ne concerne pas les sinistres les plus coûteux, ce qui justifie pleinement le recours à une approche multivariée. Trois modèles sont alors construits et comparés selon un arbitrage entre interprétabilité et performance, dont les résultats sont synthétisés ci-dessous.
 
 \begin{table}[H]
     \centering
-    \renewcommand{\arraystretch}{1.35}
-    \begin{tabular}{l c c c}
-        \toprule
-        \textbf{Indicateur} & \textbf{Scoring en points} & \textbf{Arbre de décision} & \textbf{Gradient Boosting} \\
-        \midrule
-        AUC-ROC            & 0,923  & 0,838  & \textbf{0,942} \\
-        Gini               & 0,846  & 0,676  & \textbf{0,885} \\
-        KS                 & 0,688  & 0,565  & \textbf{0,740} \\
-        Lift @10\,\%       & --     & $\times$4,61 & \textbf{$\times$6,66} \\
-        PSI                & 0,0008 & 0,0026 & 0,0023 \\
-        Écart backtesting  & 0,009  & 0,039  & 0,026 \\
-        \bottomrule
-    \end{tabular}
-    \caption{Synthèse des indicateurs de qualité des trois modèles testés}
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Scoring en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
+        \hline
+        \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
+        \hline
+        \textbf{Gini} & 0,835 & 0,690 & \textbf{0,867} \\
+        \hline
+        \textbf{KS} & 0,666 & 0,564 & \textbf{0,724} \\
+        \hline
+        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
+        \hline
+        \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
+        \hline
+        \textbf{Écart Backtesting} & \textbf{0,003} & 0,039 & 0,016 \\
+        \hline
+    \end{tabularx}
+    \caption{Synthèse des résultats des indicateurs de qualité des différents modèles}
     \label{tab:synthese-modeles}
 \end{table}
 
-Le Gradient Boosting s'impose comme le modèle le plus discriminant (AUC de 0,942, Gini de 0,885, lift de $\times$6,66 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,923, il se situe très près du Gradient Boosting tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
+Le Gradient \textit{Boosting} s'impose comme le modèle le plus discriminant (AUC de 0,933, Gini de 0,867, lift de $\times$6,37 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,917, il se situe très près du Gradient \textit{Boosting} tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
 
-Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés, comme l'illustre le profil du modèle retenu.
+Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés. Au premier rang on retrouve le ratio facture/marché du réparateur, l'historique des montants réclamés et les antécédents de fraude de l'assuré. Le profil du Gradient \textit{Boosting} (modèle retenu) présenté ci-dessous en offre une illustration représentative.
 
 \begin{figure}[H]
     \centering
@@ -68,11 +73,11 @@ Un enseignement transversal mérite d'être souligné : les trois modèles, pour
             xmin=0, xmax=30,
             xlabel={Importance relative (\%)},
             symbolic y coords={
-                {Autorités contactées},
+                {Nb de polices actives (assuré)},
+                {Blessure sans preuve médicale},
                 {Nb sinistres passés (véhicule)},
-                {Délai de déclaration},
+                {Autorités contactées},
                 {Âge du véhicule},
-                {Durée de possession du véhicule},
                 {Nb d'amendements à la déclaration},
                 {Valeur marchande du véhicule},
                 {Nb fraudes passées (assuré)},
@@ -89,20 +94,20 @@ Un enseignement transversal mérite d'être souligné : les trois modèles, pour
             label style={font=\small},
         ]
         \addplot[fill=accenture, draw=accenture] coordinates {
-            (5,{Autorités contactées})
-            (5,{Nb sinistres passés (véhicule)})
-            (6,{Délai de déclaration})
-            (6,{Âge du véhicule})
-            (7,{Durée de possession du véhicule})
+            (5,{Nb de polices actives (assuré)})
+            (5,{Blessure sans preuve médicale})
+            (6,{Nb sinistres passés (véhicule)})
+            (7,{Autorités contactées})
+            (7,{Âge du véhicule})
             (8,{Nb d'amendements à la déclaration})
-            (10,{Valeur marchande du véhicule})
-            (12,{Nb fraudes passées (assuré)})
+            (8,{Valeur marchande du véhicule})
+            (13,{Nb fraudes passées (assuré)})
             (16,{Historique montants réclamés})
             (25,{Ratio facture / marché (réparateur)})
         };
         \end{axis}
     \end{tikzpicture}
-    \caption{Importance relative des variables dans le modèle retenu (Gradient Boosting)}
+    \caption{Importance relative des variables dans le modèle retenu (Gradient \textit{Boosting})}
     \label{fig:importance-gb}
 \end{figure}
 

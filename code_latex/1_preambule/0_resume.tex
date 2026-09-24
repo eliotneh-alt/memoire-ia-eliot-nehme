@@ -6,10 +6,10 @@ La fraude en assurance non-vie représente un enjeu financier majeur, estimé à
 
 Ce mémoire propose de concevoir et déployer, à l'aide d'un agent d'intelligence artificielle, un processus de détection automatisé de la fraude automobile, de l'ingestion des données jusqu'au pilotage du dispositif. À partir d'une base de sinistres enrichie de variables reproduisant l'information disponible chez un assureur, trois modèles d'estimation de probabilité de fraude seront construits et comparés selon un arbitrage entre interprétabilité et pouvoir prédictif : un scoring en points, un arbre de décision et un modèle de Gradient Boosting. 
 
-In fine, c'est ce dernier qui obtiendrat les meilleures performances (AUC de 0,942, lift de $\times$6,66 au premier décile) tout en concentrant efficacement les fraudes dans un volume restreint de dossiers à investiguer.
+In fine, c'est ce dernier qui obtiendrat les meilleures performances (AUC de 0,933, lift de $\times$6,37 au premier décile) tout en concentrant efficacement les fraudes dans un volume restreint de dossiers à investiguer.
 
 L'outil se décline en deux modules destinés à deux équipes distinctes : d'une part la construction du modèle par les actuaires, et d'autre part son exploitation opérationnelle par les gestionnaires, complétée d'une boucle d'enrichissement continu et d'un rapport de pilotage mesurant le retour sur investissement de l'outil. L'ensemble de ces développements s'inscrit dans un cadre de gouvernance conforme au RGPD et à l'AI Act, préservant une supervision humaine à chaque étape du processus de détection de fraude.
 
-\underline{\textbf{Note :}} Les schémas et illustrations de ce mémoire ont été réalisés avec l'aide d'outils d'intelligence artificielle générative. De même, une partie des données d'enrichissement de la base a été simulée à l'aide de tels outils, comme précisé en section~4.2.2.
+\underline{\textbf{Note :}} Les schémas et illustrations de ce mémoire ont été réalisés avec l'aide d'outils d'intelligence artificielle générative. De même, une partie des données d'enrichissement de la base a été simulée à l'aide de tels outils, comme précisé en section \ref{sec:enrichissement}
 
 \underline{\textbf{Mots-clés :}} fraude à l'assurance, assurance non-vie, détection automatisée, intelligence artificielle, machine learning, scoring à points, Gradient Boosting, arbre décision, processus, actuariat.

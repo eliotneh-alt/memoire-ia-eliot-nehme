@@ -10,11 +10,30 @@
 % Le graphique est tracé nativement en pgfplots (pas d'image externe).
 % ==============================================================
 
-The principle of risk pooling is a cornerstone of insurance: it presupposes a relationship of trust between insurer and policyholder, which fraud diverts to illegitimate ends.
+Risk pooling is a cornerstone of insurance and presupposes a relationship of trust between insurer and policyholder, which fraud subverts.
+In non-life insurance, this phenomenon is estimated to generate annual losses of approximately €2.5 billion in France, equivalent to nearly 5\% of premium income, a substantial share of which remains undetected. Beyond its direct cost, fraud adds approximately €50 to the premium paid by every honest policyholder for each motor insurance contract and, in the long term, undermines the solidarity underpinning risk pooling.
 
-In non-life insurance, this phenomenon represents an estimated burden of around €2.5~billion per year in France, close to 5~\% of premium income, a significant part of which remains undetected. Beyond its direct cost, fraud adds around fifty euros to the premium of every honest policyholder on each motor contract and, over time, undermines the very solidarity of the mutualised pool.
+Traditional approaches to combating fraud, based on the judgement of claims handlers and the intervention of specialised units, have now reached their limits. They allow only a fraction of claims to be reviewed, depend heavily on investigators' individual expertise, and face a difficult economic constraint: the cost of a manual investigation makes the review of low-value fraud-although the most widespread form, economically unviable. This observation gave rise to the present thesis, which sets out the step-by-step design and implementation of an automated motor insurance fraud-detection process supported by an artificial intelligence agent and covering the entire workflow, from data ingestion to system monitoring, against a backdrop in which similar tools have emerged on the market in recent years.
 
-The traditional fight against this phenomenon, based on the judgement of claims handlers and the intervention of specialised units, is now reaching its limits. It allows only a fraction of claims to be reviewed, depends heavily on the individual expertise of investigators, and comes up against an economic constraint that is difficult to overcome: the cost of a manual investigation makes it unprofitable to control low-value fraud, which is nonetheless the most widespread. It is from this observation that the present dissertation arose, its purpose being to present the step-by-step design and implementation of an automated motor-insurance fraud detection process, based on an artificial-intelligence agent and covering the entire chain, from data ingestion through to steering the system, such tools having already emerged on the market in recent years.
+\bigskip
+
+\textbf{Key issues and positioning :} The thesis begins by characterising insurance fraud, its typologies-opportunistic or organised, at policy inception or at the claims stage and its legal framework, before assessing its economic significance. The value of a detection system cannot be measured solely by its statistical performance, but also by the claims costs it helps avoid. This economic grounding, formalised through the concept of expected unit gain, provides the guiding thread of the analysis and explains why the choice of model parameters ultimately requires a cost-benefit trade-off. The thesis then surveys fraud-detection methods, contrasting traditional manual approaches with the contributions of artificial intelligence, and reaches a conclusion that shapes the remainder of the study: rather than replacing human expertise, AI should complement it, with the algorithm filtering and prioritising cases while humans investigate and decide.
+
+\bigskip
+
+\textbf{Theoretical framework :} The methodological section presents the selected supervised models-ranging from points-based scorecards and logistic regression to decision trees and ensemble methods such as Gradient Boosting, as well as unsupervised approaches applicable to organised fraud, including anomaly detection, clustering, and graph analysis. Particular attention is paid to evaluation metrics suited to severe class imbalance: in a population where fraud is rare, conventional indicators such as accuracy become misleading and should be replaced by AUC-ROC, the Gini coefficient, the Kolmogorov-Smirnov statistic, precision, recall, or PR-AUC. This section also emphasises the governance, interpretability, and regulatory-compliance requirements governing the deployment of such models, notably under the GDPR and the AI Act.
+
+\textbf{Tool design :} The core of the thesis is devoted to the practical implementation of a decision-support tool for detecting motor insurance fraud. The scope is deliberately limited to circumstantial fraud that can be identified from structured data, including claim characteristics, the history of the policyholder and other parties involved, and the consistency of the claim declaration. The analysis relies on a public dataset comprising 30,000 motor claims and twenty-four variables, with a fraud rate of 11.5\%. The dataset is subsequently enriched with twenty-nine additional variables simulated using artificial intelligence to reproduce the genuine information available to an insurer, notably the history of the repairer, third party, and vehicle, as well as reporting behaviour and geographical and temporal dimensions.
+
+The tool is structured around two modules corresponding to two clearly distinct user profiles and usage timeframes. The first module, designed for actuaries, supports model development through standardised data ingestion, automated data-quality audits, descriptive statistical analyses, the construction of fraud-prediction models, and selection of the best-performing model against predefined quality criteria.
+
+The second module, designed for claims handlers, applies the previously calibrated model without exposing either its complexity or its internal mechanics. For each newly submitted claim, it returns an estimated probability of fraud and assigns the case to a risk category that determines the appropriate level of investigation.
+
+The agent's construction logic is governed by a prompt broken down into successive stages, replicating the actuarial approach and ensuring the traceability of every link in the chain.
+
+\textbf{Results :} The descriptive analysis identifies the principal determinants of fraud: the central role of the repairer environment, the policyholder's history of fraud, the consistency of the claim declaration, and the ratio of the repair invoice to the market price.
+
+A counter-intuitive finding emerges : fraud is not concentrated among the most costly claims, which fully justifies the use of a multivariate approach. Three models are therefore developed and compared according to the trade-off between interpretability and performance; their results are summarised below.
 
 \bigskip
 
@@ -36,26 +55,32 @@ The logic used to build the agent is driven by a prompt broken down into success
 
 \begin{table}[H]
     \centering
-    \renewcommand{\arraystretch}{1.35}
-    \begin{tabular}{l c c c}
-        \toprule
-        \textbf{Indicator} & \textbf{Points-based scoring} & \textbf{Decision tree} & \textbf{Gradient Boosting} \\
-        \midrule
-        AUC-ROC             & 0.923  & 0.838  & \textbf{0.942} \\
-        Gini                & 0.846  & 0.676  & \textbf{0.885} \\
-        KS                  & 0.688  & 0.565  & \textbf{0.740} \\
-        Lift @10\,\%        & --     & $\times$4.61 & \textbf{$\times$6.66} \\
-        PSI                 & 0.0008 & 0.0026 & 0.0023 \\
-        Backtesting gap     & 0.009  & 0.039  & 0.026 \\
-        \bottomrule
-    \end{tabular}
-    \caption{Summary of the quality indicators of the three models tested}
-    \label{tab:synthesis-models}
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Points-based scorecard}} & \textcolor{white}{\textbf{Tree decision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
+        \hline
+        \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
+        \hline
+        \textbf{Gini} & 0,835 & 0,690 & \textbf{0,867} \\
+        \hline
+        \textbf{KS} & 0,666 & 0,564 & \textbf{0,724} \\
+        \hline
+        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
+        \hline
+        \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
+        \hline
+        \textbf{Backtesting variance} & \textbf{0,003} & 0,039 & 0,016 \\
+        \hline
+    \end{tabularx}
+    \caption{Synthesis of the quality indicator results for the different models}
+    \label{tab:synthese-modeles}
 \end{table}
 
-Gradient Boosting stands out as the most discriminating model (AUC of 0.942, Gini of 0.885, top-decile lift of $\times$6.66) and is retained on that basis. The points-based \textit{scoring} model nevertheless remains a fully credible alternative: with an AUC of 0.923, it lies very close to Gradient Boosting while offering a transparency that ensemble methods do not allow, which makes it the preferred choice when explainability takes precedence. The decision tree, dominated on all criteria, is set aside. The three models moreover display excellent stability (PSI well below the alert threshold of 0.10) and good generalisation capacity.
+The Gradient Boosting model proves to be the most discriminating and is therefore selected, achieving an AUC of 0.933, a Gini coefficient of 0.867, and a lift of $\times6.37$ in the first decile. The points-based scorecard nevertheless remains a fully credible alternative: with an AUC of 0.917, it performs only slightly below Gradient Boosting while providing a level of transparency unavailable with ensemble methods, making it the preferred option when explainability takes precedence. The decision tree, which is outperformed across all criteria, is rejected. All three models also exhibit excellent stability, with PSI values well below the 0.10 alert threshold, and strong generalisation capacity.
 
-One cross-cutting insight deserves to be highlighted: the three models, although built on different principles, converge in directing their explanatory power towards the same key variables, as illustrated by the profile of the retained model.
+One cross-cutting insight deserves emphasis: although the three models are based on different principles, their explanatory power converges on the same key variables. Foremost among these are the repairer invoice-to-market ratio, the policyholder's historical claimed amounts, and prior instances of fraud. The profile of the selected Gradient Boosting model, presented below, provides a representative illustration.
 
 \begin{figure}[H]
     \centering
@@ -105,17 +130,21 @@ One cross-cutting insight deserves to be highlighted: the three models, although
     \label{fig:importance-gb-en}
 \end{figure}
 
-\noindent\textbf{Deployment and governance:} Once the model has been selected and integrated, the tool is made available to the fraud detection department. On a day-to-day basis, the claims handler submits a claim, individually or in batches, and the tool returns for each one a fraud probability together with guidance on the investigation effort to undertake. Claims are thus sorted into three risk zones: a green zone (low probability, no investigation), an orange zone (intermediate probability, light investigation) and a red zone (high probability, in-depth investigation). The handler can therefore focus efforts on the highest-risk claims, without wasting time on those with a low probability of fraud.
+\textbf{Operational use and governance :} Once selected and integrated, the model is made available to the fraud-detection department. In day-to-day operations, claims handlers submit one or more claims, and the tool returns for each claim an estimated probability of fraud together with guidance on the appropriate level of investigative effort.
+
+Cases are accordingly divided into three risk categories: a green category for low-probability cases requiring no investigation, an amber category for intermediate-probability cases requiring a limited investigation, and a red category for high-probability cases requiring an in-depth investigation. Claims handlers can therefore focus their efforts on the highest-risk cases without spending time on claims with a low probability of fraud.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{images/chapitre6/tableau_proba.png}
-    \caption{Evaluation results returned to the claims handler: scored claims sorted into three investigation zones (green / orange / red)}
+    \caption{Assessment results provided to claims handlers: allocation of scored claims across three investigation categories (green / amber / red)}
     \label{fig:tableau-proba-en}
 \end{figure}
 
-The system is then completed by a continuous-enrichment feedback loop: once a claim's investigation is closed, its actual outcome (fraud confirmed or not) is recorded in binary form, and only claims thus qualified are added to the training database, allowing the model to recalibrate on established cases and to track the evolution of fraudulent behaviour over time. A monitoring report continuously restitutes the tool's added value through key indicators: the amount of fraud avoided thanks to the tool, the impact on the loss ratio (claims-to-premiums) and the return on investment (ROI). The whole framework remains under human oversight: the agent prioritises and directs claims, but issues no adverse decision automatically, the investigation and the final decision always resting with the investigator, in accordance with Article~22 of the GDPR and with the AI Act.
+The system is further complemented by a continuous enrichment loop. Once a case investigation has been completed, its actual outcome (confirmed fraud or no fraud) is recorded as a binary value. Only claims whose outcomes have thus been established are added to the training dataset, enabling the model to be recalibrated on confirmed cases and to track changes in fraudulent behaviour. A monitoring report continuously presents the tool’s added value through key performance indicators, including the amount of fraud avoided through the tool, the effect on the claims-to-premiums ratio, and the return on investment (ROI).
 
-\bigskip
+Although the fraud-detection process is largely automated using artificial intelligence, every stage remains subject to human oversight. The agent prioritises and routes cases but does not issue any adverse decision automatically; investigation and the final decision always remain the responsibility of the investigator, in accordance with Article 22 of the GDPR and the AI Act.
 
-\noindent\textbf{Limitations and outlook:} The dissertation concludes with a critical reflection. Among the limitations are the partially simulated nature of the enrichment data, the likely over-representation of fraud in the database used (11.5~\% against around 5~\% in reality), and the need to recalibrate the model on a representative claims experience before any deployment. The tool nevertheless opens up many avenues for improvement: coupling with a policy database offering a historical and relational depth inaccessible at the level of the claim alone, the integration of external data, cross-insurer data pooling to detect "nomadic" fraudsters, or the extension to other non-life insurance lines. As the capabilities of artificial intelligence advance, the question is probably no longer whether these tools will transform the fight against fraud, but how insurers will manage to make use of them in a way that is at once performant, controlled and respectful of policyholders' rights.
+\textbf{Limitations and future directions :} The thesis concludes with a critical reflection. The main limitations include the partially simulated nature of the enrichment data, the likely overrepresentation of fraud in the selected dataset (11.5\% compared with approximately 5\% in practice) and the need to recalibrate the model using representative claims experience before any deployment. Nevertheless, the tool opens up numerous avenues for improvement: linking it to a portfolio database that provides historical depth and relational information unavailable at claim level alone; integrating external data; pooling information across insurers to detect mobile fraudsters who move between companies; and extending the approach to other lines of non-life insurance.
+
+As artificial intelligence capabilities continue to advance, the question is arguably no longer whether these tools will transform the fight against fraud, but how insurers can use them in a manner that is effective, controlled, and respectful of policyholders' rights.

@@ -160,7 +160,7 @@ Dans notre outil, différents indicateurs ont été mis en place :
 
 L'ensemble se synthétise dans une mesure du \textbf{retour sur investissement (ROI) de l'outil}, rapprochant le gain généré (fraude évitée) du coût de mise en œuvre et d'exploitation du dispositif. Cet indicateur répond directement à la problématique de rentabilité posée en introduction : il démontre que l'automatisation de la détection, en abaissant le coût marginal de contrôle, rend rentable l'analyse de l'ensemble des sinistres, y compris ceux de faible montant jusque-là trop coûteux à investiguer manuellement.
 
-Ce rapport peut par ailleurs être exporté au format PDF, offrant un livrable synthétique directement transmissible à la Direction Technique, au service anti-fraude ou aux instances de gouvernance. Cette possibilité d'extraction facilite le reporting périodique et la traçabilité des résultats, en cohérence avec les exigences de documentation évoquées dans le cadre de gouvernance de l'outil (cf.~section~\ref{sec:gouvernance}).
+Ce rapport peut par ailleurs être exporté au format PDF, offrant un livrable synthétique directement transmissible à la Direction Technique, au service anti-fraude ou aux instances de gouvernance. Cette possibilité d'extraction facilite le \textit{reporting} périodique et la traçabilité des résultats, en cohérence avec les exigences de documentation évoquées dans le cadre de gouvernance de l'outil (cf.~section~\ref{sec:gouvernance}).
 
 Ainsi, le rapport annuel transforme l'outil de détection en véritable instrument de pilotage actuariel. Il ne se contente pas de traiter les sinistres individuellement, mais fournit une lecture consolidée et chiffrée de la performance du dispositif, permettant de justifier son maintien, d'en ajuster les paramètres et d'en mesurer l'impact réel sur l'équilibre technique du portefeuille.
 
@@ -168,8 +168,40 @@ Ainsi, le rapport annuel transforme l'outil de détection en véritable instrume
 \section{Dynamisme de l'outil mis en place}
 % --------------------------------------------------------------
 
-Le modèle développé présente un caractère \textbf{dynamique et évolutif}, essentiel dans un environnement assurantiel en constante mutation. Concrètement, il ne s'agit pas d'un modèle figé : sa structure permet de \textbf{modifier le format des données d'entrée}, qu'il s'agisse des variables utilisées, de leurs modalités ou encore des règles de segmentation associées. Il est ainsi possible d'intégrer de nouvelles caractéristiques, d'adapter les découpages existants ou de faire évoluer les référentiels, puis de \textbf{relancer le processus d'apprentissage} afin de recalibrer automatiquement le modèle.
+Le modèle développé présente un caractère dynamique et évolutif, essentiel dans un environnement assurantiel en constante mutation. Il ne s'agit pas d'un dispositif figé : la plupart des choix effectués tout au long de ce mémoire constituent des hypothèses de travail, retenues pour les besoins de l'illustration, mais paramétrables et substituables sans refonte de l'outil. Le tableau ci-dessous récapitule ces principaux choix de conception et les alternatives envisageables pour chacun.
 
-Cette flexibilité constitue un atout majeur pour accompagner les évolutions réglementaires, tarifaires ou opérationnelles des assureurs. Par exemple, l'introduction de nouvelles modalités dans les classes de véhicules --- liée à des changements de classification, à l'émergence de nouveaux types de motorisation ou à des ajustements tarifaires --- peut être directement intégrée dans le modèle. Celui-ci est alors en mesure de réapprendre les relations entre ces nouvelles modalités et le risque de fraude, sans nécessiter une refonte complète de l'outil.
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \renewcommand{\arraystretch}{1.4}
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{Élément de l'outil}} & \textcolor{white}{\textbf{Choix retenu dans ce mémoire}} & \textcolor{white}{\textbf{Alternatives / paramétrage possible}} \\
+        \hline
+        Variables d'entrée & 54 variables (24 source + 29 enrichies) & Nombre et nature libres : l'outil s'adapte à tout jeu de variables, avec ou sans enrichissement \\
+        \hline
+        Enrichissement de la base & 30 variables simulées (historique, réparateur, tiers, véhicule, comportement déclaratif, géo-temporel) & Enrichissement facultatif et extensible ; d'autres axes peuvent être ajoutés selon les données réellement disponibles chez l'assureur \\
+        \hline
+        Modèles de détection & 3 modèles (\textit{scoring} en points, arbre de décision, Gradient \textit{Boosting}) & Architecture agnostique : tout autre modèle de classification (régression logistique, forêt aléatoire, réseau de neurones\ldots) peut être branché \\
+        \hline
+        Partitionnement train/test & 80 / 20, stratifié sur la cible & Ratio librement modifiable ; validation croisée déjà intégrée sur la partie apprentissage \\
+        \hline
+        Seuil de décision & Seuil optimal via l'indice de Youden & Réglable manuellement selon l'arbitrage précision/rappel souhaité \\
+        \hline
+        Zones d'investigation & Bande de $\pm 10~\%$ autour du seuil optimal (3 zones : verte / orange / rouge) & Largeur et nombre de zones paramétrables selon l'appétence au risque et la capacité d'investigation \\
+        \hline
+        Gestion des valeurs manquantes & Contrôle bloquant (saisie obligatoire d'une valeur) & Imputation automatique possible (moyenne, médiane, modalité la plus fréquente) \\
+        \hline
+        KPI du rapport de suivi & Fraude évitée, taux d'alertes, impact sur le ratio S/P, ROI & Indicateurs ajoutables ou modifiables selon les besoins de pilotage du management \\
+        \hline
+        Réentraînement & Boucle continue alimentée par les issues d'investigation & Fréquence de recalibrage paramétrable (au fil de l'eau, périodique\ldots) \\
+        \hline
+    \end{tabularx}
+    \caption{Synthèse des choix retenus et des alternatives de paramétrage de l'outil}
+    \label{tab:synthese-choix-outil}
+\end{table}
 
-Ainsi, le modèle s'inscrit dans une logique d'\textbf{amélioration continue}, permettant de maintenir sa pertinence dans le temps. Cette capacité d'adaptation garantit une meilleure prise en compte des évolutions du portefeuille, des comportements frauduleux et du cadre réglementaire, tout en assurant une cohérence avec les pratiques métiers et les politiques de souscription de l'assureur.
+Cette flexibilité constitue un atout majeur pour accompagner les évolutions réglementaires, tarifaires ou opérationnelles des assureurs. Par exemple, l'introduction de nouvelles modalités dans les classes de véhicules (liée à des changements de classification, à l'émergence de nouveaux types de motorisation ou à des ajustements tarifaires) peut être directement intégrée : le modèle réapprend alors les relations entre ces nouvelles modalités et le risque de fraude, sans nécessiter une refonte complète de l'outil.
+
+Ainsi, le modèle s'inscrit dans une logique \textbf{d'amélioration continue}, permettant de maintenir sa pertinence dans le temps. Cette capacité d'adaptation garantit une meilleure prise en compte des évolutions du portefeuille, des comportements frauduleux et du cadre réglementaire, tout en assurant une cohérence avec les pratiques métiers et les politiques de souscription de l'assureur.

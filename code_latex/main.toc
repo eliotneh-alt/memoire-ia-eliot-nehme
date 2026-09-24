@@ -1,96 +1,97 @@
 \babel@toc {french}{}\relax 
-\contentsline {chapter}{Résumé}{iv}{chapter*.2}%
-\contentsline {chapter}{Abstract}{v}{chapter*.3}%
-\contentsline {chapter}{Remerciements}{vi}{chapter*.4}%
+\contentsline {chapter}{Remerciements}{iv}{chapter*.2}%
+\contentsline {chapter}{Résumé}{v}{chapter*.3}%
+\contentsline {chapter}{Abstract}{vi}{chapter*.4}%
 \contentsline {chapter}{Synthèse}{vii}{chapter*.5}%
 \contentsline {chapter}{Synthesis}{xi}{chapter*.6}%
 \contentsline {chapter}{\numberline {1}Introduction et contexte}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Définition de la fraude à l'assurance}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Les stades d'occurrence de la fraude dans le cycle assurantiel en assurance non-vie}{3}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Les stades d'occurrence de la fraude dans le cycle assurantiel en assurance non-vie}{2}{section.1.2}%
 \contentsline {subsection}{\numberline {1.2.1}La fraude à la souscription}{3}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}La fraude à la déclaration de sinistre}{4}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}La fraude liée aux Conditions Générales}{5}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Cadre réglementaire des sanctions en cas de fraude avérée}{6}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Souscription}{7}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Sinistre}{7}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Preuve de la fraude et sanctions pénales}{8}{subsection.1.3.3}%
-\contentsline {section}{\numberline {1.4}Enjeux économiques et actuariels de la fraude}{9}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}L'ampleur du marché de la fraude}{9}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Impact de la fraude sur la tarification}{11}{subsection.1.4.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.1}Modèle tarifaire usuel en assurance non-vie et biais statistiques}{11}{subsubsection.1.4.2.1}%
-\contentsline {subsubsection}{\numberline {1.4.2.2}Conséquence de la fraude sur la prime pure}{12}{subsubsection.1.4.2.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.3}L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}{14}{subsubsection.1.4.2.3}%
-\contentsline {subsubsection}{\numberline {1.4.2.4}L'automatisation de la détection de la fraude comme levier de rentabilité}{14}{subsubsection.1.4.2.4}%
-\contentsline {chapter}{\numberline {2}La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA}{16}{chapter.2}%
-\contentsline {section}{\numberline {2.1}L'approche traditionnelle : une détection manuelle et ciblée}{16}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Le rôle des équipes dédiées}{16}{subsection.2.1.1}%
-\contentsline {subsection}{\numberline {2.1.2}Une détection fondée sur l'expertise humaine}{17}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Les limites de cette approche}{17}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}L'apport de l'intelligence artificielle : de nouvelles solutions de détection}{18}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Le contexte d'émergence}{18}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Les nouvelles approches}{19}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Les bénéfices attendus}{19}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Les points de vigilance à l'utilisation de l'intelligence artificielle}{20}{subsection.2.2.4}%
-\contentsline {section}{\numberline {2.3}Comparaison du processus manuel et du processus automatisé}{21}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Les critères de comparaison}{21}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Mise en regard des deux processus}{21}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Vers un modèle hybride}{22}{subsection.2.3.3}%
-\contentsline {chapter}{\numberline {3}Cadre théorique : les algorithmes de détection de fraude utilisés en assurance non-vie}{24}{chapter.3}%
-\contentsline {section}{\numberline {3.1}La régression logistique (modèle de référence)}{25}{section.3.1}%
-\contentsline {section}{\numberline {3.2}La forêt aléatoire}{27}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Le gradient boosting}{28}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Les modèles de scoring à points}{29}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Apprentissage non supervisé : détection d'anomalies et comportements atypiques}{31}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Les algorithmes d'isolation (exemple : Isolation Forest)}{31}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Le partitionnement de données (Clustering)}{32}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Analyse de réseaux (Graph Mining) pour la détection de la fraude organisée}{32}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Modélisation mathématique du réseau de fraude}{32}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Détection de communautés et de clusters suspects}{33}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Application opérationnelle}{33}{subsection.3.6.3}%
-\contentsline {section}{\numberline {3.7}Critères de qualité des modèles mis en place}{34}{section.3.7}%
-\contentsline {chapter}{\numberline {4}Mise en place d'un processus de détection de fraude automobile automatisé à l'aide d'un Agent IA}{38}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Gouvernance autour de la mise en place de l'Agent IA}{38}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Présentation de la base de données}{41}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Base de données source}{41}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Enrichissement de la base de données}{43}{subsection.4.2.2}%
-\contentsline {section}{\numberline {4.3}Descriptif macro de la création du processus de détection de fraude et de sa déclinaison opérationnelle}{46}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Le prompt : la décomposition du besoin en étapes}{47}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Présentation macro des différentes étapes}{48}{subsection.4.3.2}%
-\contentsline {section}{\numberline {4.4}Étapes 1 \& 2 : Ingestion de la base de données et Audit de contrôles de cohérence}{51}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Étape 1 : Ingestion de la base de données}{51}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Étape 2 : Audit et contrôles de cohérence}{53}{subsection.4.4.2}%
-\contentsline {section}{\numberline {4.5}Étape 3 : Analyse statistique des données}{55}{section.4.5}%
-\contentsline {subsection}{\numberline {4.5.1}Analyse de la composition du portefeuille}{56}{subsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.5.2}Analyse de la fréquence de la fraude}{58}{subsection.4.5.2}%
-\contentsline {subsection}{\numberline {4.5.3}Création de classes de variables}{59}{subsection.4.5.3}%
-\contentsline {subsection}{\numberline {4.5.4}Analyse des corrélations entre les variables}{65}{subsection.4.5.4}%
-\contentsline {subsubsection}{\numberline {4.5.4.1}Élimination des variables corrélées}{70}{subsubsection.4.5.4.1}%
-\contentsline {chapter}{\numberline {5}Création du modèle de détection de fraude : Étapes 4 et 5}{73}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Scoring en points}{75}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{75}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{83}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{87}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Arbre de décision}{87}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{87}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{93}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{96}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}Un modèle de Machine learning : le Gradient Boosting}{97}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Résultats du modèle}{97}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Qualité du modèle obtenu}{101}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Limites et précautions d'interprétation}{105}{subsection.5.3.3}%
-\contentsline {section}{\numberline {5.4}Comparaison des modèles}{106}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Outil mis à disposition du service de détection des fraudes}{109}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Utilisation pratique de l'outil}{110}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{114}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Rapport annuel de détection de fraude}{117}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Dynamisme de l'outil mis en place}{119}{section.6.4}%
-\contentsline {chapter}{\numberline {7}7 Réflexions autour de l'IA et limites de l'outil créé}{121}{chapter.7}%
-\contentsline {section}{\numberline {7.1}Un outil d'aide à la décision complémentaire avec l'humain}{121}{section.7.1}%
-\contentsline {section}{\numberline {7.2}Nature de l'IA utilisée : de l'IA générative à l'IA agentique}{123}{section.7.2}%
-\contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{124}{section.7.3}%
-\contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{124}{subsection.7.3.1}%
-\contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{126}{subsection.7.3.2}%
-\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{127}{section.7.4}%
-\contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{128}{section.7.5}%
-\contentsline {chapter}{Annexes}{130}{chapter*.7}%
-\contentsline {section}{Méthodes de classification}{130}{section*.8}%
+\contentsline {subsection}{\numberline {1.2.2}La fraude à la déclaration de sinistre}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}La fraude liée aux Conditions Générales}{4}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Cadre réglementaire des sanctions en cas de fraude avérée}{5}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Souscription}{5}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Sinistre}{6}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Preuve de la fraude et sanctions pénales}{6}{subsection.1.3.3}%
+\contentsline {section}{\numberline {1.4}Enjeux économiques et actuariels de la fraude}{7}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}L'ampleur du marché de la fraude}{7}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Impact de la fraude sur la tarification}{9}{subsection.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.1}Modèle tarifaire usuel en assurance non-vie et biais statistiques}{9}{subsubsection.1.4.2.1}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}Conséquence de la fraude sur la prime pure}{10}{subsubsection.1.4.2.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}L'analyse coût-bénéfice : le seuil de rentabilité du contrôle}{11}{subsubsection.1.4.2.3}%
+\contentsline {subsubsection}{\numberline {1.4.2.4}L'automatisation de la détection de la fraude comme levier de rentabilité}{11}{subsubsection.1.4.2.4}%
+\contentsline {chapter}{\numberline {2}La détection de la fraude en assurance : de l'approche manuelle à l'automatisation par l'IA}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}L'approche traditionnelle : une détection manuelle et ciblée}{13}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Le rôle des équipes dédiées}{13}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Une détection fondée sur l'expertise humaine}{13}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Les limites de cette approche}{14}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}L'apport de l'intelligence artificielle : de nouvelles solutions de détection}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Le contexte d'émergence}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Les nouvelles approches}{15}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Les bénéfices attendus}{15}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Les points de vigilance à l'utilisation de l'intelligence artificielle}{16}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Comparaison du processus manuel et du processus automatisé}{17}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Les critères de comparaison}{17}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Mise en regard des deux processus}{17}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Vers un modèle hybride}{18}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3}Cadre théorique : les algorithmes de détection de fraude utilisés en assurance non-vie}{19}{chapter.3}%
+\contentsline {section}{\numberline {3.1}La régression logistique (modèle de référence)}{20}{section.3.1}%
+\contentsline {section}{\numberline {3.2}La forêt aléatoire}{21}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Le gradient boosting}{22}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Les modèles de scoring à points}{23}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Apprentissage non supervisé : détection d'anomalies et comportements atypiques}{24}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Les algorithmes d'isolation (exemple : Isolation Forest)}{25}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Le partitionnement de données (Clustering)}{25}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Analyse de réseaux (Graph Mining) pour la détection de la fraude organisée}{26}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Modélisation mathématique du réseau de fraude}{26}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Détection de communautés et de clusters suspects}{26}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Application opérationnelle}{27}{subsection.3.6.3}%
+\contentsline {section}{\numberline {3.7}Critères de qualité des modèles mis en place}{27}{section.3.7}%
+\contentsline {chapter}{\numberline {4}Mise en place d'un processus de détection de fraude automobile automatisé à l'aide d'un Agent IA}{31}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Gouvernance autour de la mise en place de l'Agent IA}{31}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Présentation de la base de données}{33}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Base de données source}{33}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Enrichissement de la base de données}{35}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Descriptif macro de la création du processus de détection de fraude et de sa déclinaison opérationnelle}{38}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Le prompt : la décomposition du besoin en étapes}{39}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Présentation macro des différentes étapes}{40}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Étapes 1 \& 2 : Ingestion de la base de données et Audit de contrôles de cohérence}{43}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Étape 1 : Ingestion de la base de données}{43}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Étape 2 : Audit et contrôles de cohérence}{44}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Étape 3 : Analyse statistique des données}{46}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Analyse de la composition du portefeuille}{46}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Analyse de la fréquence de la fraude}{47}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Création de classes de variables}{49}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Analyse des corrélations entre les variables}{54}{subsection.4.5.4}%
+\contentsline {subsubsection}{\numberline {4.5.4.1}Élimination des variables corrélées}{58}{subsubsection.4.5.4.1}%
+\contentsline {chapter}{\numberline {5}Création du modèle de détection de fraude : Étapes 4 et 5}{62}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Scoring en points}{64}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{64}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Qualité du modèle obtenu}{71}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Limites et précautions d'interprétation}{74}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Arbre de décision}{74}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Résultats du modèle}{74}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Qualité du modèle obtenu}{79}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Limites et précautions d'interprétation}{83}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Un modèle de Machine learning : le Gradient Boosting}{83}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Résultats du modèle}{83}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Qualité du modèle obtenu}{87}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Limites et précautions d'interprétation}{90}{subsection.5.3.3}%
+\contentsline {section}{\numberline {5.4}Comparaison des modèles}{91}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Outil mis à disposition du service de détection des fraudes}{94}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Utilisation pratique de l'outil}{94}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Un outil permettant l'enrichissement du modèle en continu}{98}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Rapport annuel de détection de fraude}{100}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Dynamisme de l'outil mis en place}{102}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Réflexions autour de l'IA et limites de l'outil créé}{104}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Un outil d'aide à la décision complémentaire avec l'humain}{104}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Nature de l'IA utilisée : de l'IA générative à l'IA agentique}{106}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Limites liées à la qualité et à la richesse des données}{107}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{107}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{108}{subsection.7.3.2}%
+\contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et détection des fraudes organisées}{110}{section.7.4}%
+\contentsline {section}{\numberline {7.5}Extension à une approche multi-produits}{111}{section.7.5}%
+\contentsline {section}{\textbf {Conclusion}}{111}{section.7.5}%
+\contentsline {chapter}{Annexes}{113}{chapter*.7}%
+\contentsline {section}{Méthodes de classification}{113}{section*.8}%

@@ -6,10 +6,10 @@ Fraud in non-life insurance represents a major financial challenge in France, wi
 
 This thesis proposes the design and deployment of an AI-agent-supported process for the automated detection of motor insurance fraud, covering the entire workflow from data ingestion to system monitoring. Using a claims dataset enriched with variables designed to replicate the information available to an insurer, three fraud-probability estimation models are developed and compared in terms of the trade-off between interpretability and predictive performance: a points-based scorecard, a decision tree, and a Gradient Boosting model.
 
-Ultimately, the Gradient Boosting model achieves the strongest performance, with an AUC of 0.942 and a lift of $\times 6.66$ in the first decile, while effectively concentrating fraudulent claims within a limited volume of cases requiring investigation.
+Ultimately, the Gradient Boosting model achieves the strongest performance, with an AUC of 0.933 and a lift of $\times 6.37$ in the first decile, while effectively concentrating fraudulent claims within a limited volume of cases requiring investigation.
 
 The tool comprises two modules designed for two distinct teams: a model-development module for actuaries and an operational-use module for claims handlers, complemented by a continuous data-enrichment loop and a monitoring report that assesses the tool's return on investment. The overall framework is governed in accordance with the GDPR and the AI Act and maintains human oversight at every stage of the fraud-detection process.
 
-\textbf{Note :} The diagrams and illustrations included in this thesis were produced with the assistance of generative artificial intelligence tools. Likewise, part of the data used to enrich the dataset was simulated using such tools, as specified in Section 4.2.2.
+\textbf{Note :} The diagrams and illustrations included in this thesis were produced with the assistance of generative artificial intelligence tools. Likewise, part of the data used to enrich the dataset was simulated using such tools, as specified in Section \ref{sec:enrichissement}
 
 \textbf{Keywords :} insurance fraud, non-life insurance, automated detection, artificial intelligence, \textit{machine learning}, points-based scoring, Gradient Boosting, decision tree, process, actuarial science.

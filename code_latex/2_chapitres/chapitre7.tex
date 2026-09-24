@@ -1,4 +1,4 @@
-\chapter{7	Réflexions autour de l'IA et limites de l'outil créé}
+\chapter{Réflexions autour de l'IA et limites de l'outil créé}
 \label{chap:limites}
 
 Le développement d'un outil de détection de fraude basé sur un agent IA, en assurance automobile constitue une avancée significative en matière d'aide à la décision. Néanmoins, son utilisation doit être appréhendée avec recul, tant sur le plan opérationnel que méthodologique, et ouvre plusieurs perspectives d'amélioration.
@@ -39,9 +39,15 @@ Il convient également de distinguer les différents types d'intelligence artifi
 
 L'\textbf{IA générative} (comme les modèles de langage) est principalement utilisée pour produire du contenu (texte, code, synthèses) et assister dans des tâches d'analyse ou de documentation. À l'inverse, l'\textbf{IA agentique} s'inscrit dans une logique plus opérationnelle : elle est capable d'enchaîner des actions, de prendre des décisions simples et d'interagir avec un environnement en fonction d'objectifs définis.
 
-Dans le cadre de cet outil, l'agent IA relève davantage d'une approche \textbf{agentique}, en ce sens qu'il guide l'utilisateur dans le choix du modèle, applique le modèle défini, et restitue une probabilité de fraude accompagnée d'une recommandation d'action.
+En pratique, l'outil développé relève d'un \textbf{mélange de ces deux approches}, et il serait réducteur de le ranger dans une seule catégorie.
 
-À noter que par défaut, l'outil s'est initialement appuyé sur un \textbf{modèle de scoring en points}, privilégié pour sa simplicité et son interprétabilité. Toutefois, afin d'améliorer la performance prédictive, des extensions ont ensuite été introduites permettant de recourir à des modèles plus avancés tels que les \textbf{arbres de décision}, ou des méthodes de \textbf{machine learning} (Gradient Boosting). Cette ouverture permet d'arbitrer entre \textbf{interprétabilité et performance}, en fonction des besoins métiers.
+D'un côté, sa conception repose sur une logique largement \textbf{dirigée} : le raisonnement de l'agent a été décomposé, via le prompt, en une séquence d'étapes précises (ingestion, audit, analyse descriptive, modélisation, évaluation) que l'agent exécute dans l'ordre imposé. Sur ce plan, l'IA agit comme un exécutant guidé pas à pas, sans latitude sur l'enchaînement global de la tâche. Ce cadrage strict est d'ailleurs un choix assumé : il garantit la reproductibilité et l'auditabilité du dispositif, exigences essentielles dans un contexte assurantiel.
+
+De l'autre, l'outil manifeste une véritable dimension \textbf{agentique} dans les décisions que l'agent prend de lui-même, sans instruction explicite, en mobilisant une logique métier ou statistique. Plusieurs exemples rencontrés au fil de ce mémoire l'illustrent : l'agent choisit seul la représentation graphique la plus adaptée à chaque variable (camembert pour un faible nombre de modalités, diagramme en barres au-delà) ; il détecte et écarte de lui-même les variables inexploitables, tels les identifiants uniques ou les variables trop granulaires ; il identifie le seuil de décision optimal via l'indice de Youden ; et il sélectionne, parmi les variables candidates, celles à retenir dans le barème de \textit{scoring}. Ces arbitrages, laissés à l'initiative de l'agent, constituent le cœur de son caractère agentique.
+
+C'est cette combinaison qui caractérise l'outil : un cadre procédural dirigé, garant de rigueur et de traçabilité, au sein duquel l'agent conserve une autonomie de décision sur les choix méthodologiques et métiers.
+
+À noter que par défaut, l'outil s'est initialement appuyé sur un \textbf{modèle de \textit{scoring} en points}, privilégié pour sa simplicité et son interprétabilité. Des extensions ont ensuite été introduites pour recourir à des modèles plus avancés, tels que les arbres de décision ou des méthodes de \textit{machine learning} comme le Gradient \textit{Boosting}. Le choix du modèle constitue lui-même un arbitrage entre interprétabilité et performance, décidé en fonction des besoins métiers.
 
 % --------------------------------------------------------------
 \section{Limites liées à la qualité et à la richesse des données}
@@ -63,21 +69,21 @@ L'absence de ces variables limite la capacité du modèle à capter des comporte
 
 À titre d'exemple, en assurance automobile, l'accès à la base portefeuille permettrait de détecter plus efficacement certains schémas de fraude tels que :
 
-\begin{itemize}
-    \item[$\bullet$] \textbf{Fraudes opportunistes liées à une ancienneté très faible du contrat} : un sinistre survenant peu de temps après la souscription (ex : vol ou incendie dans les premières semaines) constitue un signal faible classique, difficile à exploiter sans information sur la date d'entrée en portefeuille.
-    \item[$\bullet$] \textbf{Récurrence de sinistres sur un même assuré} : un assuré présentant une fréquence de sinistralité anormalement élevée sur une période donnée peut indiquer un comportement suspect (ex : déclarations répétées de bris de glace ou d'accidents matériels). Sans historique consolidé, ces signaux ne peuvent être captés que partiellement.
-    \item[$\bullet$] \textbf{Stratégies de multi-assurance ou de résiliation stratégique} : certains fraudeurs peuvent multiplier les contrats auprès de différents assureurs ou résilier après sinistre pour éviter d'être détectés. L'analyse des trajectoires contractuelles (durée de détention, fréquence de changement d'assureur) constitue alors une variable explicative clé.
-    \item[$\bullet$] \textbf{Fraudes en réseau ou en bande organisée} : l'identification de liens entre individus (même adresse, même véhicule impliqué dans plusieurs sinistres, tiers récurrents dans des accidents) permettrait de détecter des schémas de fraude structurés. Par exemple, des accidents impliquant régulièrement les mêmes personnes ou garages peuvent révéler des montages frauduleux (accidents simulés, complicités avec des réparateurs, etc.).
-    \item[$\bullet$] \textbf{Incohérences entre profil assuré et sinistre déclaré} : certaines variables portefeuille (âge, ancienneté de conduite, historique de comportement) permettent de mieux contextualiser un sinistre. Par exemple, un assuré sans historique de sinistre déclarant soudainement un sinistre grave peut être analysé différemment d'un profil déjà sinistré.
+\begin{itemize}[label = $\bullet$]
+    \item \textbf{Fraudes opportunistes liées à une ancienneté très faible du contrat} : un sinistre survenant peu de temps après la souscription (ex : vol ou incendie dans les premières semaines) constitue un signal faible classique, difficile à exploiter sans information sur la date d'entrée en portefeuille.
+    \item \textbf{Récurrence de sinistres sur un même assuré} : un assuré présentant une fréquence de sinistralité anormalement élevée sur une période donnée peut indiquer un comportement suspect (ex : déclarations répétées de bris de glace ou d'accidents matériels). Sans historique consolidé, ces signaux ne peuvent être captés que partiellement.
+    \item \textbf{Stratégies de multi-assurance ou de résiliation stratégique} : certains fraudeurs peuvent multiplier les contrats auprès de différents assureurs ou résilier après sinistre pour éviter d'être détectés. L'analyse des trajectoires contractuelles (durée de détention, fréquence de changement d'assureur) constitue alors une variable explicative clé.
+    \item \textbf{Fraudes en réseau ou en bande organisée} : l'identification de liens entre individus (même adresse, même véhicule impliqué dans plusieurs sinistres, tiers récurrents dans des accidents) permettrait de détecter des schémas de fraude structurés. Par exemple, des accidents impliquant régulièrement les mêmes personnes ou garages peuvent révéler des montages frauduleux (accidents simulés, complicités avec des réparateurs, etc.).
+    \item \textbf{Incohérences entre profil assuré et sinistre déclaré} : certaines variables portefeuille (âge, ancienneté de conduite, historique de comportement) permettent de mieux contextualiser un sinistre. Par exemple, un assuré sans historique de sinistre déclarant soudainement un sinistre grave peut être analysé différemment d'un profil déjà sinistré.
 \end{itemize}
 
 L'intégration de ces données permettrait d'introduire de nouvelles variables explicatives à forte valeur ajoutée actuarielle, telles que :
 
-\begin{itemize}
-    \item[$\bullet$] des indicateurs de fréquence individuelle de sinistralité ;
-    \item[$\bullet$] des variables de durée en portefeuille ;
-    \item[$\bullet$] des scores de comportement client ;
-    \item[$\bullet$] des variables de réseaux (graph analytics) identifiant des connexions entre dossiers.
+\begin{itemize}[label = $\bullet$]
+    \item des indicateurs de fréquence individuelle de sinistralité ;
+    \item \textbf{Variables de durée en portefeuille} ;
+    \item \textbf{Scores de comportement client} ;
+    \item \textbf{Variables de réseaux (\textit{graph analytics}) identifiant des connexions entre dossiers}.
 \end{itemize}
 
 Ces enrichissements contribueraient à améliorer significativement la capacité de discrimination du modèle, en captant des dimensions aujourd'hui absentes, notamment les effets temporels et relationnels. En pratique, cela se traduirait par une meilleure séparation entre sinistres frauduleux et non frauduleux, et donc une optimisation des actions de détection.
@@ -123,7 +129,7 @@ Outre l'ajout de données externes, une piste d'amélioration majeure réside da
 
 Le partage d'informations, dans un cadre réglementaire maîtrisé, permettrait d'améliorer les \textbf{taux de détection des fraudes en bande organisée}, en identifiant plus rapidement des schémas récurrents et des profils à risque. Un agent IA alimenté par une base mutualisée bénéficierait ainsi d'une \textbf{vision élargie}, renforçant significativement son efficacité.
 
-Un cas emblématique de fraude automobile organisée en France concerne le détournement du système d'immatriculation des véhicules (SIV), mis en place en 2017. Des réseaux ont exploité la possibilité, offerte aux professionnels habilités de réaliser des démarches administratives, en créant des « garages fictifs » servant de sociétés écrans. Ces structures ont permis l'immatriculation massive de véhicules frauduleux, facilitant notamment la réintroduction de véhicules volés dans le circuit légal et la dissimulation de leur traçabilité.
+Un cas emblématique de fraude automobile organisée en France concerne le détournement du système d'immatriculation des véhicules (SIV), mis en place en 2017. Des réseaux ont exploité la possibilité, offerte aux professionnels habilités de réaliser des démarches administratives, en créant des « garages fictifs » servant de sociétés écrans. Ces structures ont permis l'immatriculation massive de véhicules frauduleux, facilitant notamment la réintroduction de véhicules volés dans le circuit légal et la dissimulation de leur traçabilité.\footnote{\url{https://www.ccomptes.fr/fr/publications/la-fraude-aux-cartes-grises}}
 
 Selon plusieurs enquêtes de presse et sources sectorielles, cette fraude concernerait jusqu'à un million de véhicules et représenterait plus de 500 millions d'euros de pertes. Certains cas individuels font état de plusieurs milliers de véhicules immatriculés frauduleusement via une seule entité.
 
@@ -142,4 +148,16 @@ Une vision consolidée du client à travers l'ensemble des garanties permettrait
 Cette approche multi-produits s'inscrit dans une logique actuarielle de \textbf{vision client 360°}, encore peu exploitée mais porteuse de gains significatifs en matière de lutte contre la fraude.
 
 \subsection*{Conclusion}
+\addcontentsline{toc}{section}{\textbf{Conclusion}}
 
+Ce mémoire avait pour objectif de concevoir un outil d'aide à la décision permettant de détecter la fraude en assurance automobile et d'orienter les efforts d'investigation vers les dossiers les plus à risque. Il visait ainsi à répondre à une difficulté structurelle de la lutte anti-fraude : le coût d'une investigation manuelle, qui rend non rentable le contrôle de la fraude de faible montant et laisse échapper une part importante du préjudice. L'enjeu était donc de montrer qu'un agent d'intelligence artificielle pouvait automatiser cette détection à moindre coût et à grande échelle.
+
+Pour y parvenir, il a d'abord fallu constituer une base de travail réaliste. Faute de données réelles suffisamment riches, nous avons enrichi une base publique de sinistres automobiles de trente variables simulées, reproduisant l'information dont dispose réellement un assureur au moment d'un sinistre (historique de l'assuré, du réparateur, du véhicule et du tiers, comportement déclaratif). Ce choix, assumé comme une limite, a permis de rapprocher l'exercice des conditions opérationnelles réelles.
+
+La démarche s'est ensuite structurée autour d'un agent piloté par un prompt décomposé en étapes successives, reproduisant la logique actuarielle : ingestion et audit de la qualité des données, analyse statistique descriptive, puis construction et comparaison des modèles. Trois modèles ont été calibrés puis évalués selon un arbitrage entre interprétabilité et performance : un scoring en points, un arbre de décision et un modèle de Gradient \textit{Boosting}. Ce dernier s'est révélé le plus discriminant, sans toutefois disqualifier le scoring en points, qui demeure une alternative crédible lorsque la transparence prime. Nous avons par ailleurs constaté que les trois modèles faisaient converger leur pouvoir explicatif vers les mêmes variables clés, ce qui a renforcé la confiance dans la cohérence des résultats avec l'intuition métier.
+
+L'un des partis pris forts de ce travail a été de décliner l'outil en deux modules indépendants, pensés pour deux profils d'utilisateurs distincts. Le premier, destiné aux actuaires, prend en charge la construction et la calibration du modèle ; le second, destiné aux gestionnaires de sinistres, en permet l'exploitation quotidienne sans en exposer la complexité, en restituant pour chaque dossier une probabilité de fraude et une orientation d'investigation. Cette séparation des rôles répond à une réalité de terrain : ceux qui conçoivent le modèle et ceux qui l'utilisent ne sont pas les mêmes équipes. Enfin, l'outil a été pensé non comme un modèle figé mais comme un dispositif évolutif : une boucle de rétroaction réintègre dans la base d'apprentissage les dossiers dont l'investigation est close, permettant un recalibrage régulier sur des cas avérés, tandis qu'un rapport de pilotage mesure en continu la valeur ajoutée de l'outil (fraude évitée, impact sur le ratio Sinistres/Primes, retour sur investissement).
+
+Ce travail comporte naturellement des limites. La principale tient au caractère partiellement simulé des données et à la sur-représentation de la fraude dans la base retenue, qui imposeraient de recalibrer le modèle sur une sinistralité réellement représentative avant tout déploiement. Par ailleurs, l'approche supervisée adoptée ne détecte que la fraude de type connu, celle dont on possède des exemples historiques labellisés ; elle reste par construction aveugle aux schémas de fraude organisée ou inédits. Plusieurs prolongements permettraient de dépasser ces limites : le couplage à une base portefeuille, l'intégration de données externes, le recours à des méthodes non supervisées ou d'analyse de graphes pour la fraude en réseau, la mutualisation inter-assureurs pour repérer les fraudeurs « nomades », ou encore l'extension de l'outil à d'autres branches de l'assurance non-vie.
+
+Au-delà de la seule performance technique, ce mémoire illustre la place croissante de l'actuaire dans la conception d'outils décisionnels concrets, à l'intersection de la modélisation, de la contrainte réglementaire et de l'usage métier. La détection de la fraude est devenue un enjeu stratégique pour les assureurs, et si l'intelligence artificielle en démultiplie aujourd'hui les moyens, elle ne prendra tout son sens qu'articulée à une supervision humaine garante de la maîtrise du risque et du respect des droits des assurés.
