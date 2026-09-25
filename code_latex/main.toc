@@ -41,7 +41,7 @@
 \contentsline {section}{\numberline {3.3}Le gradient boosting}{22}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Les modèles de scoring à points}{23}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Apprentissage non supervisé : détection d'anomalies et comportements atypiques}{24}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Les algorithmes d'isolation (exemple : Isolation Forest)}{25}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.1}Les algorithmes d'isolation (Exemple : Isolation Forest)}{25}{subsection.3.5.1}%
 \contentsline {subsection}{\numberline {3.5.2}Le partitionnement de données (Clustering)}{25}{subsection.3.5.2}%
 \contentsline {section}{\numberline {3.6}Analyse de réseaux (Graph Mining) pour la détection de la fraude organisée}{26}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Modélisation mathématique du réseau de fraude}{26}{subsection.3.6.1}%
@@ -65,6 +65,7 @@
 \contentsline {subsection}{\numberline {4.5.3}Création de classes de variables}{49}{subsection.4.5.3}%
 \contentsline {subsection}{\numberline {4.5.4}Analyse des corrélations entre les variables}{54}{subsection.4.5.4}%
 \contentsline {subsubsection}{\numberline {4.5.4.1}Élimination des variables corrélées}{58}{subsubsection.4.5.4.1}%
+\contentsline {subsection}{\numberline {4.5.5}Analyse du coût moyen de la fraude}{60}{subsection.4.5.5}%
 \contentsline {chapter}{\numberline {5}Création du modèle de détection de fraude : Étapes 4 et 5}{62}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Scoring en points}{64}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Résultats du modèle}{64}{subsection.5.1.1}%

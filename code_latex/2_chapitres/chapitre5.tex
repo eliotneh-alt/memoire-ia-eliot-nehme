@@ -86,7 +86,7 @@ En sortie du modèle, on obtient les indicateurs suivants :
     \text{WOE} = \ln(\text{odds}_{\text{modalité}}) - \ln(\text{odds}_{\text{global}})
 \end{equation}
 
-\textcolor{vert}{Par exemple, pour la variable « \textit{repaired\_avg\_invoice\_vs\_market} », sur la modalité « Off market », le taux global de fraude est de $2\,752 / 24\,000 \approx 11,5~\%$, donc $\ln(0,48 / 0,52) - \ln(0,115 / 0,885) = 1,96$}. Un WOE positif signifie donc « plus risqué que la moyenne du portefeuille », négatif « moins risqué », et 0 correspond exactement au risque moyen. C'est la variable explicative réellement injectée dans la régression : chaque modalité est remplacée par son WOE.
+\textcolor{vert}{Par exemple, pour la variable « \textit{repairer\_avg\_invoice\_vs\_market} », sur la modalité « Off market », le taux global de fraude est de $2\,752 / 24\,000 \approx 11,5~\%$, donc $\ln(0,48 / 0,52) - \ln(0,115 / 0,885) = 1,96$}. Un WOE positif signifie donc « plus risqué que la moyenne du portefeuille », négatif « moins risqué », et 0 correspond exactement au risque moyen. C'est la variable explicative réellement injectée dans la régression : chaque modalité est remplacée par son WOE.
 
 \begin{itemize}[label=$\bullet$]
     \item L'Information Value (IV) : c'est une mesure de pouvoir discriminant univarié, indépendante du modèle final, donnée par :
@@ -96,7 +96,7 @@ En sortie du modèle, on obtient les indicateurs suivants :
     \text{IV} = \sum_{\text{modalités}} (\%\,\text{fraudes} - \%\,\text{non-fraudes}) \times \text{WOE}
 \end{equation}
 
-\textcolor{vert}{Par exemple, sur la variable «\textit{repaired\_avg\_invoice\_vs\_market} » : $(0,661 - 0,953) \times (-0,366) + (0,339 - 0,048) \times 1,965 = 0,680$.}
+\textcolor{vert}{Par exemple, sur la variable «\textit{repairer\_avg\_invoice\_vs\_market} » : $(0,661 - 0,953) \times (-0,366) + (0,339 - 0,048) \times 1,965 = 0,680$.}
 
 \begin{table}[H]
     \centering
@@ -185,7 +185,7 @@ Une fois les scores calculés, il est important de regarder leur distribution pa
     \label{fig:distribution-points}
 \end{figure}
 
-On observe sur la figure~\ref{fig:distribution-points} que les sinistres frauduleux sont principalement concentrés sur la droite du graphique, correspondant aux scores élevés, à l'inverse des sinistres non frauduleux qui sont concentrés à gauche.
+On observe sur la figure~\ref{fig:distribution-points} que les sinistres frauduleux sont principalement concentrés sur la droite du graphique, correspondant aux scores élevés, à contrario des sinistres non frauduleux qui sont concentrés à gauche.
 
 L'analyse de la sortie du modèle ne se limite pas à la distribution des scores par classe. Il convient également de comparer les niveaux de score observés entre les sinistres frauduleux et les sinistres non frauduleux. Si le modèle est pertinent, les dossiers frauduleux doivent, en moyenne, présenter des scores plus élevés. Cette étape permet d'évaluer la capacité du \textit{scoring} à séparer les deux populations et à hiérarchiser le risque de fraude de manière cohérente.
 
@@ -425,8 +425,9 @@ On peut distinguer \textbf{trois zones de risque} assez naturelles :
 
 \begin{itemize}[label = $\bullet$]
     \item \textbf{Zone faible ($<$35~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$10~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
-    \item \textbf{Zone intermédiaire ($\approx$ 35~\% à 90~\%)} : on observe une montée progressive du taux de fraude (environ 20~\% à 30~\%+) : un \textbf{seuil de vérification intermédiaire autour de 65--70~\%} paraît pertinent. À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
-    \item \textbf{Zone élevée ($>$ 90~\%)} : le taux de fraude devient nettement plus important (60~\% à plus de 70~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 90~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
+    \item \textbf{Zone intermédiaire ($\approx$ 35~\% à 90~\%)} : on observe une tendance progressive du taux de fraude (avec cependant parfois des tranches de probabilité de fraude estimées supérieurs, ayant un taux de fraude avérée inférieur, \textbf{ce qui témoigne d'un défaut de linéarité du modèle}).
+    À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore réalisable manuellement pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.). 
+    \item \textbf{Zone élevée ($>$ 90~\%)} : le taux de fraude devient nettement plus important avec plus d'un sinistre sur trois identifié comme frauduleux.
 \end{itemize}
 
 Autrement dit, les règles d'investigation suivantes peuvent être mises en place :
@@ -460,7 +461,7 @@ Néanmoins, la méthode graphique de détermination du seuil n'est pas toujours 
 \subsection{Qualité du modèle obtenu}
 % --------------------------------------------------------------
 
-L'introduction d'un arbre de décision permet de franchir un cap significatif. En intégrant des interactions entre variables et des effets de seuil, le modèle améliore la structuration du risque et offre une segmentation plus nette du portefeuille. La hiérarchisation des dossiers est plus cohérente : les feuilles les plus risquées de l'arbre concentrent un taux de fraude très élevé, proche de 79~\%, bien au-delà de ce que permettait le \textit{scoring} en points. Le modèle gagne ainsi en pouvoir discriminant sur les segments extrêmes, tout en conservant une certaine lisibilité grâce à sa structure arborescente.
+L'introduction d'un arbre de décision permet de franchir un cap significatif. En intégrant des interactions entre variables et des effets de seuil, le modèle améliore la structuration du risque et offre une segmentation plus nette du portefeuille. La hiérarchisation des dossiers est plus cohérente : les feuilles les plus risquées de l'arbre concentrent un taux de fraude très élevé, proche de 80~\%, bien au-delà de ce que permettait le \textit{scoring} en points. Le modèle gagne ainsi en pouvoir discriminant sur les segments extrêmes, tout en conservant une certaine lisibilité grâce à sa structure arborescente.
 
 Les indicateurs présentés dans cette partie sont l'application pratique des critères de qualité des modèles mis en place présentés en section~\ref{sec:criteres-evaluation}.
 
@@ -773,11 +774,9 @@ Les trois modèles présentent une stabilité temporelle remarquable, avec des v
 
 \subsubsection*{Analyse du compromis précision / rappel et choix du seuil de décision}
 
-Le Gradient \textit{Boosting} s'impose comme le modèle retenu à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0\,942, un indice de Gini de 0\,885 et un lift de $\times$6,66 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0\,838, indice de Gini de 0\,676, lift de $\times$4,61) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0\,923, indice de Gini de 0\,846). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
+Le Gradient \textit{Boosting} s'impose comme le modèle retenu à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0\,933, un indice de Gini de 0\,867 et un lift de $\times$6,37 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0\,845, indice de Gini de 0\,690, lift de $\times$4,83) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0\,917, indice de Gini de 0\,835). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
 
-Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,923 et un indice de Gini de 0,846, il se situe très près du Gradient Boosting et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (Gradient \textit{Boosting}) et interprétabilité (\text{scoring} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
-
-Enfin, quel que soit le modèle retenu, la lecture des performances appelle une nuance commune. Le compromis entre précision et rappel est la conséquence directe du fort déséquilibre des classes dans les données de sinistres. D'un point de vue actuariel, ce ratio doit être piloté explicitement : modifier le seuil de décision permet d'ajuster le rappel au prix d'un volume plus ou moins élevé de dossiers à investiguer.
+Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,917 et un indice de Gini de 0,835, il se situe très près du Gradient Boosting et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (Gradient \textit{Boosting}) et interprétabilité (\text{scoring} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
 
 Enfin, quel que soit le modèle retenu, la lecture des performances appelle une nuance commune, liée à la tension inhérente entre précision et rappel. Ces deux indicateurs évoluent en sens inverse selon le seuil de décision : abaisser le seuil permet de détecter davantage de fraudes (rappel plus élevé), mais au prix d'un plus grand nombre de dossiers sains signalés à tort (précision plus faible), et inversement.. D'un point de vue actuariel, ce ratio doit être piloté explicitement : modifier le seuil de décision permet d'ajuster le rappel au prix d'un volume plus ou moins élevé de dossiers à investiguer. Le choix optimal de ce curseur dépend du coût asymétrique des deux types d'erreurs : un faux négatif (fraude non détectée) engendre une perte indemnisée à tort, tandis qu'un faux positif (investigation inutile) représente un coût opérationnel pour la cellule fraude. C'est précisément pour cette raison que l'outil développé laisse à l'utilisateur le soin de manipuler dynamiquement le curseur des seuils de détection, afin d'adapter le dispositif au contexte et à l'appétence au risque de chaque assureur.
 
@@ -799,7 +798,7 @@ Dans notre cas, on choisit le modèle Gradient \textit{Boosting} avec les seuils
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre5/configuration.png}
+    \includegraphics[width=0.8\textwidth]{images/chapitre5/configuration.png}
     \caption{Configuration finale du modèle et des seuils d'investigation}
     \label{fig:configuration}
 \end{figure}

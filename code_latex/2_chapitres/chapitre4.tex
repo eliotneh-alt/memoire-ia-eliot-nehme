@@ -433,7 +433,7 @@ Dans notre outil, un contrôle bloquant a été mis en place sur la complétude 
 
 Ici, la variable « \textit{policy\_deductible} » qui correspond à la franchise du contrat admet une valeur manquante. L'utilisateur est invité à choisir une des valeurs qui s'affiche pour compléter la ligne manquante (les valeurs affichées correspondent aux modalités observées dans la base d'entrée), ou à entrer manuellement une valeur dans un champ dédié.
 
-Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en Annexe (Cf.~XXXX).} :
+Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en Annexe \ref{subsec:annexe-variables}.} :
 
 \begin{figure}[H]
     \centering
@@ -502,7 +502,7 @@ Le prompt adressé à l'agent concernant l'analyse de composition de portefeuill
 
 La base de données étudiée comprend 30\,000 sinistres automobiles, offrant ainsi un volume suffisant pour mener une analyse statistique robuste et entraîner des modèles de détection de la fraude performants.
 
-Les classifications de certaines variables proposées ici en sortie (comme \textit{insured\_age} et \textit{incident\_hour\_of\_the\_day}) ont été définies par l'agent. Ces dernières seront modifiées par la suite et recréées via les méthodes classiques de création de classes telles que l'algorithme K-means ou encore la méthode de classification hiérarchique ascendante (cf. paragraphe \ref{subsec:analyse-frequence}).
+Les classifications de certaines variables proposées ici en sortie (comme \textit{insured\_age} et \textit{incident\_hour\_of\_the\_day}) ont été définies par l'agent. Ces dernières seront modifiées par la suite et recréées via les méthodes classiques de création de classes telles que le découpage en quantiles, l'algorithme K-means ou encore la méthode de classification hiérarchique ascendante (cf. paragraphe \ref{subsec:analyse-frequence}).
 
 Cette analyse descriptive de la base sinistres permet d'établir une vision globale de la structure des données, sans distinction entre sinistres frauduleux et non frauduleux. La section suivante propose d'affiner cette exploration en adoptant une lecture bivariée, c'est-à-dire en comparant systématiquement la distribution de chaque variable selon le statut de fraude, afin d'identifier les premières variables discriminantes qui pourront guider la construction des modèles prédictifs.
 
@@ -1164,12 +1164,17 @@ Nous décidons, suite aux résultats des analyses de corrélation, de supprimer 
 Cette sélection, réalisée en amont de la modélisation, garantit que seules les variables réellement porteuses d'information alimentent les modèles.
 
 % --------------------------------------------------------------
-\subsection*{Analyse du coût moyen de la fraude}
+\subsection{Analyse du coût moyen de la fraude}
 % --------------------------------------------------------------
 
 Après avoir analysé la fréquence de fraude, une étude est réalisée sur le coût moyen des dossiers frauduleux (représenté par la variable « \textit{total\_claim\_amount} »).
 
-\textit{ICI METTRE L'IMAGE}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/chapitre4/analyse_cm.png}
+    \caption{Coût moyen des sinistres selon le statut de fraude}
+    \label{fig:cout-moyen-fraude}
+\end{figure}
 
 Ces indicateurs nous permettent de faire un constat contre-intuitif : la fraude ne concerne pas les sinistres les plus coûteux. Le coût moyen des 3 440 dossiers frauduleux s'élève à $12\,675{,}09$ USD, soit un montant quasiment identique, et même légèrement inférieur, au coût moyen global ($12\,757{,}74$ USD). Autrement dit, les dossiers frauduleux ne se distinguent pas par des montants réclamés plus élevés que les dossiers sains.
 

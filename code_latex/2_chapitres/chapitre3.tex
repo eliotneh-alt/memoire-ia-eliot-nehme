@@ -189,7 +189,7 @@ Pour pallier cette faille, les assureurs déploient en complément des algorithm
 Deux grandes familles de méthodes se distinguent pour ce type d'analyse : les algorithmes d'isolation et le partitionnement des données.
 
 % --------------------------------------------------------------
-\subsection{Les algorithmes d'isolation (exemple : Isolation Forest)}
+\subsection{Les algorithmes d'isolation (Exemple : Isolation Forest)}
 % --------------------------------------------------------------
 
 Contrairement aux approches statistiques classiques qui cherchent d'abord à modéliser le comportement « normal » pour ensuite en déduire les anomalies, l'\textit{Isolation Forest} cherche directement à isoler les anomalies. Ce modèle repose sur un postulat simple : les anomalies sont des données « peu nombreuses et différentes » (\textit{few and different}).
@@ -257,7 +257,7 @@ Si cette similarité dépasse un seuil critique défini par l'actuaire, une arê
 
 Une fois le graphe construit, l'objectif n'est plus d'évaluer la probabilité de fraude d'un nœud individuel, mais d'identifier des sous-graphes anormalement denses. En théorie des graphes, on appelle cela la détection de communautés ou de composantes connexes.
 
-Des algorithmes comme la méthode de Louvain ou la propagation de labels (Label Propagation) sont utilisés pour partitionner le graphe. Ils cherchent à maximiser la modularité $Q$, c'est-à-dire la densité des liens à l'intérieur d'un cluster par rapport à la densité des liens à l'extérieur :
+Des algorithmes comme la méthode de Louvain ou la propagation de labels (Label Propagation)\footnote{Ces algorithmes ne sont volontairement pas détaillés ici car ils ne seront pas utilisés dans le mémoire. Ils sont présentés de manière informative.} sont utilisés pour partitionner le graphe. Ils cherchent à maximiser la modularité $Q$, c'est-à-dire la densité des liens à l'intérieur d'un cluster par rapport à la densité des liens à l'extérieur :
 
 \begin{equation}
     Q = \frac{1}{2m} \sum_{i,j} \left( A_{ij} - \frac{k_i k_j}{2m} \right) \delta(c_i, c_j)
