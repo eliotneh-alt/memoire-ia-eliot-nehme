@@ -99,7 +99,7 @@ L'inertie totale étant constante, minimiser l'inertie intra-classes et maximise
 
 À chaque étape de l'algorithme, chaque individu porte un numéro de classe compris entre 1 et $K$. Notons $L_t^{(i)}$ le numéro de la classe de l'individu $x_i$ à l'issue de l'étape $t$, et $g_k^t$ le centre de gravité de la classe $k$ à cette même étape.
 
-\textbf{Étape 1 --- Initialisation.} $K$ centres de gravité $g_k^0$ sont tirés aléatoirement, puis chaque individu est affecté à la classe dont le centre est le plus proche :
+\textbf{Étape 1 : Initialisation.} $K$ centres de gravité $g_k^0$ sont tirés aléatoirement, puis chaque individu est affecté à la classe dont le centre est le plus proche :
 
 \begin{equation}
     L_0^{(i)} = n \quad \text{tel que} \quad d(x_i, g_n^0) = \min_{k \in \llbracket 1 ; K \rrbracket} \left\{ d(x_i, g_k^0) \right\}
@@ -107,18 +107,18 @@ L'inertie totale étant constante, minimiser l'inertie intra-classes et maximise
 
 À l'issue de cette première étape, $K$ groupes sont constitués, mais de façon purement arbitraire : ils contiennent des individus qui ne se ressemblent pas. Les étapes suivantes vont progressivement attirer vers un même centre les individus semblables.
 
-\textbf{Étape 2 --- Réaffectation.} Les barycentres des classes obtenues à l'étape précédente sont recalculés, puis chaque observation est réaffectée au barycentre dont elle est la plus proche. De nouvelles classes se forment :
+\textbf{Étape 2 : Réaffectation.} Les barycentres des classes obtenues à l'étape précédente sont recalculés, puis chaque observation est réaffectée au barycentre dont elle est la plus proche. De nouvelles classes se forment :
 
 \begin{equation}
     L_t^{(i)} = n \quad \text{tel que} \quad d(x_i, g_n^t) = \min_{k \in \llbracket 1 ; K \rrbracket} \left\{ d(x_i, g_k^t) \right\}
 \end{equation}
 
-\textbf{Étape 3 --- Itération.} L'étape 2 est renouvelée jusqu'à l'obtention d'un critère de classification stable, c'est-à-dire jusqu'à ce que plus aucune observation ne change de classe d'une itération à la suivante.
+\textbf{Étape 3 : Itération.} L'étape 2 est renouvelée jusqu'à l'obtention d'un critère de classification stable, c'est-à-dire jusqu'à ce que plus aucune observation ne change de classe d'une itération à la suivante.
 
 \medskip
 \noindent\fbox{%
     \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
-        \textbf{Remarque --- dépendance à l'initialisation}\\[0.5ex]
+        \textbf{Remarque : dépendance à l'initialisation}\\[0.5ex]
         Le processus de classification est simple, mais la partition finale dépend de la partition aléatoire initiale : l'algorithme converge vers un minimum local de l'inertie intra-classes, et non nécessairement vers le minimum global. Il convient donc de relancer l'algorithme un nombre suffisant de fois, à partir de tirages initiaux différents, et de retenir la meilleure partition obtenue. C'est à cette condition seulement que la classification choisie peut être jugée robuste.%
     }%
 }
@@ -132,13 +132,13 @@ Le nombre de classes $K$ n'est pas déterminé par l'algorithme : il doit être 
     \frac{\text{variance inter-classes}}{\text{variance totale}} > 95~\%
 \end{equation}
 
-Ce rapport croît mécaniquement avec $K$ --- il vaut 1 lorsque chaque observation forme sa propre classe --- de sorte que le seuil retenu arbitre entre finesse de la partition et parcimonie. En pratique, on retient le plus petit nombre de classes satisfaisant le seuil.
+Ce rapport croît mécaniquement avec $K$ : il vaut 1 lorsque chaque observation forme sa propre classe : de sorte que le seuil retenu arbitre entre finesse de la partition et parcimonie. En pratique, on retient le plus petit nombre de classes satisfaisant le seuil.
 
 \medskip
 \noindent\fbox{%
     \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
-        \textbf{Remarque --- exploitabilité de la partition obtenue}\\[0.5ex]
-        Les classes issues de l'algorithme ne sont pas toujours utilisables telles quelles. Le cas le plus fréquent est celui de classes d'effectifs très hétérogènes, certaines étant trop peu peuplées pour qu'un paramètre puisse y être estimé de façon fiable. Il est alors nécessaire de procéder à des regroupements complémentaires, propres à la problématique étudiée, pour rendre la partition exploitable --- au prix d'un écart au critère d'inertie initialement optimisé.%
+        \textbf{Remarque : exploitabilité de la partition obtenue}\\[0.5ex]
+        Les classes issues de l'algorithme ne sont pas toujours utilisables telles quelles. Le cas le plus fréquent est celui de classes d'effectifs très hétérogènes, certaines étant trop peu peuplées pour qu'un paramètre puisse y être estimé de façon fiable. Il est alors nécessaire de procéder à des regroupements complémentaires, propres à la problématique étudiée, pour rendre la partition exploitable (au prix d'un écart au critère d'inertie initialement optimisé).
     }%
 }
 \medskip
@@ -157,14 +157,14 @@ La proximité, entre individus comme entre classes déjà formées, est mesurée
 
 \subsubsection*{L'algorithme}
 
-\textbf{Première étape --- Préparation des données.} Mesurer une distance entre individus suppose des données numériques et comparables entre elles. Deux traitements sont donc appliqués au préalable :
+\textbf{Première étape : Préparation des données.} Mesurer une distance entre individus suppose des données numériques et comparables entre elles. Deux traitements sont donc appliqués au préalable :
 
 \begin{itemize}[label=$\bullet$]
     \item les variables qualitatives sont rendues quantitatives. La technique usuelle consiste à créer, pour chaque modalité existante, une variable indicatrice valant 1 en cas de présence de la modalité et 0 en cas d'absence ;
     \item les variables sont centrées et réduites, en retranchant la moyenne de la variable considérée et en divisant par son écart-type, afin que chacune pèse le même poids dans le calcul des distances.
 \end{itemize}
 
-\textbf{Deuxième étape --- Application de l'algorithme.}
+\textbf{Deuxième étape : Application de l'algorithme.}
 
 \textit{Initialisation.} Les classes initiales sont les $n$ singletons, chaque individu constituant sa propre classe. La matrice des distances deux à deux entre ces $n$ classes est calculée.
 
@@ -197,8 +197,8 @@ La pondération par les effectifs a une conséquence pratique notable : à dista
 \medskip
 \noindent\fbox{%
     \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
-        \textbf{Remarque --- lien avec la décomposition de l'inertie}\\[0.5ex]
-        Lorsque deux classes sont remplacées par leur réunion, la diminution de l'inertie inter-classes --- et donc, par le théorème de Huygens, l'augmentation de l'inertie intra-classes --- est exactement égale à la distance de Ward entre ces deux classes. La méthode de Ward revient ainsi à choisir, à chaque étape, le regroupement qui dégrade le moins l'homogénéité interne des classes. C'est le même critère d'inertie que celui des K-means, appliqué de façon séquentielle et non plus globale.%
+        \textbf{Remarque : lien avec la décomposition de l'inertie}\\[0.5ex]
+        Lorsque deux classes sont remplacées par leur réunion, la diminution de l'inertie inter-classes et donc par le théorème de Huygens, l'augmentation de l'inertie intra-classes est exactement égale à la distance de Ward entre ces deux classes. La méthode de Ward revient ainsi à choisir, à chaque étape, le regroupement qui dégrade le moins l'homogénéité interne des classes. C'est le même critère d'inertie que celui des K-means, appliqué de façon séquentielle et non plus globale.%
     }%
 }
 \medskip
@@ -218,8 +218,8 @@ Le nombre de classes à retenir revient à couper l'arbre à une certaine hauteu
 \medskip
 \noindent\fbox{%
     \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
-        \textbf{Remarque --- effectifs et pertinence des classes}\\[0.5ex]
-        Comme pour les K-means, les classes obtenues peuvent présenter des effectifs hétérogènes, voire insuffisants au regard des seuils habituellement retenus. Le réflexe de les regrouper n'est toutefois pas systématique : lorsque la faiblesse d'un effectif traduit un écart réel et durable de comportement --- une modalité rare mais nettement plus risquée que les autres, par exemple --- la fusionner avec une classe voisine ferait disparaître l'information même que la classification avait mise en évidence. L'arbitrage entre robustesse statistique et finesse de la segmentation relève alors du jugement, non de l'algorithme.%
+        \textbf{Remarque : effectifs et pertinence des classes}\\[0.5ex]
+        Comme pour les K-means, les classes obtenues peuvent présenter des effectifs hétérogènes, voire insuffisants au regard des seuils habituellement retenus. Le réflexe de les regrouper n'est toutefois pas systématique : lorsque la faiblesse d'un effectif traduit un écart réel et durable de comportement (une modalité rare mais nettement plus risquée que les autres, par exemple) la fusionner avec une classe voisine ferait disparaître l'information même que la classification avait mise en évidence. L'arbitrage entre robustesse statistique et finesse de la segmentation relève alors du jugement, non de l'algorithme.%
     }%
 }
 
@@ -240,6 +240,36 @@ Le nombre de classes à retenir revient à couper l'arbre à une certaine hauteu
 
 \subsection*{Composition détaillée du portefeuille (sortie complète de l'agent)}
 
-\begin{center}
-    \includegraphics[width=\textwidth,height=0.85\textheight,keepaspectratio]{images/annexe/compo_portefeuille.png}
-\end{center}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.05\textwidth]{images/annexe/compo_portefeuille1.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/annexe/compo_portefeuille2.png}
+\end{figure}
+
+
+\clearpage
+
+\subsection*{Matrices de corrélations entre variables qualitatives  et quantitatives (sortie complète de l'agent)}
+
+\textbf{Qualitatives x qualitatives :}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.05\textwidth]{images/annexe/correl_quali_quali1.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.05\textwidth]{images/annexe/correl_quali_quali2.png}
+\end{figure}
+
+\textbf{Qualitatives x quantitatives :}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.05\textwidth]{images/annexe/correl_quanti_quali.png}
+\end{figure}

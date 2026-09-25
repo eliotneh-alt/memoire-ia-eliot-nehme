@@ -3,7 +3,7 @@
 
 Dans la suite de l'analyse, l'étude se concentre sur trois approches de modélisation couramment utilisées en détection de fraude :
 
-\begin{itemize}
+\begin{itemize}[label=$\bullet$]
     \item Un \textbf{modèle de \textit{Scoring} en points} (interprétable et proche des pratiques actuarielles traditionnelles) ;
     \item Un \textbf{arbre de décision} (permettant de capturer des effets non linéaires et des interactions) ;
     \item Un \textbf{modèle de type Gradient Boosting} (plus performant en général grâce aux méthodes d'ensemble).
@@ -13,7 +13,7 @@ L'objectif est d'évaluer et de comparer leur \textbf{qualité de prédiction} �
 
 Dans ce cadre, l'outil développé propose dans un premier temps de sélectionner un partitionnement de la base globale de manière à définir deux jeux de données :
 
-\begin{itemize}
+\begin{itemize}[label=$\bullet$]
     \item Un jeu qui servira de base d'apprentissage ;
     \item Un jeu qui servira de base de test du modèle créé.
 \end{itemize}
@@ -261,7 +261,7 @@ Appliqué à ce modèle, le seuil optimal est alors de 35~\%.
 
 \underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
+\begin{itemize}[label =$\bullet$]
     \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $4\,732 / 5\,312 = 89{,}08~\%$ ;
     \item Le taux de fraude détectées (prédit fraude / réel fraude) : $527 / 688 = 76{,}60~\%$ ;
     \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $1\,107 / 6\,000 = 18{,}45~\%$.
@@ -619,7 +619,7 @@ Cette performance s'explique par la capacité du Gradient \textit{Boosting} à c
 
 D'où les zones d'investigation suivantes :
 
-\begin{itemize}
+\begin{itemize}[label = $\bullet$]
     \item \textbf{Zone faible ($<$45~\%)} : le taux de fraude reste globalement modéré (inférieur à $\sim$10~\%). Ces dossiers peuvent être traités en flux standard, éventuellement avec des contrôles légers automatisés.
     \item \textbf{Zone intermédiaire ($\approx$ 45~\% à 85~\%)} : on observe une montée progressive du taux de fraude (environ 10~\% à 45~\%). À ce niveau, on commence à avoir un enrichissement significatif en fraude, tout en conservant un volume de dossiers encore gérable pour des contrôles ciblés (revue documentaire, demandes complémentaires, etc.).
     \item \textbf{Zone élevée ($>$ 85~\%)} : le taux de fraude devient nettement plus important (58~\% à plus de 90~\% sur les dernières tranches). Un \textbf{seuil de vérification poussée autour de 85~\%} est cohérent. Au-delà de ce seuil, on concentre fortement les fraudes, ce qui justifie des investigations approfondies (enquête terrain, expertise renforcée, gel du dossier, etc.).
@@ -634,7 +634,7 @@ D'où les zones d'investigation suivantes :
 
 \underline{Cette matrice permet de calculer} :
 
-\begin{itemize}
+\begin{itemize}[label = $\bullet$]
     \item Le taux de non-fraudes bien classées (prédit non-fraudes / réel non-fraude total) : $5\,213 / 5\,312 = 98{,}14~\%$ ;
     \item Le taux de fraude détectées (prédit fraude / réel fraude) : $390 / 688 = 56{,}69~\%$.
     \item Le taux de sinistres signalés frauduleux : prédit fraude / total = $489 / 6\,000 = 8{,}15~\%$.
