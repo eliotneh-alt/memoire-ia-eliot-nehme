@@ -100,10 +100,10 @@ Le tirage \textit{bootstrap} offre en outre un mécanisme d'évaluation interne 
 Les propriétés de la forêt aléatoire en font un candidat particulièrement adapté à notre problème : elle capture automatiquement non-linéarités et interactions, tolère des variables hétérogènes, corrélées ou aberrantes, ne requiert qu'un prétraitement limité, et gère le déséquilibre des classes via une pondération ou un rééquilibrage des tirages (\textit{balanced random forest}). Elle se règle au moyen de quelques hyperparamètres principaux, notamment le nombre d'arbres, le nombre de variables candidates par nœud et la complexité des arbres, et échange une part de l'interprétabilité paramétrique du GLM contre un gain substantiel de pouvoir prédictif.
 
 % --------------------------------------------------------------
-\section{Le gradient boosting}
+\section{Le Gradient Boosting}
 % --------------------------------------------------------------
 
-Le \textbf{gradient boosting} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le bagging assemble des arbres \textbf{en parallèle} pour réduire la variance, le boosting les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
+Le \textbf{Gradient \textit{Boosting}} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le \textit{bagging} assemble des arbres \textbf{en parallèle} pour réduire la variance, le boosting les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
 
 \begin{equation}
     F_M(x) = \sum_{m=1}^{M} \nu\, h_m(x)
@@ -328,10 +328,16 @@ Ainsi, on distingue :
     
     \item \textbf{L'aire sous la courbe précision-rappel (PR-AUC)} : elle est particulièrement adaptée aux classes déséquilibrées, car elle se concentre sur la classe d'intérêt (la fraude) sans être flattée par l'abondance des vrais négatifs, contrairement à l'AUC-ROC qui peut donner une image trop optimiste. Son interprétation est relative : la valeur de référence (modèle aléatoire) n'est pas 0,5 mais la prévalence de la fraude $\pi$, de sorte qu'une PR-AUC doit toujours être appréciée au regard de ce taux de base.
     \item \textbf{Le F1-score} : il évalue une décision à un seuil fixé. Il s'agit de la moyenne harmonique de la précision $P = \dfrac{VP}{VP + FP}$ et du rappel $R = \dfrac{VP}{VP + FN}$, soit $F_1 = \dfrac{2PR}{P + R}$. Il offre un compromis entre les faux positifs (investigations menées à tort) et les faux négatifs (fraudes manquées). Comme il dépend du seuil retenu, on peut lui préférer une variante $F_\beta$ pondérant davantage le rappel lorsque le coût d'une fraude non détectée est jugé supérieur à celui d'une enquête inutile.
-    \item \textbf{Le lift au décile supérieur (lift@10~\%)} : il s'agit d'un indicateur opérationnel directement aligné sur la logique de priorisation de l'outil. Après avoir classé tous les dossiers par score décroissant, il rapporte le taux de fraude observé dans les 10~\% les plus suspects au taux de fraude global : $\text{lift@10\%} = \dfrac{\text{taux de fraude dans le décile supérieur}}{\text{taux de fraude global}}$. Un lift de 5 signifie que le décile ciblé concentre cinq fois plus de fraudes qu'une sélection aléatoire. Cet indicateur traduit concrètement le gain d'efficacité offert aux équipes d'investigation et se relie naturellement à l'arbitrage coût-bénéfice du dispositif. 
+    \item \textbf{Le lift au décile supérieur (lift@10~\%)} : il s'agit d'un indicateur opérationnel directement aligné sur la logique de priorisation de l'outil. Après avoir classé tous les dossiers par score décroissant, il rapporte le taux de fraude observé dans les 10~\% les plus suspects au taux de fraude global : 
+    
+    \begin{equation}
+        \text{lift@10\%} = \dfrac{\text{taux de fraude dans le décile supérieur}}{\text{taux de fraude global}}
+    \end{equation}
+    
+    Un lift de 5 signifie que le décile ciblé concentre cinq fois plus de fraudes qu'une sélection aléatoire. Cet indicateur traduit concrètement le gain d'efficacité offert aux équipes d'investigation et se relie naturellement à l'arbitrage coût-bénéfice du dispositif. 
 \end{itemize}
 
-De plus, on s'intéressera également à l'indice de stabilité des populations (PSI, Population Stability Index). Ce dernier ne mesure pas le pouvoir prédictif du modèle mais la stabilité de la population dans le temps. Il quantifie l'écart entre la distribution des scores observée sur une population de référence (typiquement l'échantillon d'apprentissage) et celle observée sur une population récente, afin de détecter une dérive susceptible de dégrader la pertinence du modèle. Après avoir réparti les scores en classes (souvent les déciles de la population de référence), il se calcule comme la somme sur les classes des écarts de proportions pondérés par le logarithme de leur rapport :
+De plus, on s'intéressera également à l'\textbf{indice de stabilité des populations} (PSI, Population Stability Index). Ce dernier ne mesure pas le pouvoir prédictif du modèle mais la stabilité de la population dans le temps. Il quantifie l'écart entre la distribution des scores observée sur une population de référence (typiquement l'échantillon d'apprentissage) et celle observée sur une population récente, afin de détecter une dérive susceptible de dégrader la pertinence du modèle. Après avoir réparti les scores en classes (souvent les déciles de la population de référence), il se calcule comme la somme sur les classes des écarts de proportions pondérés par le logarithme de leur rapport :
 
 \begin{equation}
     \text{PSI} = \sum_i (a_i - r_i) \, \ln \left( \frac{a_i}{r_i} \right),
@@ -349,6 +355,7 @@ En synthèse, l'évaluation d'un modèle actuariel de détection de fraude artic
 
 \noindent\fbox{%
     \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{%
-        Le dispositif d'évaluation retenu s'inscrit dans les attentes de la recommandation ACPR 2020-R-01 \footnote{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}} sur la gouvernance des algorithmes en assurance, laquelle exige l'existence d'un cadre de suivi de performance, de stabilité et d'explicabilité tout au long du cycle de vie du modèle. Le règlement européen sur l'intelligence artificielle classe par ailleurs les dispositifs de détection de fraude en assurance vie et santé comme systèmes à haut risque, imposant une documentation technique détaillée, une surveillance humaine et une évaluation continue, exigences que la batterie d'indicateurs présentée ci-dessus contribue à satisfaire (cf.~\ref{sec:gouvernance}).%
+        Le dispositif d'évaluation retenu s'inscrit dans les attentes de la recommandation ACPR 2020-R-01\footnotemark{} sur la gouvernance des algorithmes en assurance, laquelle exige l'existence d'un cadre de suivi de performance, de stabilité et d'explicabilité tout au long du cycle de vie du modèle. Le règlement européen sur l'intelligence artificielle classe par ailleurs les dispositifs de détection de fraude en assurance vie et santé comme systèmes à haut risque, imposant une documentation technique détaillée, une surveillance humaine et une évaluation continue, exigences que la batterie d'indicateurs présentée ci-dessus contribue à satisfaire (cf.~section~\ref{sec:gouvernance}).%
     }%
 }
+\footnotetext{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}}

@@ -3,12 +3,12 @@
 \contentsline {chapter}{Résumé}{v}{chapter*.3}%
 \contentsline {chapter}{Abstract}{vi}{chapter*.4}%
 \contentsline {chapter}{Synthèse}{vii}{chapter*.5}%
-\contentsline {chapter}{Synthesis}{xi}{chapter*.6}%
+\contentsline {chapter}{Synthesis}{xi}{chapter*.9}%
 \contentsline {chapter}{\numberline {1}Introduction et contexte}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Définition de la fraude à l'assurance}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Les stades d'occurrence de la fraude dans le cycle assurantiel en assurance non-vie}{2}{section.1.2}%
 \contentsline {subsection}{\numberline {1.2.1}La fraude à la souscription}{3}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}La fraude à la déclaration de sinistre}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.2}La fraude à la déclaration d'un sinistre}{3}{subsection.1.2.2}%
 \contentsline {subsection}{\numberline {1.2.3}La fraude liée aux Conditions Générales}{4}{subsection.1.2.3}%
 \contentsline {section}{\numberline {1.3}Cadre réglementaire des sanctions en cas de fraude avérée}{5}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}Souscription}{5}{subsection.1.3.1}%
@@ -38,7 +38,7 @@
 \contentsline {chapter}{\numberline {3}Cadre théorique : les algorithmes de détection de fraude utilisés en assurance non-vie}{19}{chapter.3}%
 \contentsline {section}{\numberline {3.1}La régression logistique (modèle de référence)}{20}{section.3.1}%
 \contentsline {section}{\numberline {3.2}La forêt aléatoire}{21}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Le gradient boosting}{22}{section.3.3}%
+\contentsline {section}{\numberline {3.3}Le Gradient Boosting}{22}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Les modèles de scoring à points}{23}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Apprentissage non supervisé : détection d'anomalies et comportements atypiques}{24}{section.3.5}%
 \contentsline {subsection}{\numberline {3.5.1}Les algorithmes d'isolation (Exemple : Isolation Forest)}{25}{subsection.3.5.1}%
@@ -92,6 +92,6 @@
 \contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{107}{subsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{108}{subsection.7.3.2}%
 \contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et extension à une approche multiproduit}{110}{section.7.4}%
-\contentsline {chapter}{\textbf {Conclusion}}{112}{chapter*.7}%
-\contentsline {chapter}{Annexes}{114}{chapter*.8}%
-\contentsline {section}{Méthodes de classification}{114}{section*.9}%
+\contentsline {chapter}{\textbf {Conclusion}}{112}{chapter*.98}%
+\contentsline {chapter}{Annexes}{114}{chapter*.99}%
+\contentsline {section}{Méthodes de classification}{114}{section*.100}%
