@@ -400,7 +400,7 @@ L'utilisateur clique ensuite sur le bouton « \textit{submit} » pour passer à 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/page_accueil_outil.png}
+    \includegraphics[width=0.75\textwidth]{images/chapitre4/page_accueil_outil.png}
     \caption{Page d'accueil de l'outil d'aide à la détection de fraude}
     \label{fig:page-accueil}
 \end{figure}
@@ -532,7 +532,7 @@ Suite à l'analyse de composition du portefeuille, une analyse de la fréquence 
 
 L'affichage a volontairement été limité à quatre variables à la fois pour offrir une meilleure clarté à l'utilisateur. Un choix d'affichage reste disponible à droite sur simple clic afin de permettre à l'utilisateur de choisir la/les variable(s) qu'il souhaite visualiser.
 
-\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par « police\_id » par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
+\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par «~police\_id~» par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
 
 L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
 
@@ -1038,12 +1038,23 @@ Les tableaux ci-dessous synthétisent l'ensemble de ces mesures et constituent a
 
 Pour chaque paire de variables par type, le coefficient de corrélation est calculé. La variable de fraude avérée (fraud\_reported), qui est notre variable à expliquer, ne fait pas partie des corrélations testées. L'objet ici est uniquement de relever les corrélations entre les variables explicatives.
 
-\begin{figure}[H]
+\begin{table}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/chapitre4/matrice_correlation1.png}
-    \caption{Coefficient de corrélation de Pearson ou coefficient de rang de Spearman : extrait de la matrice quantitative $\times$ quantitative}
-    \label{fig:matrice-correlation1}
-\end{figure}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+        \hline
+        \rowcolor{accenture}
+        \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{repairer\_nb\_claims\_total}} & \textcolor{white}{\textbf{repairer\_nb\_fraud\_confirmed}} \\
+        \hline
+        repairer\_nb\_claims\_total & 1 & \textbf{0,72} \\
+        \hline
+        repairer\_nb\_fraud\_confirmed & \textbf{0,72} & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Coefficient de corrélation de Pearson ou coefficient de rang de Spearman : Extrait de la matrice quantitative $\times$ quantitative}
+    \label{tab:pearson-spearman-extrait}
+\end{table}
 
 \begin{table}[H]
     \centering
@@ -1082,7 +1093,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
     \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives\protect\footnotemark}
     \label{tab:eta-extrait}
 \end{table}
-\footnotetext{La variable «~\textit{total\_claim\_amount}~» est ici traitée comme une variable quantitative après avoir subi un regroupement en classes (cf.~section~\ref{subsec:création-classes}).\par\smallskip À noter que les matrices~\ref{tab:cramer-extrait} et~\ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe~\ref{subsec:matrices-correl}.}
+\footnotetext{La variable «~\textit{total\_claim\_amount}~» est ici traitée comme une variable quantitative après avoir subi un regroupement en classes (cf.~section~\ref{subsec:création-classes}).\par\smallskip À noter que les matrices~\ref{tab:pearson-spearman-extrait}, \ref{tab:cramer-extrait} et~\ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe~\ref{subsec:matrices-correl}.}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 
