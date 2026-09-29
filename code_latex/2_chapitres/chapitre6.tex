@@ -61,7 +61,7 @@ Ces flux d'entrée reprennent exactement les mêmes variables explicatives que n
     \label{fig:saisie-manuelle}
 \end{figure}
 
-Sur la base des informations sinistre renseignés, le modèle calcule une \textbf{probabilité de fraude en appliquant le modèle retenu dans l'outil de modélisation de la fraude.}
+Sur la base des informations sinistre renseignées, le modèle calcule une \textbf{probabilité de fraude en appliquant le modèle retenu dans l'outil de modélisation de la fraude.}
 
 Cette probabilité constitue une mesure synthétique du risque, intégrant l'ensemble des signaux de fraude identifiés lors de la phase de modélisation.
 
@@ -98,7 +98,7 @@ Enfin, cet outil constitue un levier d'\textbf{harmonisation et de pilotage} à 
 \section{Un outil permettant l'enrichissement du modèle en continu}
 % --------------------------------------------------------------
 
-Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (\textit{feedback loop}) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base "historique" (ensemble des sinistres renseignés dans l'outil afin d'obtenir une probabilité de fraude), dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
+Dans une logique d'amélioration continue, l'outil intègre un mécanisme de boucle de retour d'information (\textit{feedback loop}) permettant d'enrichir progressivement la base de données d'apprentissage. Ce mécanisme repose sur une base « historique » (ensemble des sinistres renseignés dans l'outil afin d'obtenir une probabilité de fraude), dans laquelle sont automatiquement archivés l'ensemble des sinistres soumis à l'outil, accompagnés de la probabilité de fraude qui leur a été attribuée.
 
 \begin{figure}[H]
     \centering
@@ -120,13 +120,13 @@ Plutôt que de demander au gestionnaire de statuer immédiatement sur une fraude
 
 Une fois cette issue renseignée, le sinistre concerné dispose d'un couple complet d'informations : ses caractéristiques d'entrée d'une part, et sa variable cible de fraude (\textit{fraud\_reported}) d'autre part. Il devient alors une observation exploitable pour l'apprentissage, au même titre que les données ayant servi à la construction initiale du modèle. C'est bien un statut binaire, et non une probabilité, qui alimente ainsi la base : un sinistre confirmé comme frauduleux après investigation est enregistré à 1, tandis qu'un sinistre investigué mais jugé finalement légitime est enregistré à 0. Le modèle ne se réentraîne donc que sur des cas dont l'issue est avérée, et non sur de simples suspicions, ce qui garantit la fiabilité de son apprentissage au fil du temps.
 
-A noter que \textbf{l'enrichissement de la base de données ne modifie pas le modèle de façon instantanée}. En effet le réentraînement s'effectue en repassant par le module de construction (Module 1), qui refait tourner le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est à mener à intervalles de temps réguliers (, typiquement une fois par an), afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
+À noter que \textbf{l'enrichissement de la base de données ne modifie pas le modèle de façon instantanée}. En effet le réentraînement s'effectue en repassant par le module de construction (Module 1), qui refait tourner le modèle sur la base augmentée des nouvelles observations qualifiées. En pratique, cette opération est à mener à intervalles de temps réguliers (typiquement une fois par an), afin d'intégrer un volume significatif de nouveaux cas tout en garantissant la stabilité du dispositif entre deux mises à jour.
 
 Cette approche présente plusieurs intérêts sur le plan actuariel. D'abord, elle permet d'augmenter la taille et la représentativité de la base d'apprentissage, en y intégrant des cas récents qui reflètent l'évolution des comportements frauduleux et des méthodes de fraude utilisées. Elle contribue ainsi à réduire le décalage entre les données historiques initiales et la réalité opérationnelle, dans un contexte où les schémas de fraude évoluent rapidement.
 
 Ensuite, ces nouvelles observations permettent un recalibrage et une réestimation réguliers du modèle : actualisation des paramètres, amélioration de la capacité de discrimination et, le cas échéant, réajustement de la pondération des variables. L'objectif est de maintenir dans le temps une performance prédictive stable, mesurée à l'aide d'indicateurs tels que l'AUC, le Gini ou les courbes de gains, et de surveiller l'absence de dérive du modèle (notamment via le \textbf{Population Stability Index}).
 
-Enfin, l'intégration systématique des issues réelles permet de mieux maîtriser certains biais inhérents aux dispositifs de détection, en particulier le biais de sélection lié aux dossiers investigués. En alimentant la base avec les décisions finales issues de l'ensemble des sinistres traités (et non des seuls dossiers ayant fait l'objet d'une alerte) le modèle gagne en robustesse et en cohérence.
+Enfin, l'intégration systématique des issues réelles permet de mieux maîtriser certains biais inhérents aux dispositifs de détection, en particulier le biais de sélection lié aux dossiers investigués. En alimentant la base avec les décisions finales issues de l'ensemble des sinistres traités (et non des seuls dossiers ayant fait l'objet d'une alerte), le modèle gagne en robustesse et en cohérence.
 
 Ainsi, l'outil ne se limite pas à une utilisation statique du modèle : il s'inscrit dans une démarche dynamique de modélisation itérative, où chaque sinistre qualifié vient affiner la connaissance du risque et améliorer la pertinence du dispositif de détection.
 

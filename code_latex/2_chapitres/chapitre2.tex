@@ -13,7 +13,7 @@ Historiquement, la lutte contre la fraude en assurance non-vie repose sur une or
 
 Le premier maillon en est le gestionnaire de sinistres : chargé d'instruire les déclarations et de procéder à l'indemnisation, il constitue le point de contact initial avec le dossier et, à ce titre, la première ligne de détection.
 
-Lorsqu'un dossier éveille un doute, il peut être orienté vers une instance spécialisée (service ou cellule anti-fraude) composée d'enquêteurs et d'analystes dont c'est le métier exclusif. Ces cellules regroupent souvent des enquêteurs spécialisés, des data analystes (pour la détection algorithmique), des juristes et parfois d'anciens policiers ou gendarmes.
+Lorsqu'un dossier éveille un doute, il peut être orienté vers une instance spécialisée (service ou cellule anti-fraude) composée d'enquêteurs et d'analystes dont c'est le métier exclusif. Ces cellules regroupent souvent des enquêteurs spécialisés, des \textit{data analystes} (pour la détection algorithmique), des juristes et parfois d'anciens policiers ou gendarmes.
 
 Ces enquêteurs disposent de prérogatives et de moyens d'investigation plus poussés : demande de pièces complémentaires, vérification des déclarations, recoupement avec des bases sectorielles, recours éventuel à des expertises ou à des enquêtes de terrain.
 
@@ -52,7 +52,7 @@ L'essor des solutions de détection automatisée n'est pas le fruit d'une ruptur
 
 La première est l'\textbf{explosion du volume de données structurées} disponibles : la dématérialisation de la gestion des sinistres, la standardisation des systèmes d'information, la conservation systématique de l'historique des contrats et des déclarations ont constitué des bases de données riches, exploitables et homogènes, là où l'information était auparavant éparse et largement non numérisée.
 
-La deuxième tient à la \textbf{maturité des méthodes d'apprentissage} : les algorithmes de machine learning, et en particulier les méthodes d'ensemble sur données tabulaires présentées précédemment, sont désormais éprouvés, accessibles via des bibliothèques robustes et applicables à coût raisonnable.
+La deuxième tient à la \textbf{maturité des méthodes d'apprentissage} : les algorithmes de \textit{machine learning}, et en particulier les méthodes d'ensemble sur données tabulaires présentées précédemment, sont désormais éprouvés, accessibles via des bibliothèques robustes et applicables à coût raisonnable.
 
 La troisième relève du contexte économique : la \textbf{pression croissante sur les coûts et sur les délais de gestion} pousse les assureurs à rechercher des gains d'efficacité, tandis que la fraude, par son impact direct sur la sinistralité et donc sur la prime, demeure un enjeu financier majeur. La conjonction de ces facteurs (données disponibles, outils matures et nécessité économique) a rendu possible et souhaitable le passage à des dispositifs automatisés.
 
@@ -60,7 +60,7 @@ La troisième relève du contexte économique : la \textbf{pression croissante s
 \subsection{Les nouvelles approches}
 % --------------------------------------------------------------
 
-Ce passage s'est opéré par étapes. Les premiers dispositifs automatisés reposaient sur des \textbf{moteurs de règles} : des conditions explicites, traduisant les signaux d'alerte connus des experts (un délai inférieur à tel seuil, un cumul de sinistres supérieur à tel nombre), déclenchaient une alerte. Reproduisant la connaissance métier, ces systèmes en héritaient aussi les limites : rigides, ils ne détectaient que la fraude déjà identifiée et se révélaient incapables d'appréhender des schémas nouveaux ou la conjonction subtile de plusieurs facteurs.
+Ce passage s'est opéré par étapes. Les premiers dispositifs automatisés reposaient sur des \textbf{moteurs de règles} : des conditions explicites, traduisant les signaux d'alerte connus des experts (un sinistre survenant moins d'un an après la souscription, un cumul de sinistres supérieur à tel nombre), déclenchaient une alerte. Reproduisant la connaissance métier, ces systèmes en héritaient aussi les limites : rigides, ils ne détectaient que la fraude déjà identifiée et se révélaient incapables d'appréhender des schémas nouveaux ou la conjonction subtile de plusieurs facteurs.
 
 Les \textbf{modèles prédictifs} ont marqué l'évolution suivante : plutôt que d'appliquer des règles figées, ils apprennent à partir de l'historique des dossiers à attribuer à chaque sinistre un \textbf{score de risque de fraude}, c'est-à-dire une probabilité estimée à partir de l'ensemble de ses caractéristiques. Cette approche autorise une \textbf{détection circonstancielle}, fondée sur les caractéristiques du sinistre et de l'assuré (chronologie, antécédents, cohérence des circonstances déclarées, profil du dossier) et capable de capter automatiquement des interactions que nul ne formaliserait sous forme de règle. Surtout, elle modifie en profondeur la logique de couverture : alors que le contrôle manuel ne portait que sur un échantillon de dossiers, le modèle procède à un \textbf{traitement systématique de l'ensemble des dossiers}, chacun se voyant attribuer un score, sans tri préalable.
 
@@ -103,7 +103,7 @@ Loin de constituer une solution autosuffisante, l'intelligence artificielle appa
 \subsection{Les critères de comparaison}
 % --------------------------------------------------------------
 
-Comparer l'approche traditionnelle et l'approche automatisée suppose de fixer au préalable les dimensions sur lesquelles porte l'évaluation, afin d'éviter un jugement global et impressionniste. Sept critères apparaissent particulièrement structurants :
+Comparer l'approche traditionnelle et l'approche automatisée suppose de fixer au préalable les dimensions sur lesquelles porte l'évaluation, afin d'éviter un jugement global et subjectif. Sept critères apparaissent particulièrement structurants :
 
 \begin{enumerate}
     \item Le \textbf{volume de dossiers analysés} mesure la part du portefeuille effectivement soumise à un examen anti-fraude.

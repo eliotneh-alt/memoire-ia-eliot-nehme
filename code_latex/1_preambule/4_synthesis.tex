@@ -57,7 +57,7 @@ A counter-intuitive finding emerges : fraud is not concentrated among the most c
         \hline
     \end{tabularx}
     \caption{Synthesis of the quality indicator results for the different models}
-    \label{tab:synthese-modeles}
+    \label{tab:synthese-modeles-intro-en}
 \end{table}
 
 The Gradient Boosting model proves to be the most discriminating and is therefore selected, achieving an AUC of 0.933, a Gini coefficient of 0.867, and a lift of $\times6.37$ in the first decile. The points-based scorecard nevertheless remains a fully credible alternative: with an AUC of 0.917, it performs only slightly below Gradient Boosting while providing a level of transparency unavailable with ensemble methods, making it the preferred option when explainability takes precedence. The decision tree, which is outperformed across all criteria, is rejected. All three models also exhibit excellent stability, with PSI values well below the 0.10 alert threshold, and strong generalisation capacity.
@@ -120,7 +120,7 @@ Cases are accordingly divided into three risk categories: a green category for l
     \centering
     \includegraphics[width=0.95\textwidth]{images/chapitre6/tableau_proba.png}
     \caption{Assessment results provided to claims handlers: allocation of scored claims across three investigation categories (green / amber / red)}
-    \label{fig:tableau-proba-en}
+    \label{fig:tableau-proba-intro-en}
 \end{figure}
 
 The system is further complemented by a continuous enrichment loop. Once a case investigation has been completed, its actual outcome (confirmed fraud or no fraud) is recorded as a binary value. Only claims whose outcomes have thus been established are added to the training dataset, enabling the model to be recalibrated on confirmed cases and to track changes in fraudulent behaviour. A monitoring report continuously presents the tool's added value through key performance indicators, including the amount of fraud avoided through the tool, the effect on the claims-to-premiums ratio, and the return on investment (ROI).

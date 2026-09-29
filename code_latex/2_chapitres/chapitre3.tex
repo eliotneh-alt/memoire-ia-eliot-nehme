@@ -103,7 +103,7 @@ Les propriétés de la forêt aléatoire en font un candidat particulièrement a
 \section{Le Gradient Boosting}
 % --------------------------------------------------------------
 
-Le \textbf{Gradient \textit{Boosting}} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le \textit{bagging} assemble des arbres \textbf{en parallèle} pour réduire la variance, le boosting les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
+Le \textbf{Gradient \textit{Boosting}} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le \textit{bagging} assemble des arbres \textbf{en parallèle} pour réduire la variance, le Gradient \textit{Boosting} les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
 
 \begin{equation}
     F_M(x) = \sum_{m=1}^{M} \nu\, h_m(x)
@@ -129,14 +129,14 @@ Le taux d'apprentissage $\nu$ joue un rôle de régularisation essentiel : une v
 
 Les bibliothèques de référence (XGBoost, LightGBM, CatBoost\footnote{XGBoost, LightGBM et CatBoost sont des bibliothèques open source d'implémentation du gradient boosting, principalement utilisées en Python.}) mettent en œuvre ces principes avec des optimisations algorithmiques (construction par histogrammes, croissance des arbres par feuille, traitement natif des variables catégorielles) qui les rendent rapides et très performantes.
 
-Le gradient boosting atteint généralement le meilleur pouvoir prédictif parmi les modèles considérés sur des données tabulaires telles que celles de la détection de fraude. En contrepartie, il est plus sensible au réglage des hyperparamètres et au surapprentissage : le nombre d'arbres doit être contrôlé par un arrêt précoce sur un jeu de validation, et son interprétabilité est moindre que celle de la forêt, ce qui conduit à s'appuyer sur des outils d'explication post-hoc (importance des variables, valeurs de Shapley\footnote{La valeur de Shapley de la variable $j$ pour un individu $x$ mesure sa contribution marginale moyenne à la prédiction en moyennant sur toutes les coalitions possibles de variables.}) pour en restituer la logique.
+Le Gradient \textit{Boosting} atteint généralement le meilleur pouvoir prédictif parmi les modèles considérés sur des données tabulaires telles que celles de la détection de fraude. En contrepartie, il est plus sensible au réglage des hyperparamètres et au surapprentissage : le nombre d'arbres doit être contrôlé par un arrêt précoce sur un jeu de validation, et son interprétabilité est moindre que celle de la forêt, ce qui conduit à s'appuyer sur des outils d'explication post-hoc (importance des variables, valeurs de Shapley\footnote{La valeur de Shapley de la variable $j$ pour un individu $x$ mesure sa contribution marginale moyenne à la prédiction en moyennant sur toutes les coalitions possibles de variables.}) pour en restituer la logique.
 
 
 % --------------------------------------------------------------
 \section{Les modèles de scoring à points}
 % --------------------------------------------------------------
 
-Hérités de la pratique du credit scoring, les modèles de scoring à points (ou scorecards) ne constituent pas tant une nouvelle famille d'algorithmes qu'une méthode de mise en forme d'un modèle statistique (le plus souvent une régression logistique) en une grille de points additive, lisible et directement exploitable par un gestionnaire, sans recours à un outil informatique. Leur intérêt est avant tout opérationnel et réglementaire : dans un contexte assurantiel soumis à un devoir d'explication, pouvoir justifier un score par la simple addition de points attachés aux caractéristiques d'un dossier constitue un atout majeur.
+Hérités de la pratique du credit \textit{scoring}, les modèles de scoring à points (ou scorecards) ne constituent pas tant une nouvelle famille d'algorithmes qu'une méthode de mise en forme d'un modèle statistique (le plus souvent une régression logistique) en une grille de points additive, lisible et directement exploitable par un gestionnaire, sans recours à un outil informatique. Leur intérêt est avant tout opérationnel et réglementaire : dans un contexte assurantiel soumis à un devoir d'explication, pouvoir justifier un score par la simple addition de points attachés aux caractéristiques d'un dossier constitue un atout majeur.
 
 La construction débute par une discrétisation de chaque variable en classes, définies de manière à être suffisamment peuplées et, idéalement, à présenter un risque monotone. Cette étape capture les non-linéarités propres à chaque variable et réduit la sensibilité aux valeurs extrêmes. Chaque classe se voit ensuite attribuer un poids de la preuve (Weight of Evidence, WOE), qui mesure son pouvoir discriminant en comparant la répartition des dossiers licites et frauduleux :
 
@@ -174,9 +174,9 @@ Le score d'un dossier est alors la simple somme des points de chacune de ses car
 
 Ce dispositif présente une transparence et une auditabilité maximales : chaque point du score est traçable jusqu'à une caractéristique précise du dossier, ce qui satisfait directement les exigences d'explicabilité et facilite le suivi de la stabilité du modèle dans le temps (via des indicateurs de dérive des populations).
 
-En contrepartie, la discrétisation et la dépendance à une structure logistique entraînent une \textbf{perte de finesse prédictive} par rapport au \textit{gradient boosting}, et la définition des classes demande un travail manuel non négligeable. Le \textit{scoring} à points occupe ainsi une position singulière dans notre panorama : il referme la boucle ouverte par la régression logistique en réconciliant la performance statistique avec une lisibilité opérationnelle.
+En contrepartie, la discrétisation et la dépendance à une structure logistique entraînent une \textbf{perte de finesse prédictive} par rapport au Gradient \textit{Boosting}, et la définition des classes demande un travail manuel non négligeable. Le \textit{scoring} à points occupe ainsi une position singulière dans notre panorama : il referme la boucle ouverte par la régression logistique en réconciliant la performance statistique avec une lisibilité opérationnelle.
 
-On peut d'ailleurs envisager une articulation des deux logiques : un modèle puissant de type gradient boosting pour la détection, doublé d'une grille de points pour l'explication et la communication des décisions aux gestionnaires et aux assurés.
+On peut d'ailleurs envisager une articulation des deux logiques : un modèle puissant de type Gradient \textit{Boosting} pour la détection, doublé d'une grille de points pour l'explication et la communication des décisions aux gestionnaires et aux assurés.
 
 % --------------------------------------------------------------
 \section{Apprentissage non supervisé : détection d'anomalies et comportements atypiques}
@@ -212,7 +212,7 @@ Si $s(x, n)$ tend vers 1, le sinistre est fortement suspect et justifie une lev�
 \subsection{Le partitionnement de données (Clustering)}
 % --------------------------------------------------------------
 
-Les algorithmes de Clustering (tels que les K-Means) visent à regrouper les sinistres en sous-ensembles (les clusters) de telle sorte que les dossiers d'un même groupe soient les plus similaires possibles, tout en étant distincts des autres groupes.
+Les algorithmes de \textit{Clustering} (tels que les K-Means) visent à regrouper les sinistres en sous-ensembles (les clusters) de telle sorte que les dossiers d'un même groupe soient les plus similaires possibles, tout en étant distincts des autres groupes.
 
 Dans le cas de l'algorithme K-Means, l'objectif est de minimiser la variance intra-classe (la distance au carré entre chaque sinistre $x_i$ et le centre de gravité $\mu_j$ de son cluster de rattachement) :
 
@@ -220,7 +220,7 @@ Dans le cas de l'algorithme K-Means, l'objectif est de minimiser la variance int
     J = \sum_{j=1}^{K} \sum_{x_i \in C_j} \left\| x_i - \mu_j \right\|^2
 \end{equation}
 
-Appliqué à la lutte anti-fraude, le clustering permet d'identifier des sinistres qui ne s'intègrent dans aucun des clusters principaux (les dossiers de masse), ou qui forment de très petits groupes (micro-clusters) très éloignés des autres. Ces poches de données marginales signalent souvent des comportements atypiques, comme des réseaux organisés déclarant des sinistres aux caractéristiques étrangement similaires.
+Appliqué à la lutte anti-fraude, le \textit{clustering} permet d'identifier des sinistres qui ne s'intègrent dans aucun des clusters principaux (les dossiers de masse), ou qui forment de très petits groupes (micro-clusters) très éloignés des autres. Ces poches de données marginales signalent souvent des comportements atypiques, comme des réseaux organisés déclarant des sinistres aux caractéristiques étrangement similaires.
 
 % --------------------------------------------------------------
 \section{Analyse de réseaux (Graph Mining) pour la détection de la fraude organisée}
@@ -230,7 +230,7 @@ Contrairement à la fraude opportuniste (un assuré isolé qui majore ponctuelle
 
 Ce type de criminalité financière s'appuie sur des réseaux structurés incluant de faux assurés, des prête-noms, et bien souvent des professionnels complices (garagistes, sociétés de dépannage, professionnels de santé ou experts automobiles marrons). Leurs modes opératoires sont quasi industriels : accidents de la circulation mis en scène, carambolages fictifs en chaîne, ou recyclage de véhicules gravement endommagés.
 
-La dangerosité extrême de ces réseaux réside dans leur capacité à « lisser » le risque : pris isolément, chaque sinistre déclaré par le réseau est conçu pour paraître parfaitement vraisemblable et passer sous les radars des règles de gestion classiques. Les algorithmes de Machine Learning vus précédemment montrent ici leurs limites, car ils analysent chaque dossier de manière individuelle. C'est précisément pour contourner ce camouflage qu'il devient impératif de ne plus regarder les sinistres, mais les liens cachés qui les unissent, grâce à la théorie des graphes (Graph Mining).
+La dangerosité extrême de ces réseaux réside dans leur capacité à « lisser » le risque : pris isolément, chaque sinistre déclaré par le réseau est conçu pour paraître parfaitement vraisemblable et passer sous les radars des règles de gestion classiques. Les algorithmes de \textit{machine learning} vus précédemment montrent ici leurs limites, car ils analysent chaque dossier de manière individuelle. C'est précisément pour contourner ce camouflage qu'il devient impératif de ne plus regarder les sinistres, mais les liens cachés qui les unissent, grâce à la théorie des graphes (Graph Mining).
 
 % --------------------------------------------------------------
 \subsection{Modélisation mathématique du réseau de fraude}
@@ -300,7 +300,7 @@ Un dossier est dit :
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/matrice_de_confusion.png}
+    \includegraphics[width=0.8\textwidth]{images/matrice_de_confusion.png}
     \caption{Matrice de confusion}
     \label{fig:matrice-confusion}
 \end{figure}
@@ -345,7 +345,7 @@ De plus, on s'intéressera également à l'\textbf{indice de stabilité des popu
 
 Où $r_i$ et $a_i$ désignent respectivement la proportion d'observations de la classe $i$ dans la population de référence et dans la population actuelle. Par convention, un PSI inférieur à 0,1 traduit une population stable, une valeur comprise entre 0,1 et 0,25 signale une dérive modérée appelant une surveillance, et une valeur supérieure à 0,25 indique une dérive importante justifiant une investigation, voire un réentraînement du modèle. Le PSI peut s'appliquer à la distribution du score global comme à celle de chaque variable explicative, ce qui permet d'identifier l'origine d'une dérive. Il constitue ainsi un outil clé du suivi opérationnel de l'agent une fois déployé.
 
-En synthèse, l'évaluation d'un modèle actuariel de détection de fraude articule six dimensions complémentaires : le pouvoir discriminant (Gini, KS, PR-AUC), la \textbf{qualité d'une décision seuillée} (F1, matrice de confusion), la \textbf{valeur économique} (coût espéré, ROI, lift financier), la \textbf{stabilité temporelle} (PSI) et l'\textbf{équité entre segments}. Aucun de ces indicateurs pris isolément n'épuise le jugement à porter sur l'agent ; c'est leur lecture conjointe, adossée à une matrice de coûts explicite et à un cadre de gouvernance clair, qui fonde la légitimité actuarielle du dispositif.
+En synthèse, l'évaluation d'un modèle actuariel de détection de fraude articule six dimensions complémentaires : le pouvoir discriminant (Gini, KS, PR-AUC), la \textbf{qualité d'une décision seuillée} (F1, matrice de confusion), la \textbf{valeur économique} (coût espéré, ROI, \textit{lift} financier), la \textbf{stabilité temporelle} (PSI) et l'\textbf{équité entre segments}. Aucun de ces indicateurs pris isolément n'épuise le jugement à porter sur l'agent ; c'est leur lecture conjointe, adossée à une matrice de coûts explicite et à un cadre de gouvernance clair, qui fonde la légitimité actuarielle du dispositif.
 
 \vspace{1cm}
 

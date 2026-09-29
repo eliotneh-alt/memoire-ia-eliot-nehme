@@ -42,7 +42,7 @@ Ces travaux ont dégagé quatre critères interdépendants d'évaluation des alg
 
 Ces orientations fixent un horizon clair : \textbf{l'agent devra être non seulement performant, mais aussi auditable et explicable à différents publics, ce qui justifie a posteriori l'attention portée à l'interprétabilité des modèles dans la partie théorique\footnote{\url{https://acpr.banque-france.fr/system/files/2025-02/20200612_gouvernance_evaluation_ia.pdf}}.}
 
-Ce cadre externe se traduit en interne par une organisation et une répartition des rôles formalisées. La conduite du projet gagne à être pilotée par une instance de gouvernance réunissant les parties prenantes : les équipes métier de la gestion des sinistres et de la lutte anti-fraude, qui portent le besoin et la connaissance du terrain ; les data scientistes et actuaires, responsables de la conception et de la validation statistique ; la fonction conformité et juridique ainsi que le délégué à la protection des données, garants du respect du cadre réglementaire ; et le contrôle interne ou l'audit, chargés d'une revue indépendante.
+Ce cadre externe se traduit en interne par une organisation et une répartition des rôles formalisées. La conduite du projet gagne à être pilotée par une instance de gouvernance réunissant les parties prenantes : les équipes métier de la gestion des sinistres et de la lutte anti-fraude, qui portent le besoin et la connaissance du terrain ; les \textit{data scientistes} et actuaires, responsables de la conception et de la validation statistique ; la fonction conformité et juridique ainsi que le délégué à la protection des données, garants du respect du cadre réglementaire ; et le contrôle interne ou l'audit, chargés d'une revue indépendante.
 
 Cette organisation s'inscrit naturellement dans une politique de gestion du risque de modèle, qui définit les responsabilités, les exigences de documentation et les seuils de validation tout au long de la vie de l'agent.
 
@@ -69,7 +69,7 @@ Posée en amont, cette gouvernance conditionne la confiance, la conformité et l
 \subsection{Base de données source}
 % --------------------------------------------------------------
 
-L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en open source sous : 
+L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en \textit{open source} sous : 
 
 \textbf{\url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}}
 
@@ -177,7 +177,7 @@ Ainsi, la base a été enrichie avec 6 types de données, toutes les données po
     \item \textbf{Des informations géographiques et temporelles}, notamment le jour de l'accident (férié/week-end) ou son lieu de survenance.
 \end{enumerate}
 
-Au total, trente variables ont été générées et sont décrites ci-dessous :
+Au total, vingt-neuf variables ont été générées et sont décrites ci-dessous :
 
 \begin{scriptsize}
 \renewcommand{\arraystretch}{1.3}
@@ -283,10 +283,9 @@ Cet outil repose sur une \textbf{logique en deux temps}, articulée autour de \t
 \end{figure}
 
 L'architecture complète de ce processus est détaillée dans les chapitres suivants, de l'alimentation de la base de données à la boucle d'enrichissement continu, en passant par la modélisation de la probabilité de fraude.
-
-% --------------------------------------------------------------
-\subsection*{Le plus de l'agent : un suivi du ROI disponible}
-% --------------------------------------------------------------
+% % --------------------------------------------------------------
+% \subsection*{Le plus de l'agent : un suivi du ROI disponible}
+% % --------------------------------------------------------------
 
 Enfin, l'outil produit automatiquement un \textbf{rapport annuel de détection de fraude}, enrichi à chaque fois qu'un sinistre testé est renseigné comme frauduleux par un expert. Ce rapport est accessible à tout moment et fournit une \textbf{synthèse consolidée des performances }: nombre de sinistres analysés, taux d'alertes générées, fraudes confirmées et montant de fraude évitée. Il calcule notamment l'impact direct sur le ratio Sinistres/Primes (S/P), indicateur clé de rentabilité en assurance, en rapportant le montant de fraude évitée à la masse de primes du portefeuille. Cette restitution permet au management de suivre en continu le retour sur investissement de l'outil (ROI) et d'objectiver la valeur ajoutée de la détection automatisée année après année.
 
@@ -294,11 +293,11 @@ Enfin, l'outil produit automatiquement un \textbf{rapport annuel de détection d
 \subsection{Le prompt : la décomposition du besoin en étapes}
 % --------------------------------------------------------------
 
-Dans le contexte de l'intelligence artificielle, et plus particulièrement des modèles de langage, un prompt désigne l'ensemble des instructions, du contexte et des données fournis au modèle afin de guider son comportement et d'orienter la nature des réponses ou des actions qu'il produit. Il constitue le point d'entrée de l'interaction entre l'utilisateur (ou un système) et l'agent. Un prompt ne se réduit pas à une simple question : il peut comporter des consignes précises, des contraintes, des exemples et une structuration attendue du résultat. De façon générale, plus il est clair, détaillé et contextualisé, plus le modèle est en mesure de produire une réponse pertinente et alignée sur l'objectif visé.
+Dans le contexte de l'intelligence artificielle, et plus particulièrement des modèles de langage, un \textit{prompt} désigne l'ensemble des instructions, du contexte et des données fournis au modèle afin de guider son comportement et d'orienter la nature des réponses ou des actions qu'il produit. Il constitue le point d'entrée de l'interaction entre l'utilisateur (ou un système) et l'agent. Un \textit{prompt} ne se réduit pas à une simple question : il peut comporter des consignes précises, des contraintes, des exemples et une structuration attendue du résultat. De façon générale, plus il est clair, détaillé et contextualisé, plus le modèle est en mesure de produire une réponse pertinente et alignée sur l'objectif visé.
 
-D'un point de vue méthodologique, le prompt peut être assimilé à la \textbf{spécification fonctionnelle} de la tâche confiée à l'agent : il joue, vis-à-vis du modèle, un rôle comparable à celui d'un cahier des charges vis-à-vis d'un modèle actuariel. Sa qualité conditionne directement celle du résultat, au même titre que la rigueur d'une note technique conditionne la fiabilité d'un calcul. Cette exigence rejoint les principes de gouvernance évoqués précédemment : un prompt explicite, documenté et reproductible contribue à la traçabilité et à l'auditabilité du dispositif, en rendant intelligibles les consignes sur lesquelles repose le comportement de l'agent.
+D'un point de vue méthodologique, le \textit{prompt} peut être assimilé à la \textbf{spécification fonctionnelle} de la tâche confiée à l'agent : il joue, vis-à-vis du modèle, un rôle comparable à celui d'un cahier des charges vis-à-vis d'un modèle actuariel. Sa qualité conditionne directement celle du résultat, au même titre que la rigueur d'une note technique conditionne la fiabilité d'un calcul. Cette exigence rejoint les principes de gouvernance évoqués précédemment : un \textit{prompt} explicite, documenté et reproductible contribue à la traçabilité et à l'auditabilité du dispositif, en rendant intelligibles les consignes sur lesquelles repose le comportement de l'agent.
 
-Concrètement, un prompt bien construit remplit trois fonctions :
+Concrètement, un \textit{prompt} bien construit remplit trois fonctions :
 
 \begin{itemize}
     \item[$\bullet$] Il \textbf{définit la cible} : il ne s'agit pas ici d'affirmer qu'un dossier est frauduleux (l'agent ne se substitue pas à l'enquêteur) mais d'identifier, à partir des données disponibles, les dossiers présentant un risque de fraude élevé.
@@ -306,11 +305,11 @@ Concrètement, un prompt bien construit remplit trois fonctions :
     \item[$\bullet$] Il \textbf{encadre enfin la forme de la réponse} attendue, par exemple un score, un tableau ou une synthèse exploitable par les équipes opérationnelles.
 \end{itemize}
 
-Pour obtenir un résultat précis, contrôlable et reproductible, il ne suffit toutefois pas de formuler une consigne unique et globale, qui laisserait à l'agent une marge d'interprétation trop large et nuirait à la stabilité des réponses. Nous avons donc adopté une approche de \textbf{construction du prompt par étapes} : plutôt que de soumettre l'intégralité de la tâche en un seul bloc, le raisonnement attendu de l'agent a été décomposé en une séquence d'étapes successives, chacune assortie d'un objectif clair et d'un résultat intermédiaire vérifiable.
+Pour obtenir un résultat précis, contrôlable et reproductible, il ne suffit toutefois pas de formuler une consigne unique et globale, qui laisserait à l'agent une marge d'interprétation trop large et nuirait à la stabilité des réponses. Nous avons donc adopté une approche de \textbf{construction du \textit{prompt} par étapes} : plutôt que de soumettre l'intégralité de la tâche en un seul bloc, le raisonnement attendu de l'agent a été décomposé en une séquence d'étapes successives, chacune assortie d'un objectif clair et d'un résultat intermédiaire vérifiable.
 
 Cette décomposition présente un double intérêt. Elle reproduit la logique même de la démarche actuarielle (du contrôle de la qualité des données à la production d'un score, en passant par l'analyse descriptive et la modélisation) et elle permet de valider chaque maillon de la chaîne indépendamment, limitant ainsi le risque d'erreur ou de dérive et renforçant l'explicabilité de l'ensemble.
 
-Ainsi, le prompt constitue un élément central du système : il transforme une demande générale en une tâche claire, structurée et exploitable, et montre que l'efficacité de l'outil ne repose pas uniquement sur les données ou sur le modèle, mais aussi sur la qualité des instructions fournies à l'agent. Le raisonnement confié à ce dernier a en conséquence été structuré selon les étapes successives présentées ci-après.
+Ainsi, le \textit{prompt} constitue un élément central du système : il transforme une demande générale en une tâche claire, structurée et exploitable, et montre que l'efficacité de l'outil ne repose pas uniquement sur les données ou sur le modèle, mais aussi sur la qualité des instructions fournies à l'agent. Le raisonnement confié à ce dernier a en conséquence été structuré selon les étapes successives présentées ci-après.
 
 % --------------------------------------------------------------
 \subsection{Présentation macro des différentes étapes}
@@ -328,7 +327,7 @@ Ainsi, le prompt constitue un élément central du système : il transforme une 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/module1.png}
+    \includegraphics[width=0.65\textwidth]{images/chapitre4/module1.png}
     \caption{Création et calibration du modèle de détection de fraude}
     \label{fig:module1}
 \end{figure}
@@ -363,7 +362,7 @@ Dans les paragraphes suivants, nous présenterons la restitution concrète produ
 
 Cette phase de conception du modèle constitue une étape amont essentielle, mais elle \textbf{n'a pas vocation à être maîtrisée par les équipes opérationnelles en charge de la détection de la fraude}. En effet, l'outil final qui leur est destiné repose sur un modèle déjà entraîné et optimisé, qu'ils pourront exploiter sans avoir à intervenir sur ses mécanismes internes. Ainsi, la complexité technique est volontairement « encapsulée » afin de \textbf{proposer une solution simple d'utilisation, centrée sur l'aide à la décision} aux gestionnaires.
 
-Dans la pratique, la responsabilité de la construction, de l'ajustement et de l'amélioration continue du modèle incombe généralement à des profils spécialisés, tels que les actuaires ou les data scientistes. Ces experts interviennent pour affiner les performances du modèle, intégrer de nouvelles données, ajuster les paramètres et garantir la robustesse des résultats dans le temps. Cette séparation des rôles permet d'assurer à la fois un haut niveau de performance analytique et une appropriation efficace de l'outil par les équipes métiers.
+Dans la pratique, la responsabilité de la construction, de l'ajustement et de l'amélioration continue du modèle incombe généralement à des profils spécialisés, tels que les actuaires ou les \textit{data scientistes}. Ces experts interviennent pour affiner les performances du modèle, intégrer de nouvelles données, ajuster les paramètres et garantir la robustesse des résultats dans le temps. Cette séparation des rôles permet d'assurer à la fois un haut niveau de performance analytique et une appropriation efficace de l'outil par les équipes métiers.
 
 % --------------------------------------------------------------
 \section{Étapes 1 \& 2 : Ingestion de la base de données et Audit de contrôles de cohérence}
@@ -389,7 +388,7 @@ Les formats acceptés sont les plus courants pour ce type de données, à savoir
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre4/extrait_prompt.png}
-    \caption{Extrait du prompt pour la création de l'étape 1}
+    \caption{Extrait du \textit{prompt} pour la création de l'étape 1}
     \label{fig:extrait-prompt}
 \end{figure}
 
@@ -491,7 +490,7 @@ Cette analyse préliminaire vise à caractériser la structure des sinistres dé
 
 Elle permet également d'examiner la distribution temporelle et géographique des déclarations, deux dimensions particulièrement révélatrices en matière de fraude automobile. Une telle exploration permet d'identifier d'éventuels déséquilibres ou concentrations atypiques dans les données (comme une surreprésentation de sinistres déclarés en fin de contrat ou dans certaines zones géographiques) et d'en tenir compte dans les étapes ultérieures de l'analyse. La connaissance fine de la structure de cette base constitue un prérequis indispensable à toute démarche actuarielle rigoureuse, en posant les fondements empiriques sur lesquels reposera l'ensemble de la modélisation de la fraude développée dans ce mémoire.
 
-Le prompt adressé à l'agent concernant l'analyse de composition de portefeuille renvoie la sortie suivante :
+Le \textit{prompt} adressé à l'agent concernant l'analyse de composition de portefeuille renvoie la sortie suivante :
 
 \begin{figure}[H]
     \centering
@@ -533,7 +532,7 @@ Suite à l'analyse de composition du portefeuille, une analyse de la fréquence 
 
 L'affichage a volontairement été limité à quatre variables à la fois pour offrir une meilleure clarté à l'utilisateur. Un choix d'affichage reste disponible à droite sur simple clic afin de permettre à l'utilisateur de choisir la/les variable(s) qu'il souhaite visualiser.
 
-\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par "police\_id" par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
+\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par « police\_id » par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
 
 L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
 
@@ -551,7 +550,7 @@ L'analyse de ces graphiques et diagrammes permet de dégager des enseignements m
 
 % --------------------------------------------------------------
 \subsection{Création de classes de variables}
-\label{subsec : création-classes}
+\label{subsec:création-classes}
 % --------------------------------------------------------------
 
 La création de classes constitue une étape préalable importante à la mise en œuvre de certains modèles prédictifs, notamment lorsque les variables explicatives sont continues ou présentent un grand nombre de modalités.
@@ -589,7 +588,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
     \hline
     \textbf{incident\_hour\_of\_the\_day} (heure du sinistre) & 3 & Découpage métier (créneaux horaires) & Nuit : 22h -- 6h \newline Matin : 6h -- 12h \newline Après-midi / soir : 12h -- 22h \\
     \hline
-    \textbf{total\_claim\_amount} (montant total du sinistre) & 5 & Quantiles arrondis à des bornes métier de 5\,000~\euro{} & $\leq 5\,000$ \newline $]5\,000 ; 10\,000]$ \newline $]10\,000 ; 15\,000]$ \newline $]15\,000 ; 20\,000]$ \newline $> 20\,000$ \\
+    \textbf{total\_claim\_amount} (montant total du sinistre) & 5 & Quantiles arrondis à des bornes métier de 5\,000~USD & $\leq 5\,000$ \newline $]5\,000 ; 10\,000]$ \newline $]10\,000 ; 15\,000]$ \newline $]15\,000 ; 20\,000]$ \newline $> 20\,000$ \\
     \hline
     \textbf{insured\_days\_since\_last\_claim} (jours depuis le dernier sinistre) & 3 & Arbre CART univarié & $\leq 800$ jours ($\approx$ 2 ans) \newline $]800 ; 2\,500]$ jours \newline $> 2\,500$ jours ($\approx$ 7 ans) \\
     \hline
@@ -952,7 +951,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
 \subsection{Analyse des corrélations entre les variables}
 % --------------------------------------------------------------
 
-L'agent renvoie également une table de corrélation entre variables après l'analyse de composition du portefeuille, qui faisait partie de notre demande dans le prompt adressé.
+L'agent renvoie également une table de corrélation entre variables après l'analyse de composition du portefeuille, qui faisait partie de notre demande dans le \textit{prompt} adressé.
 
 En effet, avant d'engager la phase de modélisation, il est important d'examiner les relations existantes entre les différentes variables explicatives de la base sinistres. Cette analyse permet de détecter d'éventuelles redondances entre variables, susceptibles d'introduire des problèmes de multicolinéarité dans les modèles ultérieurs, et de mieux comprendre la structure sous-jacente des données.
 
@@ -1041,7 +1040,8 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/chapitre4/matrice_correlation1.png}
+    \includegraphics[width=0.8\textwidth]{images/chapitre4/matrice_correlation1.png}
+    \caption{Coefficient de corrélation de Pearson ou coefficient de rang de Spearman : extrait de la matrice quantitative $\times$ quantitative}
     \label{fig:matrice-correlation1}
 \end{figure}
 
@@ -1079,11 +1079,10 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
         claim\_total & 0 & 0,01 & 0 & 0,77 \\
         \hline
     \end{tabularx}
-    \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives}\footnote{La variable "\textit{total\_claim\_amount}" est ici traitée comme une variable quantitative après avoir subi un regroupement en classes (cf. section \ref{subsec:création-classes}).}
+    \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives\protect\footnotemark}
     \label{tab:eta-extrait}
 \end{table}
-
-\textit{À noter que les matrices \ref{tab:cramer-extrait} et \ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe \ref{subsec:matrices-correl}.}
+\footnotetext{La variable «~\textit{total\_claim\_amount}~» est ici traitée comme une variable quantitative après avoir subi un regroupement en classes (cf.~section~\ref{subsec:création-classes}).\par\smallskip À noter que les matrices~\ref{tab:cramer-extrait} et~\ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe~\ref{subsec:matrices-correl}.}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 

@@ -56,7 +56,7 @@ La logique de construction de l'agent est pilotée par un \textit{prompt} décom
         \hline
     \end{tabularx}
     \caption{Synthèse des résultats des indicateurs de qualité des différents modèles}
-    \label{tab:synthese-modeles}
+    \label{tab:synthese-modeles-intro}
 \end{table}
 
 Le Gradient \textit{Boosting} s'impose comme le modèle le plus discriminant (AUC de 0,933, Gini de 0,867, lift de $\times$6,37 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,917, il se situe très près du Gradient \textit{Boosting} tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
@@ -117,7 +117,7 @@ Un enseignement transversal mérite d'être souligné : les trois modèles, pour
     \centering
     \includegraphics[width=0.95\textwidth]{images/chapitre6/tableau_proba.png}
     \caption{Résultats de l'évaluation restitués au gestionnaire : répartition des sinistres scorés en trois zones d'investigation (vert / orange / rouge)}
-    \label{fig:tableau-proba}
+    \label{fig:tableau-proba-intro}
 \end{figure}
 
 Le dispositif est ensuite complété par une boucle d'enrichissement continu : une fois l'investigation d'un dossier close, son issue réelle (fraude avérée ou non) est renseignée sous forme binaire, et seuls les dossiers ainsi qualifiés viennent s'ajouter à la base d'apprentissage, permettant au modèle de se recalibrer sur des cas avérés et de suivre l'évolution des comportements frauduleux. Un rapport de pilotage restitue en continu la valeur ajoutée de l'outil avec la mise en avant de KPI clés : le montant de fraude évitée grâce à l'outil, l'impact sur le ratio Sinistres/Primes et le retour sur investissement (ROI). L'ensemble demeure placé sous supervision humaine : l'agent hiérarchise et oriente les dossiers, mais ne prononce aucune décision défavorable de façon automatique, l'investigation et la décision finale relevant toujours de l'enquêteur, conformément à l'article~22 du RGPD et à l'AI Act.
