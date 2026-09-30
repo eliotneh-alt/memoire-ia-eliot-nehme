@@ -26,7 +26,7 @@ Sur le plan réglementaire, le dispositif s'inscrit d'abord dans le cadre du Rè
 
 Les principes de finalité, de minimisation et de légalité du traitement encadrent la collecte et l'usage des données du sinistre et de l'assuré, tandis que \textbf{l'article 22}\footnote{« La personne concernée a le droit de ne pas faire l'objet d'une décision fondée exclusivement sur un traitement automatisé, y compris le profilage, produisant des effets juridiques la concernant ou l'affectant de manière significative de façon similaire. » (§1, \url{https://gdpr-text.com/fr/read/article-22/}).}, relatif aux décisions individuelles fondées exclusivement sur un traitement automatisé, impose une vigilance particulière : un assuré ne saurait voir sa déclaration rejetée sur la seule base d'un score algorithmique, sans intervention humaine ni possibilité de contestation.
 
-À ce socle s'ajoute désormais le \textbf{règlement européen sur l'intelligence artificielle (« AI Act »)}. Le règlement (UE) 2024/1689 est entré en vigueur le 1\textsuperscript{er} août 2024 selon une application échelonnée, les pratiques interdites étant effectives depuis le 2 février 2025. Son annexe III classe parmi les \textbf{systèmes à haut risque} ceux relevant de l'accès aux services essentiels, dont l'assurance. À la suite de l'accord politique dit « Digital Omnibus » du printemps 2026, l'application des obligations relatives aux systèmes à haut risque de l'annexe III a toutefois été reportée au 2 décembre 2027.
+À ce socle s'ajoute désormais le \textbf{règlement européen sur l'intelligence artificielle (« AI Act »)}. Le règlement (UE) 2024/1689 est entré en vigueur le 1\textsuperscript{er} août 2024 selon une application échelonnée, les pratiques interdites étant effectives depuis le 2 février 2025. Son annexe III classe parmi les \textbf{systèmes à haut risque} ceux relevant de l'accès aux services essentiels, dont l'assurance. Avec le règlement « Omnibus IA », proposé le 19 novembre 2025 dans le cadre du paquet « Omnibus numérique » et entré en vigueur le 27 juillet 2026, l'application des obligations relatives aux systèmes à haut risque de l'annexe III a toutefois été reportée au 2 décembre 2027\footnote{Commission européenne, « L'Omnibus de l'IA entre en vigueur », 27 juillet 2026, \url{https://digital-strategy.ec.europa.eu/fr/news/ai-omnibus-enters-force}.}.
 
 La qualification précise d'un agent de détection de fraude automobile reste à apprécier au cas par cas : la catégorie à haut risque vise surtout l'évaluation du risque et la tarification, de sorte qu'un outil qui se borne à signaler des dossiers à des enquêteurs humains se situe vraisemblablement à un niveau de risque inférieur.
 
@@ -71,7 +71,7 @@ Posée en amont, cette gouvernance conditionne la confiance, la conformité et l
 
 L'illustration de la mise en place du processus de détection de fraude automobile réalisée dans ce mémoire se fera à l'aide d'une base de données récupérée en \textit{open source} sous : 
 
-\textbf{\url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}}
+\textbf{\url{https://www.kaggle.com/datasets/ahluwaliasaksham/car-insurance-fraud-detection-dataset}}~\cite{kaggle_dataset}
 
 Cette base de données concerne des sinistres automobiles, et contient le flag « frauduleux » sur lequel repose notre modélisation.
 
@@ -107,7 +107,7 @@ Néanmoins, les variables présentes dans la base de données sinistre sont list
     \hline
     \champA{policy\_annual\_premium} & \nomA{Prime annuelle} & Contrat & Numérique & Prime annuelle payée par l'assuré (USD) & Float > 0 \\
     \hline
-    \champA{insured\_age} & \nomA{Âge de l'assuré} & Assuré & Entier & Âge de l'assuré en années & 18 -- 75 \\
+    \champA{insured\_age} & \nomA{Âge de l'assuré} & Assuré & Entier & Âge de l'assuré en années & 18 - 75 \\
     \hline
     \champA{insured\_sex} & \nomA{Sexe de l'assuré} & Assuré & Catégoriel (3) & Sexe déclaré de l'assuré & MALE, FEMALE, OTHER \\
     \hline
@@ -131,13 +131,13 @@ Néanmoins, les variables présentes dans la base de données sinistre sont list
     \hline
     \champB{incident\_city} & \nomB{Ville du sinistre} & Sinistre & Texte & Ville où le sinistre a eu lieu & Texte libre \\
     \hline
-    \champB{incident\_hour\_of\_the\_day} & \nomB{Heure du sinistre} & Sinistre & Entier & Heure du sinistre (format 24h) & 0 -- 23 \\
+    \champB{incident\_hour\_of\_the\_day} & \nomB{Heure du sinistre} & Sinistre & Entier & Heure du sinistre (format 24h) & 0 - 23 \\
     \hline
-    \champB{number\_of\_vehicles\_involved} & \nomB{Nb véhicules impliqués} & Sinistre & Entier & Nombre de véhicules impliqués dans le sinistre & 1 -- 4 \\
+    \champB{number\_of\_vehicles\_involved} & \nomB{Nb véhicules impliqués} & Sinistre & Entier & Nombre de véhicules impliqués dans le sinistre & 1 - 4 \\
     \hline
-    \champB{bodily\_injuries} & \nomB{Nb blessés déclarés} & Sinistre & Entier & Nombre de blessés corporels déclarés & 0 -- 4 \\
+    \champB{bodily\_injuries} & \nomB{Nb blessés déclarés} & Sinistre & Entier & Nombre de blessés corporels déclarés & 0 - 4 \\
     \hline
-    \champB{witnesses} & \nomB{Nb témoins} & Sinistre & Entier & Nombre de témoins déclarés & 0 -- 5 \\
+    \champB{witnesses} & \nomB{Nb témoins} & Sinistre & Entier & Nombre de témoins déclarés & 0 - 5 \\
     \hline
     \champB{police\_report\_available} & \nomB{Rapport police disponible} & Sinistre & Booléen & Rapport de police disponible & Yes, No \\
     \hline
@@ -163,7 +163,7 @@ Afin de rendre ce mémoire proche de la réalité des assureurs, le choix d'enri
 
 En effet, certaines informations incluses dans la base telles que le niveau d'éducation (\textit{insured\_education\_level}) ou encore les passions de l'assuré (\textit{insured\_hobbies}) ne font pas partie des questionnaires usuels de souscription en assurance automobile sur le marché français.
 
-De plus, l'assureur, lors de la déclaration d'un sinistre, a accès à bien plus d'informations que celles reportées dans cette base : ces dernières ont été recréées par simulation à l'aide de Claude\footnote{Assistant conversationnel développé par Anthropic, société américaine spécialisée en intelligence artificielle.} avec pour consigne d'être explicatives dans notre recherche d'identification de fraude \textbf{sans pour autant être en lien direct avec la variable à expliquer} (\textit{fraud\_reported}).
+De plus, l'assureur, lors de la déclaration d'un sinistre, a accès à bien plus d'informations que celles reportées dans cette base : ces dernières ont été recréées par simulation à l'aide de Claude~\cite{anthropic_claude}\footnote{Assistant conversationnel développé par Anthropic, société américaine spécialisée en intelligence artificielle.} avec pour consigne d'être explicatives dans notre recherche d'identification de fraude \textbf{sans pour autant être en lien direct avec la variable à expliquer} (\textit{fraud\_reported}).
 
 Ainsi, la base a été enrichie avec 6 types de données, toutes les données pouvant être rendues disponibles en pratique chez un assureur lors de la survenance d'un sinistre automobile :
 
@@ -194,37 +194,37 @@ Au total, vingt-neuf variables ont été générées et sont décrites ci-dessou
     \hline
     \endfoot
     \endlastfoot
-    \rowcolor{axehist} \textbf{insured\_id} & Identifiant assuré & Historique assuré & Texte & Identifiant stable de l'assuré, indépendant du numéro de contrat. Permet de relier les dossiers d'un même assuré. & INS000001 … INS000002 \\
+    \rowcolor{axehist} \textbf{insured\_id} & Identifiant assuré & Historique assuré & Texte & Identifiant stable de l'assuré, indépendant du numéro de contrat. Permet de relier les dossiers d'un même assuré. & INS000001 … INSXXXXXX \\
     \hline
-    \rowcolor{axehist} \textbf{insured\_nb\_past\_claims} & Nb sinistres passés & Historique assuré & Entier & Nombre total de sinistres déclarés par cet assuré sur les 5 dernières années. Distributions chevauchantes, signal modéré. & 0 -- 5 \\
+    \rowcolor{axehist} \textbf{insured\_nb\_past\_claims} & Nb sinistres passés & Historique assuré & Entier & Nombre total de sinistres déclarés par cet assuré sur les 5 dernières années. Distributions chevauchantes, signal modéré. & 0 - 5 \\
     \hline
-    \rowcolor{axehist} \textbf{insured\_nb\_past\_fraud} & Nb fraudes passées confirmées & Historique assuré & Entier & Nombre de fraudes confirmées antérieures pour cet assuré. & 0 -- 3 \\
+    \rowcolor{axehist} \textbf{insured\_nb\_past\_fraud} & Nb fraudes passées confirmées & Historique assuré & Entier & Nombre de fraudes confirmées antérieures pour cet assuré. & 0 - 3 \\
     \hline
-    \rowcolor{axehist} \textbf{insured\_days\_since\_last\_claim} & Jours depuis dernier sinistre & Historique assuré & Entier & Jours depuis le dernier sinistre de cet assuré. & 60 -- 2500 \\
+    \rowcolor{axehist} \textbf{insured\_days\_since\_last\_claim} & Jours depuis dernier sinistre & Historique assuré & Entier & Jours depuis le dernier sinistre de cet assuré. & 60 - 2800 \\
     \hline
-    \rowcolor{axehist} \textbf{insured\_claim\_amount\_history} & Montant réclamé cumulé (3 ans) & Historique assuré & Numérique & Montant cumulé (USD) de toutes les réclamations de cet assuré sur 3 ans. & 0 -- 55 000 \\
+    \rowcolor{axehist} \textbf{insured\_claim\_amount\_history} & Montant réclamé cumulé (3 ans) & Historique assuré & Numérique & Montant cumulé (USD) de toutes les réclamations de cet assuré sur 3 ans. & 0 - 55 000 \\
     \hline
-    \rowcolor{axecontrat} \textbf{policy\_age\_at\_incident\_days} & Ancienneté contrat (jours) & Contrat enrichi & Entier & Ancienneté du contrat en jours au moment du sinistre. & 30 -- 3600 \\
+    \rowcolor{axecontrat} \textbf{policy\_age\_at\_incident\_days} & Ancienneté contrat (jours) & Contrat enrichi & Entier & Ancienneté du contrat en jours au moment du sinistre. & 30 - 3600 \\
     \hline
-    \rowcolor{axecontrat} \textbf{insured\_nb\_policies\_active} & Nb contrats actifs & Contrat enrichi & Entier & Nombre de contrats d'assurance actifs simultanément (multi-assurance). & 1 -- 4 \\
+    \rowcolor{axecontrat} \textbf{insured\_nb\_policies\_active} & Nb contrats actifs & Contrat enrichi & Entier & Nombre de contrats d'assurance actifs simultanément (multi-assurance). & 1 - 4 \\
     \hline
-    \rowcolor{axehist} \textbf{insured\_address\_changes\_12m} & Changements d'adresse (12 mois) & Historique assuré & Entier & Nombre de changements d'adresse dans les 12 derniers mois. & 0 -- 3 \\
+    \rowcolor{axehist} \textbf{insured\_address\_changes\_12m} & Changements d'adresse (12 mois) & Historique assuré & Entier & Nombre de changements d'adresse dans les 12 derniers mois. & 0 - 3 \\
     \hline
     \rowcolor{axegarage} \textbf{repairer\_id} & Identifiant réparateur & Réseau garagiste & Texte & Identifiant unique du réparateur mandaté. NONE = pas de réparateur. & GAR0001…\allowbreak GAR0899,\allowbreak NONE \\
     \hline
-    \rowcolor{axegarage} \textbf{repairer\_nb\_claims\_total} & Nb dossiers traités (réparateur) & Réseau garagiste & Entier & Nombre total de dossiers sinistres traités par ce réparateur dans la base. & 0 -- 200 \\
+    \rowcolor{axegarage} \textbf{repairer\_nb\_claims\_total} & Nb dossiers traités (réparateur) & Réseau garagiste & Entier & Nombre total de dossiers sinistres traités par ce réparateur dans la base. & 0 - 200 \\
     \hline
-    \rowcolor{axegarage} \textbf{repairer\_nb\_fraud\_confirmed} & Nb fraudes (réparateur) & Réseau garagiste & Entier & Nombre de fois où ce réparateur apparaît dans un dossier clôturé fraude. & 0 -- \textasciitilde100 \\
+    \rowcolor{axegarage} \textbf{repairer\_nb\_fraud\_confirmed} & Nb fraudes (réparateur) & Réseau garagiste & Entier & Nombre de fois où ce réparateur apparaît dans un dossier clôturé fraude. & 0 - \textasciitilde100 \\
     \hline
-    \rowcolor{axegarage} \textbf{repairer\_fraud\_rate} & Taux de fraude (réparateur) & Réseau garagiste & Numérique & Taux de fraudes du réparateur mandaté calculé comme repairer\_nb\_fraud\_confirmed / repairer\_nb\_claims\_total. & 0 -- 0,48 \\
+    \rowcolor{axegarage} \textbf{repairer\_fraud\_rate} & Taux de fraude (réparateur) & Réseau garagiste & Numérique & Taux de fraudes du réparateur mandaté calculé comme repairer\_nb\_fraud\_confirmed / repairer\_nb\_claims\_total. & 0 - 0,48 \\
     \hline
-    \rowcolor{axegarage} \textbf{repairer\_avg\_invoice\_vs\_market} & Ratio facture / marché & Réseau garagiste & Numérique & Ratio facture réparateur / prix marché. >1 = surfacturation. & 0,85 -- 1,55 \\
+    \rowcolor{axegarage} \textbf{repairer\_avg\_invoice\_vs\_market} & Ratio facture / marché & Réseau garagiste & Numérique & Ratio facture réparateur / prix marché. >1 = surfacturation. & 0,85 - 1,55 \\
     \hline
-    \rowcolor{axegarage} \textbf{repairer\_is\_flagged} & Réparateur signalé & Réseau garagiste & Booléen 0/1 & Réparateur inscrit en liste de vigilance. & 0 = non signalé / 1 = signalé \\
+    \rowcolor{axegarage} \textbf{repairer\_is\_flagged} & Réparateur signalé & Réseau garagiste & Booléen 0/1 & Réparateur inscrit en liste de vigilance. & 0 = non-signalé \newline 1 = signalé \\
     \hline
     \rowcolor{axetiers} \textbf{third\_party\_id} & Identifiant tiers & Réseau tiers & Texte & Identifiant du tiers impliqué. NONE si sinistre sans tiers. & TRS00001…\allowbreak TRS09999,\allowbreak NONE \\
     \hline
-    \rowcolor{axetiers} \textbf{third\_party\_nb\_past\_incidents} & Nb incidents passés (tiers) & Réseau tiers & Entier & Nombre de fois où ce tiers est apparu dans des dossiers passés. & 0 -- 5 \\
+    \rowcolor{axetiers} \textbf{third\_party\_nb\_past\_incidents} & Nb incidents passés (tiers) & Réseau tiers & Entier & Nombre de fois où ce tiers est apparu dans des dossiers passés. & 0 - 5 \\
     \hline
     \rowcolor{axetiers} \textbf{witness\_id} & Identifiant témoin & Réseau tiers & Texte & Identifiant du témoin principal. NONE si pas de témoin. & WIT00001…\allowbreak WIT11999,\allowbreak NONE \\
     \hline
@@ -232,21 +232,21 @@ Au total, vingt-neuf variables ont été générées et sont décrites ci-dessou
     \hline
     \rowcolor{axevehic} \textbf{vehicle\_id} & Identifiant véhicule & Véhicule & Texte & Immatriculation anonymisée. & VEH000001…\allowbreak VEH027999 \\
     \hline
-    \rowcolor{axevehic} \textbf{vehicle\_age\_years} & Âge du véhicule (années) & Véhicule & Entier & Âge du véhicule en années. & 0 -- 20 \\
+    \rowcolor{axevehic} \textbf{vehicle\_age\_years} & Âge du véhicule (années) & Véhicule & Entier & Âge du véhicule en années. & 0 - 20 \\
     \hline
-    \rowcolor{axevehic} \textbf{vehicle\_market\_value} & Valeur marché du véhicule & Véhicule & Numérique & Valeur argus estimée du véhicule (USD). Distributions très chevauchantes. & 2 000 -- 40 000 \\
+    \rowcolor{axevehic} \textbf{vehicle\_market\_value} & Valeur marché du véhicule & Véhicule & Numérique & Valeur argus estimée du véhicule (USD). Distributions très chevauchantes. & 2 000 - 40 000 \\
     \hline
-    \rowcolor{axevehic} \textbf{vehicle\_overvalue\_ratio} & Ratio surévaluation réclamation & Véhicule & Numérique & claim\_amount / vehicle\_market\_value. >1 = réclamation dépasse la valeur du véhicule. & 0,10 -- 5,00 \\
+    \rowcolor{axevehic} \textbf{vehicle\_overvalue\_ratio} & Ratio surévaluation réclamation & Véhicule & Numérique & claim\_amount / vehicle\_market\_value. >1 = réclamation dépasse la valeur du véhicule. & 0,10 - 5,00 \\
     \hline
-    \rowcolor{axevehic} \textbf{vehicle\_nb\_past\_claims} & Nb sinistres passés (véhicule) & Véhicule & Entier & Sinistres antérieurs sur ce véhicule, tous propriétaires confondus. & 0 -- 4 \\
+    \rowcolor{axevehic} \textbf{vehicle\_nb\_past\_claims} & Nb sinistres passés (véhicule) & Véhicule & Entier & Sinistres antérieurs sur ce véhicule, tous propriétaires confondus. & 0 - 4 \\
     \hline
-    \rowcolor{axecompo} \textbf{nb\_amendments\_declaration} & Nb modifications déclaration & Comportement déclaratif & Entier & Nombre de modifications de la déclaration initiale. & 0 -- 4 \\
+    \rowcolor{axecompo} \textbf{nb\_amendments\_declaration} & Nb modifications déclaration & Comportement déclaratif & Entier & Nombre de modifications de la déclaration initiale. & 0 - 4 \\
     \hline
     \rowcolor{axecompo} \textbf{declaration\_channel} & Canal de déclaration & Comportement déclaratif & Catégoriel (4) & Canal utilisé pour déclarer le sinistre. & web, telephone, agence, courtier \\
     \hline
     \rowcolor{axecompo} \textbf{injury\_claimed\_without\_medical} & Blessure sans justificatif & Comportement déclaratif & Booléen 0/1 & Blessures corporelles déclarées sans justificatif médical. & 0 = justificatif présent / 1 = absent \\
     \hline
-    \rowcolor{axetemp} \textbf{incident\_zip\_fraud\_rate} & Taux fraude de la zone & Géographique & Numérique & Taux historique de fraude dans l'État du sinistre, calculé sur la base. & 0,00 -- 0,30 \\
+    \rowcolor{axetemp} \textbf{incident\_zip\_fraud\_rate} & Taux fraude de la zone & Géographique & Numérique & Taux historique de fraude dans l'État du sinistre, calculé sur la base. & 0,00 - 0,30 \\
     \hline
     \rowcolor{axetemp} \textbf{incident\_is\_weekend} & Sinistre en weekend & Temporel & Booléen 0/1 & Sinistre un vendredi soir, samedi ou dimanche. & 0 = semaine / 1 = weekend \\
     \hline
@@ -338,6 +338,7 @@ L'outil met à disposition les fonctionnalités suivantes :
     \item[$\bullet$] \textbf{La saisie d'un sinistre }: l'utilisateur renseigne les informations d'un dossier à évaluer.
     \item[$\bullet$] \textbf{L'obtention d'un score de fraude :} le modèle restitue une probabilité de fraude associée au sinistre soumis.
     \item[$\bullet$] \textbf{Le renseignement du statut du dossier :} lorsque l'issue de l'investigation est connue, l'utilisateur peut indiquer si le sinistre s'est avéré frauduleux ou non.
+    \item[$\bullet$] \textbf{La restitution d'un rapport de fraude :} basé sur les sinistres testés dans l'outil durant une période donnée.
 \end{itemize}
 
 De plus, l'outil reste lié de manière cyclique au modèle puisque le renseignement du statut du dossier permet :
@@ -430,7 +431,7 @@ Dans notre outil, un contrôle bloquant a été mis en place sur la complétude 
 
 Ici, la variable « \textit{policy\_deductible} » qui correspond à la franchise du contrat admet une valeur manquante. L'utilisateur est invité à choisir une des valeurs qui s'affiche pour compléter la ligne manquante (les valeurs affichées correspondent aux modalités observées dans la base d'entrée), ou à entrer manuellement une valeur dans un champ dédié.
 
-Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en Annexe \ref{subsec:annexe-variables}.} :
+Une fois l'information complétée, l'affichage se met à jour automatiquement\footnote{L'affichage intégral de la sortie de l'agent à cette étape est disponible en \hyperref[subsec:annexe-variables]{Annexe~B}.} :
 
 \begin{figure}[H]
     \centering
@@ -557,7 +558,7 @@ En actuariat, elle contribue également à obtenir des groupes suffisamment homo
 
 Plusieurs approches peuvent être utilisées pour construire ces classes, parmi lesquelles les méthodes fondées sur des quantiles ou des intervalles de largeur constante, les méthodes de classification via l'algorithme des K-means ou encore une classification hiérarchique ascendante.
 
-Une présentation plus détaillée des principes théoriques et des principales méthodes de discrétisation est proposée en Annexe \ref{sec:methodes-classification}
+Une présentation plus détaillée des principes théoriques et des principales méthodes de discrétisation est proposée en \hyperref[sec:methodes-classification]{Annexe~A}.
 
 Pour la suite des traitements, les variables suivantes ont été classifiées selon le découpage suivant :
 
@@ -580,9 +581,9 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
     \endlastfoot
     \shortstack{\textbf{policy\_annual\_premium} \\ (prime annuelle)} & 5 & Découpage de l'intervalle de valeur $[600 ; 1\,500]$ en amplitudes égales. Contrôle de l'effectif par classe créée ($\geq 5~\%$) & \shortstack{~ \\ $[600 ; 780]$ \\ $]780 ; 960]$ \\ $]960 ; 1\,140]$ \\ $]1\,140 ; 1\,320]$ \\ $]1\,320 ; 1\,500]$} \\
     \hline
-    \shortstack{\textbf{insured\_age} \\ (âge de l'assuré)} & 2 & Arbre de décision CART univarié & \shortstack{18 -- 24 ans \\ 25 -- 75 ans} \\
+    \shortstack{~ \\ \textbf{insured\_age} \\ (âge de l'assuré)} & 2 & Arbre de décision CART univarié & \shortstack{18 - 24 ans \\ 25 - 75 ans} \\
     \hline
-    \shortstack{\textbf{incident\_hour\_of\_the\_day} \\ (heure du sinistre)} & 3 & Découpage métier (créneaux horaires) & \shortstack{~ \\ Nuit : 22h -- 6h \\ Matin : 6h -- 12h \\ Après-midi / soir : 12h -- 22h} \\
+    \shortstack{\textbf{incident\_hour\_of\_the\_day} \\ (heure du sinistre)} & 3 & Découpage métier (créneaux horaires) & \shortstack{~ \\ Nuit : 22h - 6h \\ Matin : 6h - 12h \\ Après-midi / soir : 12h - 22h} \\
     \hline
     \shortstack{\textbf{total\_claim\_amount} \\ (montant total du sinistre)} & 5 & Quantiles arrondis à des bornes métier de 5\,000~USD & \shortstack{~ \\ $\leq 5\,000$ \\ $]5\,000 ; 10\,000]$ \\ $]10\,000 ; 15\,000]$ \\ $]15\,000 ; 20\,000]$ \\ $> 20\,000$} \\
     \hline
@@ -596,7 +597,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
     \hline
     \shortstack{\textbf{repairer\_avg\_invoice\_vs\_market} \\ (facture moyenne / prix du marché)} & 2 & Arbre CART univarié & \shortstack{~ \\ On market : $\leq 1,15$ \\ Off market (surfacturation) : \\ $> 1,15$} \\
     \hline
-    \shortstack{~ \\ \textbf{vehicle\_age\_years} \\ (âge du véhicule)} & 2 & Arbre CART univarié & \shortstack{~ \\ 0 -- 8 ans \\ 9 ans et plus} \\
+    \shortstack{~ \\ \textbf{vehicle\_age\_years} \\ (âge du véhicule)} & 2 & Arbre CART univarié & \shortstack{~ \\ 0 - 8 ans \\ 9 ans et plus} \\
     \hline
     \shortstack{\textbf{vehicle\_market\_value} \\ (valeur de marché du véhicule)} & 3 & Arbre CART univarié & \shortstack{~ \\ $\leq 5\,500$ \\ $]5\,500 ; 28\,000]$ \\ $> 28\,000$} \\
     \hline
@@ -652,9 +653,9 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \rowcolor{accenture}
         \multicolumn{1}{|>{\centering\arraybackslash}c|}{\cellcolor{accenture}\textcolor{white}{\textbf{insured\_age}}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
         \hline
-        18 -- 24 ans & 3\,539 & 11,80~\% & 18,71~\% \\
+        18 - 24 ans & 3\,539 & 11,80~\% & 18,71~\% \\
         \hline
-        25 -- 75 ans & 26\,461 & 88,20~\% & 10,50~\% \\
+        25 - 75 ans & 26\,461 & 88,20~\% & 10,50~\% \\
         \hline
         \rowcolor{gray!15}
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
@@ -664,7 +665,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
 \end{table}
 
 \begin{itemize}[label=$\bullet$]
-    \item La variable « \textbf{incident\_hour\_of\_the\_day} », correspondant à l'heure du sinistre, a été découpée selon une logique métier, afin de représenter les différents moments de la journée. Ainsi, 3 classes ont été créées : Nuit (22h -- 6h), Matin (6h -- 12h) et Après-midi -- soir (12h -- 22h).
+    \item La variable « \textbf{incident\_hour\_of\_the\_day} », correspondant à l'heure du sinistre, a été découpée selon une logique métier, afin de représenter les différents moments de la journée. Ainsi, 3 classes ont été créées : Nuit (22h - 6h), Matin (6h - 12h) et Après-midi - soir (12h - 22h).
 \end{itemize}
 
 \begin{table}[H]
@@ -675,11 +676,11 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \rowcolor{accenture}
         \textcolor{white}{\textbf{incident\_hour\_of\_the\_day}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
         \hline
-        Nuit : 22h -- 6h & 9\,932 & 33,11~\% & 11,38~\% \\
+        Nuit : 22h - 6h & 9\,932 & 33,11~\% & 11,38~\% \\
         \hline
-        Matin : 6h -- 12h & 7\,535 & 25,12~\% & 11,12~\% \\
+        Matin : 6h - 12h & 7\,535 & 25,12~\% & 11,12~\% \\
         \hline
-        Après-midi -- soir : 12h -- 22h & 12\,533 & 41,78~\% & 11,74~\% \\
+        Après-midi - soir : 12h - 22h & 12\,533 & 41,78~\% & 11,74~\% \\
         \hline
         \rowcolor{gray!15}
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\
@@ -851,7 +852,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \rowcolor{accenture}
         \multicolumn{1}{|c|}{\cellcolor{accenture}\textcolor{white}{\textbf{vehicle\_age\_years}}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
         \hline
-        0 -- 8 ans & 22\,480 & 74,93~\% & 8,50~\% \\
+        0 - 8 ans & 22\,480 & 74,93~\% & 8,50~\% \\
         \hline
         9 ans et plus & 7\,520 & 25,07~\% & 20,33~\% \\
         \hline
@@ -1086,7 +1087,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
     \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives\protect\footnotemark}
     \label{tab:eta-extrait}
 \end{table}
-\footnotetext{La variable «~\textit{total\_claim\_amount}~» est ici traitée comme une variable qualitative après avoir subi un regroupement en classes (cf.~section~\ref{subsec:création-classes}).\par\smallskip À noter que les matrices~\ref{tab:pearson-spearman-extrait}, \ref{tab:cramer-extrait} et~\ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en annexe~\ref{subsec:matrices-correl}.}
+\footnotetext{La variable «~\textit{total\_claim\_amount}~» est ici traitée comme une variable qualitative après avoir subi un regroupement en classes (cf.~section~\ref{subsec:création-classes}).\par\smallskip À noter que les matrices~\ref{tab:pearson-spearman-extrait}, \ref{tab:cramer-extrait} et~\ref{tab:eta-extrait} sont des extraits des matrices totales qui sont disponibles en \hyperref[subsec:matrices-correl]{annexe~D}.}
 
 Chaque matrice d'association mobilise une mesure selon la nature des variables croisées : le coefficient de Pearson pour les couples de variables quantitatives, le V de Cramér pour les couples de variables qualitatives, et le rapport de corrélation $\eta^2$ pour les couples de variables mixtes.
 

@@ -73,7 +73,7 @@ La principale limite du modèle tient à son hypothèse d'\textbf{additivité et
 \section{La forêt aléatoire}
 % --------------------------------------------------------------
 
-La forêt aléatoire (random forest, Breiman, 2001) appartient à la famille des méthodes d'\textbf{agrégation} (ou méthodes ensemblistes), dont le principe est de combiner de nombreux modèles élémentaires pour obtenir un prédicteur plus performant et plus stable qu'aucun d'entre eux pris isolément. L'unité de base est l'\textbf{arbre de décision} (CART), qui partitionne récursivement l'espace des variables en régions de plus en plus homogènes au regard de la cible. À chaque nœud, l'algorithme évalue toutes les coupures possibles (une variable et un seuil) et retient celle qui maximise la décroissance d'une mesure d'impureté. Les deux mesures les plus courantes en classification sont l'indice de Gini $G(t)$ et l'entropie de Shannon $H(t)$, calculés sur un nœud $t$ comportant une proportion $\hat{p}_{t,1}$ de sinistres frauduleux :
+La forêt aléatoire (random forest, Breiman, 2001~\cite{breiman_rf}) appartient à la famille des méthodes d'\textbf{agrégation} (ou méthodes ensemblistes), dont le principe est de combiner de nombreux modèles élémentaires pour obtenir un prédicteur plus performant et plus stable qu'aucun d'entre eux pris isolément. L'unité de base est l'\textbf{arbre de décision} (CART), qui partitionne récursivement l'espace des variables en régions de plus en plus homogènes au regard de la cible. À chaque nœud, l'algorithme évalue toutes les coupures possibles (une variable et un seuil) et retient celle qui maximise la décroissance d'une mesure d'impureté. Les deux mesures les plus courantes en classification sont l'indice de Gini $G(t)$ et l'entropie de Shannon $H(t)$, calculés sur un nœud $t$ comportant une proportion $\hat{p}_{t,1}$ de sinistres frauduleux :
 
 \begin{equation}
     G(t) = 2\, \hat{p}_{t,1} (1 - \hat{p}_{t,1})
@@ -103,7 +103,7 @@ Les propriétés de la forêt aléatoire en font un candidat particulièrement a
 \section{Le Gradient Boosting}
 % --------------------------------------------------------------
 
-Le \textbf{Gradient \textit{Boosting}} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le \textit{bagging} assemble des arbres \textbf{en parallèle} pour réduire la variance, le Gradient \textit{Boosting} les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
+Le \textbf{Gradient \textit{Boosting}}~\cite{friedman_gbm} est, comme la forêt aléatoire, une méthode ensembliste fondée sur des arbres, mais il en diffère radicalement par sa logique de construction. Là où le \textit{bagging} assemble des arbres \textbf{en parallèle} pour réduire la variance, le Gradient \textit{Boosting} les construit \textbf{séquentiellement}, chaque nouvel arbre s'attachant à corriger les erreurs résiduelles de l'ensemble déjà constitué ; il vise donc avant tout à réduire le biais. Le modèle final est une somme pondérée de $M$ arbres $h_m$ :
 
 \begin{equation}
     F_M(x) = \sum_{m=1}^{M} \nu\, h_m(x)
@@ -127,9 +127,9 @@ Le taux d'apprentissage $\nu$ joue un rôle de régularisation essentiel : une v
     L(F) = \sum_{i=1}^{n} L(y_i, F(x_i)) + \sum_{m=1}^{M} \Omega(h_m)
 \end{equation}
 
-Les bibliothèques de référence (XGBoost, LightGBM, CatBoost\footnote{XGBoost, LightGBM et CatBoost sont des bibliothèques open source d'implémentation du gradient boosting, principalement utilisées en Python.}) mettent en œuvre ces principes avec des optimisations algorithmiques (construction par histogrammes, croissance des arbres par feuille, traitement natif des variables catégorielles) qui les rendent rapides et très performantes.
+Les bibliothèques de référence (XGBoost~\cite{chen_xgboost}, LightGBM, CatBoost\footnote{XGBoost, LightGBM et CatBoost sont des bibliothèques open source d'implémentation du gradient boosting, principalement utilisées en Python.}) mettent en œuvre ces principes avec des optimisations algorithmiques (construction par histogrammes, croissance des arbres par feuille, traitement natif des variables catégorielles) qui les rendent rapides et très performantes.
 
-Le Gradient \textit{Boosting} atteint généralement le meilleur pouvoir prédictif parmi les modèles considérés sur des données tabulaires telles que celles de la détection de fraude. En contrepartie, il est plus sensible au réglage des hyperparamètres et au surapprentissage : le nombre d'arbres doit être contrôlé par un arrêt précoce sur un jeu de validation, et son interprétabilité est moindre que celle de la forêt, ce qui conduit à s'appuyer sur des outils d'explication post-hoc (importance des variables, valeurs de Shapley\footnote{La valeur de Shapley de la variable $j$ pour un individu $x$ mesure sa contribution marginale moyenne à la prédiction en moyennant sur toutes les coalitions possibles de variables.}) pour en restituer la logique.
+Le Gradient \textit{Boosting} atteint généralement le meilleur pouvoir prédictif parmi les modèles considérés sur des données tabulaires telles que celles de la détection de fraude. En contrepartie, il est plus sensible au réglage des hyperparamètres et au surapprentissage : le nombre d'arbres doit être contrôlé par un arrêt précoce sur un jeu de validation, et son interprétabilité est moindre que celle de la forêt, ce qui conduit à s'appuyer sur des outils d'explication post-hoc (importance des variables, valeurs de Shapley~\cite{lundberg_shap}\footnote{La valeur de Shapley de la variable $j$ pour un individu $x$ mesure sa contribution marginale moyenne à la prédiction en moyennant sur toutes les coalitions possibles de variables.}) pour en restituer la logique.
 
 
 % --------------------------------------------------------------
@@ -192,7 +192,7 @@ Deux grandes familles de méthodes se distinguent pour ce type d'analyse : les a
 \subsection{Les algorithmes d'isolation (Exemple : Isolation Forest)}
 % --------------------------------------------------------------
 
-Contrairement aux approches statistiques classiques qui cherchent d'abord à modéliser le comportement « normal » pour ensuite en déduire les anomalies, l'\textit{Isolation Forest} cherche directement à isoler les anomalies. Ce modèle repose sur un postulat simple : les anomalies sont des données « peu nombreuses et différentes » (\textit{few and different}).
+Contrairement aux approches statistiques classiques qui cherchent d'abord à modéliser le comportement « normal » pour ensuite en déduire les anomalies, l'\textit{Isolation Forest}~\cite{liu_isolation_forest} cherche directement à isoler les anomalies. Ce modèle repose sur un postulat simple : les anomalies sont des données « peu nombreuses et différentes » (\textit{few and different}).
 
 L'algorithme construit une forêt d'arbres (les \textit{Isolation Trees}). Pour chaque arbre, il sélectionne aléatoirement une variable et un seuil de coupure aléatoire (compris entre le minimum et le maximum de cette variable) pour partitionner l'espace récursivement.
 
@@ -257,7 +257,7 @@ Si cette similarité dépasse un seuil critique défini par l'actuaire, une arê
 
 Une fois le graphe construit, l'objectif n'est plus d'évaluer la probabilité de fraude d'un nœud individuel, mais d'identifier des sous-graphes anormalement denses. En théorie des graphes, on appelle cela la détection de communautés ou de composantes connexes.
 
-Des algorithmes comme la méthode de Louvain ou la propagation de labels (Label Propagation)\footnote{Ces algorithmes ne sont volontairement pas détaillés ici car ils ne seront pas utilisés dans le mémoire. Ils sont présentés de manière informative.} sont utilisés pour partitionner le graphe. Ils cherchent à maximiser la modularité $Q$, c'est-à-dire la densité des liens à l'intérieur d'un cluster par rapport à la densité des liens à l'extérieur :
+Des algorithmes comme la méthode de Louvain~\cite{blondel_louvain} ou la propagation de labels (Label Propagation)\footnote{Ces algorithmes ne sont volontairement pas détaillés ici car ils ne seront pas utilisés dans le mémoire. Ils sont présentés de manière informative.} sont utilisés pour partitionner le graphe. Ils cherchent à maximiser la modularité $Q$, c'est-à-dire la densité des liens à l'intérieur d'un cluster par rapport à la densité des liens à l'extérieur :
 
 \begin{equation}
     Q = \frac{1}{2m} \sum_{i,j} \left( A_{ij} - \frac{k_i k_j}{2m} \right) \delta(c_i, c_j)

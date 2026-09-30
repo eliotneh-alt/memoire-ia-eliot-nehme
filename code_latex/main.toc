@@ -95,5 +95,8 @@
 \contentsline {chapter}{\textbf {Conclusion}}{107}{chapter*.98}%
 \contentsline {chapter}{Annexes}{109}{chapter*.99}%
 \contentsline {section}{Méthodes de classification}{109}{section*.100}%
-\contentsline {chapter}{Glossaire}{122}{chapter*.109}%
-\contentsline {chapter}{Bibliographie}{127}{chapter*.110}%
+\contentsline {section}{Analyse détaillée des variables}{115}{equation.7.13}%
+\contentsline {section}{Composition du portefeuille}{117}{figure.caption.102}%
+\contentsline {section}{Matrices de corrélations}{119}{figure.caption.104}%
+\contentsline {chapter}{Glossaire}{121}{chapter*.109}%
+\contentsline {chapter}{Bibliographie}{126}{chapter*.110}%

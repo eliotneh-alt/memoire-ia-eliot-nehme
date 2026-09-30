@@ -353,7 +353,7 @@ Cette section présente l'utilisation de la modélisation via un « arbre de dé
 L'arbre construit admet les paramètres suivants :
 
 \begin{itemize}[label = $\bullet$]
-    \item Profondeur : 5
+    \item Profondeur : 7
     \item Feuilles : 68
     \item Nœuds internes : 67
 \end{itemize}
@@ -361,7 +361,7 @@ L'arbre construit admet les paramètres suivants :
 L'arbre construit admet les caractéristiques structurelles suivantes :
 
 \begin{itemize}[label = $\bullet$]
-    \item \textbf{La profondeur (5)}, qui correspond au nombre maximal de niveaux de décision successifs entre la racine de l'arbre et ses feuilles. Concrètement, un dossier traverse au plus cinq coupures successives (cinq questions posées sur ses variables) avant d'aboutir à une prédiction. Cette profondeur a été volontairement limitée à 5 : un arbre trop profond mémoriserait les particularités de l'échantillon d'apprentissage (sur-apprentissage) et généraliserait mal à de nouveaux dossiers, tandis qu'un arbre trop peu profond serait incapable de capter les interactions entre variables. Une profondeur de 5 constitue ainsi un compromis entre pouvoir de discrimination et capacité de généralisation.
+    \item \textbf{La profondeur (7)}, qui correspond au nombre maximal de niveaux de décision successifs entre la racine de l'arbre et ses feuilles. Concrètement, un dossier traverse au plus sept coupures successives (sept questions posées sur ses variables) avant d'aboutir à une prédiction. Cette profondeur a été volontairement limitée à 7 : un arbre trop profond mémoriserait les particularités de l'échantillon d'apprentissage (sur-apprentissage) et généraliserait mal à de nouveaux dossiers, tandis qu'un arbre trop peu profond serait incapable de capter les interactions entre variables. Une profondeur de 7 constitue ainsi un compromis entre pouvoir de discrimination et capacité de généralisation.
     \item \textbf{Les feuilles (68)} sont les nœuds terminaux de l'arbre, c'est-à-dire les points d'aboutissement où une décision finale est rendue (dossier classé frauduleux ou non). Chaque feuille regroupe un ensemble de dossiers partageant le même parcours de décision, et se voit attribuer une probabilité de fraude correspondant à la proportion de fraudes observée parmi les dossiers d'apprentissage qui y aboutissent. L'arbre compte ici 68 feuilles, soit 68 profils de risque distincts.
     \item \textbf{Les nœuds internes (67)} sont les points de décision situés avant les feuilles : à chaque nœud interne, l'arbre applique un test sur une variable (par exemple « le réparateur est-il signalé ? » ou « le montant réclamé dépasse-t-il un certain seuil ? ») qui oriente le dossier vers l'une ou l'autre branche. Le nombre de nœuds internes est directement lié au nombre de feuilles : un arbre binaire comportant 68 feuilles possède nécessairement 67 nœuds internes.
 \end{itemize}
@@ -369,7 +369,7 @@ L'arbre construit admet les caractéristiques structurelles suivantes :
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/chapitre5/arbre/representation_visuelle_arbre.png}
-    \caption{Représentation visuelle de l'arbre avec un découpage sur une profondeur de 2 branches (5 branches au total)}
+    \caption{Représentation visuelle de l'arbre avec un découpage sur une profondeur de 2 niveaux (7 niveaux au total)}
     \label{fig:representation-arbre}
 \end{figure}
 
@@ -387,7 +387,7 @@ Trois critères arrivent en tête à égalité, chacun structurant 14~\% des dé
 
 Ils sont suivis de près par l'âge du véhicule et la présence d'une blessure déclarée sans preuve médicale (12~\% chacun), puis par le nombre d'amendements à la déclaration (10~\%) et le nombre de sinistres passés du véhicule (9~\%). Viennent ensuite la valeur marchande du véhicule (6~\%) et le nombre de sinistres passés de l'assuré (4~\%), avant que les dernières variables ne deviennent marginales : 2~\% pour le nombre de contrats actifs de l'assuré, et 1~\% pour le nombre de jours depuis le dernier sinistre, les autorités contactées et le nombre de véhicules impliqués.
 
-On notera par ailleurs que les variables absentes de ce graphique présentent une importance nulle : elles n'ont tout simplement jamais été retenues comme critère de coupure par l'arbre. Ce phénomène s'explique par la structure même du modèle, dont la profondeur a été limitée à 5 niveaux : \textbf{avec seulement 67 nœuds internes disponibles, l'arbre concentre ses coupures sur les variables les plus discriminantes et n'a pas l'occasion de mobiliser les autres, qui restent inexploitées.}
+On notera par ailleurs que les variables absentes de ce graphique présentent une importance nulle : elles n'ont tout simplement jamais été retenues comme critère de coupure par l'arbre. Ce phénomène s'explique par la structure même du modèle, dont la profondeur a été limitée à 7 niveaux : \textbf{avec seulement 67 nœuds internes disponibles, l'arbre concentre ses coupures sur les variables les plus discriminantes et n'a pas l'occasion de mobiliser les autres, qui restent inexploitées.}
 
 Cette répartition indique que l'arbre construit ses coupures successives sur un ensemble relativement large de variables, plutôt que de faire reposer sa structure sur un ou deux critères dominants. On retrouve néanmoins \textbf{en tête les mêmes signaux forts que dans les autres modèles} (ratio facture/marché, historique de l'assuré, antécédents de fraude), ce qui rejoint directement l'analyse de fréquence de fraude où ces variables ressortaient déjà comme les plus discriminantes. La cohérence entre modèles renforce la confiance dans la pertinence de ces résultats.
 
@@ -417,7 +417,7 @@ La sortie issue de l'arbre de décision met en évidence une relation claire et 
 
 Cette montée progressive est particulièrement intéressante d'un point de vue opérationnel, car elle permet de \textbf{segmenter efficacement les dossiers} et de prioriser les investigations sur les cas les plus risqués.
 
-Par ailleurs, les caractéristiques du modèle (profondeur maximale de 5) traduisent un compromis maîtrisé entre complexité et capacité de généralisation. Le modèle reste suffisamment lisible tout en capturant des \textit{patterns} discriminants. En synthèse, cette sortie confirme que l'arbre de décision fournit une \textbf{hiérarchisation cohérente et exploitable du risque de fraude}, avec une forte concentration des cas frauduleux dans les segments de probabilité élevée.
+Par ailleurs, les caractéristiques du modèle (profondeur maximale de 7) traduisent un compromis maîtrisé entre complexité et capacité de généralisation. Le modèle reste suffisamment lisible tout en capturant des \textit{patterns} discriminants. En synthèse, cette sortie confirme que l'arbre de décision fournit une \textbf{hiérarchisation cohérente et exploitable du risque de fraude}, avec une forte concentration des cas frauduleux dans les segments de probabilité élevée.
 
 Si l'on s'appuie sur la distribution observée, l'idée est de définir des seuils qui maximisent la détection tout en restant opérationnellement soutenables (ne pas envoyer trop de dossiers en investigation lourde).
 
