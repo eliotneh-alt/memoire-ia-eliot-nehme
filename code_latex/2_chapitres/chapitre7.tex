@@ -18,14 +18,14 @@ Les deux schémas ci-dessous illustrent concrètement les points d'intervention 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapitre7/schema_aide1.png}
-    \caption{Points d'intervention humaine dans le module de construction du modèle}
+    \caption{Identification des points d'intervention humaine dans le module de construction du modèle}
     \label{fig:schema-aide1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapitre7/schema_aide2.png}
-    \caption{Points d'intervention humaine dans le module opérationnel de détection}
+    \caption{Identification des points d'intervention humaine dans le module opérationnel de détection}
     \label{fig:schema-aide2}
 \end{figure}
 
@@ -61,7 +61,9 @@ Dans le cadre de cette étude, le modèle est construit uniquement à partir d'u
 
 Parmi ces informations, on peut notamment citer l'ancienneté du contrat, l'historique de sinistralité de l'assuré, la fréquence de résiliation ou de souscription, ou encore des éléments d'identification permettant de reconstituer des liens entre individus (assurés, conducteurs, tiers).
 
-Pour pallier partiellement cette limite, la base sinistre a été enrichie de trente variables reconstituant une partie de cette information (cf. section~\ref{sec:enrichissement}). Cet enrichissement ne remplace toutefois pas l'accès à une véritable base portefeuille, qui offrirait une profondeur historique et relationnelle hors de portée d'un enrichissement à partir du seul sinistre.
+Pour pallier partiellement cette limite, la base sinistre a été enrichie de vingt-neuf variables reconstituant une partie de cette information (cf. section~\ref{sec:enrichissement}). Cet enrichissement ne remplace toutefois pas l'accès à une véritable base portefeuille, qui offrirait une profondeur historique et relationnelle hors de portée d'un enrichissement à partir du seul sinistre.
+
+Cet enrichissement appelle en outre une réserve importante dans la lecture des résultats. Les variables les plus contributives des trois modèles (ratio facture/marché du réparateur, historique des montants réclamés, nombre de fraudes passées de l'assuré) sont toutes issues de la simulation, et certaines variables d'enrichissement (taux de fraude du réparateur, taux de fraude de la zone) sont calculées à partir du statut de fraude observé dans la base elle-même. Une partie du pouvoir prédictif mesuré (AUC de 0,933 pour le Gradient \textit{Boosting}) reflète donc vraisemblablement la manière dont ces données ont été générées, plutôt que la seule capacité du modèle à détecter la fraude dans un portefeuille réel. Sur des données d'assureur, ces indicateurs historiques devraient être calculés exclusivement sur des dossiers antérieurs au sinistre évalué, afin d'éviter toute fuite d'information, et les performances obtenues seraient vraisemblablement plus modestes.
 
 L'absence de ces variables limite la capacité du modèle à capter des comportements de fraude plus complexes, notamment ceux reposant sur des logiques de répétition ou d'organisation.
 
@@ -127,7 +129,7 @@ Outre l'ajout de données externes, une piste d'amélioration majeure réside da
 
 Le partage d'informations, dans un cadre réglementaire maîtrisé, permettrait d'améliorer les \textbf{taux de détection des fraudes en bande organisée}, en identifiant plus rapidement des schémas récurrents et des profils à risque. Un agent IA alimenté par une base mutualisée bénéficierait ainsi d'une \textbf{vision élargie}, renforçant significativement son efficacité.
 
-Un cas emblématique de fraude automobile organisée en France concerne le détournement du système d'immatriculation des véhicules (SIV), mis en place en 2017. Des réseaux ont exploité la possibilité, offerte aux professionnels habilités de réaliser des démarches administratives, en créant des « garages fictifs » servant de sociétés écrans. Ces structures ont permis l'immatriculation massive de véhicules frauduleux, facilitant notamment la réintroduction de véhicules volés dans le circuit légal et la dissimulation de leur traçabilité.\footnote{\url{https://www.ccomptes.fr/fr/publications/la-fraude-aux-cartes-grises}}
+Un cas emblématique de fraude automobile organisée en France concerne le détournement du système d'immatriculation des véhicules (SIV), mis en place en 2009 et dont les démarches ont été entièrement dématérialisées en 2017. Des réseaux ont exploité la possibilité, offerte aux professionnels habilités de réaliser des démarches administratives, en créant des « garages fictifs » servant de sociétés écrans. Ces structures ont permis l'immatriculation massive de véhicules frauduleux, facilitant notamment la réintroduction de véhicules volés dans le circuit légal et la dissimulation de leur traçabilité.\footnote{\url{https://www.ccomptes.fr/fr/publications/la-fraude-aux-cartes-grises}}
 
 Selon plusieurs enquêtes de presse et sources sectorielles, cette fraude concernerait jusqu'à un million de véhicules et représenterait plus de 500 millions d'euros de pertes. Certains cas individuels font état de plusieurs milliers de véhicules immatriculés frauduleusement via une seule entité.
 

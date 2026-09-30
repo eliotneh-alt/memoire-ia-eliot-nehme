@@ -1,0 +1,159 @@
+\chapter*{Glossaire}
+\addcontentsline{toc}{chapter}{Glossaire}
+
+Prompt
+Cut-off
+K-means
+Cha (Classification Hiérarchique Ascendante)
+
+\textbf{Accuracy (taux de bien classés)} : Proportion de dossiers correctement classés (fraude ou non) parmi l'ensemble de la population. Peu informatif seul en présence de classes déséquilibrées, où un modèle prédisant toujours « non-fraude » obtient mécaniquement un score élevé.
+
+\textbf{ACPR (Autorité de contrôle prudentiel et de résolution)} : Superviseur français des secteurs de la banque et de l'assurance, adossé à la Banque de France. Elle publie notamment des attentes sur la gouvernance et l'explicabilité des algorithmes d'intelligence artificielle.
+
+\textbf{Agent IA} : Système d'intelligence artificielle capable d'enchaîner des actions et de prendre des décisions simples pour atteindre un objectif défini, au-delà de la seule production de contenu.
+
+\textbf{AI Act (règlement (UE) 2024/1689)} : Règlement européen encadrant l'intelligence artificielle selon une approche par niveaux de risque. Il classe certains usages en assurance parmi les systèmes à haut risque, soumis à des obligations de documentation, de supervision humaine et d'évaluation continue.
+
+\textbf{ALFA (Agence de lutte contre la fraude à l'assurance)} : Association professionnelle française créée en 1989, chargée d'accompagner les assureurs dans la prévention et la détection des fraudes et de centraliser les informations du secteur.
+
+\textbf{Anti-sélection} : Phénomène par lequel une hausse de prime éloigne les assurés les moins risqués du portefeuille, dégradant progressivement son équilibre technique.
+
+\textbf{Apprentissage supervisé} : Méthode d'apprentissage où le modèle est entraîné sur des données dont la variable cible est connue (ici, le caractère frauduleux ou non de chaque sinistre).
+
+\textbf{Apprentissage non supervisé} : Méthode d'apprentissage sans variable cible, visant à repérer des structures ou des anomalies dans les données à partir des seules variables explicatives.
+
+\textbf{AUC-ROC (aire sous la courbe ROC)} : Indicateur synthétisant le pouvoir discriminant d'un modèle en un nombre compris entre 0,5 (aléatoire) et 1 (parfait). Elle mesure l'aptitude du score à classer les fraudes devant les non-fraudes, indépendamment de tout seuil.
+
+\textbf{Backtesting} : Comparaison des performances d'un modèle entre l'échantillon d'apprentissage et l'échantillon de test, afin de détecter un éventuel surapprentissage.
+
+\textbf{Bagging (bootstrap aggregating)} : Technique consistant à entraîner plusieurs modèles sur des échantillons tirés avec remise, puis à moyenner leurs prédictions pour réduire la variance.
+
+\textbf{CART (arbre de classification et de régression)} : Algorithme construisant un arbre de décision en partitionnant récursivement les données selon des seuils sur les variables explicatives.
+
+\textbf{Clustering (partitionnement)} : Méthode non supervisée regroupant les observations en sous-ensembles homogènes (clusters). Les dossiers isolés ou formant de très petits groupes peuvent signaler des comportements atypiques.
+
+\textbf{Cut-off (seuil de décision)} : Valeur de score au-delà de laquelle un dossier est considéré comme frauduleux. Son choix arbitre entre le taux de fraudes détectées et le volume de dossiers à investiguer.
+
+\textbf{Data profiling} : Étape d'audit automatisé des données consistant à contrôler le typage, les plages de valeurs, les modalités et la complétude d'une base avant sa modélisation.
+
+\textbf{Déchéance de garantie} : Sanction privant l'assuré du bénéfice de la garantie pour un sinistre donné, sans remettre en cause l'existence du contrat (à la différence de la nullité).
+
+\textbf{Elastic net} : Méthode de régularisation combinant les pénalités L1 (Lasso) et L2 (Ridge) afin de bénéficier à la fois de la sélection de variables et de la stabilité des coefficients.
+
+\textbf{F1-score} : Moyenne harmonique de la précision et du rappel, évaluant la qualité d'une décision à un seuil fixé. La variante F-bêta permet de pondérer davantage le rappel lorsque le coût d'une fraude non détectée est jugé supérieur à celui d'une enquête inutile.
+
+\textbf{Feedback loop (boucle de rétroaction)} : Mécanisme par lequel les issues réelles des dossiers investigués viennent enrichir la base d'apprentissage, permettant le réentraînement périodique du modèle.
+
+\textbf{Forêt aléatoire (random forest)} : Méthode d'ensemble agrégeant de nombreux arbres de décision décorrélés (par tirage bootstrap et sélection aléatoire de variables) pour obtenir un prédicteur plus stable et performant.
+
+\textbf{Franchise} : Part du montant d'un sinistre restant à la charge de l'assuré, prévue au contrat.
+
+\textbf{FRIA (Fundamental Rights Impact Assessment)} : Analyse d'impact sur les droits fondamentaux, imposée par l'AI Act à certains déployeurs de systèmes d'IA à haut risque, distincte de l'analyse d'impact relative à la protection des données.
+
+\textbf{GLM (modèle linéaire généralisé)} : Famille de modèles statistiques étendant la régression linéaire, dont fait partie la régression logistique. Largement utilisée en tarification et en modélisation du risque en actuariat.
+
+\textbf{Gini (coefficient de)} : Mesure du pouvoir discriminant d'un score, reliée à l'AUC par la relation $Gini = 2 \times AUC - 1$. Elle varie de 0 (discrimination nulle) à 1 (discrimination parfaite).
+
+\textbf{Gradient Boosting} : Méthode d'ensemble construisant des arbres séquentiellement, chaque nouvel arbre corrigeant les erreurs résiduelles des précédents. Elle atteint généralement le meilleur pouvoir prédictif sur données tabulaires, au prix d'une interprétabilité moindre.
+
+\textbf{Graph mining (analyse de réseaux)} : Modélisation du portefeuille sous forme de graphe (nœuds et arêtes) permettant de détecter des communautés anormalement denses, révélatrices de fraudes organisées.
+
+\textbf{Hyperparamètre} : Paramètre de configuration d'un modèle fixé avant l'apprentissage (par exemple la profondeur d'un arbre, le nombre d'arbres ou le taux d'apprentissage), par opposition aux paramètres appris sur les données.
+
+\textbf{IA agentique} : Intelligence artificielle capable d'enchaîner des actions et de prendre des décisions dans un environnement en fonction d'objectifs définis, par opposition à l'IA générative centrée sur la production de contenu.
+
+\textbf{IA générative} : Intelligence artificielle produisant du contenu (texte, code, images, synthèses), typiquement au moyen de modèles de langage.
+
+\textbf{IARD (Incendie, Accidents et Risques Divers)} : Ensemble des assurances de biens et de responsabilité (dont l'automobile et la multirisque habitation), par opposition aux assurances de personnes.
+
+\textbf{Impureté (indice de Gini, entropie)} : Mesure de l'hétérogénéité d'un nœud d'arbre au regard de la variable cible ; l'algorithme choisit les coupures qui la font le plus décroître.
+
+\textbf{Indice de Youden} : Indicateur (J = sensibilité + spécificité - 1) identifiant le seuil de décision qui maximise l'écart entre taux de vrais positifs et taux de faux positifs.
+
+\textbf{Information Value (IV)} : Indicateur agrégeant les WOE des classes d'une variable pour quantifier son pouvoir prédictif global et hiérarchiser les variables.
+
+\textbf{Isolation Forest} : Algorithme de détection d'anomalies isolant directement les observations rares et atypiques, qui nécessitent moins de coupures pour être séparées des autres.
+
+\textbf{K-Means} : Algorithme de clustering partitionnant les données en k groupes en minimisant la variance intra-classe autour de centres de gravité.
+
+\textbf{KS (statistique de Kolmogorov-Smirnov)} : Écart maximal entre les fonctions de répartition des scores des dossiers frauduleux et licites ; mesure la netteté de la séparation entre les deux populations.
+
+\textbf{LCB-FT (lutte contre le blanchiment de capitaux et le financement du terrorisme)} : Dispositif réglementaire et opérationnel imposé aux acteurs financiers et assurantiels pour prévenir, détecter et signaler ces infractions.
+
+
+\textbf{Lift (@10~\%)} : Rapport entre le taux de fraude observé dans les 10~\% de dossiers les mieux notés et le taux de fraude global. Un lift de 5 signifie que ce décile concentre cinq fois plus de fraudes qu'une sélection aléatoire.
+
+\textbf{LLM (modèle de langage)} : Modèle d'intelligence artificielle entraîné à produire et comprendre du texte en langage naturel.
+
+\textbf{Log-loss} : Indicateur mesurant la qualité de la calibration des probabilités prédites ; une valeur faible traduit des probabilités bien calibrées.
+
+
+\textbf{Matrice de confusion} : Tableau croisant les prédictions du modèle et les statuts réels selon quatre cas : vrais positifs (TP), vrais négatifs (TN), faux positifs (FP) et faux négatifs (FN).
+
+\textbf{Méthode de Louvain} : Algorithme de détection de communautés dans un graphe, cherchant à maximiser la modularité (densité des liens internes rapportée aux liens externes).
+
+\textbf{Multi-colinéarité} : Situation où plusieurs variables explicatives sont fortement corrélées, rendant l'estimation des coefficients instable et peu interprétable.
+
+\textbf{NLP (traitement automatique du langage)} : Ensemble de techniques permettant d'analyser des données textuelles non structurées (descriptions de sinistres, comptes rendus d'expertise) pour y détecter des incohérences ou des schémas récurrents.
+
+\textbf{Nullité du contrat} : Sanction rétroactive rendant le contrat réputé n'avoir jamais existé, applicable notamment en cas de fausse déclaration intentionnelle à la souscription (article L.113-8 du Code des assurances).
+
+\textbf{Odds-ratio} : Exponentielle d'un coefficient de régression logistique, indiquant le facteur par lequel la cote de fraude est multipliée quand la variable augmente d'une unité. Supérieur à 1 : variable aggravante ; inférieur à 1 : variable atténuante.
+
+\textbf{Out-of-bag (erreur)} : Estimation de l'erreur de généralisation d'une forêt aléatoire obtenue en prédisant chaque observation à l'aide des seuls arbres ne l'ayant pas vue lors de l'entraînement.
+
+\textbf{Out-of-bag (échantillon)} : Fraction des observations (environ 37~\%) absente d'un tirage bootstrap donné, utilisable pour l'évaluation interne du modèle.
+
+\textbf{PDO (Points to Double the Odds)} : Nombre de points d'un scoring correspondant à un doublement de la cote de fraude ; paramètre de calage de la grille de points.
+
+\textbf{Précision} : Parmi les dossiers signalés comme frauduleux, proportion de ceux qui le sont réellement (VP / (VP + FP)).
+
+\textbf{Prime pure} : Espérance du coût des sinistres pour un contrat, modélisée comme le produit de la fréquence moyenne des sinistres et de leur coût moyen.
+
+\textbf{Principe indemnitaire (règle de non-enrichissement)} : Principe selon lequel l'indemnité d'assurance ne peut excéder le montant du préjudice réel : l'assurance répare un dommage sans procurer de profit à l'assuré (article L.121-1 du Code des assurances).
+
+\textbf{Prompt} : Ensemble des instructions, du contexte et des données fournis à un modèle d'IA pour guider son comportement et orienter la nature de ses réponses. Il constitue le point d'entrée de l'interaction avec l'agent.
+
+\textbf{PR-AUC (aire sous la courbe précision-rappel)} : Indicateur de performance particulièrement adapté aux classes déséquilibrées, car centré sur la classe d'intérêt (la fraude) et non flatté par l'abondance des vrais négatifs. Sa référence n'est pas 0,5 mais la prévalence de la fraude.
+
+\textbf{PSI (Population Stability Index)} : Indicateur mesurant la dérive de la distribution des scores entre une population de référence et une population récente. En deçà de 0,1 la population est stable ; au-delà de 0,25 une dérive importante justifie un réentraînement.
+
+\textbf{Rappel (sensibilité)} : Parmi les dossiers réellement frauduleux, proportion de ceux détectés par le modèle (VP / (VP + FN)).
+
+\textbf{Rapport de corrélation ($\eta^2$)} : Mesure d'association entre une variable quantitative et une variable qualitative, correspondant à la part de variance de la première expliquée par les modalités de la seconde. Compris entre 0 et 1.
+
+\textbf{Ratio S/P (Sinistres sur Primes)} : Rapport entre la charge des sinistres et le montant des primes encaissées, indicateur clé de l'équilibre technique d'un portefeuille.
+
+\textbf{Red flag (signal d'alerte)} : Indice issu de l'expérience métier laissant présumer une fraude (délai anormalement court entre souscription et sinistre, déclaration tardive, antécédents répétés, etc.).
+
+\textbf{Régression logistique} : Modèle linéaire généralisé estimant la probabilité d'un événement binaire (ici la fraude) via la fonction logit. Référence historique de la modélisation du risque, appréciée pour son interprétabilité directe.
+
+\textbf{Régularisation (L1 / Lasso, L2 / Ridge)} : Ajout d'une pénalité sur la taille des coefficients d'un modèle afin de stabiliser l'estimation et de limiter le surapprentissage. La pénalité L1 peut annuler des coefficients (sélection de variables), la L2 les rétrécit sans les annuler.
+
+\textbf{RGPD (Règlement général sur la protection des données)} : Cadre européen encadrant le traitement des données personnelles. Son article 22 restreint les décisions produisant des effets significatifs fondées exclusivement sur un traitement automatisé.
+
+\textbf{Shrinkage (taux d'apprentissage)} : Coefficient pondérant la contribution de chaque arbre dans le gradient boosting. Une valeur faible ralentit l'apprentissage mais améliore la généralisation.
+
+\textbf{Similarité cosinus} : Mesure de proximité entre deux dossiers dans l'espace des variables, utilisée en analyse de réseaux pour tracer une arête lorsque deux sinistres se ressemblent anormalement.
+
+\textbf{SIV (Système d'immatriculation des véhicules)} : Dispositif français d'immatriculation mis en place en 2009, dont le détournement par des réseaux organisés a facilité des fraudes automobiles de grande ampleur.
+
+\textbf{Spécificité} : Parmi les dossiers réellement licites, proportion de ceux correctement classés comme non frauduleux (VN / (VN + FP)).
+
+\textbf{Stratification} : Technique de partitionnement préservant la proportion de la variable cible (ici 11,5~\% de fraudes) dans les jeux d'apprentissage et de test.
+
+\textbf{Surapprentissage (overfitting)} : Situation où un modèle s'ajuste trop finement aux particularités des données d'entraînement, au détriment de sa capacité à généraliser à de nouveaux dossiers.
+
+\textbf{Télématique} : Données issues de capteurs embarqués ou d'applications mobiles reconstituant le comportement de conduite, mobilisables pour vérifier la cohérence d'un sinistre déclaré.
+
+\textbf{Tracfin} : Cellule française de renseignement financier recueillant et analysant les déclarations de soupçon des professionnels assujettis (dont les assureurs) en matière de blanchiment et de financement du terrorisme.
+
+\textbf{Valeurs de Shapley} : Méthode d'explicabilité mesurant la contribution marginale moyenne de chaque variable à une prédiction, en moyennant sur toutes les combinaisons possibles de variables.
+
+\textbf{Validation croisée (k plis)} : Technique d'évaluation divisant les données en k sous-ensembles ; le modèle est entraîné k fois, chaque pli servant tour à tour de jeu de validation, ce qui fournit une estimation robuste de la performance.
+
+\textbf{V de Cramér} : Mesure d'association entre deux variables qualitatives, dérivée de la statistique du khi-deux et comprise entre 0 (indépendance) et 1 (association parfaite). Sa normalisation la rend comparable entre tableaux de dimensions différentes.
+
+\textbf{WOE (Weight of Evidence)} : Poids de la preuve attribué à chaque classe d'une variable, mesurant son pouvoir discriminant en comparant la répartition des dossiers licites et frauduleux. Base de la construction d'un scoring à points.
+
+\textbf{XGBoost / LightGBM / CatBoost} : Bibliothèques open source d'implémentation du gradient boosting, réputées rapides et performantes, principalement utilisées en Python.

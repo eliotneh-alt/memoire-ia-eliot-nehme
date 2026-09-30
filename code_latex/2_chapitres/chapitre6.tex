@@ -80,7 +80,7 @@ Ce dispositif permet d'optimiser la \textbf{fonction de coût globale} du proces
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre6/tableau_proba.png}
-    \caption{Probabilité en sortie de l'outil}
+    \caption{Probabilité de fraude en sortie de l'outil}
     \label{fig:tableau-proba}
 \end{figure}
 
@@ -102,7 +102,7 @@ Dans une logique d'amélioration continue, l'outil intègre un mécanisme de bou
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.55\textwidth]{images/chapitre6/schema_macro.png}
+    \includegraphics[width=0.63\textwidth]{images/chapitre6/schema_macro.png}
     \caption{Schéma macro du mécanisme d'enrichissement de la base de données}
     \label{schéma_macro}
 \end{figure}
@@ -126,7 +126,7 @@ Cette approche présente plusieurs intérêts sur le plan actuariel. D'abord, el
 
 Ensuite, ces nouvelles observations permettent un recalibrage et une réestimation réguliers du modèle : actualisation des paramètres, amélioration de la capacité de discrimination et, le cas échéant, réajustement de la pondération des variables. L'objectif est de maintenir dans le temps une performance prédictive stable, mesurée à l'aide d'indicateurs tels que l'AUC, le Gini ou les courbes de gains, et de surveiller l'absence de dérive du modèle (notamment via le \textbf{Population Stability Index}).
 
-Enfin, l'intégration systématique des issues réelles permet de mieux maîtriser certains biais inhérents aux dispositifs de détection, en particulier le biais de sélection lié aux dossiers investigués. En alimentant la base avec les décisions finales issues de l'ensemble des sinistres traités (et non des seuls dossiers ayant fait l'objet d'une alerte), le modèle gagne en robustesse et en cohérence.
+Enfin, l'intégration systématique des issues réelles permet de mieux appréhender certains biais inhérents aux dispositifs de détection, en particulier le biais de sélection lié aux dossiers investigués. Ce biais ne disparaît toutefois pas entièrement : les dossiers classés en zone verte n'étant pas investigués, leur statut réel reste inconnu, et la base enrichie tend mécaniquement à sur-représenter les dossiers jugés suspects par le modèle. Pour le limiter, il est recommandé d'investiguer périodiquement un échantillon aléatoire de dossiers de la zone verte, afin de disposer d'observations labellisées sur l'ensemble de la distribution des scores.
 
 Ainsi, l'outil ne se limite pas à une utilisation statique du modèle : il s'inscrit dans une démarche dynamique de modélisation itérative, où chaque sinistre qualifié vient affiner la connaissance du risque et améliorer la pertinence du dispositif de détection.
 
@@ -171,16 +171,19 @@ Ainsi, le rapport annuel transforme l'outil de détection en véritable instrume
 \section{Dynamisme de l'outil mis en place}
 % --------------------------------------------------------------
 
-Le modèle développé présente un caractère dynamique et évolutif, essentiel dans un environnement assurantiel en constante mutation. Il ne s'agit pas d'un dispositif figé : la plupart des choix effectués tout au long de ce mémoire constituent des hypothèses de travail, retenues pour les besoins de l'illustration, mais paramétrables et substituables sans refonte de l'outil. Le tableau ci-dessous récapitule ces principaux choix de conception et les alternatives envisageables pour chacun.
+Le modèle développé présente un caractère dynamique et évolutif, essentiel dans un environnement assurantiel en constante mutation. Il ne s'agit pas d'un dispositif figé : la plupart des choix effectués tout au long de ce mémoire constituent des hypothèses de travail, retenues pour les besoins de l'illustration, mais paramétrables et substituables sans refonte de l'outil.
+
+Le tableau ci-dessous récapitule ces principaux choix de conception et les alternatives envisageables pour chacun.
 
 \begin{table}[H]
     \centering
     \footnotesize
     \renewcommand{\arraystretch}{1.4}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \renewcommand\tabularxcolumn[1]{m{#1}}   % colonnes X centrées verticalement
+    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}m{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
-        \textcolor{white}{\textbf{Élément de l'outil}} & \textcolor{white}{\textbf{Choix retenu dans ce mémoire}} & \textcolor{white}{\textbf{Alternatives / paramétrage possible}} \\
+        \multicolumn{1}{|c|}{\cellcolor{accenture}\textcolor{white}{\textbf{Élément de l'outil}}} & \multicolumn{1}{c|}{\cellcolor{accenture}\textcolor{white}{\textbf{Choix retenu dans ce mémoire}}} & \multicolumn{1}{c|}{\cellcolor{accenture}\textcolor{white}{\textbf{Alternatives / paramétrage possible}}} \\
         \hline
         Variables d'entrée & 53 variables (24 variables source + 29 ajoutées pour enrichissement) & Nombre et nature libres : l'outil s'adapte à tout jeu de variables, avec ou sans enrichissement \\
         \hline

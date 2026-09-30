@@ -12,7 +12,7 @@
 % ==============================================================
 Le principe de mutualisation des risques est un principe pilier de l'assurance qui suppose un climat de confiance entre assureur et assuré que la fraude vient détourner. 
 
-En assurance non-vie, ce phénomène représente une charge estimée à environ 2,5~milliards d'euros par an en France, soit près de 5~\% du niveau d'encaissement des primes, dont une partie importante demeure non détectée. Au-delà de son coût direct, la fraude alourdit la prime de chaque assuré honnête d'une cinquantaine d'euros par contrat automobile et fragilise à terme la solidarité même de la mutualité.
+En assurance non-vie, ce phénomène représente une charge estimée à environ 2,5~milliards d'euros par an en France, soit environ 3~\% des cotisations en assurance de biens et de responsabilité, dont une partie importante (de l'ordre de 60~\%) demeure non détectée. Au-delà de son coût direct, la fraude alourdit la prime de chaque assuré honnête d'une cinquantaine d'euros par contrat automobile et fragilise à terme la solidarité même de la mutualité.
 
 La lutte traditionnelle contre ce phénomène, fondée sur le jugement des gestionnaires de sinistres et l'intervention de cellules spécialisées, atteint aujourd'hui ses limites. Elle ne permet de contrôler qu'une fraction des dossiers, dépend fortement de l'expertise individuelle des enquêteurs, et se heurte à une contrainte économique difficilement surmontable : le coût d'une investigation manuelle rend non rentable le contrôle de la fraude de faible montant, pourtant la plus répandue. C'est de ce constat qu'est né le présent mémoire, dont l'objet est de présenter la conception et la mise en œuvre pas à pas d'un processus de détection automatisé de la fraude automobile, reposant sur un agent d'intelligence artificielle et couvrant l'intégralité de la chaîne, de l'ingestion des données jusqu'au pilotage du dispositif, des outils similaires ayant déjà fait leur émergence sur le marché ces dernières années.
 
@@ -68,7 +68,7 @@ Un enseignement transversal mérite d'être souligné : les trois modèles, pour
     \begin{tikzpicture}
         \begin{axis}[
             xbar,
-            width=0.86\textwidth,
+            width=0.75\textwidth,
             height=8cm,
             xmin=0, xmax=30,
             xlabel={Importance relative (\%)},

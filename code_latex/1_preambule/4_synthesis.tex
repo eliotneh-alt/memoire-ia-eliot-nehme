@@ -11,13 +11,13 @@
 % ==============================================================
 
 Risk pooling is a cornerstone of insurance and presupposes a relationship of trust between insurer and policyholder, which fraud subverts.
-In non-life insurance, this phenomenon is estimated to generate annual losses of approximately \euro{}~2.5 billion in France, equivalent to nearly 5\% of premium income, a substantial share of which remains undetected. Beyond its direct cost, fraud adds approximately \euro{}~50 to the premium paid by every honest policyholder for each motor insurance contract and, in the long term, undermines the solidarity underpinning risk pooling.
+In non-life insurance, this phenomenon is estimated to generate annual losses of approximately \euro{}~2.5 billion in France, equivalent to approximately 3\% of property and casualty premium income, a substantial share of which (around 60\%) remains undetected. Beyond its direct cost, fraud adds approximately \euro{}~50 to the premium paid by every honest policyholder for each motor insurance contract and, in the long term, undermines the solidarity underpinning risk pooling.
 
-Traditional approaches to combating fraud, based on the judgement of claims handlers and the intervention of specialised units, have now reached their limits. They allow only a fraction of claims to be reviewed, depend heavily on investigators' individual expertise, and face a difficult economic constraint: the cost of a manual investigation makes the review of low-value fraud-although the most widespread form, economically unviable. This observation gave rise to the present thesis, which sets out the step-by-step design and implementation of an automated motor insurance fraud-detection process supported by an artificial intelligence agent and covering the entire workflow, from data ingestion to system monitoring, against a backdrop in which similar tools have emerged on the market in recent years.
+Traditional approaches to combating fraud, based on the judgement of claims handlers and the intervention of specialised units, have now reached their limits. They allow only a fraction of claims to be reviewed, depend heavily on investigators' individual expertise, and face a difficult economic constraint: the cost of a manual investigation makes the review of low-value fraud (although the most widespread form) economically unviable. This observation gave rise to the present thesis, which sets out the step-by-step design and implementation of an automated motor insurance fraud-detection process supported by an artificial intelligence agent and covering the entire workflow, from data ingestion to system monitoring, against a backdrop in which similar tools have emerged on the market in recent years.
 
 \bigskip
 
-\textbf{Key issues and positioning :} The thesis begins by characterising insurance fraud, its typologies-opportunistic or organised, at policy inception or at the claims stage and its legal framework, before assessing its economic significance. The value of a detection system cannot be measured solely by its statistical performance, but also by the claims costs it helps avoid. This economic grounding, formalised through the concept of expected unit gain, provides the guiding thread of the analysis and explains why the choice of model parameters ultimately requires a cost-benefit trade-off. The thesis then surveys fraud-detection methods, contrasting traditional manual approaches with the contributions of artificial intelligence, and reaches a conclusion that shapes the remainder of the study: rather than replacing human expertise, AI should complement it, with the algorithm filtering and prioritising cases while humans investigate and decide.
+\textbf{Key issues and positioning :} The thesis begins by characterising insurance fraud, its typologies (opportunistic or organised, at policy inception or at the claims stage) and its legal framework, before assessing its economic significance. The value of a detection system cannot be measured solely by its statistical performance, but also by the claims costs it helps avoid. This economic grounding, formalised through the concept of expected unit gain, provides the guiding thread of the analysis and explains why the choice of model parameters ultimately requires a cost-benefit trade-off. The thesis then surveys fraud-detection methods, contrasting traditional manual approaches with the contributions of artificial intelligence, and reaches a conclusion that shapes the remainder of the study: rather than replacing human expertise, AI should complement it, with the algorithm filtering and prioritising cases while humans investigate and decide.
 
 \bigskip
 
@@ -41,19 +41,19 @@ A counter-intuitive finding emerges : fraud is not concentrated among the most c
     \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
-        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Points-based scorecard}} & \textcolor{white}{\textbf{Tree decision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
+        \textcolor{white}{\textbf{Indicator}} & \textcolor{white}{\textbf{Points-based scorecard}} & \textcolor{white}{\textbf{Decision tree}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
         \hline
-        \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
+        \textbf{AUC-ROC} & 0.917 & 0.845 & \textbf{0.933} \\
         \hline
-        \textbf{Gini} & 0,835 & 0,690 & \textbf{0,867} \\
+        \textbf{Gini} & 0.835 & 0.690 & \textbf{0.867} \\
         \hline
-        \textbf{KS} & 0,666 & 0,564 & \textbf{0,724} \\
+        \textbf{KS} & 0.666 & 0.564 & \textbf{0.724} \\
         \hline
-        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
+        \textbf{Lift @10~\%} & --- & $\times$4.83 & \textbf{$\times$6.37} \\
         \hline
-        \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
+        \textbf{PSI} & 0.0026 & 0.0026 & \textbf{0.0023} \\
         \hline
-        \textbf{Backtesting variance} & \textbf{0,003} & 0,039 & 0,016 \\
+        \textbf{Backtesting gap} & \textbf{0.003} & 0.039 & 0.016 \\
         \hline
     \end{tabularx}
     \caption{Synthesis of the quality indicator results for the different models}
@@ -69,16 +69,16 @@ One cross-cutting insight deserves emphasis: although the three models are based
     \begin{tikzpicture}
         \begin{axis}[
             xbar,
-            width=0.86\textwidth,
+            width=0.75\textwidth,
             height=8cm,
             xmin=0, xmax=30,
             xlabel={Relative importance (\%)},
             symbolic y coords={
-                {Authorities contacted},
+                {Nb of active policies (policyholder)},
+                {Injury claimed without medical evidence},
                 {Nb of past claims (vehicle)},
-                {Reporting delay},
+                {Authorities contacted},
                 {Vehicle age},
-                {Vehicle ownership duration},
                 {Nb of amendments to the declaration},
                 {Vehicle market value},
                 {Nb of past frauds (policyholder)},
@@ -95,14 +95,14 @@ One cross-cutting insight deserves emphasis: although the three models are based
             label style={font=\small},
         ]
         \addplot[fill=accenture, draw=accenture] coordinates {
-            (5,{Authorities contacted})
-            (5,{Nb of past claims (vehicle)})
-            (6,{Reporting delay})
-            (6,{Vehicle age})
-            (7,{Vehicle ownership duration})
+            (5,{Nb of active policies (policyholder)})
+            (5,{Injury claimed without medical evidence})
+            (6,{Nb of past claims (vehicle)})
+            (7,{Authorities contacted})
+            (7,{Vehicle age})
             (8,{Nb of amendments to the declaration})
-            (10,{Vehicle market value})
-            (12,{Nb of past frauds (policyholder)})
+            (8,{Vehicle market value})
+            (13,{Nb of past frauds (policyholder)})
             (16,{History of claimed amounts})
             (25,{Invoice / market ratio (repairer)})
         };
