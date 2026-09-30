@@ -6,7 +6,7 @@ Dans la suite de l'analyse, l'étude se concentre sur trois approches de modéli
 \begin{itemize}[label=$\bullet$]
     \item Un \textbf{modèle de \textit{scoring} en points} (interprétable et proche des pratiques actuarielles traditionnelles) ;
     \item Un \textbf{arbre de décision} (permettant de capturer des effets non linéaires et des interactions) ;
-    \item Un \textbf{modèle de type Gradient Boosting} (plus performant en général grâce aux méthodes d'ensemble).
+    \item Un \textbf{modèle de type Gradient \textit{Boosting}} (plus performant en général grâce aux méthodes d'ensemble).
 \end{itemize}
 
 L'objectif est d'évaluer et de comparer leur \textbf{qualité de prédiction} à partir de métriques adaptées, tout en tenant compte des enjeux d'interprétabilité et d'implémentation opérationnelle.
@@ -79,17 +79,17 @@ En sortie du modèle, on obtient les indicateurs suivants :
     \item Pour chaque variable, le nombre de points associé à chaque modalité ;
     \item «~Effectif train~» correspondant au nombre de lignes de chaque modalité au sein de la base d'apprentissage ;
     \item «~Taux de fraude train~», le taux de fraude observé sur la base d'apprentissage ;
-    \item Le WOE (Weight of Evidence), qui correspond au log-odds de la modalité, recentré sur le log-odds global :
+    \item Le WOE (\textit{Weight of Evidence}), qui correspond au \textit{log-odds} de la modalité, recentré sur le \textit{log-odds} global :
 \end{itemize}
 
 \begin{equation}
     \text{WOE} = \ln(\text{odds}_{\text{modalité}}) - \ln(\text{odds}_{\text{global}})
 \end{equation}
 
-\textcolor{vert}{Par exemple, pour la variable « \textit{repairer\_avg\_invoice\_vs\_market} », sur la modalité « Off market », le taux global de fraude est de $2\,752 / 24\,000 \approx 11,5~\%$, donc $\ln(0,48 / 0,52) - \ln(0,115 / 0,885) = 1,96$}. Un WOE positif signifie donc « plus risqué que la moyenne du portefeuille », négatif « moins risqué », et 0 correspond exactement au risque moyen. C'est la variable explicative réellement injectée dans la régression : chaque modalité est remplacée par son WOE.
+\textcolor{vert}{Par exemple, pour la variable « \textit{repairer\_avg\_invoice\_vs\_market} », sur la modalité « \textit{Off market} », le taux global de fraude est de $2\,752 / 24\,000 \approx 11,5~\%$, donc $\ln(0,48 / 0,52) - \ln(0,115 / 0,885) = 1,96$}. Un WOE positif signifie donc « plus risqué que la moyenne du portefeuille », négatif « moins risqué », et 0 correspond exactement au risque moyen. C'est la variable explicative réellement injectée dans la régression : chaque modalité est remplacée par son WOE.
 
 \begin{itemize}[label=$\bullet$]
-    \item L'Information Value (IV) : c'est une mesure de pouvoir discriminant univarié, indépendante du modèle final, donnée par :
+    \item L'\textit{Information Value} (IV) : c'est une mesure de pouvoir discriminant univarié, indépendante du modèle final, donnée par :
 \end{itemize}
 
 \begin{equation}
@@ -122,7 +122,7 @@ En sortie du modèle, on obtient les indicateurs suivants :
 \end{table}
 
 \begin{itemize}[label=$\bullet$]
-    \item Le coefficient logistique : c'est le coefficient de la variable WOE-isée dans la régression multivariée. Sa référence naturelle est 1 : si une variable était seule dans le modèle, son coefficient vaudrait mécaniquement 1 puisque le WOE est déjà exprimé en log-odds. Les valeurs retournées par le modèle (ici 0,997 / 0,980 / 0,980 / 0,904) sont donc à lire comme un facteur d'atténuation. S'il est proche de 1, cela signifie que la variable apporte une information peu redondante avec les autres. À noter que le 0,904 de « \textit{vehicle\_market\_value} » indique un léger recouvrement avec d'autres variables du modèle. Les signaux d'alerte seraient un coefficient très inférieur à 1 (redondance forte), supérieur à 1,3--1,5, ou négatif, ce dernier cas traduisant une inversion de sens due à de la colinéarité.
+    \item Le coefficient logistique : c'est le coefficient de la variable WOE-isée dans la régression multivariée. Sa référence naturelle est 1 : si une variable était seule dans le modèle, son coefficient vaudrait mécaniquement 1 puisque le WOE est déjà exprimé en \textit{log-odds}. Les valeurs retournées par le modèle (ici 0,997 / 0,980 / 0,980 / 0,904) sont donc à lire comme un facteur d'atténuation. S'il est proche de 1, cela signifie que la variable apporte une information peu redondante avec les autres. À noter que le 0,904 de « \textit{vehicle\_market\_value} » indique un léger recouvrement avec d'autres variables du modèle. Les signaux d'alerte seraient un coefficient très inférieur à 1 (redondance forte), supérieur à 1,3--1,5, ou négatif, ce dernier cas traduisant une inversion de sens due à de la colinéarité.
     \item La stabilité de la variable : elle représente la fréquence de sélection de la variable sur des rééchantillonnages (\textit{bootstrap} ou validation croisée). La valeur 1 indique que la variable est systématiquement retenue.
 \end{itemize}
 
@@ -138,7 +138,7 @@ Les résultats du modèle de \textit{scoring} permettent de distinguer 3 catégo
 \begin{itemize}[label=$\bullet$]
     \item En premier lieu, les signaux forts correspondent aux variables les plus discriminantes, historiquement associées à un sur-risque de fraude et donc fortement pondérées.
     \begin{itemize}[label=$\circ$]
-        \item Le ratio facture/marché du réparateur domine le barème : une facture supérieure de 15~\% au prix de marché (« off market ») atteint un taux de fraude de 48,0~\% (contre 11,5~\% en moyenne) et se voit attribuer le maximum de 108 points, pour une IV de 0,680.
+        \item Le ratio facture/marché du réparateur domine le barème : une facture supérieure de 15~\% au prix de marché (« \textit{off market} ») atteint un taux de fraude de 48,0~\% (contre 11,5~\% en moyenne) et se voit attribuer le maximum de 108 points, pour une IV de 0,680.
         \item Viennent ensuite l'historique des montants réclamés par l'assuré (un cumul supérieur à 30\,000 USD porte le taux de fraude à 39,0~\% et vaut 87 points) ;
         \item Les antécédents de fraude de l'assuré (au moins une fraude passée : 32,1~\% de fraude, 74 points) ;
         \item Et la valeur marchande du véhicule (un véhicule de moins de 5\,500~USD atteint 22,6~\% de fraude, 83 points).
@@ -294,9 +294,9 @@ En retenant le seuil optimal de 35~\%, les indicateurs obtenus s'interprètent d
     \item \textbf{KS (0,666)} : bien au-delà du seuil de 0,4 jugé satisfaisant (cf. section~\ref{sec:criteres-evaluation}), il confirme une nette séparation entre les distributions de scores des deux populations.
     \item \textbf{Précision (47,6~\%)} : parmi les dossiers signalés comme frauduleux, un peu moins d'un sur deux l'est réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
     \item \textbf{Rappel (76,6~\%)} : le modèle détecte près de quatre fraudes sur cinq, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item \textbf{F1-score (58,7~\%)} : compromis honnête entre précision et rappel, en nette amélioration par rapport au seuil graphique de 45~\%.
-    \item \textbf{Accuracy (87,6~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
-    \item \textbf{Log-loss (0,2015)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
+    \item \textbf{\textit{F1-score} (58,7~\%)} : compromis honnête entre précision et rappel, en nette amélioration par rapport au seuil graphique de 45~\%.
+    \item \textbf{\textit{Accuracy} (87,6~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
+    \item \textbf{\textit{Log-loss} (0,2015)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
 \end{itemize}
 
 Dans l'ensemble, le modèle présente d'excellents indicateurs de discrimination et de stabilité ; le seul point de vigilance concerne la précision modérée, contrepartie assumée d'un rappel volontairement élevé.
@@ -306,7 +306,7 @@ Ces résultats sont cohérents avec la nature du modèle : sa simplicité et sa 
 \underline{Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus} :
 
 \begin{itemize}[label = $\bullet$]
-    \item \textbf{Backtesting (écart AUC train/test de 0,003)} : écart quasi nul entre apprentissage et test, confirmant l'absence de surapprentissage et une bonne capacité de généralisation.
+    \item \textbf{\textit{Backtesting} (écart AUC \textit{train/test} de 0,003)} : écart quasi nul entre apprentissage et test, confirmant l'absence de surapprentissage et une bonne capacité de généralisation.
     \item \textbf{PSI (0,0026)} : très inférieur à 0,1, il atteste d'une excellente stabilité de la distribution des scores.
 \end{itemize}
 
@@ -323,7 +323,7 @@ Ces résultats sont cohérents avec la nature du modèle : sa simplicité et sa 
 
 Malgré sa simplicité et son interprétabilité, le modèle de \textit{scoring} en points présente plusieurs limites dont il convient de tenir compte. 
 
-\textbf{En premier lieu, le principe d'additivité et l'absence d'interactions.} En effet, le score suppose que les contributions des variables s'additionnent dans l'échelle des log-odds. Or la fraude se reconnaît souvent à des combinaisons de signaux (contrat récent + sinistre de nuit + absence de tiers identifié + véhicule en fin de vie par exemple). Chaque élément pris isolément est banal, c'est le croisement qui est suspect. Il faut créer les interactions à la main, donc les avoir devinées à l'avance.
+\textbf{En premier lieu, le principe d'additivité et l'absence d'interactions.} En effet, le score suppose que les contributions des variables s'additionnent dans l'échelle des \textit{log-odds}. Or la fraude se reconnaît souvent à des combinaisons de signaux (contrat récent + sinistre de nuit + absence de tiers identifié + véhicule en fin de vie par exemple). Chaque élément pris isolément est banal, c'est le croisement qui est suspect. Il faut créer les interactions à la main, donc les avoir devinées à l'avance.
 
 \textbf{De plus, il existe une perte d'information par le \textit{binning}.} En effet, le découpage en classes lisse les non-linéarités mais détruit de la granularité et introduit des effets de seuil : deux dossiers quasi identiques de part et d'autre d'une frontière (ex. 31 jours vs 29 jours après souscription par exemple) reçoivent des points différents. Les bornes sont aussi une source de surapprentissage si elles sont optimisées sur les mêmes données que les poids.
 
@@ -510,15 +510,15 @@ En retenant le seuil optimal de 45~\%, les indicateurs obtenus s'interprètent d
     \item \textbf{PR-AUC (0,518)} : à comparer à la prévalence de la fraude (11,5~\%), qui constitue la valeur de référence d'un modèle aléatoire ; l'arbre fait ainsi environ 4,5 fois mieux que le hasard sur la classe d'intérêt.
     \item \textbf{Précision (34,1~\%)} : parmi les dossiers signalés comme frauduleux, un peu plus d'un tiers le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
     \item \textbf{Rappel (75,1~\%)} : le modèle détecte près de trois fraudes sur quatre, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item \textbf{F1-score (46,9~\%)} : compromis correct entre précision et rappel.
-    \item \textbf{Accuracy (80,5~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
-    \item \textbf{Log-loss (0,4825)} : valeur modérée, traduisant une calibration des probabilités prédites correcte mais perfectible.
+    \item \textbf{\textit{F1-score} (46,9~\%)} : compromis correct entre précision et rappel.
+    \item \textbf{\textit{Accuracy} (80,5~\%)} : taux de bonnes classifications élevé, à interpréter toutefois avec prudence sur données déséquilibrées où cet indicateur est peu informatif à lui seul.
+    \item \textbf{\textit{Log-loss} (0,4825)} : valeur modérée, traduisant une calibration des probabilités prédites correcte mais perfectible.
 \end{itemize} 
 
 Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus :
 
 \begin{itemize}[label = $\bullet$]
-    \item \textbf{Backtesting (écart AUC train/test de 0,039)} : écart modéré entre apprentissage et test, signalant une tendance au surapprentissage mais restant contenue.
+    \item \textbf{\textit{Backtesting} (écart AUC \textit{train/test} de 0,039)} : écart modéré entre apprentissage et test, signalant une tendance au surapprentissage mais restant contenue.
     \item \textbf{PSI (0,0026)} : très inférieur à 0,1, il atteste d'une excellente stabilité de la distribution des scores.
 \end{itemize}
 
@@ -588,7 +588,7 @@ On peut également s'intéresser à l'importance relative des variables dans le 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/chapitre5/boost/importance_variables_boost.png}
-    \caption{Hiérarchie de l'importance globale des variables dans le modèle « Gradient Boosting »}
+    \caption{Hiérarchie de l'importance globale des variables dans le modèle « Gradient \textit{Boosting} »}
     \label{fig:importance-variables-boost}
 \end{figure}
 
@@ -637,7 +637,7 @@ D'où les zones d'investigation suivantes :
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/chapitre5/boost/matrice_confusion_85_boost.png}
-    \caption{Matrice de confusion du modèle Gradient Boosting pour un seuil de 85~\%}
+    \caption{Matrice de confusion du modèle Gradient \textit{Boosting} pour un seuil de 85~\%}
     \label{fig:matrice-85-boost}
 \end{figure}
 
@@ -666,7 +666,7 @@ Pour commencer, on cherche le seuil optimal à partir duquel on peut considérer
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/chapitre5/boost/matrice_confusion_optimal_45_boost.png}
-    \caption{Matrice de confusion du modèle Gradient Boosting avec un seuil de 45~\%}
+    \caption{Matrice de confusion du modèle Gradient \textit{Boosting} avec un seuil de 45~\%}
     \label{fig:matrice-optimal-boost}
 \end{figure}
 
@@ -693,7 +693,7 @@ L'efficacité opérationnelle de l'outil se mesure aussi à sa capacité à conc
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{images/chapitre5/boost/courbe_roc_auc_boost.png}
-    \caption{Courbe ROC et AUC pour le modèle Gradient Boosting}
+    \caption{Courbe ROC et AUC pour le modèle Gradient \textit{Boosting}}
     \label{fig:roc-boost}
 \end{figure}
 
@@ -706,15 +706,15 @@ En retenant le seuil optimal de 45~\%, les indicateurs obtenus s'interprètent d
     \item \textbf{PR-AUC (0,744)} : indicateur à privilégier sur données déséquilibrées (cf. section~\ref{sec:criteres-evaluation}), il se lit au regard de la prévalence de la fraude (11,5~\%) : le Gradient \textit{Boosting} fait environ 6,5 fois mieux qu'un modèle aléatoire sur la classe d'intérêt, contre 4,5 fois pour l'arbre de décision (PR-AUC de 0,518).
     \item \textbf{Précision (42,5~\%)} : parmi les dossiers signalés comme frauduleux, un peu plus de quatre sur dix le sont réellement. Valeur modérée, mais attendue à ce seuil abaissé et acceptable au vu de l'objectif de détection.
     \item \textbf{Rappel (87,4~\%)} : le modèle détecte près de neuf fraudes sur dix, ce qui est le point fort de ce seuil et l'objectif prioritaire en détection de fraude.
-    \item \textbf{F1-score (57,2~\%)} : bon compromis entre précision et rappel.
-    \item \textbf{Accuracy (85,0~\%)} : taux de bonnes classifications élevé.
-    \item \textbf{Log-loss (0,3131)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
+    \item \textbf{\textit{F1-score} (57,2~\%)} : bon compromis entre précision et rappel.
+    \item \textbf{\textit{Accuracy} (85,0~\%)} : taux de bonnes classifications élevé.
+    \item \textbf{\textit{Log-loss} (0,3131)} : valeur faible, signe d'une bonne calibration des probabilités prédites.
 \end{itemize}   
  
 Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les résultats suivants sont obtenus :
 
 \begin{itemize}[label = $\bullet$]
-    \item {Backtesting (écart AUC train/test de 0,016)} : écart très faible entre apprentissage et test, signalant une excellente capacité de généralisation et l'absence de surapprentissage.
+    \item \textbf{\textit{Backtesting} (écart AUC \textit{train/test} de 0,016)} : écart très faible entre apprentissage et test, signalant une excellente capacité de généralisation et l'absence de surapprentissage.
     \item \textbf{PSI (0,0023)} : très inférieur à 0,1, il atteste d'une excellente stabilité de la distribution des scores.
 \end{itemize}
 
@@ -722,7 +722,7 @@ Enfin, concernant les indicateurs de robustesse et stabilité du modèle, les r�
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{images/chapitre5/boost/robustesse_boost.png}
-    \caption{Indicateurs de robustesse et stabilité du modèle Gradient Boosting}
+    \caption{Indicateurs de robustesse et stabilité du modèle Gradient \textit{Boosting}}
     \label{fig:robustesse-boost}
 \end{figure}
 
@@ -758,7 +758,7 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
     \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
-        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Scoring en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
+        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{\textit{Scoring} en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient \textit{Boosting}}} \\
         \hline
         \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
         \hline
@@ -768,7 +768,7 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
         \hline
         \textbf{PR-AUC} & ---\protect\footnotemark & 0,518 & \textbf{0,744} \\
         \hline
-        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
+        \textbf{\textit{Lift} @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
         \hline
         \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
         \hline
@@ -778,17 +778,17 @@ Ci-dessous, un tableau récapitulatif des différents indicateurs de qualité se
     \caption{Synthèse des résultats des indicateurs de qualité des différents modèles}
     \label{tab:synthese-modeles}
 \end{table}
-\footnotetext{La PR-AUC et le lift au premier décile ne sont pas restitués par l'agent pour le modèle de \textit{scoring} en points (cf. figure~\ref{fig:synthese-points}) ; la comparaison sur ces deux indicateurs porte donc uniquement sur l'arbre de décision et le Gradient \textit{Boosting}.}
+\footnotetext{La PR-AUC et le \textit{lift} au premier décile ne sont pas restitués par l'agent pour le modèle de \textit{scoring} en points (cf. figure~\ref{fig:synthese-points}) ; la comparaison sur ces deux indicateurs porte donc uniquement sur l'arbre de décision et le Gradient \textit{Boosting}. Une estimation du \textit{lift} peut toutefois être déduite des deux matrices de confusion du modèle (seuils de 45~\% et 35~\%) : la courbe de gains étant concave, le \textit{lift} au premier décile est compris entre environ $\times$5,4 et $\times$7,1, soit un niveau comparable à celui du Gradient \textit{Boosting}.}
 
 \subsubsection*{Stabilité et robustesse des modèles}
 
-Les trois modèles présentent une stabilité remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,0026 pour le \textit{scoring} en points, 0,0026 pour l'arbre de décision et 0,0023 pour le Gradient \textit{Boosting}). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de test. Le partitionnement étant aléatoire et non chronologique, ce résultat était toutefois attendu : il ne permet pas de conclure sur la stabilité temporelle des modèles, qui devra être suivie en production via le PSI calculé sur les nouveaux sinistres soumis à l'outil. Par ailleurs, le \textit{backtesting} en split 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,003 pour le \textit{scoring} en points, 0,039 pour l'arbre de décision et 0,016 pour le Gradient \textit{Boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
+Les trois modèles présentent une stabilité remarquable, avec des valeurs de PSI très inférieures au seuil d'alerte de 0,10 (0,0026 pour le \textit{scoring} en points, 0,0026 pour l'arbre de décision et 0,0023 pour le Gradient \textit{Boosting}). Ces valeurs attestent d'une distribution homogène des scores entre les échantillons d'entraînement et de test. Le partitionnement étant aléatoire et non chronologique, ce résultat était toutefois attendu : il ne permet pas de conclure sur la stabilité temporelle des modèles, qui devra être suivie en production via le PSI calculé sur les nouveaux sinistres soumis à l'outil. Par ailleurs, le \textit{backtesting} en \textit{split} 80/20 révèle une bonne capacité de généralisation : les écarts entre AUC d'entraînement et AUC de validation restent contenus (0,003 pour le \textit{scoring} en points, 0,039 pour l'arbre de décision et 0,016 pour le Gradient \textit{Boosting}). Le \textit{scoring en points} affiche l'écart le plus faible, cohérent avec sa simplicité, tandis que le modèle basé sur les arbres de décision présente l'écart le plus marqué, traduisant sa tendance connue au surapprentissage ; celui-ci reste toutefois modéré et n'entame pas significativement la robustesse du modèle.
 
 \subsubsection*{Analyse du compromis précision / rappel et choix du seuil de décision}
 
-Le Gradient \textit{Boosting} s'impose nettement comme le modèle à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0,933, un indice de Gini de 0,867 et un lift de $\times$6,37 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0,845, indice de Gini de 0,690, lift de $\times$4,83) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0,917, indice de Gini de 0,835). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
+Le Gradient \textit{Boosting} s'impose nettement comme le modèle à retenir, car il offre le meilleur pouvoir discriminant parmi les trois approches testées : une AUC de 0,933, un indice de Gini de 0,867 et un \textit{lift} de $\times$6,37 au premier décile. Il devance nettement le modèle basé sur un arbre de décision (AUC de 0,845, indice de Gini de 0,690, \textit{lift} de $\times$4,83) et, plus légèrement, le modèle basé sur un \textit{scoring} en points (AUC de 0,917, indice de Gini de 0,835). Sa capacité à concentrer la fraude dans les premiers déciles en fait l'outil le plus efficace pour prioriser les dossiers à investiguer, ce qui correspond précisément à l'objectif opérationnel poursuivi.
 
-Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,917 et un indice de Gini de 0,835, il se situe très près du Gradient Boosting et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (Gradient \textit{Boosting}) et interprétabilité (\text{scoring} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
+Ce choix ne disqualifie pas pour autant le modèle basé sur un \textbf{\textit{scoring} en points, qui demeure un modèle remarquablement performant au regard de sa simplicité}. Avec une AUC de 0,917 et un indice de Gini de 0,835, il se situe très près du Gradient \textit{Boosting} et loin devant l'arbre de décision, tout en conservant une transparence et une interprétabilité que les méthodes d'ensemble ne permettent pas. Il constitue donc une alternative pleinement crédible lorsque l'explicabilité prime sur le dernier point de performance, par exemple pour une présentation aux gestionnaires ou dans un contexte réglementaire exigeant. Le choix entre ces deux modèles relève ainsi d'un arbitrage entre performance pure (Gradient \textit{Boosting}) et interprétabilité (\text{\textit{scoring}} en points), l'arbre de décision étant quant à lui écarté, dominé sur l'ensemble des critères.
 
 Enfin, quel que soit le modèle retenu, la lecture des performances appelle une nuance commune, liée à la tension inhérente entre précision et rappel. Ces deux indicateurs évoluent en sens inverse selon le seuil de décision : abaisser le seuil permet de détecter davantage de fraudes (rappel plus élevé), mais au prix d'un plus grand nombre de dossiers sains signalés à tort (précision plus faible), et inversement. D'un point de vue actuariel, ce ratio doit être piloté explicitement : modifier le seuil de décision permet d'ajuster le rappel au prix d'un volume plus ou moins élevé de dossiers à investiguer. Le choix optimal de ce curseur dépend du coût asymétrique des deux types d'erreurs : un faux négatif (fraude non détectée) engendre une perte indemnisée à tort, tandis qu'un faux positif (investigation inutile) représente un coût opérationnel pour la cellule fraude. C'est précisément pour cette raison que l'outil développé laisse à l'utilisateur le soin de manipuler dynamiquement le curseur des seuils de détection, afin d'adapter le dispositif au contexte et à l'appétence au risque de chaque assureur.
 

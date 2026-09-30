@@ -408,7 +408,7 @@ L'utilisateur clique ensuite sur le bouton « \textit{submit} » pour passer à 
 \subsection{Étape 2 : Audit et contrôles de cohérence}
 % --------------------------------------------------------------
 
-Dès l'importation du fichier brut de sinistres, l'outil procède à un audit automatisé, étape fondamentale de Data Profiling. L'objectif de cette interface n'est pas de réaliser un simple inventaire, mais de garantir l'intégrité et la qualité des données avant qu'elles ne soient intégrées dans un modèle de prédiction de la fraude.
+Dès l'importation du fichier brut de sinistres, l'outil procède à un audit automatisé, étape fondamentale de \textit{Data Profiling}. L'objectif de cette interface n'est pas de réaliser un simple inventaire, mais de garantir l'intégrité et la qualité des données avant qu'elles ne soient intégrées dans un modèle de prédiction de la fraude.
 
 Concrètement, comme illustré dans le tableau de restitution ci-dessous, le moteur cartographie le portefeuille en réalisant plusieurs contrôles croisés pour chaque variable :
 
@@ -595,7 +595,7 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
     \hline
     \shortstack{\textbf{repairer\_fraud\_rate} \\ (taux de fraude du réparateur)} & 4 & Découpage métier + arbre CART univarié & \shortstack{~ \\ Pas de réparateur identifié \\ 0~\% (réparateur avec historique, \\ aucune fraude) \\ $]0~\% ; 5~\%]$ \\ $> 5~\%$} \\
     \hline
-    \shortstack{\textbf{repairer\_avg\_invoice\_vs\_market} \\ (facture moyenne / prix du marché)} & 2 & Arbre CART univarié & \shortstack{~ \\ On market : $\leq 1,15$ \\ Off market (surfacturation) : \\ $> 1,15$} \\
+    \shortstack{\textbf{repairer\_avg\_invoice\_vs\_market} \\ (facture moyenne / prix du marché)} & 2 & Arbre CART univarié & \shortstack{~ \\ \textit{On market} : $\leq 1,15$ \\ \textit{Off market} (surfacturation) : \\ $> 1,15$} \\
     \hline
     \shortstack{~ \\ \textbf{vehicle\_age\_years} \\ (âge du véhicule)} & 2 & Arbre CART univarié & \shortstack{~ \\ 0 - 8 ans \\ 9 ans et plus} \\
     \hline
@@ -829,9 +829,9 @@ Pour la suite des traitements, les variables suivantes ont été classifiées se
         \rowcolor{accenture}
         \multicolumn{1}{|c|}{\cellcolor{accenture}\textcolor{white}{\textbf{repairer\_avg\_invoice\_vs\_market}}} & \textcolor{white}{\textbf{Nombre de sinistres associés}} & \textcolor{white}{\textbf{\% de la base sinistre}} & \textcolor{white}{\textbf{Taux de fraude en base}} \\
         \hline
-        On market : $\leq 1,15$ & 27\,589 & 91,96~\% & 8,26~\% \\
+        \textit{On market} : $\leq 1,15$ & 27\,589 & 91,96~\% & 8,26~\% \\
         \hline
-        Off market (surfacturation) : $> 1,15$ & 2\,411 & 8,04~\% & 48,15~\% \\
+        \textit{Off market} (surfacturation) : $> 1,15$ & 2\,411 & 8,04~\% & 48,15~\% \\
         \hline
         \rowcolor{gray!15}
         \textbf{Total} & \textbf{30\,000} & \textbf{100~\%} & \textbf{11,5~\%} \\

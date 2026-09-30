@@ -1,4 +1,5 @@
 \chapter*{Synthèse}
+\phantomsection
 \addcontentsline{toc}{chapter}{Synthèse}
 
 %   \usepackage{booktabs}   % pour \toprule \midrule \bottomrule
@@ -40,7 +41,7 @@ La logique de construction de l'agent est pilotée par un \textit{prompt} décom
     \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
-        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{Scoring en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
+        \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{\textit{Scoring} en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient \textit{Boosting}}} \\
         \hline
         \textbf{AUC-ROC} & 0,917 & 0,845 & \textbf{0,933} \\
         \hline
@@ -48,18 +49,18 @@ La logique de construction de l'agent est pilotée par un \textit{prompt} décom
         \hline
         \textbf{KS} & 0,666 & 0,564 & \textbf{0,724} \\
         \hline
-        \textbf{Lift @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
+        \textbf{\textit{Lift} @10~\%} & --- & $\times$4,83 & \textbf{$\times$6,37} \\
         \hline
         \textbf{PSI} & 0,0026 & 0,0026 & \textbf{0,0023} \\
         \hline
-        \textbf{Écart Backtesting} & \textbf{0,003} & 0,039 & 0,016 \\
+        \textbf{Écart \textit{Backtesting}} & \textbf{0,003} & 0,039 & 0,016 \\
         \hline
     \end{tabularx}
     \caption{Synthèse des résultats des indicateurs de qualité des différents modèles}
     \label{tab:synthese-modeles-intro}
 \end{table}
 
-Le Gradient \textit{Boosting} s'impose comme le modèle le plus discriminant (AUC de 0,933, Gini de 0,867, lift de $\times$6,37 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,917, il se situe très près du Gradient \textit{Boosting} tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
+Le Gradient \textit{Boosting} s'impose comme le modèle le plus discriminant (AUC de 0,933, Gini de 0,867, \textit{lift} de $\times$6,37 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,917, il se situe très près du Gradient \textit{Boosting} tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
 
 Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés. Au premier rang on retrouve le ratio facture/marché du réparateur, l'historique des montants réclamés et les antécédents de fraude de l'assuré. Le profil du Gradient \textit{Boosting} (modèle retenu) présenté ci-dessous en offre une illustration représentative.
 

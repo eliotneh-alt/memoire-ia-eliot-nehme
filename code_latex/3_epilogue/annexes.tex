@@ -1,4 +1,5 @@
 \chapter*{Annexes}
+\phantomsection
 \addcontentsline{toc}{chapter}{Annexes}
 
 \phantomsection
@@ -12,7 +13,7 @@
 
 \subsubsection*{Principe}
 
-Le clustering est une méthode statistique de division d'un ensemble de données en groupes homogènes. L'homogénéité n'a pas de sens en elle-même : elle se définit par un critère de proximité, lequel suppose d'avoir introduit au préalable une mesure de distance entre les observations. De nombreux algorithmes conduisent à une partition des données ; celui des K-means est l'un des plus répandus et convient notamment au découpage d'une variable quantitative continue.
+Le \textit{clustering} est une méthode statistique de division d'un ensemble de données en groupes homogènes. L'homogénéité n'a pas de sens en elle-même : elle se définit par un critère de proximité, lequel suppose d'avoir introduit au préalable une mesure de distance entre les observations. De nombreux algorithmes conduisent à une partition des données ; celui des K-means est l'un des plus répandus et convient notamment au découpage d'une variable quantitative continue.
 
 Son principe est itératif. On part d'une partition aléatoire de l'ensemble des observations en $K$ classes, puis on reforme pas à pas ces $K$ classes de manière à ce qu'elles contiennent des individus de plus en plus proches les uns des autres. L'algorithme s'arrête lorsque la partition n'évolue plus.
 
@@ -62,7 +63,7 @@ L'inertie d'un nuage de $n$ points est la moyenne des carrés des distances de c
 
 Pour un ensemble de points donné, cette quantité est une constante : elle ne dépend pas de la partition retenue. C'est précisément ce qui en fait une référence pour juger de la qualité d'une classification.
 
-Une classe (ou cluster) $k$ est un ensemble non vide d'observations, noté $\pi_k = \{ i \mid x_i \text{ appartient à la classe } k \}$. Son effectif est $n_k = \text{Card}\, \pi_k$, et son centre de gravité :
+Une classe (ou \textit{cluster}) $k$ est un ensemble non vide d'observations, noté $\pi_k = \{ i \mid x_i \text{ appartient à la classe } k \}$. Son effectif est $n_k = \text{Card}\, \pi_k$, et son centre de gravité :
 
 \begin{equation}
     g_k = \frac{1}{n_k} \sum_{i \in \pi_k} x_i

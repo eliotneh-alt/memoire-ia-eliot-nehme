@@ -1,12 +1,13 @@
 \chapter*{Résumé}
 % Ajouter manuellement cette section à la table des matières
+\phantomsection
 \addcontentsline{toc}{chapter}{Résumé}
 
 La fraude en assurance non-vie représente un enjeu financier majeur, estimé à environ 2,5~milliards d'euros par an en France, dont une large part échappe encore aux dispositifs de détection traditionnels. Fondés sur l'expertise humaine, ces dispositifs ne contrôlent qu'une fraction des dossiers et peinent à traiter la fraude de masse de faible montant, dont le coût de vérification manuelle excède souvent le gain espéré.
 
-Ce mémoire propose de concevoir et déployer, à l'aide d'un agent d'intelligence artificielle, un processus de détection automatisé de la fraude automobile, de l'ingestion des données jusqu'au pilotage du dispositif. À partir d'une base de sinistres automobiles enrichie de variables reproduisant l'information disponible pour un assureur, trois modèles d'estimation de probabilité de fraude seront construits et comparés selon un arbitrage entre interprétabilité et pouvoir prédictif : un scoring en points, un arbre de décision et un modèle de Gradient \textit{Boosting}. 
+Ce mémoire propose de concevoir et déployer, à l'aide d'un agent d'intelligence artificielle, un processus de détection automatisé de la fraude automobile, de l'ingestion des données jusqu'au pilotage du dispositif. À partir d'une base de sinistres automobiles enrichie de variables reproduisant l'information disponible pour un assureur, trois modèles d'estimation de probabilité de fraude seront construits et comparés selon un arbitrage entre interprétabilité et pouvoir prédictif : un \textit{scoring} en points, un arbre de décision et un modèle de Gradient \textit{Boosting}. 
 
-In fine, c'est ce dernier qui obtiendra les meilleures performances (AUC de 0,933, lift de $\times$6,37 au premier décile) tout en concentrant efficacement les fraudes dans un volume restreint de dossiers à investiguer.
+In fine, c'est ce dernier qui obtiendra les meilleures performances (AUC de 0,933, \textit{lift} de $\times$6,37 au premier décile) tout en concentrant efficacement les fraudes dans un volume restreint de dossiers à investiguer.
 
 L'outil se décline en deux modules destinés à deux équipes distinctes : d'une part la construction du modèle par les actuaires, et d'autre part son exploitation opérationnelle par les gestionnaires, complétée d'une boucle d'enrichissement continu et d'un rapport de pilotage mesurant le retour sur investissement de l'outil. L'ensemble de ces développements s'inscrit dans un cadre de gouvernance conforme au Règlement Général sur la Protection des Données (RGPD) et à l'AI Act, préservant une supervision humaine à chaque étape du processus de détection de fraude.
 

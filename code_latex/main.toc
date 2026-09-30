@@ -1,9 +1,9 @@
 \babel@toc {french}{}\relax 
-\contentsline {chapter}{Remerciements}{iv}{chapter*.2}%
-\contentsline {chapter}{Résumé}{v}{chapter*.3}%
-\contentsline {chapter}{Abstract}{vi}{chapter*.4}%
-\contentsline {chapter}{Synthèse}{vii}{chapter*.5}%
-\contentsline {chapter}{Synthesis}{xi}{chapter*.9}%
+\contentsline {chapter}{Remerciements}{iv}{section*.3}%
+\contentsline {chapter}{Résumé}{v}{section*.5}%
+\contentsline {chapter}{Abstract}{vi}{section*.7}%
+\contentsline {chapter}{Synthèse}{vii}{section*.9}%
+\contentsline {chapter}{Synthesis}{xi}{section*.14}%
 \contentsline {chapter}{\numberline {1}Introduction et contexte}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Définition de la fraude à l'assurance}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Les stades d'occurrence de la fraude dans le cycle assurantiel en assurance non-vie}{2}{section.1.2}%
@@ -92,11 +92,11 @@
 \contentsline {subsection}{\numberline {7.3.1}Le couplage à la base portefeuille}{102}{subsection.7.3.1}%
 \contentsline {subsection}{\numberline {7.3.2}Ajout de données externes}{104}{subsection.7.3.2}%
 \contentsline {section}{\numberline {7.4}Mutualisation inter-assureurs et extension à une approche multiproduit}{106}{section.7.4}%
-\contentsline {chapter}{\textbf {Conclusion}}{107}{chapter*.98}%
-\contentsline {chapter}{Annexes}{109}{chapter*.99}%
-\contentsline {section}{Méthodes de classification}{109}{section*.100}%
+\contentsline {chapter}{\textbf {Conclusion}}{107}{section*.104}%
+\contentsline {chapter}{Annexes}{109}{section*.106}%
+\contentsline {section}{Méthodes de classification}{109}{section*.107}%
 \contentsline {section}{Analyse détaillée des variables}{115}{equation.7.13}%
-\contentsline {section}{Composition du portefeuille}{117}{figure.caption.102}%
-\contentsline {section}{Matrices de corrélations}{119}{figure.caption.104}%
-\contentsline {chapter}{Glossaire}{121}{chapter*.109}%
-\contentsline {chapter}{Bibliographie}{126}{chapter*.110}%
+\contentsline {section}{Composition du portefeuille}{117}{figure.caption.109}%
+\contentsline {section}{Matrices de corrélations}{119}{figure.caption.111}%
+\contentsline {chapter}{Glossaire}{121}{section*.117}%
+\contentsline {chapter}{Bibliographie}{126}{section*.119}%
