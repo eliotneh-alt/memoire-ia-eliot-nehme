@@ -276,14 +276,13 @@ Cet outil repose sur une \textbf{logique en deux temps}, articulée autour de \t
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{images/chapitre4/schema_macro.png}
-    \caption{Vision macro   du fonctionnement de l'outil}
+    \caption{Vision macro du fonctionnement de l'outil}
     \label{fig:schema-macro}
 \end{figure}
 
+Le modèle est entraîné puis sauvegardé à l'issue du temps 1, avant d'être chargé dans le module opérationnel (temps 2). Une fois l'investigation close, son issue est renseignée et vient enrichir la base de données sinistres, ce qui permet de réentraîner le modèle (boucle en pointillés).
+
 L'architecture complète de ce processus est détaillée dans les chapitres suivants, de l'alimentation de la base de données à la boucle d'enrichissement continu, en passant par la modélisation de la probabilité de fraude.
-% % --------------------------------------------------------------
-% \subsection*{Le plus de l'agent : un suivi du ROI disponible}
-% % --------------------------------------------------------------
 
 Enfin, l'outil produit automatiquement un \textbf{rapport annuel de détection de fraude}, enrichi à chaque fois qu'un sinistre testé est renseigné comme frauduleux par un expert. Ce rapport est accessible à tout moment et fournit une \textbf{synthèse consolidée des performances }: nombre de sinistres analysés, taux d'alertes générées, fraudes confirmées et montant de fraude évitée. Il calcule notamment l'impact direct sur le ratio Sinistres/Primes (S/P), indicateur clé de rentabilité en assurance, en rapportant le montant de fraude évitée à la masse de primes du portefeuille. Cette restitution permet au management de suivre en continu le retour sur investissement de l'outil (ROI) et d'objectiver la valeur ajoutée de la détection automatisée année après année.
 
@@ -485,7 +484,7 @@ Une fois la qualité des données validée, l'agent bascule dans une phase d'ana
 
 Avant d'engager toute modélisation ou détection de comportements atypiques, il est essentiel de dresser un portrait détaillé de la base de données sinistres automobiles étudiée.
 
-Cette analyse préliminaire vise à caractériser la structure des sinistres déclarés selon plusieurs axes : la nature des sinistres (accidents corporels, dommages, etc.), ainsi que les caractéristiques des conducteurs impliqués (âge, sexe, profession, adresse, etc.) et les paramètres du contrat (franchise, prime annuelle, etc.)
+Cette analyse préliminaire vise à caractériser la structure des sinistres déclarés selon plusieurs axes : la nature des sinistres (accidents corporels, dommages, etc.), ainsi que les caractéristiques des conducteurs impliqués (âge, sexe, profession, adresse, etc.) et les paramètres du contrat (franchise, prime annuelle, etc.).
 
 Elle permet également d'examiner la distribution temporelle et géographique des déclarations, deux dimensions particulièrement révélatrices en matière de fraude automobile. Une telle exploration permet d'identifier d'éventuels déséquilibres ou concentrations atypiques dans les données (comme une surreprésentation de sinistres déclarés en fin de contrat ou dans certaines zones géographiques) et d'en tenir compte dans les étapes ultérieures de l'analyse. La connaissance fine de la structure de cette base constitue un prérequis indispensable à toute démarche actuarielle rigoureuse, en posant les fondements empiriques sur lesquels reposera l'ensemble de la modélisation de la fraude développée dans ce mémoire.
 
@@ -531,7 +530,7 @@ Suite à l'analyse de composition du portefeuille, une analyse de la fréquence 
 
 L'affichage a volontairement été limité à quatre variables à la fois pour offrir une meilleure clarté à l'utilisateur. Un choix d'affichage reste disponible à droite sur simple clic afin de permettre à l'utilisateur de choisir la/les variable(s) qu'il souhaite visualiser.
 
-\textit{À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par «~policy\_id~» par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.}
+À noter que l'agent comprend également seul qu'il est inutile de réaliser l'analyse de la fraude par «~policy\_id~» par exemple, dans la mesure où cet indicateur sert de compteur (ou incrément) et n'a pas d'apport dans la modélisation. Pour rappel cette variable avait été décochée dès le début.
 
 L'analyse de ces graphiques et diagrammes permet de dégager des enseignements métiers déterminants pour l'identification des sinistres frauduleux :
 
@@ -1054,7 +1053,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
     \centering
     \footnotesize
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
+    \begin{tabular}{|l|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.6cm}|}
         \hline
         \rowcolor{accenture}
         \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{incident\_zip\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_is\_flagged}} \\
@@ -1063,7 +1062,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
         \hline
         repairer\_avg\_invoice\_vs\_market & 0,01 & \textbf{0,97} & \textbf{0,62} \\
         \hline
-    \end{tabularx}
+    \end{tabular}
     \caption{V de Cramér : Extrait de la matrice qualitative $\times$ qualitative}
     \label{tab:cramer-extrait}
 \end{table}
@@ -1072,7 +1071,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
     \centering
     \footnotesize
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}X|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|}
+    \begin{tabular}{|l|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.0cm}|>{\centering\arraybackslash}p{2.0cm}|}
         \hline
         \rowcolor{accenture}
         \textcolor{white}{\textbf{}} & \textcolor{white}{\textbf{repairer\_fraud\_rate}} & \textcolor{white}{\textbf{repairer\_avg\_invoice\_vs\_market}} & \textcolor{white}{\textbf{repairer\_is\_flagged}} & \textcolor{white}{\textbf{total\_claim\_amount}} \\
@@ -1083,7 +1082,7 @@ Pour chaque paire de variables par type, le coefficient de corrélation est calc
         \hline
         claim\_amount & 0 & 0,01 & 0 & 0,77 \\
         \hline
-    \end{tabularx}
+    \end{tabular}
     \caption{Intensité d'association entre variables quantitatives $\times$ qualitatives\protect\footnotemark}
     \label{tab:eta-extrait}
 \end{table}

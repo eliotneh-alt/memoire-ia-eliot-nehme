@@ -39,7 +39,8 @@ A counter-intuitive finding emerges : fraud is not concentrated among the most c
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.4}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+    \renewcommand\tabularxcolumn[1]{m{#1}}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
         \textcolor{white}{\textbf{Indicator}} & \textcolor{white}{\textbf{Points-based scorecard}} & \textcolor{white}{\textbf{Decision tree}} & \textcolor{white}{\textbf{Gradient Boosting}} \\
@@ -113,7 +114,7 @@ One cross-cutting insight deserves emphasis: although the three models are based
     \label{fig:importance-gb-en}
 \end{figure}
 
-\textbf{Operational use and governance :} Once selected and integrated, the model is made available to the fraud-detection department. In day-to-day operations, claims handlers submit one or more claims, and the tool returns for each claim an estimated probability of fraud together with guidance on the appropriate level of investigative effort.
+\textbf{Operational use and governance :} Once selected and integrated, the model is made available to the fraud-detection department. In day-to-day operations, claims handlers submit one or more claims, and the tool returns for each claim an estimated probability of fraud together with guidance on the appropriate level of investigative effort. This probability is produced by the selected model, trained on claims whose outcome is known: for the Gradient Boosting model, it is the sum of the predictions of 200 successive trees, converted into a probability through a logistic function. It is then compared with the optimal threshold (45~\%) to assign the claim to a risk category.
 
 Cases are accordingly divided into three risk categories: a green category for low-probability cases requiring no investigation, an amber category for intermediate-probability cases requiring a limited investigation, and a red category for high-probability cases requiring an in-depth investigation. Claims handlers can therefore focus their efforts on the highest-risk cases without spending time on claims with a low probability of fraud.
 

@@ -38,7 +38,8 @@ La logique de construction de l'agent est pilotée par un \textit{prompt} décom
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.4}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
+    \renewcommand\tabularxcolumn[1]{m{#1}}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
         \textcolor{white}{\textbf{Indicateur}} & \textcolor{white}{\textbf{\textit{Scoring} en point}} & \textcolor{white}{\textbf{Arbre de décision}} & \textcolor{white}{\textbf{Gradient \textit{Boosting}}} \\
@@ -62,7 +63,7 @@ La logique de construction de l'agent est pilotée par un \textit{prompt} décom
 
 Le Gradient \textit{Boosting} s'impose comme le modèle le plus discriminant (AUC de 0,933, Gini de 0,867, \textit{lift} de $\times$6,37 au premier décile) et est retenu à ce titre. Le modèle de \textit{scoring} en points demeure toutefois une alternative pleinement crédible : avec une AUC de 0,917, il se situe très près du Gradient \textit{Boosting} tout en offrant une transparence que les méthodes d'ensemble ne permettent pas, ce qui en fait le choix privilégié lorsque l'explicabilité prime. L'arbre de décision, dominé sur l'ensemble des critères, est écarté. Les trois modèles présentent par ailleurs une excellente stabilité (PSI très inférieur au seuil d'alerte de 0,10) et une bonne capacité de généralisation.
 
-Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés. Au premier rang on retrouve le ratio facture/marché du réparateur, l'historique des montants réclamés et les antécédents de fraude de l'assuré. Le profil du Gradient \textit{Boosting} (modèle retenu) présenté ci-dessous en offre une illustration représentative.
+Un enseignement transversal mérite d'être souligné : les trois modèles, pourtant construits sur des principes différents, font converger leur pouvoir explicatif vers les mêmes variables clés. Aux premiers rangs, on retrouve le ratio facture/marché du réparateur, l'historique des montants réclamés et les antécédents de fraude de l'assuré. Le profil du Gradient \textit{Boosting} (modèle retenu) présenté ci-dessous en offre une illustration représentative.
 
 \begin{figure}[H]
     \centering
@@ -112,7 +113,7 @@ Un enseignement transversal mérite d'être souligné : les trois modèles, pour
     \label{fig:importance-gb}
 \end{figure}
 
-\noindent\textbf{Exploitation et gouvernance :} Une fois le modèle retenu et intégré, l'outil est mis à la disposition du service de détection des fraudes. Au quotidien, le gestionnaire y soumet un ou plusieurs sinistre(s), et l'outil lui restitue pour chacun des sinistres soumis une probabilité de fraude assortie d'une orientation sur l'effort d'investigation à engager. Les dossiers sont ainsi répartis en trois zones de risque : une zone verte (probabilité faible, aucune investigation), une zone orange (probabilité intermédiaire, investigation légère) et une zone rouge (probabilité élevée, investigation approfondie). Le gestionnaire concentre dès lors ses efforts sur les dossiers les plus à risque, sans perdre de temps sur les dossiers à faible probabilité de fraude.
+\noindent\textbf{Exploitation et gouvernance :} Une fois le modèle retenu et intégré, l'outil est mis à la disposition du service de détection des fraudes. Au quotidien, le gestionnaire y soumet un ou plusieurs sinistre(s), et l'outil lui restitue pour chacun des sinistres soumis une probabilité de fraude assortie d'une orientation sur l'effort d'investigation à engager. Cette probabilité est produite par le modèle retenu, entraîné sur les sinistres dont l'issue est connue : pour le Gradient \textit{Boosting}, elle résulte de la somme des prédictions de 200 arbres successifs, transformée en probabilité par une fonction logistique. Elle est ensuite comparée au seuil optimal (45~\%) pour orienter le dossier vers une zone de risque. Les dossiers sont ainsi répartis en trois zones de risque : une zone verte (probabilité faible, aucune investigation), une zone orange (probabilité intermédiaire, investigation légère) et une zone rouge (probabilité élevée, investigation approfondie). Le gestionnaire concentre dès lors ses efforts sur les dossiers les plus à risque, sans perdre de temps sur les dossiers à faible probabilité de fraude.
 
 \begin{figure}[H]
     \centering

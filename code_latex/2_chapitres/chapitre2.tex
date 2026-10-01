@@ -128,7 +128,8 @@ La confrontation des deux approches selon ces critères peut être synthétisée
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.4}
-    \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}X|}
+    \renewcommand\tabularxcolumn[1]{m{#1}}
+    \begin{tabularx}{\textwidth}{|>{\centering\arraybackslash}m{3.2cm}|>{\centering\arraybackslash}X|>{\centering\arraybackslash}X|}
         \hline
         \rowcolor{accenture}
         \multicolumn{1}{|c|}{\textcolor{white}{\textbf{Critère}}} & \multicolumn{1}{c|}{\textcolor{white}{\textbf{Processus manuel}}} & \multicolumn{1}{c|}{\textcolor{white}{\textbf{Processus automatisé (IA)}}} \\
