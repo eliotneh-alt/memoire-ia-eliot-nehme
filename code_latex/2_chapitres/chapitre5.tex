@@ -413,6 +413,8 @@ Comme pour le modèle de \textit{scoring} en points, le second graphique retourn
     \label{fig:taux-fraude-arbre}
 \end{figure}
 
+\clearpage
+
 La sortie issue de l'arbre de décision met en évidence une relation claire et structurée entre la probabilité de fraude estimée par le modèle et le taux de fraude réellement observé. On observe une \textbf{progression à tendance croissante du taux de fraude} à mesure que la probabilité prédite augmente, ce qui traduit une bonne capacité du modèle à ordonner les dossiers selon leur niveau de risque. Les premières tranches de probabilité (faibles scores) présentent des taux de fraude très limités, tandis que les tranches les plus élevées concentrent une proportion significativement plus importante de fraudes, pouvant dépasser 75~\%.
 
 Cette montée progressive est particulièrement intéressante d'un point de vue opérationnel, car elle permet de \textbf{segmenter efficacement les dossiers} et de prioriser les investigations sur les cas les plus risqués.
@@ -604,6 +606,8 @@ Comme pour les deux autres modèles précédents, l'Agent IA retourne dans un pr
     \caption{Distribution des scores par classe (fraudeur/non fraudeur)}
     \label{fig:distribution-boost}
 \end{figure}
+
+\clearpage
 
 Le modèle Gradient \textit{Boosting} présente une très bonne séparation des deux classes (sinistres frauduleux / non frauduleux). La grande majorité des sinistres non frauduleux se concentre dans les tranches de faible probabilité (inférieures à 30~\%) tandis que la part de sinistres frauduleux (en rouge) croît fortement dans les tranches élevées, devenant prépondérante autour des scores supérieurs à 85~\%.
 

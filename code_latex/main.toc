@@ -29,7 +29,7 @@
 \contentsline {section}{\numberline {2.2}L'apport de l'intelligence artificielle : de nouvelles solutions de détection}{15}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Le contexte d'émergence}{15}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Les nouvelles approches}{15}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Les bénéfices attendus}{15}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.3}Les bénéfices attendus}{16}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Les points de vigilance à l'utilisation de l'intelligence artificielle}{16}{subsection.2.2.4}%
 \contentsline {section}{\numberline {2.3}Comparaison du processus manuel et du processus automatisé}{17}{section.2.3}%
 \contentsline {subsection}{\numberline {2.3.1}Les critères de comparaison}{17}{subsection.2.3.1}%
